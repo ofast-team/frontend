@@ -5,6 +5,8 @@ import {getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithP
 import {useAuthState} from 'react-firebase-hooks/auth';
 // import {useCollectionData} from 'react-firebase-hooks/firestore';
 
+// delete this comment
+
 const app = initializeApp({
   apiKey: "AIzaSyD1yV--rl-qJiyvwju2K9jz_jkhvr8sTHw",
   authDomain: "ofast-e6866.firebaseapp.com",
