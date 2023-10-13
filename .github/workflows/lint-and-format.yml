@@ -1,0 +1,21 @@
+name: Lint and Format
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint and format TypeScript files
+        run: |
+          npx eslint '**/*.ts' --fix
+
