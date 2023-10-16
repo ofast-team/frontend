@@ -1,8 +1,9 @@
-import React, {useRef} from 'react';
-import {initializeApp} from 'firebase/app';
-import {getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithPopup} from 'firebase/auth';
+import React, { useRef } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import "./App.css";
 
-import {useAuthState} from 'react-firebase-hooks/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 // import {useCollectionData} from 'react-firebase-hooks/firestore';
 
 const app = initializeApp({
@@ -21,37 +22,35 @@ export function App() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       console.log("logged in");
-    }
-    else {
+    } else {
       console.log("not logged in");
     }
   });
-  
+
   return (
-    <div>
+    <div className="mainDiv">
       <h1>Welcome to O(fast) lol. </h1>
-      <UI/>
+      <UI />
     </div>
-    
   );
 }
 
 function UI() {
   let emailRef = useRef<HTMLInputElement>(null);
   let passwordRef = useRef<HTMLInputElement>(null);
-  
-  const signIn = (event : React.FormEvent<HTMLFormElement>) => {
+
+  const signIn = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     createUserWithEmailAndPassword(auth, emailRef.current!.value, passwordRef.current!.value);
   }
 
   return (
-    <form onSubmit= {signIn}>
-      <input type = "text" ref = {emailRef}></input>
-      <input type = "password" ref = {passwordRef}></input>
+    <form onSubmit={signIn}>
+      <input type="text" ref={emailRef}></input>
+      <input type="password" ref={passwordRef}></input>
       <button>Sign In</button>
     </form>
-    
+
   )
 }
 
