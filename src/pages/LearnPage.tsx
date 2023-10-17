@@ -1,6 +1,6 @@
 import React from 'react'
-import { Container, Typography, InputBase } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
+import { Box, Container, Typography, InputBase } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 
 const verticallyCenter = {
   position: 'absolute',
@@ -28,8 +28,35 @@ function SearchBar() {
           left: 70,
           width: 'calc(100% - 100px)'
         }}
+        placeholder='search'
       />
     </div>
+  )
+}
+
+interface LessonGroupProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+function LessonGroup({ title, children }: LessonGroupProps) {
+  return (
+    <Box sx={{ mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        {title}
+      </Typography>
+      {children}
+    </Box>
+  )
+}
+
+interface LessonProps {
+  title: string;
+}
+
+function Lesson({ title }: LessonProps) {
+  return (
+    <></>
   )
 }
 
@@ -40,6 +67,9 @@ export default function LearnPage() {
         Learn
       </Typography>
       <SearchBar />
+      <LessonGroup title="Intro Algo Design">
+        <Lesson title="Brute Force"/>
+      </LessonGroup>
     </Container>
   )
 }
