@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
+import LearnPage from './pages/LearnPage'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
@@ -41,6 +42,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<RegisterPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/learn" element={<LearnPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
