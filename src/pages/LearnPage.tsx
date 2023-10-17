@@ -1,12 +1,56 @@
 import React from 'react'
-import { Box, Container, Typography, InputBase } from '@mui/material'
+import {
+  Box,
+  Container,
+  Typography,
+  InputBase,
+  Divider,
+  Button,
+  IconButton
+} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { styled } from '@mui/material/styles'
 
 const verticallyCenter = {
   position: 'absolute',
   top: '50%',
   transform: 'translate(0%, -50%)'
 }
+
+const LessonButton = styled(Button)({
+  border: '1px solid',
+  borderRadius: 30,
+  padding: '6px 12px',
+  textTransform: 'none',
+  fontSize: 28,
+  fontFamily: [
+    'Raleway',
+    'sans-serif',
+  ].join(','),
+  fontWeight: 500,
+  '&:hover': {
+    backgroundColor: '#04364A',
+    borderColor: '#04364A',
+    color: '#DAFFFB',
+  },
+  '&:active': {
+    backgroundColor: '#04364A',
+    borderColor: '#04364A',
+  },
+});
+
+const NextButton = styled(IconButton)({
+  backgroundColor: '#04364A',
+  borderColor: '#04364A',
+  border: '1px solid',
+  color: '#DAFFFB',
+  '&:hover': {
+    borderColor: '#04364A',
+    backgroundColor: 'white',
+    color: '#04364A',
+  }
+});
 
 function SearchBar() {
   return (
@@ -41,22 +85,24 @@ interface LessonGroupProps {
 
 function LessonGroup({ title, children }: LessonGroupProps) {
   return (
-    <Box sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
+    <Box mt={4} mb={8}>
+      <Typography variant="h4">
         {title}
       </Typography>
-      {children}
+      <Box mt={4}>
+        {children}
+      </Box>
     </Box>
   )
 }
 
-interface LessonProps {
-  title: string;
+interface SpacingProps {
+  spacing: number;
 }
 
-function Lesson({ title }: LessonProps) {
+function InlineSpacing({ spacing }: SpacingProps) {
   return (
-    <></>
+    <div style={{ display: 'inline', marginLeft: spacing }} />
   )
 }
 
@@ -66,9 +112,55 @@ export default function LearnPage() {
       <Typography variant="h3" gutterBottom color="primary">
         Learn
       </Typography>
+
       <SearchBar />
+
       <LessonGroup title="Intro Algo Design">
-        <Lesson title="Brute Force"/>
+        <InlineSpacing spacing={40} />
+
+        <LessonButton>
+          Brute Force
+        </LessonButton>
+
+        <InlineSpacing spacing={60} />
+
+        <LessonButton>
+          Intro Greedy
+        </LessonButton>
+
+        <InlineSpacing spacing={60} />
+
+        <LessonButton>
+          Time & Memory Analysis
+        </LessonButton>
+      </LessonGroup>
+
+      <Divider />
+
+      <LessonGroup title="Intro Data Structures">
+        <InlineSpacing spacing={40} />
+
+        <LessonButton>
+          Prefix Sums
+        </LessonButton>
+
+        <InlineSpacing spacing={60} />
+
+        <LessonButton>
+          Lists & Vectors
+        </LessonButton>
+
+        <InlineSpacing spacing={60} />
+
+        <LessonButton>
+          Stacks & Queues
+        </LessonButton>
+
+        <InlineSpacing spacing={40} />
+
+        <NextButton>
+          <ArrowForwardIcon style={{ fontSize: '3rem' }} />
+        </NextButton>
       </LessonGroup>
     </Container>
   )
