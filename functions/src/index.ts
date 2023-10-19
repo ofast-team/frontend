@@ -1,19 +1,41 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+// import {onRequest} from "firebase-functions/v2/https";
+// import * as logger from "firebase-functions/logger";
 
-import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
+import * as functions from "firebase-functions";
+import * as express from "express";
+import * as admin from "firebase-admin";
+// import * as cors from "cors";
 
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
+var app = express();
 
-export const helloWorld = onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
+admin.initializeApp();
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD1yV--rl-qJiyvwju2K9jz_jkhvr8sTHw",
+    authDomain: "ofast-e6866.firebaseapp.com",
+    projectId: "ofast-e6866",
+    storageBucket: "ofast-e6866.appspot.com",
+    messagingSenderId: "660869453090",
+    appId: "1:660869453090:web:b919fe7e93c35a77a5417b",
+    measurementId: "G-3B0LRWZFH5"
+};
+
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+	res.setHeader(
+		'Access-Control-Allow-Methods',
+		'GET, POST, PATCH, DELETE, OPTIONS');
+	next();
 });
+
+import * as firebase from "firebase/app";
+firebase.initializeApp(firebaseConfig);
+
+app.get('/helloWorld', (req, res) => {
+  res.send("Hello World!");
+});
+
+exports.api = functions.https.onRequest(app);
