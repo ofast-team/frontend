@@ -1,17 +1,52 @@
-import React, {useState} from 'react';
-import { Container, Typography, Box, TextField, InputAdornment, Input, IconButton, FormControl, Button, Link, Paper, Stack, InputLabel } from '@mui/material'
+import React, {useRef, useState} from 'react';
+import { Container, Typography, Box, TextField, InputAdornment, Input, IconButton, FormControl, Button, Link, Paper, Stack, InputLabel, styled } from '@mui/material'
 
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
 import GoogleIcon from '@mui/icons-material/Google'
-import GitHubIcon from '@mui/icons-material/GitHub';
+import GitHubIcon from '@mui/icons-material/GitHub'
 
-function PasswordField() {
+import buildPath from '../path'
+
+const LoginButton = styled(Button)({
+  border: '1px solid #04364A',
+  borderRadius: 30,
+  backgroundColor: '#04364A',
+  color: '#DAFFFB',
+  padding: '0px 32px',
+  textTransform: 'none',
+  fontSize: 28,
+  fontFamily: [
+    'Raleway',
+    'sans-serif',
+  ].join(','),
+  fontWeight: 500,
+  '&:hover': {
+    backgroundColor: '#DAFFFB',
+    borderColor: '#04364A',
+    color: 'black',
+  },
+  '&:active': {
+    backgroundColor: '#04364A',
+    borderColor: '#04364A',
+  },
+});
+
+const LoginWith3rdPartyButton = styled(LoginButton)({
+  border: '1px solid black',
+  color: 'black',
+  backgroundColor: 'white'
+});
+
+interface PasswordFieldProps {
+  setter: (string) => void;
+}
+function PasswordField(props: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <FormControl variant = "standard">
+    <FormControl variant = "standard" fullWidth>
       <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
       <Input
         id="standard-adornment-password"
@@ -27,29 +62,39 @@ function PasswordField() {
             </IconButton>
           </InputAdornment>
         }
+        onChange ={(e) => props.setter(e.target.value)}
       />
     </FormControl> 
   )
 }
 
+function loginWithEmailAndPassword(email : string, password: string) {
+  console.log(email + "\n" + password);
+  fetch(buildPath('/helloWorld'))
+  .then(res => res.json())
+  .then(res => console.log(res));
+}
+
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <Box>
-      <Typography>Get Started</Typography>
       <Container>
         <Paper sx = {{
-          p: 5,
+          p: 20,
           }}>
-          <Stack spacing = {2}>
-            <TextField label="Email" variant="standard"></TextField>
-            <PasswordField></PasswordField>
-            <Button variant ="outlined">Login</Button>
-            <Stack direction='row' spacing={2}>
-              <Button variant = "outlined" startIcon = {<GoogleIcon/>}>Google</Button>
-              <Button variant = "outlined" startIcon = {<GitHubIcon/>}>GitHub</Button>
-            </Stack>
-            <Link href="#">Create an Account</Link>
+          <Stack spacing = {3} alignItems={'center'}>
+            <Typography variant='h3'>Log In</Typography>
+            <TextField fullWidth label="Email" variant="standard" onChange = {(e) => setEmail(e.target.value)}></TextField>
+            <PasswordField setter = {setPassword}></PasswordField>
+            <LoginButton variant ="outlined" onClick={() => loginWithEmailAndPassword(email, password)}>Login</LoginButton>
+            <Box display={'flex'} gap={5}>
+              <LoginWith3rdPartyButton startIcon = {<GoogleIcon/>}>Google</LoginWith3rdPartyButton>
+              <LoginWith3rdPartyButton startIcon = {<GitHubIcon/>}>GitHub</LoginWith3rdPartyButton>
+            </Box>
+            <Link href="#" fontSize={24}>Create an Account</Link>
           </Stack>
         </Paper>
       </Container>
