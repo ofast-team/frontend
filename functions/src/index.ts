@@ -7,6 +7,9 @@ import * as admin from "firebase-admin";
 import express, {Express} from "express";
 const app : Express = express();
 
+import cors from "cors"
+app.use(cors());
+
 admin.initializeApp();
 
 const firebaseConfig = {
