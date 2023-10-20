@@ -82,7 +82,7 @@ function PasswordField(props: PasswordFieldProps) {
   )
 }
 
-function loginWithEmailAndPassword(email: string, password: string) {
+function loginWithEmailAndPassword() {
   fetch(buildPath('/helloWorld'), {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
