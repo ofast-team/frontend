@@ -7,8 +7,8 @@ import * as admin from "firebase-admin";
 import express, {Express} from "express";
 const app : Express = express();
 
-import cors from "cors"
-app.use(cors());
+import corsInit from "cors"
+var cors = corsInit();
 
 admin.initializeApp();
 
@@ -37,7 +37,9 @@ import * as firebase from "firebase/app";
 firebase.initializeApp(firebaseConfig);
 
 app.get("/helloWorld", (req, res) => {
-  res.json({str: "Hello World!"});
+  cors(req, res, () => {
+    res.json({str: "Hello World!"});
+  })
 });
 
 exports.api = functions.https.onRequest(app);
