@@ -1,5 +1,20 @@
-import React, {useRef, useState} from 'react';
-import { Container, Typography, Box, TextField, InputAdornment, Input, IconButton, FormControl, Button, Link, Paper, Stack, InputLabel, styled } from '@mui/material'
+import React, { useState } from 'react'
+import {
+  Container,
+  Typography,
+  Box,
+  TextField,
+  InputAdornment,
+  Input,
+  IconButton,
+  FormControl,
+  Button,
+  Link,
+  Paper,
+  Stack,
+  InputLabel,
+  styled,
+} from '@mui/material'
 
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
@@ -17,10 +32,7 @@ const LoginButton = styled(Button)({
   padding: '0px 32px',
   textTransform: 'none',
   fontSize: 28,
-  fontFamily: [
-    'Raleway',
-    'sans-serif',
-  ].join(','),
+  fontFamily: ['Raleway', 'sans-serif'].join(','),
   fontWeight: 500,
   '&:hover': {
     backgroundColor: '#DAFFFB',
@@ -31,22 +43,22 @@ const LoginButton = styled(Button)({
     backgroundColor: '#04364A',
     borderColor: '#04364A',
   },
-});
+})
 
 const LoginWith3rdPartyButton = styled(LoginButton)({
   border: '1px solid black',
   color: 'black',
-  backgroundColor: 'white'
-});
+  backgroundColor: 'white',
+})
 
 interface PasswordFieldProps {
-  setter: (string) => void;
+  setter: (string) => void
 }
 function PasswordField(props: PasswordFieldProps) {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <FormControl variant = "standard" fullWidth>
+    <FormControl variant="standard" fullWidth>
       <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
       <Input
         id="standard-adornment-password"
@@ -56,55 +68,72 @@ function PasswordField(props: PasswordFieldProps) {
             <IconButton
               aria-label="toggle password visibility"
               onClick={() => setShowPassword(!showPassword)}
-              onMouseDown={(event: React.MouseEvent<HTMLButtonElement>) => event.preventDefault()}
+              onMouseDown={(event: React.MouseEvent<HTMLButtonElement>) =>
+                event.preventDefault()
+              }
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>
         }
-        onChange ={(e) => props.setter(e.target.value)}
+        onChange={(e) => props.setter(e.target.value)}
       />
-    </FormControl> 
+    </FormControl>
   )
 }
 
-function loginWithEmailAndPassword(email : string, password: string) {
-  let js = {
-    email: email,
-    password: password,
-  }
-
+function loginWithEmailAndPassword(email: string, password: string) {
   fetch(buildPath('/helloWorld'), {
-    method:'GET',
-    headers: {'Content-Type': 'application/json'}
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
   })
-  .then(res => res.json())
-  .then(res => {console.log(res.str)})
+    .then((res) => res.json())
+    .then((res) => {
+      console.log(res.str)
+    })
 }
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   return (
     <Box>
       <Container>
-        <Paper sx = {{
-          p: 20,
-          }}>
-          <Stack spacing = {3} alignItems={'center'}>
-            <Typography variant='h3'>Log In</Typography>
-            <TextField fullWidth label="Email" variant="standard" onChange = {(e) => setEmail(e.target.value)}></TextField>
-            <PasswordField setter = {setPassword}></PasswordField>
-            <LoginButton variant ="outlined" onClick={() => loginWithEmailAndPassword(email, password)}>Login</LoginButton>
+        <Paper
+          sx={{
+            p: 20,
+          }}
+        >
+          <Stack spacing={3} alignItems={'center'}>
+            <Typography variant="h3">Log In</Typography>
+            <TextField
+              fullWidth
+              label="Email"
+              variant="standard"
+              onChange={(e) => setEmail(e.target.value)}
+            ></TextField>
+            <PasswordField setter={setPassword}></PasswordField>
+            <LoginButton
+              variant="outlined"
+              onClick={() => loginWithEmailAndPassword(email, password)}
+            >
+              Login
+            </LoginButton>
             <Box display={'flex'} gap={5}>
-              <LoginWith3rdPartyButton startIcon = {<GoogleIcon/>}>Google</LoginWith3rdPartyButton>
-              <LoginWith3rdPartyButton startIcon = {<GitHubIcon/>}>GitHub</LoginWith3rdPartyButton>
+              <LoginWith3rdPartyButton startIcon={<GoogleIcon />}>
+                Google
+              </LoginWith3rdPartyButton>
+              <LoginWith3rdPartyButton startIcon={<GitHubIcon />}>
+                GitHub
+              </LoginWith3rdPartyButton>
             </Box>
-            <Link href="#" fontSize={24}>Create an Account</Link>
+            <Link href="#" fontSize={24}>
+              Create an Account
+            </Link>
           </Stack>
         </Paper>
       </Container>
     </Box>
-  );
+  )
 }

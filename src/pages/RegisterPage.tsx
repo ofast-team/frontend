@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword } from 'firebase/auth';
 import "../App.css";
 
-import { useAuthState } from 'react-firebase-hooks/auth';
 // import {useCollectionData} from 'react-firebase-hooks/firestore';
 
 const app = initializeApp({
