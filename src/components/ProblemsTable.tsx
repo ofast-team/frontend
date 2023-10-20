@@ -82,7 +82,6 @@ const data = [
   createData('wrong', 'Problem T', ['Tag 1']),
 ];
 
-
 const getTableValue = (columnID: string, data: (string | React.JSX.Element[])) => {
   if (columnID === 'tags' && data.constructor === Array) {
     return data.map((chip, i) => {
