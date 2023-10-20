@@ -1,9 +1,13 @@
-name: Lint and Format
+name: Lint and Build
 
 on:
   push:
     branches:
       - main
+
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   lint-and-format:
@@ -11,11 +15,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
+
       - name: Install dependencies
         run: npm install
 
-      - name: Lint and format TypeScript files
-        run: |
-          npx eslint '**/*.ts' --fix
+      - name: Lint
+        run: npm run lint
 
+      - name: Build
+        run: npm run build
