@@ -2,11 +2,11 @@
 // import * as logger from "firebase-functions/logger";
 
 import * as functions from "firebase-functions";
-import * as express from "express";
 import * as admin from "firebase-admin";
-// import * as cors from "cors";
 
-var app = express();
+import express from "express";
+import {Express} from "express";
+var app : Express = express();
 
 admin.initializeApp();
 
@@ -35,7 +35,7 @@ import * as firebase from "firebase/app";
 firebase.initializeApp(firebaseConfig);
 
 app.get('/helloWorld', (req, res) => {
-  res.send("Hello World!");
+  res.json({str: "Hello World!"});
 });
 
 exports.api = functions.https.onRequest(app);
