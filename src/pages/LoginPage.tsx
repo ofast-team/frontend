@@ -69,10 +69,19 @@ function PasswordField(props: PasswordFieldProps) {
 }
 
 function loginWithEmailAndPassword(email : string, password: string) {
+  let js = {
+    email: email,
+    password: password,
+  }
+
   console.log(email + "\n" + password);
-  fetch(buildPath('/helloWorld'))
+  fetch(buildPath('/helloWorld'), {
+    method:'GET',
+    // body:JSON.stringify(js),
+    headers: {'Content-Type': 'application/json'}
+  })
   .then(res => res.json())
-  .then(res => console.log(res));
+  .then(res => {console.log(res.str)})
 }
 
 export default function LoginPage() {
