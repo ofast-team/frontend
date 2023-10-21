@@ -46,22 +46,16 @@ const theme = createTheme({
 export function App() {
   return (
     <ThemeProvider theme={theme}>
-     <div>
-        <div style={{position: 'relative'}}>
-          <NavBar />
-        </div>
-        <div style={{marginTop: 100}}>
-          <Routes>
-            <Route path="/" element={<RegisterPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/learn" element={<LearnPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </div>
-      </div>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/learn" element={<LearnPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </ThemeProvider>
   )
 }
