@@ -52,6 +52,8 @@ export function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/about" element={<AboutPage />} />
+        {/* CHANGE THIS ELEMENT ONCE CREATED PROBLEMS PAGE */}
+        <Route path="/problems" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
