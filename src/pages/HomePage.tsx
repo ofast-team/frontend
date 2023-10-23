@@ -2,8 +2,10 @@ import { Typography, Container, Box } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import CodeIcon from '@mui/icons-material/Code';
 import PsychologyIcon from '@mui/icons-material/Psychology';
-import logo from '../assets/logo.png';
-import React from 'react'
+import React from 'react';
+// import logo from '../assets/logo.png';
+
+const logo = require('../assets/logo.png');
 
 function Title() {
   return (
@@ -12,21 +14,21 @@ function Title() {
 			noWrap
 			sx={{
 				display: { xs: 'flex', md: 'flex' },
-        alignItems: 'center',
-        justifyContent: 'center',
+				alignItems: 'center',
+				justifyContent: 'center',
 				fontFamily: [
 					'Kaushan Script', 
 					'cursive'
 				].join(','),
 				fontWeight: 700,
-        fontSize: '2rem',
+				fontSize: '2rem',
 				letterSpacing: '.2rem',
 				color: '#176b87',
 				textDecoration: 'none',
-        my: 6,
+				my: 6,
 			}}
 		>
-      O(fast)
+			O(fast)
 		</Typography>
   )
 }
