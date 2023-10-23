@@ -7,32 +7,6 @@ import React from 'react';
 
 const logo = require('../assets/logo.png');
 
-function Title() {
-  return (
-    <Typography
-			variant="h1"
-			noWrap
-			sx={{
-				display: { xs: 'flex', md: 'flex' },
-				alignItems: 'center',
-				justifyContent: 'center',
-				fontFamily: [
-					'Kaushan Script', 
-					'cursive'
-				].join(','),
-				fontWeight: 700,
-				fontSize: '2rem',
-				letterSpacing: '.2rem',
-				color: '#176b87',
-				textDecoration: 'none',
-				my: 6,
-			}}
-		>
-			O(fast)
-		</Typography>
-  )
-}
-
 interface IconTextProps {
   text: string,
   icon: React.ReactElement,
