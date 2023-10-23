@@ -1,8 +1,14 @@
+// import {onRequest} from "firebase-functions/v2/https";
+// import * as logger from "firebase-functions/logger";
+
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
 import express, {Express} from "express";
 const app : Express = express();
+
+import corsInit from "cors"
+var cors = corsInit();
 
 admin.initializeApp();
 
@@ -16,27 +22,14 @@ const firebaseConfig = {
   measurementId: "G-3B0LRWZFH5",
 };
 
-import cors from "cors";
-
-const allowedOrigins = [
-  "http://localhost:3000/*", 
-  "http://ofast.io/*", 
-  "http://ofast-e6866.web.app/*", 
-  "http://ofast-e6866.firebaseapp.com/*"
-];
-
-app.use(cors({
-  origin: allowedOrigins
-}));
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin");
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE");
+    "GET, POST, PATCH, DELETE, OPTIONS");
   next();
 });
 
@@ -44,8 +37,9 @@ import * as firebase from "firebase/app";
 firebase.initializeApp(firebaseConfig);
 
 app.get("/helloWorld", (req, res) => {
-  console.log("Hello!");
-  res.json({str: "Hello World!"});
+  cors(req, res, () => {
+    res.json({str: "Hello World!"});
+  })
 });
 
 exports.api = functions.https.onRequest(app);
