@@ -5,6 +5,7 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 import React from 'react';
 // import logo from '../assets/logo.png';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const logo = require('../assets/logo.png');
 
 interface IconTextProps {

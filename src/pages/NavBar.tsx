@@ -211,8 +211,8 @@ function GetStarted() {
 	)
 }
 
-const before_pages = ['home', 'about', 'learn', 'problems'];
-const after_pages = ['home', 'about', 'learn', 'problems', 'submit'];
+const before_pages = ['home', 'about', 'learn', 'solve'];
+const after_pages = ['home', 'about', 'learn', 'solve', 'submit'];
 const settings = ['Profile', 'Groups', 'Logout'];
 
 function NavBar() {
