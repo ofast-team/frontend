@@ -29,6 +29,7 @@ interface LoggedUserProps {
 	name: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function LoggedInUser({name}: LoggedUserProps) {
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -102,8 +103,11 @@ interface pagesProps {
 
 function NavItems({pages}: pagesProps) {
 	const location = useLocation();
+	// const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget);
 	};
@@ -212,7 +216,7 @@ function GetStarted() {
 }
 
 const before_pages = ['home', 'about', 'learn', 'solve'];
-const after_pages = ['home', 'about', 'learn', 'solve', 'submit'];
+// const after_pages = ['home', 'about', 'learn', 'solve', 'submit'];
 const settings = ['Profile', 'Groups', 'Logout'];
 
 function NavBar() {

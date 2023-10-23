@@ -11,8 +11,6 @@ import NavBar from './pages/NavBar'
 import SolvePage from './pages/SolvePage'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Container, Typography, Avatar, AppBar, Box, Toolbar } from '@mui/material'
-import AnchorLink from 'react-anchor-link-smooth-scroll'
 
 
 const theme = createTheme({
