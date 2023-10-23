@@ -24,7 +24,7 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 
 import buildPath from '../path'
 
-const LoginButton = styled(Button)({
+export const LoginButton = styled(Button)({
   border: '1px solid #04364A',
   borderRadius: 30,
   backgroundColor: '#04364A',
@@ -45,7 +45,7 @@ const LoginButton = styled(Button)({
   },
 })
 
-const LoginWith3rdPartyButton = styled(LoginButton)({
+export const LoginWith3rdPartyButton = styled(LoginButton)({
   border: '1px solid black',
   color: 'black',
   backgroundColor: 'white',
@@ -99,10 +99,11 @@ export default function LoginPage() {
 
   return (
     <Box>
-      <Container>
+      <Container maxWidth="md">
         <Paper
           sx={{
-            p: 20,
+            p: 10,
+            m: 5,
           }}
         >
           <Stack spacing={3} alignItems={'center'}>
@@ -116,10 +117,11 @@ export default function LoginPage() {
             <PasswordField setter={setPassword}></PasswordField>
             <LoginButton
               variant="outlined"
-              onClick={() => loginWithEmailAndPassword(email, password)}
+              onClick={() => loginWithEmailAndPassword()}
             >
-              Login
+              Log In
             </LoginButton>
+            <Typography>Or sign in with:</Typography>
             <Box display={'flex'} gap={5}>
               <LoginWith3rdPartyButton startIcon={<GoogleIcon />}>
                 Google
