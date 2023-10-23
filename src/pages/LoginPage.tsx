@@ -82,7 +82,8 @@ function PasswordField(props: PasswordFieldProps) {
   )
 }
 
-function loginWithEmailAndPassword() {
+function loginWithEmailAndPassword(email, password) {
+  console.log(email + '\n' + password)
   fetch(buildPath('/helloWorld'), {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
@@ -96,8 +97,6 @@ function loginWithEmailAndPassword() {
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  setEmail(email)
-  setPassword(password)
 
   return (
     <Box>
@@ -119,7 +118,7 @@ export default function LoginPage() {
             <PasswordField setter={setPassword}></PasswordField>
             <LoginButton
               variant="outlined"
-              onClick={() => loginWithEmailAndPassword()}
+              onClick={() => loginWithEmailAndPassword(email, password)}
             >
               Log In
             </LoginButton>
