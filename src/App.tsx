@@ -7,9 +7,11 @@ import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import LearnPage from './pages/LearnPage'
+import NavBar from './pages/NavBar'
 import SolvePage from './pages/SolvePage'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+
 
 const theme = createTheme({
   typography: {
@@ -47,17 +49,17 @@ const theme = createTheme({
 export function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/learn" element={<LearnPage />} />
-          <Route path="/solve" element={<SolvePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/learn" element={<LearnPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/solve" element={<SolvePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </ThemeProvider>
   )
 }
