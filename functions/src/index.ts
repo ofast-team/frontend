@@ -19,10 +19,10 @@ const firebaseConfig = {
 import cors from "cors";
 
 const allowedOrigins = [
-  "http://localhost:3000/*", 
-  "http://ofast.io/*", 
-  "http://ofast-e6866.web.app/*", 
-  "http://ofast-e6866.firebaseapp.com/*"
+  "http://localhost:3000", 
+  "http://ofast.io", 
+  "http://ofast-e6866.web.app", 
+  "http://ofast-e6866.firebaseapp.com"
 ];
 
 app.use(cors({
