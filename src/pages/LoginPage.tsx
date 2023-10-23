@@ -96,6 +96,8 @@ function loginWithEmailAndPassword() {
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  setEmail(email)
+  setPassword(password)
 
   return (
     <Box>
