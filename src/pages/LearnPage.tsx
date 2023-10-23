@@ -3,20 +3,15 @@ import {
   Box,
   Container,
   Typography,
-  InputBase,
   Divider,
   Button,
   IconButton
 } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { styled } from '@mui/material/styles'
 
-const verticallyCenter = {
-  position: 'absolute',
-  top: '50%',
-  transform: 'translate(0%, -50%)'
-}
+import SearchBar from '../components/SearchBar'
+import InlineSpacing from '../components/InlineSpacing'
 
 const LessonButton = styled(Button)({
   border: '1px solid',
@@ -52,32 +47,6 @@ const NextButton = styled(IconButton)({
   }
 });
 
-function SearchBar() {
-  return (
-    <div style={{
-      backgroundColor: '#f4f4f4',
-      border: '1px solid',
-      borderRadius: 40,
-      height: 60,
-      width: '100%',
-      position: 'relative'
-    }}>
-      <SearchIcon
-        sx={{ ...verticallyCenter, left: 20 }}
-        fontSize='large'
-      />
-      <InputBase
-        sx={{
-          ...verticallyCenter,
-          left: 70,
-          width: 'calc(100% - 100px)'
-        }}
-        placeholder='search'
-      />
-    </div>
-  )
-}
-
 interface LessonGroupProps {
   title: string;
   children: React.ReactNode;
@@ -93,16 +62,6 @@ function LessonGroup({ title, children }: LessonGroupProps) {
         {children}
       </Box>
     </Box>
-  )
-}
-
-interface SpacingProps {
-  spacing: number;
-}
-
-function InlineSpacing({ spacing }: SpacingProps) {
-  return (
-    <div style={{ display: 'inline', marginLeft: spacing }} />
   )
 }
 

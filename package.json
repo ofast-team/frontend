@@ -20,6 +20,7 @@
     "firebase-functions": "^4.4.1",
     "firebase-tools": "^12.7.0",
     "react": "^18.2.0",
+    "react-anchor-link-smooth-scroll": "^1.0.12",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
     "react-router-dom": "^6.17.0",
