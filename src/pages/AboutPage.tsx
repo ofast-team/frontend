@@ -5,7 +5,7 @@ interface Profile {
   name: string
   role: string
   bio: string
-  photo: any
+  photo: string
 }
 
 // TODO(cam): add a contact info page for people to reach out to us and give feedback
@@ -23,7 +23,7 @@ export default function AboutPage() {
       name: 'Asir Alam',
       role: 'Developer',
       bio: 'Asir is a member of the UCF Varsity Programming Team. For 3 years, Asir has trained for and competed at ICPC-level contests. He has also served as a judge for the UCF High School Programming Tournament. He completed two software engineering internships at Meta.',
-      photo: require('../assets/asir_alam.jpg'),
+      photo: '',
     },
     {
       name: 'Cameron Custer',
@@ -35,7 +35,7 @@ export default function AboutPage() {
       name: 'Blake Gassman',
       role: 'Project Manager',
       bio: 'Blake is the project manager for the O(fast) team. He competed with the UCF JV Programming Team for 2 years. Blake also served as Teaching Assistant for for 2 semesters, where he taught lectures on data structures and algorithms and evaluated programming submissions for hundreds of students. He completed a software engineering internship at Meta in 2022 and at Epic in 2023. After graduation, Blake is interested in becoming a full time developer in the medical sector.',
-      photo: require('../assets/blake_gassman.jpg'),
+      photo: '',
     },
     {
       name: 'Tyler Marks',
