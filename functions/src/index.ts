@@ -55,4 +55,4 @@ app.get("/helloWorld", (req, res) => {
   res.json({str: "Hello World!"});
 });
 
-exports.api = functions.region("us-central1").https.onRequest(app);
+exports.api = functions.https.onRequest(app);
