@@ -18,27 +18,34 @@ const firebaseConfig = {
 
 import cors from "cors";
 
-const allowedOrigins = [
+const allowedOriginsList = [
   "http://localhost:3000", 
-  "http://ofast.io", 
-  "http://ofast-e6866.web.app", 
-  "http://ofast-e6866.firebaseapp.com"
+  "https://ofast.io", 
+  "https://ofast-e6866.web.app", 
+  "https://ofast-e6866.firebaseapp.com"
 ];
 
-app.use(cors({
-  origin: allowedOrigins
-}));
+const allowedMethodsList = [
+  "GET",
+  "POST",
+  "PATCH",
+  "DELETE",
+  "OPTIONS"
+];
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE");
-  next();
-});
+const allowedHeadersList = [
+  "Origin",
+  "X-Requested-With",
+  "Content-Type",
+  "Accept",
+  "Authorization"
+];
+  
+app.use(cors({
+  origin: allowedOriginsList,
+  methods: allowedMethodsList,
+  allowedHeaders: allowedHeadersList
+}));
 
 import * as firebase from "firebase/app";
 firebase.initializeApp(firebaseConfig);
@@ -48,4 +55,4 @@ app.get("/helloWorld", (req, res) => {
   res.json({str: "Hello World!"});
 });
 
-exports.api = functions.https.onRequest(app);
+exports.api = functions.region("us-central1").https.onRequest(app);
