@@ -69,9 +69,6 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  setEmail(email)
-  setPassword(password)
-
   return (
     <Box>
       <Container maxWidth="md">
