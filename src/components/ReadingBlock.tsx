@@ -18,16 +18,13 @@ interface ReadingBlockProps {
 }
 
 export default function ReadingBlock(props: ReadingBlockProps) {
-  console.log(props.content)
+  
   return (
     <Typography gutterBottom color="primary" component={'span'}>
       {/* <MathJaxContext>
         <h2>Basic MathJax example with Latex</h2>
         <MathJax>{"\\(\\frac{10}{4x} \\approx 2^{12}\\)"}</MathJax>
       </MathJaxContext> */}
-      {/* <Markdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeMathjax]}>
-        {props.content}
-      </Markdown> */}
       <Markdown
         children={props.content}
         remarkPlugins={[remarkMath]} 

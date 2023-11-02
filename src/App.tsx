@@ -9,7 +9,6 @@ import AboutPage from './pages/AboutPage'
 import LearnPage from './pages/LearnPage'
 import NavBar from './pages/NavBar'
 import SolvePage from './pages/SolvePage'
-import TestPage from './pages/TestPage'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
@@ -58,7 +57,6 @@ export function App() {
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/test" element={<TestPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </ThemeProvider>
