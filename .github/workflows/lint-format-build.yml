@@ -10,7 +10,7 @@ on:
       - '*'
 
 jobs:
-  lint-and-format:
+  lint-format-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
