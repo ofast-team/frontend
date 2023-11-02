@@ -24,11 +24,11 @@ const theme = createTheme({
     },
     h4: {
       fontSize: '2rem',
-      fontWeight: 600
+      fontWeight: 600,
     },
     h5: {
       fontSize: '1.2rem',
-      fontWeight: 600
+      fontWeight: 600,
     },
     body1: {
       fontSize: '1.25rem',

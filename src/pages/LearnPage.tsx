@@ -6,7 +6,7 @@ import {
   Typography,
   Divider,
   Button,
-  IconButton
+  IconButton,
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { styled } from '@mui/material/styles'
@@ -22,10 +22,7 @@ const LessonButton = styled(Button)({
   padding: '6px 12px',
   textTransform: 'none',
   fontSize: 28,
-  fontFamily: [
-    'Raleway',
-    'sans-serif',
-  ].join(','),
+  fontFamily: ['Raleway', 'sans-serif'].join(','),
   fontWeight: 500,
   '&:hover': {
     backgroundColor: '#04364A',
@@ -36,7 +33,7 @@ const LessonButton = styled(Button)({
     backgroundColor: '#04364A',
     borderColor: '#04364A',
   },
-});
+})
 
 const NextButton = styled(IconButton)({
   backgroundColor: '#04364A',
@@ -47,23 +44,19 @@ const NextButton = styled(IconButton)({
     borderColor: '#04364A',
     backgroundColor: 'white',
     color: '#04364A',
-  }
-});
+  },
+})
 
 interface LessonGroupProps {
-  title: string;
-  children: React.ReactNode;
+  title: string
+  children: React.ReactNode
 }
 
 function LessonGroup({ title, children }: LessonGroupProps) {
   return (
     <Box mt={4} mb={8}>
-      <Typography variant="h4">
-        {title}
-      </Typography>
-      <Box mt={4}>
-        {children}
-      </Box>
+      <Typography variant="h4">{title}</Typography>
+      <Box mt={4}>{children}</Box>
     </Box>
   )
 }
@@ -168,15 +161,11 @@ export default function LearnPage() {
 
         <InlineSpacing spacing={60} />
 
-        <LessonButton>
-          Intro Greedy
-        </LessonButton>
+        <LessonButton>Intro Greedy</LessonButton>
 
         <InlineSpacing spacing={60} />
 
-        <LessonButton>
-          Time & Memory Analysis
-        </LessonButton>
+        <LessonButton>Time & Memory Analysis</LessonButton>
       </LessonGroup>
 
       <Divider />
@@ -184,21 +173,15 @@ export default function LearnPage() {
       <LessonGroup title="Intro Data Structures">
         <InlineSpacing spacing={40} />
 
-        <LessonButton>
-          Prefix Sums
-        </LessonButton>
+        <LessonButton>Prefix Sums</LessonButton>
 
         <InlineSpacing spacing={60} />
 
-        <LessonButton>
-          Lists & Vectors
-        </LessonButton>
+        <LessonButton>Lists & Vectors</LessonButton>
 
         <InlineSpacing spacing={60} />
 
-        <LessonButton>
-          Stacks & Queues
-        </LessonButton>
+        <LessonButton>Stacks & Queues</LessonButton>
 
         <InlineSpacing spacing={40} />
 
