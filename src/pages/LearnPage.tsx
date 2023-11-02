@@ -134,7 +134,7 @@ export default function LearnPage() {
   const [lesson, setLesson] = useState<React.ReactNode>(null)
 
   return !lesson ? (
-    <Container>
+    <Container sx={{ p: 5 }}>
       <Typography variant="h3" gutterBottom color="primary">
         Learn
       </Typography>
