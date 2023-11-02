@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Button, Typography, Container } from '@mui/material'
+import { Button, Container } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 

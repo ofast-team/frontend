@@ -20,7 +20,7 @@ export default function ReadingBlock(props: ReadingBlockProps) {
         rehypePlugins={[rehypeMathjax]}
         components={{
           code(props) {
-            const { children, className, node, ...rest } = props
+            const { children, className, ...rest } = props
             const match = /language-(\w+)/.exec(className || '')
             return match ? (
               <SyntaxHighlighter
