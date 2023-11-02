@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Typography, Avatar, Box } from '@mui/material'
+import { Container, Typography, Box } from '@mui/material'
 
 interface Profile {
   name: string
