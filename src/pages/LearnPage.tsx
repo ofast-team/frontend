@@ -6,7 +6,7 @@ import {
   Typography,
   Divider,
   Button,
-  IconButton
+  IconButton,
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { styled } from '@mui/material/styles'
@@ -22,10 +22,7 @@ const LessonButton = styled(Button)({
   padding: '6px 12px',
   textTransform: 'none',
   fontSize: 28,
-  fontFamily: [
-    'Raleway',
-    'sans-serif',
-  ].join(','),
+  fontFamily: ['Raleway', 'sans-serif'].join(','),
   fontWeight: 500,
   '&:hover': {
     backgroundColor: '#04364A',
@@ -36,7 +33,7 @@ const LessonButton = styled(Button)({
     backgroundColor: '#04364A',
     borderColor: '#04364A',
   },
-});
+})
 
 const NextButton = styled(IconButton)({
   backgroundColor: '#04364A',
@@ -47,23 +44,19 @@ const NextButton = styled(IconButton)({
     borderColor: '#04364A',
     backgroundColor: 'white',
     color: '#04364A',
-  }
-});
+  },
+})
 
 interface LessonGroupProps {
-  title: string;
-  children: React.ReactNode;
+  title: string
+  children: React.ReactNode
 }
 
 function LessonGroup({ title, children }: LessonGroupProps) {
   return (
     <Box mt={4} mb={8}>
-      <Typography variant="h4">
-        {title}
-      </Typography>
-      <Box mt={4}>
-        {children}
-      </Box>
+      <Typography variant="h4">{title}</Typography>
+      <Box mt={4}>{children}</Box>
     </Box>
   )
 }
@@ -111,7 +104,7 @@ $\\sum_{n=1}^{\\infty} 2^{-n} = 1$ \n
 $\\pi \\approx 3.14159$ \n
 $\\pm \\, 0.2$ \n
 $\\dfrac{0}{1} \\neq \\infty$ \n
-`;
+`
 
 const markdown2 = `
 # Reading 2
@@ -124,7 +117,7 @@ $A \\subset B$ \n
 $A \\subseteq B$ \n 
 $A \\cup B$ \n
 $A \\cap B$ \n
-`;
+`
 
 const markdown3 = `
 # Reading 3
@@ -135,10 +128,10 @@ $a \\longrightarrow b$ \n
 $a \\Rightarrow b$ \n
 $a \\Longrightarrow b$ \n
 $a \\propto b$
-`;
+`
 
 export default function LearnPage() {
-  const [lesson, setLesson] = useState<React.ReactNode>(null);
+  const [lesson, setLesson] = useState<React.ReactNode>(null)
 
   return !lesson ? (
     <Container>
@@ -152,31 +145,29 @@ export default function LearnPage() {
         <InlineSpacing spacing={40} />
 
         <LessonButton
-          onClick={() => setLesson(
-            <LessonPage
-              blocks={[
-                <ReadingBlock content={dp} />,
-                <ReadingBlock content={markdown1} />,
-                <ReadingBlock content={markdown2} />,
-                <ReadingBlock content={markdown3} />
-              ]}
-            />
-          )}
+          onClick={() =>
+            setLesson(
+              <LessonPage
+                blocks={[
+                  <ReadingBlock content={dp} />,
+                  <ReadingBlock content={markdown1} />,
+                  <ReadingBlock content={markdown2} />,
+                  <ReadingBlock content={markdown3} />,
+                ]}
+              />,
+            )
+          }
         >
           Brute Force
         </LessonButton>
 
         <InlineSpacing spacing={60} />
 
-        <LessonButton>
-          Intro Greedy
-        </LessonButton>
+        <LessonButton>Intro Greedy</LessonButton>
 
         <InlineSpacing spacing={60} />
 
-        <LessonButton>
-          Time & Memory Analysis
-        </LessonButton>
+        <LessonButton>Time & Memory Analysis</LessonButton>
       </LessonGroup>
 
       <Divider />
@@ -184,21 +175,15 @@ export default function LearnPage() {
       <LessonGroup title="Intro Data Structures">
         <InlineSpacing spacing={40} />
 
-        <LessonButton>
-          Prefix Sums
-        </LessonButton>
+        <LessonButton>Prefix Sums</LessonButton>
 
         <InlineSpacing spacing={60} />
 
-        <LessonButton>
-          Lists & Vectors
-        </LessonButton>
+        <LessonButton>Lists & Vectors</LessonButton>
 
         <InlineSpacing spacing={60} />
 
-        <LessonButton>
-          Stacks & Queues
-        </LessonButton>
+        <LessonButton>Stacks & Queues</LessonButton>
 
         <InlineSpacing spacing={40} />
 

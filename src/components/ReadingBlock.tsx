@@ -8,11 +8,10 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Typography } from '@mui/material'
 
 interface ReadingBlockProps {
-  content: string;
+  content: string
 }
 
 export default function ReadingBlock(props: ReadingBlockProps) {
-
   return (
     <Typography gutterBottom color="primary" component={'span'}>
       <Markdown
@@ -36,10 +35,9 @@ export default function ReadingBlock(props: ReadingBlockProps) {
                 {children}
               </code>
             )
-          }
+          },
         }}
       />
     </Typography>
-
   )
 }

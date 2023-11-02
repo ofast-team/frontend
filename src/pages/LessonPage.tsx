@@ -1,15 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
-import {
-  Button,
-  Typography,
-  Container
-} from '@mui/material'
+import { Button, Typography, Container } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 
 interface LessonPageProps {
-  blocks: ReadonlyArray<React.ReactNode>;
+  blocks: ReadonlyArray<React.ReactNode>
 }
 
 const LessonButton = styled(Button)({
@@ -18,10 +14,7 @@ const LessonButton = styled(Button)({
   padding: '6px 12px',
   textTransform: 'none',
   fontSize: 28,
-  fontFamily: [
-    'Raleway',
-    'sans-serif',
-  ].join(','),
+  fontFamily: ['Raleway', 'sans-serif'].join(','),
   fontWeight: 500,
   '&:hover': {
     backgroundColor: '#04364A',
@@ -32,19 +25,22 @@ const LessonButton = styled(Button)({
     backgroundColor: '#04364A',
     borderColor: '#04364A',
   },
-});
+})
 
 export default function LessonPage(props: LessonPageProps) {
-  const [currentBlock, setCurrentBlock] = useState<number>(0);
+  const [currentBlock, setCurrentBlock] = useState<number>(0)
 
   return (
     <Container>
       {props.blocks[currentBlock]}
 
-      <LessonButton onClick={() => setCurrentBlock(cur => (cur + 1) % props.blocks.length)}>
+      <LessonButton
+        onClick={() =>
+          setCurrentBlock((cur) => (cur + 1) % props.blocks.length)
+        }
+      >
         Next
       </LessonButton>
-
     </Container>
   )
 }
