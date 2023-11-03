@@ -1,15 +1,29 @@
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, FormControl, FormControlLabel, Paper, Radio, RadioGroup, Typography, styled } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  FormControl,
+  FormControlLabel,
+  Paper,
+  Radio,
+  RadioGroup,
+  Typography,
+  styled,
+} from '@mui/material'
 import React, { useState } from 'react'
 
 interface MCQBlockProps {
-  question: string;
-  answerOptions: string[];
-  correctOptions: string[];
+  question: string
+  answerOptions: string[]
+  correctOptions: string[]
 }
 
 const ShowAnswerBtn = styled(Button)({
-  border: '1px solid #776E6E', 
-  color: '#776E6E', 
+  border: '1px solid #776E6E',
+  color: '#776E6E',
   backgroundColor: 'transparent',
   padding: '8px',
   '&:hover': {
@@ -23,58 +37,68 @@ const ShowAnswerBtn = styled(Button)({
   },
 })
 
-export default function MCQBlock({question, answerOptions, correctOptions}: MCQBlockProps) {
-  const isMultiple = correctOptions.length > 1;
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
+export default function MCQBlock({
+  question,
+  answerOptions,
+  correctOptions,
+}: MCQBlockProps) {
+  const isMultiple = correctOptions.length > 1
+  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
 
-	const [dialog, setDialog] = useState(false);
-  const [dialogText, setDialogText] = useState("");
+  const [dialog, setDialog] = useState(false)
+  const [dialogText, setDialogText] = useState('')
 
   const handleDialogClose = () => {
-    setDialog(false);
-  };
+    setDialog(false)
+  }
 
   const handleAnswerSelection = (option: string) => {
     // console.log("Selected ", {option});
     if (selectedAnswers.includes(option)) {
-      setSelectedAnswers(selectedAnswers.filter((selectedOption) => selectedOption !== option));
+      setSelectedAnswers(
+        selectedAnswers.filter((selectedOption) => selectedOption !== option),
+      )
     } else {
-      setSelectedAnswers([...selectedAnswers, option]);
+      setSelectedAnswers([...selectedAnswers, option])
     }
-  };
+  }
 
   const checkAnswers = () => {
     // console.log("Submit");
     // console.log({selectedAnswers});
-    const isCorrect = [...correctOptions].every(option => selectedAnswers.includes(option));
-		const text = isCorrect ? "Correct!" : "Incorrect! Try Again.";
+    const isCorrect = [...correctOptions].every((option) =>
+      selectedAnswers.includes(option),
+    )
+    const text = isCorrect ? 'Correct!' : 'Incorrect! Try Again.'
     // if (isCorrect) {
     //   alert("Correct!");
     // } else {
     //   alert("Incorrect!");
     // }
-		setDialog(true);
-		setDialogText(text);
+    setDialog(true)
+    setDialogText(text)
     // HAVE TO UPDATE HOW TO HANDLE AFTER SUBMIT
-    setSelectedAnswers([]);
-  };
+    setSelectedAnswers([])
+  }
 
   const showAnswers = () => {
     // alert(`Correct Answer(s): ${correctOptions.join(', ')}`);
-		const text = `Correct Answer(s): ${correctOptions.join(', ')}`;
-		setDialog(true);
-		setDialogText(text);
-  };
-  
+    const text = `Correct Answer(s): ${correctOptions.join(', ')}`
+    setDialog(true)
+    setDialogText(text)
+  }
+
   const checkDisplay = () => {
     return (
       <FormControl>
-        <Typography variant="subtitle2" color="error">Select all that apply.</Typography>
+        <Typography variant="subtitle2" color="error">
+          Select all that apply.
+        </Typography>
         {answerOptions.map((option, index) => (
           <FormControlLabel
             key={index}
             control={
-              <Checkbox 
+              <Checkbox
                 checked={selectedAnswers.includes(option)}
                 onChange={() => handleAnswerSelection(option)}
                 color="primary"
@@ -84,63 +108,68 @@ export default function MCQBlock({question, answerOptions, correctOptions}: MCQB
           />
         ))}
       </FormControl>
-    );
-  };
+    )
+  }
 
   const radioDisplay = () => {
     return (
       <FormControl component="fieldset">
         <RadioGroup
-          value={selectedAnswers[0] || ""}
+          value={selectedAnswers[0] || ''}
           onChange={(event) => handleAnswerSelection(event.target.value)}
         >
           {answerOptions.map((option, index) => (
             <FormControlLabel
-            key={index}
-            value={option}
-            control={<Radio color="primary"/>}
-            label={option}
-          />
+              key={index}
+              value={option}
+              control={<Radio color="primary" />}
+              label={option}
+            />
           ))}
         </RadioGroup>
       </FormControl>
-    );
-  };
+    )
+  }
 
   return (
-    <Paper sx={{border: '1px solid #000', my: 2}}>
-      <Typography 
+    <Paper sx={{ border: '1px solid #000', my: 2 }}>
+      <Typography
         variant="h4"
-        sx={{backgroundColor: '#6DB6C3', color: '#000', p: 2, textAlign: 'left'}}
+        sx={{
+          backgroundColor: '#6DB6C3',
+          color: '#000',
+          p: 2,
+          textAlign: 'left',
+        }}
       >
         Multiple Choice Question
       </Typography>
-      <Box sx={{p: 3}}>
+      <Box sx={{ p: 3 }}>
         <Typography variant="h6" gutterBottom>
           {question}
         </Typography>
         {isMultiple ? checkDisplay() : radioDisplay()}
-        <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
-          <ShowAnswerBtn onClick={showAnswers}>
-            Show Answer
-          </ShowAnswerBtn>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
           <Button variant="contained" onClick={checkAnswers}>
             Submit
           </Button>
         </Box>
       </Box>
-      <Dialog open={dialog} onClose={handleDialogClose} sx={{border: '1px solid #000', borderRadius: '8px'}}>
+      <Dialog
+        open={dialog}
+        onClose={handleDialogClose}
+        sx={{ border: '1px solid #000', borderRadius: '8px' }}
+      >
         <DialogContent>
-					<Typography>
-						{dialogText}
-					</Typography>
-				</DialogContent>
+          <Typography>{dialogText}</Typography>
+        </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose} color="primary">
-						Close
+            Close
           </Button>
         </DialogActions>
-			</Dialog>
+      </Dialog>
     </Paper>
   )
 }

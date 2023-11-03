@@ -131,13 +131,15 @@ $a \\Longrightarrow b$ \n
 $a \\propto b$
 `
 
-const q1 = "Which of the problems below can be solved effectively using dynamic programming."
-const ans1 = ["Coin denomination", "Knapsack Problem", "Sorting List"]
-const correct1 = ["Coin denomination", "Knapsack Problem"]
+const q1 =
+  'Which of the problems below can be solved effectively using dynamic programming.'
+const ans1 = ['Coin denomination', 'Knapsack Problem', 'Sorting List']
+const correct1 = ['Coin denomination', 'Knapsack Problem']
 
-const q2 = "In dynamic programming, what is the key characteristic that distinguishes it from other algorithmic approaches?"
-const ans2 = ["Recursion", "Iteration", "Memoization"]
-const correct2 = ["Memoization"]
+const q2 =
+  'In dynamic programming, what is the key characteristic that distinguishes it from other algorithmic approaches?'
+const ans2 = ['Recursion', 'Iteration', 'Memoization']
+const correct2 = ['Memoization']
 
 export default function LearnPage() {
   const [lesson, setLesson] = useState<React.ReactNode>(null)
@@ -159,8 +161,16 @@ export default function LearnPage() {
               <LessonPage
                 blocks={[
                   <ReadingBlock content={dp} />,
-                  <MCQBlock question={q1} answerOptions={ans1} correctOptions={correct1} />,
-                  <MCQBlock question={q2} answerOptions={ans2} correctOptions={correct2} />,
+                  <MCQBlock
+                    question={q1}
+                    answerOptions={ans1}
+                    correctOptions={correct1}
+                  />,
+                  <MCQBlock
+                    question={q2}
+                    answerOptions={ans2}
+                    correctOptions={correct2}
+                  />,
                   <ReadingBlock content={markdown1} />,
                   <ReadingBlock content={markdown2} />,
                   <ReadingBlock content={markdown3} />,
