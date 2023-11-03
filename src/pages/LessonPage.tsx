@@ -36,13 +36,19 @@ export default function LessonPage(props: LessonPageProps) {
       {props.blocks[currentBlock]}
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <LessonButton
-          onClick={() => setCurrentBlock((cur) => (cur - 1 >= 0 ? cur - 1 : 0))}
+          onClick={() =>
+            setCurrentBlock((blockIndex) =>
+              blockIndex - 1 >= 0 ? blockIndex - 1 : 0,
+            )
+          }
         >
           Back
         </LessonButton>
         <LessonButton
           onClick={() =>
-            setCurrentBlock((cur) => (cur + 1) % props.blocks.length)
+            setCurrentBlock(
+              (blockIndex) => (blockIndex + 1) % props.blocks.length,
+            )
           }
         >
           Next

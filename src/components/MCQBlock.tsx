@@ -53,7 +53,6 @@ export default function MCQBlock({
   }
 
   const handleAnswerSelection = (option: string) => {
-    // console.log("Selected ", {option});
     if (selectedAnswers.includes(option)) {
       setSelectedAnswers(
         selectedAnswers.filter((selectedOption) => selectedOption !== option),
@@ -64,25 +63,18 @@ export default function MCQBlock({
   }
 
   const checkAnswers = () => {
-    // console.log("Submit");
-    // console.log({selectedAnswers});
     const isCorrect = [...correctOptions].every((option) =>
       selectedAnswers.includes(option),
     )
     const text = isCorrect ? 'Correct!' : 'Incorrect! Try Again.'
-    // if (isCorrect) {
-    //   alert("Correct!");
-    // } else {
-    //   alert("Incorrect!");
-    // }
+
     setDialog(true)
     setDialogText(text)
-    // HAVE TO UPDATE HOW TO HANDLE AFTER SUBMIT
+    // TODO(SATH): HAVE TO UPDATE HOW TO HANDLE AFTER SUBMIT
     setSelectedAnswers([])
   }
 
   const showAnswers = () => {
-    // alert(`Correct Answer(s): ${correctOptions.join(', ')}`);
     const text = `Correct Answer(s): ${correctOptions.join(', ')}`
     setDialog(true)
     setDialogText(text)
