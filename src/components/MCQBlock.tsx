@@ -1,5 +1,4 @@
-import { CheckBox } from '@mui/icons-material';
-import { Box, Button, Checkbox, Container, FormControl, FormControlLabel, FormGroup, List, ListItem, ListItemText, Paper, Radio, RadioGroup, Typography, styled } from '@mui/material';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, FormControl, FormControlLabel, Paper, Radio, RadioGroup, Typography, styled } from '@mui/material';
 import React, { useState } from 'react'
 
 interface MCQBlockProps {
@@ -28,6 +27,13 @@ export default function MCQBlock({question, answerOptions, correctOptions}: MCQB
   const isMultiple = correctOptions.length > 1;
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
 
+	const [dialog, setDialog] = useState(false);
+  const [dialogText, setDialogText] = useState("");
+
+  const handleDialogClose = () => {
+    setDialog(false);
+  };
+
   const handleAnswerSelection = (option: string) => {
     // console.log("Selected ", {option});
     if (selectedAnswers.includes(option)) {
@@ -41,20 +47,25 @@ export default function MCQBlock({question, answerOptions, correctOptions}: MCQB
     // console.log("Submit");
     // console.log({selectedAnswers});
     const isCorrect = [...correctOptions].every(option => selectedAnswers.includes(option));
-    if (isCorrect) {
-      alert("Correct!");
-    } else {
-      alert("Incorrect!");
-    }
-
+		const text = isCorrect ? "Correct!" : "Incorrect! Try Again.";
+    // if (isCorrect) {
+    //   alert("Correct!");
+    // } else {
+    //   alert("Incorrect!");
+    // }
+		setDialog(true);
+		setDialogText(text);
     // HAVE TO UPDATE HOW TO HANDLE AFTER SUBMIT
     setSelectedAnswers([]);
   };
 
   const showAnswers = () => {
-    alert(`Correct Answer(s): ${correctOptions.join(', ')}`);
+    // alert(`Correct Answer(s): ${correctOptions.join(', ')}`);
+		const text = `Correct Answer(s): ${correctOptions.join(', ')}`;
+		setDialog(true);
+		setDialogText(text);
   };
-
+  
   const checkDisplay = () => {
     return (
       <FormControl>
@@ -118,6 +129,18 @@ export default function MCQBlock({question, answerOptions, correctOptions}: MCQB
           </Button>
         </Box>
       </Box>
+      <Dialog open={dialog} onClose={handleDialogClose} sx={{border: '1px solid #000', borderRadius: '8px'}}>
+        <DialogContent>
+					<Typography>
+						{dialogText}
+					</Typography>
+				</DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary">
+						Close
+          </Button>
+        </DialogActions>
+			</Dialog>
     </Paper>
   )
 }
