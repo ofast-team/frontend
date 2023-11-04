@@ -23,11 +23,6 @@ const activeLink = {
   textDecoration: 'none',
   color: '#dafffb',
   borderBottom: '3px solid #dafffb',
-  // backgroundColor: "#dafffb",
-  // backgroundImage: "radial-gradient(circle, #dafffb 70%, #04364a)",
-  // backgroundClip: 'text',
-  // WebkitBackgroundClip: 'text',
-  // textFillColor: 'transparent',
 }
 const linkStyle = {
   display: 'inline-block',
@@ -98,7 +93,7 @@ function LogoTitle() {
         flexGrow: 1,
         fontFamily: ['Kaushan Script', 'cursive'].join(','),
         fontWeight: 700,
-        letterSpacing: '.2rem',
+        letterSpacing: '.1rem',
         color: '#dafffb',
         textDecoration: 'none',
       }}
@@ -116,7 +111,6 @@ interface pagesProps {
 
 function NavItems({ pages }: pagesProps) {
   const location = useLocation()
-  // const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
@@ -129,16 +123,13 @@ function NavItems({ pages }: pagesProps) {
     setAnchorElNav(null)
   }
 
-  // {/* <Link style={ { ...location.pathname === `/${page}` ? activeLink : linkStyle} } to={`/${page}`}> */}
-  // {page}
-  // {/* </Link> */}
-  // {/* <Link style={ { ...linkStyle} } to={`/${page}`}>{page}</Link> */}
   return (
     <Box
       sx={{
         flexGrow: 1,
         display: { xs: 'none', md: 'flex' },
         justifyContent: 'flex-end',
+        mx: 2,
       }}
     >
       {pages.map((page) => (
@@ -225,7 +216,6 @@ function GetStarted() {
       sx={{
         display: { xs: 'none', md: 'flex' },
         justifyContent: 'flex-end',
-        pl: 3,
       }}
     >
       <Button
@@ -241,7 +231,7 @@ function GetStarted() {
           '&:hover': {
             backgroundColor: '#04364a',
             color: '#dafffb',
-            border: '2px solid #dafffb',
+            boxShadow: 'inset 0 0 0 2px #dafffb',
           },
         }}
       >
@@ -252,6 +242,7 @@ function GetStarted() {
 }
 
 const before_pages = ['home', 'about', 'learn', 'solve']
+// TODO(SATH): After login navbar change
 // const after_pages = ['home', 'about', 'learn', 'solve', 'submit'];
 const settings = ['Profile', 'Groups', 'Logout']
 
