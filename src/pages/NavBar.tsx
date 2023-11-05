@@ -216,7 +216,7 @@ function GetStarted() {
           borderRadius: 50,
           fontWeight: 700,
           letterSpacing: 0.2,
-          fontSize: {xs: '14px', md: '16px'},
+          fontSize: { xs: '14px', md: '16px' },
           '&:hover': {
             backgroundColor: '#04364a',
             color: '#dafffb',
