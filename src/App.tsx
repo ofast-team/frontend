@@ -50,14 +50,13 @@ export function App() {
     <ThemeProvider theme={theme}>
       <NavBar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </ThemeProvider>
   )

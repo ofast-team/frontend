@@ -22,7 +22,7 @@ const activeLink = {
   letterSpacing: 0.8,
   textDecoration: 'none',
   color: '#dafffb',
-  borderBottom: '3px solid #dafffb',
+  borderBottom: '4px solid #dafffb',
 }
 const linkStyle = {
   display: 'inline-block',
@@ -111,17 +111,6 @@ interface pagesProps {
 
 function NavItems({ pages }: pagesProps) {
   const location = useLocation()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
 
   return (
     <Box
@@ -137,7 +126,6 @@ function NavItems({ pages }: pagesProps) {
           component={Link}
           to={`/${page}`}
           key={page}
-          onClick={handleCloseNavMenu}
           sx={{
             ...(location.pathname === `/${page}` ? activeLink : linkStyle),
           }}
@@ -214,7 +202,7 @@ function GetStarted() {
   return (
     <Box
       sx={{
-        display: { xs: 'none', md: 'flex' },
+        display: { xs: 'flex', md: 'flex' },
         justifyContent: 'flex-end',
       }}
     >
@@ -228,6 +216,7 @@ function GetStarted() {
           borderRadius: 50,
           fontWeight: 700,
           letterSpacing: 0.2,
+          fontSize: {xs: '14px', md: '16px'},
           '&:hover': {
             backgroundColor: '#04364a',
             color: '#dafffb',
