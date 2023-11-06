@@ -88,14 +88,15 @@ function LogoTitle() {
       variant="h5"
       noWrap
       sx={{
-        mr: 2,
-        display: { xs: 'flex', md: 'flex' },
-        flexGrow: 1,
+        display: 'flex',
+        justifyContent: { xs: 'center', md: 'flex-start' },
+        textAlign: 'center',
         fontFamily: ['Kaushan Script', 'cursive'].join(','),
         fontWeight: 700,
         letterSpacing: '.1rem',
         color: '#dafffb',
         textDecoration: 'none',
+        width: { xs: '33%', md: 'auto' },
       }}
     >
       <Link to="/" style={{ color: '#dafffb', textDecoration: 'none' }}>
@@ -130,7 +131,7 @@ function NavItems({ pages }: pagesProps) {
             ...(location.pathname === `/${page}` ? activeLink : linkStyle),
           }}
         >
-          {page}
+          {page === '' ? 'Home' : page}
         </Button>
       ))}
     </Box>
@@ -148,7 +149,12 @@ function ResponsiveMenu({ pages }: pagesProps) {
     setAnchorElNav(null)
   }
   return (
-    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+    <Box
+      sx={{
+        display: { xs: 'flex', md: 'none' },
+        width: { xs: '33%' },
+      }}
+    >
       <IconButton
         size="large"
         aria-label="account of current user"
@@ -178,20 +184,20 @@ function ResponsiveMenu({ pages }: pagesProps) {
         }}
       >
         {pages.map((page) => (
-          <MenuItem key={page} onClick={handleCloseNavMenu}>
-            <Typography textAlign="center">
-              <Link
-                style={{
-                  textTransform: 'capitalize',
-                  textDecoration: 'none',
-                  color: 'black',
-                }}
-                to={`/${page}`}
-              >
-                {page}
-              </Link>
-            </Typography>
-          </MenuItem>
+          <Link
+            style={{
+              textTransform: 'capitalize',
+              textDecoration: 'none',
+              color: '#04364a',
+            }}
+            to={`/${page}`}
+          >
+            <MenuItem key={page} onClick={handleCloseNavMenu}>
+              <Typography textAlign="center">
+                {page === '' ? 'Home' : page}
+              </Typography>
+            </MenuItem>
+          </Link>
         ))}
       </Menu>
     </Box>
@@ -204,6 +210,7 @@ function GetStarted() {
       sx={{
         display: { xs: 'flex', md: 'flex' },
         justifyContent: 'flex-end',
+        width: { xs: '33%', md: 'auto' },
       }}
     >
       <Button
@@ -216,7 +223,6 @@ function GetStarted() {
           borderRadius: 50,
           fontWeight: 700,
           letterSpacing: 0.2,
-          fontSize: { xs: '14px', md: '16px' },
           '&:hover': {
             backgroundColor: '#04364a',
             color: '#dafffb',
@@ -230,7 +236,7 @@ function GetStarted() {
   )
 }
 
-const before_pages = ['home', 'about', 'learn', 'solve']
+const before_pages = ['', 'about', 'learn', 'solve']
 // TODO(SATH): After login navbar change
 // const after_pages = ['home', 'about', 'learn', 'solve', 'submit'];
 const settings = ['Profile', 'Groups', 'Logout']
@@ -240,7 +246,15 @@ function NavBar() {
     <React.Fragment>
       <AppBar position="fixed">
         <Container maxWidth="xl">
-          <Toolbar disableGutters>
+          <Toolbar
+            disableGutters
+            sx={{
+              display: { xs: 'flex' },
+              flexDirection: { xs: 'row' },
+              justifyContent: { xs: 'space-between' },
+              alignItems: { xs: 'center' },
+            }}
+          >
             <ResponsiveMenu pages={before_pages} />
             <LogoTitle />
             <NavItems pages={before_pages} />
