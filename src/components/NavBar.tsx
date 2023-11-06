@@ -17,7 +17,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 const activeLink = {
   display: 'inline-block',
-  margin: 2,
+  mx: 2,
   fontWeight: 700,
   letterSpacing: 0.8,
   textDecoration: 'none',
@@ -26,11 +26,12 @@ const activeLink = {
 }
 const linkStyle = {
   display: 'inline-block',
-  margin: 2,
+  mx: 2,
   fontWeight: 700,
   letterSpacing: 0.8,
   textDecoration: 'none',
   color: '#dafffb',
+  borderBottom: '4px solid transparent',
 }
 interface LoggedUserProps {
   name: string
