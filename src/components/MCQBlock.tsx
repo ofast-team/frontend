@@ -21,7 +21,7 @@ interface MCQBlockProps {
   correctOptions: string[]
 }
 
-const ShowAnswerBtn = styled(Button)({
+export const ShowAnswerBtn = styled(Button)({
   border: '1px solid #776E6E',
   color: '#776E6E',
   backgroundColor: 'transparent',
