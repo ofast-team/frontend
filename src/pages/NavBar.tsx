@@ -36,7 +36,6 @@ interface LoggedUserProps {
   name: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function LoggedInUser({ name }: LoggedUserProps) {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
