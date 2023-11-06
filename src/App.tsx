@@ -51,7 +51,6 @@ export function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/home" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/solve" element={<SolvePage />} />
