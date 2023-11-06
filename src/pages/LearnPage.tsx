@@ -16,6 +16,7 @@ import InlineSpacing from '../components/InlineSpacing'
 import ReadingBlock from '../components/ReadingBlock'
 import LessonPage from './LessonPage'
 import MCQBlock from '../components/MCQBlock'
+import FITBBlock from '../components/FITBBlock'
 
 const LessonButton = styled(Button)({
   border: '1px solid',
@@ -174,6 +175,12 @@ export default function LearnPage() {
                   <ReadingBlock content={markdown1} />,
                   <ReadingBlock content={markdown2} />,
                   <ReadingBlock content={markdown3} />,
+                  <FITBBlock
+                    question={
+                      'Complete the following recurrance relation: fib[i] = **BLANK** + fib[i - 2]'
+                    }
+                    correctAnswer={'fib[i - 1]'}
+                  />,
                 ]}
               />,
             )
