@@ -4,10 +4,15 @@ import { Box, Button, Container } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 
-import "./LessonPage.css"
-
 interface LessonPageProps {
   blocks: ReadonlyArray<React.ReactNode>
+}
+
+const blockStyle = {
+  pt: 4,
+  scrollSnapAlign: 'center',
+  height: '100%',
+  overflowY: 'auto'
 }
 
 function getWindowDimensions() {
@@ -39,61 +44,42 @@ const LessonButton = styled(Button)({
 })
 
 export default function LessonPage(props: LessonPageProps) {
-  const [currentBlock, setCurrentBlock] = useState<number>(0)
-  const refs = useRef(new Array(2));
-  const [offsetY, setOffsetY] = useState(0);
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  // const [currentBlock, setCurrentBlock] = useState<number>(0)
+  // const refs = useRef(new Array(2));
+  // const [offsetY, setOffsetY] = useState(0);
+  // const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setOffsetY(window.pageYOffset)
-      console.log(window.pageYOffset)
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setOffsetY(window.pageYOffset)
+  //     console.log(window.pageYOffset)
+  //   };
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
-  useEffect(() => {
-    const handleResize = () => setWindowDimensions(getWindowDimensions());
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // useEffect(() => {
+  //   const handleResize = () => setWindowDimensions(getWindowDimensions());
+  //   window.addEventListener('resize', handleResize);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
 
-  const currentIndex = () => Math.round(offsetY / windowDimensions.height);
+  // const currentIndex = () => Math.round(offsetY / windowDimensions.height);
 
   return (
-    <Container sx={{ position: 'relative' }}>
-      <Box className="scroll-container">
-        <div className="scroll-area" ref={(element) => { refs.current[0] = element }}>
-          <div>
-            Block 1
-          </div>
-          <div>
-            Block 2
-          </div>
-        </div>
-      </Box>
-      {/* {props.blocks[currentBlock]}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <LessonButton
-          onClick={() =>
-            setCurrentBlock((blockIndex) =>
-              blockIndex - 1 >= 0 ? blockIndex - 1 : 0,
-            )
-          }
-        >
-          Back
-        </LessonButton>
-        <LessonButton
-          onClick={() =>
-            setCurrentBlock(
-              (blockIndex) => (blockIndex + 1) % props.blocks.length,
-            )
-          }
-        >
-          Next
-        </LessonButton>
-      </Box> */}
-    </Container>
+    <Box sx={{
+      width: '100%',
+      height: 'calc(100vh - 100px)',
+      overflowY: 'auto',
+      scrollSnapType: 'y mandatory'
+    }}>
+      {props.blocks.map(block => {
+        return (
+          <Container sx={blockStyle}>
+            {block}
+          </Container>
+        )
+      })}
+    </Box>
   )
 }

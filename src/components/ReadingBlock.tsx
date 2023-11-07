@@ -3,7 +3,7 @@ import Markdown from 'react-markdown'
 import rehypeMathjax from 'rehype-mathjax/svg'
 import remarkMath from 'remark-math'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 import { Typography } from '@mui/material'
 
@@ -26,9 +26,10 @@ export default function ReadingBlock(props: ReadingBlockProps) {
               <SyntaxHighlighter
                 {...rest}
                 children={String(children).replace(/\n$/, '')}
-                style={vscDarkPlus}
+                style={oneDark}
                 language={match[1]}
                 PreTag="div"
+                showLineNumbers
               />
             ) : (
               <code {...rest} className={className}>
