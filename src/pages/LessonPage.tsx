@@ -23,63 +23,83 @@ function getWindowDimensions() {
   };
 }
 
-const LessonButton = styled(Button)({
-  border: '1px solid',
-  borderRadius: 20,
-  paddingLeft: '20px',
-  paddingRight: '20px',
-  textTransform: 'none',
-  fontSize: 25,
-  fontFamily: ['Raleway', 'sans-serif'].join(','),
-  fontWeight: 500,
-  '&:hover': {
-    backgroundColor: '#04364A',
-    borderColor: '#04364A',
-    color: '#DAFFFB',
-  },
-  '&:active': {
-    backgroundColor: '#04364A',
-    borderColor: '#04364A',
-  },
-})
+function SideNavigatorItem({ selected, onClick }) {
+  return (
+    <div
+      onClick={onClick}
+      className="fadeColor"
+      style={{
+        marginTop: 10,
+        height: (selected ? 100 : 40),
+        backgroundColor: (selected ? 'black' : 'blue'),
+        borderRadius: 50,
+        cursor: 'pointer'
+      }}
+    />
+  );
+}
 
-export default function LessonPage(props: LessonPageProps) {
-  // const [currentBlock, setCurrentBlock] = useState<number>(0)
-  // const refs = useRef(new Array(2));
-  // const [offsetY, setOffsetY] = useState(0);
-  // const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+export default function LessonPage({blocks}: LessonPageProps) {
+  const refs = useRef(new Array(blocks.length));
+  const [offsetY, setOffsetY] = useState(0);
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setOffsetY(window.pageYOffset)
-  //     console.log(window.pageYOffset)
-  //   };
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
+  const divRef = useRef();
 
-  // useEffect(() => {
-  //   const handleResize = () => setWindowDimensions(getWindowDimensions());
-  //   window.addEventListener('resize', handleResize);
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, []);
+  useEffect(() => {
+    console.log(divRef.current);
+  }, [divRef.current]);
 
-  // const currentIndex = () => Math.round(offsetY / windowDimensions.height);
+  const currentIndex = () => Math.round(offsetY / windowDimensions.height);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setOffsetY(window.pageYOffset)
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setWindowDimensions(getWindowDimensions());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
-    <Box sx={{
-      width: '100%',
-      height: 'calc(100vh - 100px)',
-      overflowY: 'auto',
-      scrollSnapType: 'y mandatory'
-    }}>
-      {props.blocks.map(block => {
-        return (
-          <Container sx={blockStyle}>
-            {block}
-          </Container>
-        )
-      })}
+    <Box sx={{position: 'relative'}}>
+      <Box ref={divRef} sx={{
+        width: '100%',
+        height: 'calc(100vh - 100px)',
+        overflowY: 'auto',
+        scrollSnapType: 'y mandatory'
+      }}>
+        {blocks.map((block, id) => {
+          return (
+            <Container key={id} sx={blockStyle} ref={(element) => { refs.current[id] = element }}>
+              {block}
+            </Container>
+          )
+        })}
+      </Box>
+
+      <Box sx={{
+        width: 20,
+        transform: 'translateY(-50%)',
+        position: 'fixed',
+        top: '50%',
+        left: '20px'
+      }}>
+        {blocks.map((item, id) => {
+          return (
+            <SideNavigatorItem
+              key={id}
+              selected={currentIndex() === id}
+              onClick={() => refs.current[id].scrollIntoView({ behavior: 'smooth' })}
+            />
+          )
+        })}
+      </Box>
     </Box>
   )
 }
