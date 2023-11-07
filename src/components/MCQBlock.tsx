@@ -63,9 +63,9 @@ export default function MCQBlock({
   }
 
   const checkAnswers = () => {
-    const isCorrect = [...correctOptions].every((option) =>
-      selectedAnswers.includes(option),
-    )
+    const isCorrect =
+      [...correctOptions].every((option) => selectedAnswers.includes(option)) &&
+      [...selectedAnswers].every((option) => correctOptions.includes(option))
     const text = isCorrect ? 'Correct!' : 'Incorrect! Try Again.'
 
     setDialog(true)
