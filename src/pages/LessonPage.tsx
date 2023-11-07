@@ -1,11 +1,21 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+
 import { Box, Button, Container } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 
+import "./LessonPage.css"
+
 interface LessonPageProps {
   blocks: ReadonlyArray<React.ReactNode>
+}
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
 }
 
 const LessonButton = styled(Button)({
@@ -30,10 +40,40 @@ const LessonButton = styled(Button)({
 
 export default function LessonPage(props: LessonPageProps) {
   const [currentBlock, setCurrentBlock] = useState<number>(0)
+  const refs = useRef(new Array(2));
+  const [offsetY, setOffsetY] = useState(0);
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setOffsetY(window.pageYOffset)
+      console.log(window.pageYOffset)
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setWindowDimensions(getWindowDimensions());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const currentIndex = () => Math.round(offsetY / windowDimensions.height);
 
   return (
-    <Container>
-      {props.blocks[currentBlock]}
+    <Container sx={{ position: 'relative' }}>
+      <Box className="scroll-container">
+        <div className="scroll-area" ref={(element) => { refs.current[0] = element }}>
+          <div>
+            Block 1
+          </div>
+          <div>
+            Block 2
+          </div>
+        </div>
+      </Box>
+      {/* {props.blocks[currentBlock]}
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <LessonButton
           onClick={() =>
@@ -53,7 +93,7 @@ export default function LessonPage(props: LessonPageProps) {
         >
           Next
         </LessonButton>
-      </Box>
+      </Box> */}
     </Container>
   )
 }
