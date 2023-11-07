@@ -172,15 +172,16 @@ export default function LearnPage() {
                     answerOptions={ans2}
                     correctOptions={correct2}
                   />,
+                  <FITBBlock
+                    question={
+                      'Is this the real life? Is this just {fantasy}?' +
+                       'Caught in a {landslide} No escape from reality.' +
+                       'Open your eyes, Look up to the {skies} and see...'
+                    }
+                  />,
                   <ReadingBlock content={markdown1} />,
                   <ReadingBlock content={markdown2} />,
                   <ReadingBlock content={markdown3} />,
-                  <FITBBlock
-                    question={
-                      'Complete the following recurrance relation: fib[i] = **BLANK** + fib[i - 2]'
-                    }
-                    correctAnswer={'fib[i - 1]'}
-                  />,
                 ]}
               />,
             )
