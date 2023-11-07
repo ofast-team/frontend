@@ -42,7 +42,7 @@ export default function LessonPage({ blocks }: LessonPageProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setOffsetY(window.pageYOffset)
+      setOffsetY(window.scrollY)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -90,7 +90,7 @@ export default function LessonPage({ blocks }: LessonPageProps) {
           left: '20px',
         }}
       >
-        {blocks.map((item, id) => {
+        {blocks.map((_item, id) => {
           return (
             <SideNavigatorItem
               key={id}
