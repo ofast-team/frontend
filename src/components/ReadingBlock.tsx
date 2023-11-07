@@ -7,13 +7,20 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 import { Typography } from '@mui/material'
 
+import './ReadingBlock.css'
+
 interface ReadingBlockProps {
   content: string
 }
 
 export default function ReadingBlock(props: ReadingBlockProps) {
   return (
-    <Typography gutterBottom color="primary" component={'span'}>
+    <Typography
+      className="markdown"
+      gutterBottom
+      color="primary"
+      component={'span'}
+    >
       <Markdown
         children={props.content}
         remarkPlugins={[remarkMath]}

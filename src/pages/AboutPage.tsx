@@ -41,7 +41,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <Container sx={{ p: 5 }}>
+    <Container sx={{ p: 15 }}>
       <Typography variant="h3" gutterBottom color="primary">
         About
       </Typography>

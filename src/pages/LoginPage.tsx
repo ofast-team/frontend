@@ -99,7 +99,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
 
   return (
-    <Box>
+    <Box sx={{ p: 15 }}>
       <Container maxWidth="md">
         <Paper
           sx={{

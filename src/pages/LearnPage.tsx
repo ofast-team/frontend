@@ -98,7 +98,7 @@ def fibonacci(n):
 n = 10
 result = fibonacci(n)
 print(f"The {n}-th Fibonacci number is {result}")
-~~~`;
+~~~`
 
 const markdown1 = `
 # Reading 1
@@ -148,7 +148,7 @@ export default function LearnPage() {
   const [lesson, setLesson] = useState<React.ReactNode>(null)
 
   return !lesson ? (
-    <Container sx={{ p: 5 }}>
+    <Container sx={{ p: 15 }}>
       <Typography variant="h3" gutterBottom color="primary">
         Learn
       </Typography>
