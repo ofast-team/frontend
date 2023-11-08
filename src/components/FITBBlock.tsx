@@ -85,7 +85,7 @@ export default function FITBBlock({ question }: FITBBlockProps) {
         Fill in the Blank
       </Typography>
       <Box sx={{ p: 3 }}>
-        <Grid container rowGap = {2} alignItems="center" paddingLeft={1} paddingRight = {1}>
+        <Grid container rowGap = {2.5} alignItems="center" marginBottom = {4}>
           {fitbForm}
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>

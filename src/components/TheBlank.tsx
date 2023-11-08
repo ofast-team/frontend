@@ -25,7 +25,7 @@ const CorrectBlank = styled(TextField)({
     '.MuiFormHelperText-root.Mui-error': {
         color: 'green',
         position: 'absolute',
-        top: '35px'
+        top: '2.75em'
     },
 })
 
@@ -41,7 +41,7 @@ const IncorrectBlank = styled(TextField)({
     '.MuiFormHelperText-root.Mui-error': {
         color: 'red',
         position: 'absolute',
-        top: '35px'
+        top: '2.75em'
     },
 })
 
