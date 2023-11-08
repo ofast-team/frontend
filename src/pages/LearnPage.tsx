@@ -146,7 +146,7 @@ export default function LearnPage() {
   const [lesson, setLesson] = useState<React.ReactNode>(null)
 
   return !lesson ? (
-    <Container sx={{ p: 5 }}>
+    <Container sx={{ p: 15 }}>
       <Typography variant="h3" gutterBottom color="primary">
         Learn
       </Typography>
@@ -177,7 +177,7 @@ export default function LearnPage() {
                   <ReadingBlock content={markdown3} />,
                   <FITBBlock
                     question={
-                      'Complete the following recurrance relation: fib[i] = **BLANK** + fib[i - 2]'
+                      'Complete the following recurrence relation: fib[i] = **BLANK** + fib[i - 2]'
                     }
                     correctAnswer={'fib[i - 1]'}
                   />,

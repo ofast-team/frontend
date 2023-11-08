@@ -185,6 +185,7 @@ function ResponsiveMenu({ pages }: pagesProps) {
       >
         {pages.map((page) => (
           <Link
+            key={page}
             style={{
               textTransform: 'capitalize',
               textDecoration: 'none',
@@ -192,7 +193,7 @@ function ResponsiveMenu({ pages }: pagesProps) {
             }}
             to={`/${page}`}
           >
-            <MenuItem key={page} onClick={handleCloseNavMenu}>
+            <MenuItem onClick={handleCloseNavMenu}>
               <Typography textAlign="center">
                 {page === '' ? 'Home' : page}
               </Typography>
@@ -263,7 +264,6 @@ function NavBar() {
           </Toolbar>
         </Container>
       </AppBar>
-      <Toolbar />
     </React.Fragment>
   )
 }
