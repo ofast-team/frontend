@@ -44,6 +44,10 @@ function createFITBFormFromQuestionString(question : string, submitted : boolean
 
     else {
       curStr += question[i]
+      if (question[i] == ' ') {
+        fitbForm.push(<Typography padding={0.3}>{curStr}</Typography>)
+        curStr = ''
+      }
     }
   }  
 
@@ -81,7 +85,7 @@ export default function FITBBlock({ question }: FITBBlockProps) {
         Fill in the Blank
       </Typography>
       <Box sx={{ p: 3 }}>
-        <Grid container alignItems="center" spacing={2} padding={1}>
+        <Grid container rowGap = {2} alignItems="center" paddingLeft={1} paddingRight = {1}>
           {fitbForm}
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>

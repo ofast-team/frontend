@@ -174,9 +174,9 @@ export default function LearnPage() {
                   />,
                   <FITBBlock
                     question={
-                      'Is this the real life? Is this just {fantasy}?' +
-                       'Caught in a {landslide} No escape from reality.' +
-                       'Open your eyes, Look up to the {skies} and see...'
+                      'Is this the real life? Is this just {fantasy}? ' +
+                       'Caught in a {landslide}, no escape from reality. ' +
+                       'Open your eyes, look up to the {skies} and see...'
                     }
                   />,
                   <ReadingBlock content={markdown1} />,
