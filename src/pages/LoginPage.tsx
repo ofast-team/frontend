@@ -85,7 +85,7 @@ function PasswordField(props: PasswordFieldProps) {
 function loginWithEmailAndPassword(email, password) {
   console.log(email + '\n' + password)
   fetch(buildPath('/helloWorld'), {
-    method: 'GET',
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   })
     .then((res) => res.json())
@@ -99,7 +99,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
 
   return (
-    <Box>
+    <Box sx={{ p: 15 }}>
       <Container maxWidth="md">
         <Paper
           sx={{

@@ -1,0 +1,10 @@
+html {
+  scroll-snap-type: y mandatory;
+}
+
+.fadeColor {
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}

@@ -265,7 +265,6 @@ function NavBar() {
           </Toolbar>
         </Container>
       </AppBar>
-      <Toolbar />
     </React.Fragment>
   )
 }
