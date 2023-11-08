@@ -75,8 +75,6 @@ export default function MCQBlock({
 
     setDialog(true)
     setDialogText(text)
-    // TODO(SATH): HAVE TO UPDATE HOW TO HANDLE AFTER SUBMIT
-    // setSelectedAnswers([])
   }
 
   const showAnswers = () => {

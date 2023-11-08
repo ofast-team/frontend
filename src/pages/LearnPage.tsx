@@ -166,11 +166,13 @@ export default function LearnPage() {
                     question={q1}
                     answerOptions={ans1}
                     correctOptions={correct1}
+                    key={1}
                   />,
                   <MCQBlock
                     question={q2}
                     answerOptions={ans2}
                     correctOptions={correct2}
+                    key={2}
                   />,
                   <ReadingBlock content={markdown1} />,
                   <ReadingBlock content={markdown2} />,
@@ -181,7 +183,6 @@ export default function LearnPage() {
                     }
                     correctAnswer={'fib[i - 1]'}
                   />,
-                  
                 ]}
               />,
             )
