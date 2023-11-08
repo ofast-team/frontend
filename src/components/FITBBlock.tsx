@@ -1,55 +1,53 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Paper,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Grid, Paper, Typography } from '@mui/material'
 import { ShowAnswerBtn } from './MCQBlock'
 import React, { useState } from 'react'
 import TheBlank from './TheBlank'
 
 // Parser for FITB Questions. Determine the location of the
 // blanks and their correct answers. Create components for text and blanks.
-function createFITBFormFromQuestionString(question : string, submitted : boolean) : React.JSX.Element[] {
-
-  let curStr : string = "";
-  const fitbForm : React.JSX.Element[] = [];
-  const arr : string[] = [];
-  for (let i = 0; i < question.length; i++) { 
-
-    if (i < question.length - 1 && question[i] == '\\' && (question[i + 1] == '{' || question[i + 1] == '}')) {
+function createFITBFormFromQuestionString(
+  question: string,
+  submitted: boolean,
+): React.JSX.Element[] {
+  let curStr: string = ''
+  const fitbForm: React.JSX.Element[] = []
+  const arr: string[] = []
+  for (let i = 0; i < question.length; i++) {
+    if (
+      i < question.length - 1 &&
+      question[i] == '\\' &&
+      (question[i + 1] == '{' || question[i + 1] == '}')
+    ) {
       curStr += question[i + 1]
       i++
-    }
-
-    else if (question[i] == '{') {
+    } else if (question[i] == '{') {
       fitbForm.push(<Typography>{curStr}</Typography>)
-      curStr = ""
-      let blankAns : string = ""
+      curStr = ''
+      let blankAns: string = ''
       i++
       while (i < question.length && question[i] != '}') {
-        if (i < question.length - 1 && question[i] == '\\' && (question[i + 1] == '{' || question[i + 1] == '}')) {
+        if (
+          i < question.length - 1 &&
+          question[i] == '\\' &&
+          (question[i + 1] == '{' || question[i + 1] == '}')
+        ) {
           blankAns += question[i + 1]
           i++
-        }
-        else {
+        } else {
           blankAns += question[i]
         }
-        i++;
+        i++
       }
-      fitbForm.push(<TheBlank correctAnswer={blankAns} respond = {submitted}/>)
+      fitbForm.push(<TheBlank correctAnswer={blankAns} respond={submitted} />)
       arr.push(blankAns)
-    }
-
-    else {
+    } else {
       curStr += question[i]
       if (question[i] == ' ') {
         fitbForm.push(<Typography padding={0.3}>{curStr}</Typography>)
         curStr = ''
       }
     }
-  }  
+  }
 
   if (curStr.length > 0) {
     fitbForm.push(<Typography>{curStr}</Typography>)
@@ -58,7 +56,6 @@ function createFITBFormFromQuestionString(question : string, submitted : boolean
   fitbForm.map((x) => <Grid item>{x}</Grid>)
 
   return fitbForm
-
 }
 
 interface FITBBlockProps {
@@ -66,7 +63,6 @@ interface FITBBlockProps {
 }
 
 export default function FITBBlock({ question }: FITBBlockProps) {
-
   const [submitted, setSubmitted] = useState(false)
 
   const fitbForm = createFITBFormFromQuestionString(question, submitted)
@@ -85,7 +81,7 @@ export default function FITBBlock({ question }: FITBBlockProps) {
         Fill in the Blank
       </Typography>
       <Box sx={{ p: 3 }}>
-        <Grid container rowGap = {2.5} alignItems="center" marginBottom = {4}>
+        <Grid container rowGap={2.5} alignItems="center" marginBottom={4}>
           {fitbForm}
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
