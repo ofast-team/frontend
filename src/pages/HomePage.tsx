@@ -85,6 +85,7 @@ export default function HomePage() {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
+        pt: 15,
       }}
     >
       {/* <Title /> */}

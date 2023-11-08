@@ -22,7 +22,7 @@ const activeLink = {
   letterSpacing: 0.8,
   textDecoration: 'none',
   color: '#dafffb',
-  borderBottom: '3px solid #dafffb',
+  borderBottom: '4px solid #dafffb',
 }
 const linkStyle = {
   display: 'inline-block',
@@ -88,14 +88,15 @@ function LogoTitle() {
       variant="h5"
       noWrap
       sx={{
-        mr: 2,
-        display: { xs: 'flex', md: 'flex' },
-        flexGrow: 1,
+        display: 'flex',
+        justifyContent: { xs: 'center', md: 'flex-start' },
+        textAlign: 'center',
         fontFamily: ['Kaushan Script', 'cursive'].join(','),
         fontWeight: 700,
         letterSpacing: '.1rem',
         color: '#dafffb',
         textDecoration: 'none',
+        width: { xs: '33%', md: 'auto' },
       }}
     >
       <Link to="/" style={{ color: '#dafffb', textDecoration: 'none' }}>
@@ -111,17 +112,6 @@ interface pagesProps {
 
 function NavItems({ pages }: pagesProps) {
   const location = useLocation()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
 
   return (
     <Box
@@ -137,12 +127,11 @@ function NavItems({ pages }: pagesProps) {
           component={Link}
           to={`/${page}`}
           key={page}
-          onClick={handleCloseNavMenu}
           sx={{
             ...(location.pathname === `/${page}` ? activeLink : linkStyle),
           }}
         >
-          {page}
+          {page === '' ? 'Home' : page}
         </Button>
       ))}
     </Box>
@@ -160,7 +149,12 @@ function ResponsiveMenu({ pages }: pagesProps) {
     setAnchorElNav(null)
   }
   return (
-    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+    <Box
+      sx={{
+        display: { xs: 'flex', md: 'none' },
+        width: { xs: '33%' },
+      }}
+    >
       <IconButton
         size="large"
         aria-label="account of current user"
@@ -190,20 +184,21 @@ function ResponsiveMenu({ pages }: pagesProps) {
         }}
       >
         {pages.map((page) => (
-          <MenuItem key={page} onClick={handleCloseNavMenu}>
-            <Typography textAlign="center">
-              <Link
-                style={{
-                  textTransform: 'capitalize',
-                  textDecoration: 'none',
-                  color: 'black',
-                }}
-                to={`/${page}`}
-              >
-                {page}
-              </Link>
-            </Typography>
-          </MenuItem>
+          <Link
+            key={page}
+            style={{
+              textTransform: 'capitalize',
+              textDecoration: 'none',
+              color: '#04364a',
+            }}
+            to={`/${page}`}
+          >
+            <MenuItem onClick={handleCloseNavMenu}>
+              <Typography textAlign="center">
+                {page === '' ? 'Home' : page}
+              </Typography>
+            </MenuItem>
+          </Link>
         ))}
       </Menu>
     </Box>
@@ -214,8 +209,9 @@ function GetStarted() {
   return (
     <Box
       sx={{
-        display: { xs: 'none', md: 'flex' },
+        display: { xs: 'flex', md: 'flex' },
         justifyContent: 'flex-end',
+        width: { xs: '33%', md: 'auto' },
       }}
     >
       <Button
@@ -241,7 +237,7 @@ function GetStarted() {
   )
 }
 
-const before_pages = ['home', 'about', 'learn', 'solve']
+const before_pages = ['', 'about', 'learn', 'solve']
 // TODO(SATH): After login navbar change
 // const after_pages = ['home', 'about', 'learn', 'solve', 'submit'];
 const settings = ['Profile', 'Groups', 'Logout']
@@ -251,7 +247,15 @@ function NavBar() {
     <React.Fragment>
       <AppBar position="fixed">
         <Container maxWidth="xl">
-          <Toolbar disableGutters>
+          <Toolbar
+            disableGutters
+            sx={{
+              display: { xs: 'flex' },
+              flexDirection: { xs: 'row' },
+              justifyContent: { xs: 'space-between' },
+              alignItems: { xs: 'center' },
+            }}
+          >
             <ResponsiveMenu pages={before_pages} />
             <LogoTitle />
             <NavItems pages={before_pages} />
@@ -260,7 +264,6 @@ function NavBar() {
           </Toolbar>
         </Container>
       </AppBar>
-      <Toolbar />
     </React.Fragment>
   )
 }
