@@ -52,7 +52,7 @@ export default function MCQBlock({
     setDialog(false)
   }
 
-  const handleAnswerSelection = (option: string) => {
+  const handleCheckAnswerSelection = (option: string) => {
     if (selectedAnswers.includes(option)) {
       setSelectedAnswers(
         selectedAnswers.filter((selectedOption) => selectedOption !== option),
@@ -62,7 +62,12 @@ export default function MCQBlock({
     }
   }
 
+  const handleRadioAnswerSelection = (option: string) => {
+    setSelectedAnswers([option])
+  }
+
   const checkAnswers = () => {
+    console.log(selectedAnswers)
     const isCorrect =
       [...correctOptions].every((option) => selectedAnswers.includes(option)) &&
       [...selectedAnswers].every((option) => correctOptions.includes(option))
@@ -71,7 +76,7 @@ export default function MCQBlock({
     setDialog(true)
     setDialogText(text)
     // TODO(SATH): HAVE TO UPDATE HOW TO HANDLE AFTER SUBMIT
-    setSelectedAnswers([])
+    // setSelectedAnswers([])
   }
 
   const showAnswers = () => {
@@ -92,7 +97,7 @@ export default function MCQBlock({
             control={
               <Checkbox
                 checked={selectedAnswers.includes(option)}
-                onChange={() => handleAnswerSelection(option)}
+                onChange={() => handleCheckAnswerSelection(option)}
                 color="primary"
               />
             }
@@ -106,15 +111,18 @@ export default function MCQBlock({
   const radioDisplay = () => {
     return (
       <FormControl component="fieldset">
-        <RadioGroup
-          value={selectedAnswers[0] || ''}
-          onChange={(event) => handleAnswerSelection(event.target.value)}
-        >
+        <RadioGroup value={selectedAnswers[0] || ''}>
           {answerOptions.map((option, index) => (
             <FormControlLabel
               key={index}
               value={option}
-              control={<Radio color="primary" />}
+              control={
+                <Radio
+                  checked={selectedAnswers.includes(option)}
+                  onChange={() => handleRadioAnswerSelection(option)}
+                  color="primary"
+                />
+              }
               label={option}
             />
           ))}

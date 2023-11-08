@@ -181,6 +181,7 @@ export default function LearnPage() {
                     }
                     correctAnswer={'fib[i - 1]'}
                   />,
+                  
                 ]}
               />,
             )
