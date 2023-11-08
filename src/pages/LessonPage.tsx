@@ -31,14 +31,74 @@ function SideNavigatorItem({ selected, onClick }) {
   )
 }
 
+interface LessonBlockWrapperProps {
+  block: React.ReactNode
+  id: number
+  blockRefs: React.MutableRefObject<(HTMLDivElement | null)[]>
+  windowDimensions: {
+    width: number
+    height: number
+  }
+}
+
+function LessonBlockWrapper({
+  block,
+  id,
+  blockRefs,
+  windowDimensions,
+}: LessonBlockWrapperProps) {
+  const [height, setHeight] = useState<number | undefined | null>(null)
+
+  let adjustedHeight = height
+
+  if (height && windowDimensions && height < windowDimensions.height) {
+    adjustedHeight = windowDimensions.height
+  }
+
+  return (
+    <Container
+      key={id}
+      sx={{
+        scrollSnapAlign: 'start',
+        height: adjustedHeight ? adjustedHeight : 'auto',
+        overflowY: 'auto',
+        pt: 15,
+      }}
+      ref={(element) => {
+        blockRefs.current[id] = element
+        setHeight(element?.offsetHeight)
+      }}
+    >
+      {block}
+    </Container>
+  )
+}
+
 export default function LessonPage({ blocks }: LessonPageProps) {
-  const refs = useRef(new Array(blocks.length))
+  const blockRefs = useRef(new Array(blocks.length))
   const [offsetY, setOffsetY] = useState(0)
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions(),
   )
 
-  const currentIndex = () => Math.round(offsetY / windowDimensions.height)
+  const currentIndex = () => {
+    if (!blockRefs.current[0]) {
+      return 0
+    }
+
+    let sum = 0
+    let i = 0
+
+    while (
+      i + 1 < blockRefs.current.length &&
+      sum + blockRefs.current[i].offsetHeight <= offsetY
+    ) {
+      i++
+      sum += blockRefs.current[i].offsetHeight
+    }
+
+    return i
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,27 +118,18 @@ export default function LessonPage({ blocks }: LessonPageProps) {
     <Box sx={{ position: 'relative' }}>
       <Box
         sx={{
-          height: 'calc(100vh)',
+          height: '100vh',
         }}
       >
-        {blocks.map((block, id) => {
-          return (
-            <Container
-              key={id}
-              sx={{
-                scrollSnapAlign: 'start',
-                height: '100%',
-                overflowY: 'auto',
-                pt: 15,
-              }}
-              ref={(element) => {
-                refs.current[id] = element
-              }}
-            >
-              {block}
-            </Container>
-          )
-        })}
+        {blocks.map((block, id) => (
+          <LessonBlockWrapper
+            key={id}
+            block={block}
+            id={id}
+            blockRefs={blockRefs}
+            windowDimensions={windowDimensions}
+          />
+        ))}
       </Box>
 
       <Box
@@ -96,7 +147,7 @@ export default function LessonPage({ blocks }: LessonPageProps) {
               key={id}
               selected={currentIndex() === id}
               onClick={() =>
-                refs.current[id].scrollIntoView({ behavior: 'smooth' })
+                blockRefs.current[id].scrollIntoView({ behavior: 'smooth' })
               }
             />
           )

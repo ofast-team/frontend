@@ -73,10 +73,7 @@ One of the key advantages of dynamic programming is its ability to transform a p
 
 ## Memoization
 **Memoization** is a critical aspect of dynamic programming that involves storing the results of subproblem solutions to avoid redundant calculations. By memorizing these results in a table or data structure, dynamic programming ensures that each subproblem is **solved only once** and its solution is retrieved when needed, significantly improving the algorithm’s efficiency. This technique not only **reduces time complexity** but also simplifies the code and enhances its readability, making dynamic programming an invaluable tool in solving a diverse array of computational problems.
-`
-const dpcode = `
-# Example Code
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia quibusdam nihil, accusantium eius tempore est, ipsum omnis laudantium quaerat, mollitia porro. Id reprehenderit ipsum iusto deserunt incidunt. Exercitationem, dolore distinctio?
+
 ~~~python
 # Create a dictionary to store previously computed Fibonacci values
 memo = {}
@@ -98,7 +95,8 @@ def fibonacci(n):
 n = 10
 result = fibonacci(n)
 print(f"The {n}-th Fibonacci number is {result}")
-~~~`
+~~~
+`
 
 const markdown1 = `
 # Reading 1
@@ -164,7 +162,6 @@ export default function LearnPage() {
               <LessonPage
                 blocks={[
                   <ReadingBlock content={dp} />,
-                  <ReadingBlock content={dpcode} />,
                   <MCQBlock
                     question={q1}
                     answerOptions={ans1}
