@@ -85,7 +85,7 @@ function PasswordField(props: PasswordFieldProps) {
 function loginWithEmailAndPassword(email, password) {
   console.log(email + '\n' + password)
   fetch(buildPath('/helloWorld'), {
-    method: 'GET',
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   })
     .then((res) => res.json())
