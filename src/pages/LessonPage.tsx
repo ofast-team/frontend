@@ -93,8 +93,8 @@ export default function LessonPage({ blocks }: LessonPageProps) {
       i + 1 < blockRefs.current.length &&
       sum + blockRefs.current[i].offsetHeight <= offsetY
     ) {
-      i++
       sum += blockRefs.current[i].offsetHeight
+      i++
     }
 
     return i
