@@ -13,13 +13,8 @@ import {
   Typography,
   styled,
 } from '@mui/material'
+import { CheckCircleOutline, Cancel } from '@mui/icons-material'
 import React, { useState } from 'react'
-
-interface MCQBlockProps {
-  question: string
-  answerOptions: string[]
-  correctOptions: string[]
-}
 
 export const ShowAnswerBtn = styled(Button)({
   border: '1px solid #776E6E',
@@ -36,6 +31,12 @@ export const ShowAnswerBtn = styled(Button)({
     borderColor: '#8E8D8D',
   },
 })
+
+interface MCQBlockProps {
+  question: string
+  answerOptions: string[]
+  correctOptions: string[]
+}
 
 export default function MCQBlock({
   question,
@@ -84,17 +85,37 @@ export default function MCQBlock({
           Select all that apply.
         </Typography>
         {answerOptions.map((option, index) => (
-          <FormControlLabel
+          <Box
             key={index}
-            control={
-              <Checkbox
-                checked={selectedAnswers.includes(option)}
-                onChange={() => handleCheckAnswerSelection(option)}
-                color="primary"
-              />
-            }
-            label={option}
-          />
+            sx={{
+              border: `2px solid ${getBorderColor(option)}`,
+              py: 1,
+            }}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedAnswers.includes(option)}
+                  onChange={() => handleCheckAnswerSelection(option)}
+                  color="primary"
+                  sx={{
+                    '&.Mui-disabled': {
+                      color: '#04364a',
+                      opacity: '0.8',
+                    },
+                  }}
+                />
+              }
+              label={option}
+              disabled={submitted}
+              sx={{
+                '.MuiFormControlLabel-label.Mui-disabled': {
+                  color: '#000',
+                  opacity: '0.8',
+                },
+              }}
+            />
+          </Box>
         ))}
       </FormControl>
     )
@@ -109,7 +130,7 @@ export default function MCQBlock({
               key={index}
               sx={{
                 border: `2px solid ${getBorderColor(option)}`,
-                p: 1,
+                py: 1,
               }}
             >
               <FormControlLabel
@@ -119,13 +140,20 @@ export default function MCQBlock({
                     checked={selectedAnswers.includes(option)}
                     onChange={() => handleRadioAnswerSelection(option)}
                     color="primary"
+                    sx={{
+                      '&.Mui-disabled': {
+                        color: '#04364a',
+                        opacity: '0.8',
+                      },
+                    }}
                   />
                 }
                 label={option}
                 disabled={submitted}
                 sx={{
-                  '.Mui-disabled': {
-                    color: 'red',
+                  '.MuiFormControlLabel-label.Mui-disabled': {
+                    color: '#000',
+                    opacity: '0.8',
                   },
                 }}
               />
