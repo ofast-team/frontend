@@ -21,6 +21,18 @@ interface MCQBlockProps {
   correctOptions: string[]
 }
 
+const correctStyle = {
+  border: '2px solid #0f0',
+  width: '24px',
+  p: 3,
+}
+
+const incorrectStyle = {
+  border: '2px solid #f00',
+  width: '24px',
+  p: 3,
+}
+
 export const ShowAnswerBtn = styled(Button)({
   border: '1px solid #776E6E',
   color: '#776E6E',
@@ -45,12 +57,7 @@ export default function MCQBlock({
   const isMultiple = correctOptions.length > 1
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
 
-  const [dialog, setDialog] = useState(false)
-  const [dialogText, setDialogText] = useState('')
-
-  const handleDialogClose = () => {
-    setDialog(false)
-  }
+  const [submitted, setSubmitted] = useState<boolean>(false)
 
   const handleCheckAnswerSelection = (option: string) => {
     if (selectedAnswers.includes(option)) {
@@ -67,20 +74,24 @@ export default function MCQBlock({
   }
 
   const checkAnswers = () => {
-    console.log(selectedAnswers)
-    const isCorrect =
-      [...correctOptions].every((option) => selectedAnswers.includes(option)) &&
-      [...selectedAnswers].every((option) => correctOptions.includes(option))
-    const text = isCorrect ? 'Correct!' : 'Incorrect! Try Again.'
-
-    setDialog(true)
-    setDialogText(text)
+    setSubmitted(true)
+    // const isCorrect =
+    // [...correctOptions].every((option) => selectedAnswers.includes(option)) &&
+    // [...selectedAnswers].every((option) => correctOptions.includes(option))
   }
 
   const showAnswers = () => {
-    const text = `Correct Answer(s): ${correctOptions.join(', ')}`
-    setDialog(true)
-    setDialogText(text)
+    // const text = `Correct Answer(s): ${correctOptions.join(', ')}`
+    // setDialog(true)
+    // setDialogText(text)
+  }
+
+  const isIncorrect = (option: string) => {
+    return (
+      submitted &&
+      selectedAnswers.includes(option) &&
+      !correctOptions.includes(option)
+    )
   }
 
   const checkDisplay = () => {
@@ -111,18 +122,22 @@ export default function MCQBlock({
       <FormControl component="fieldset">
         <RadioGroup value={selectedAnswers[0] || ''}>
           {answerOptions.map((option, index) => (
-            <FormControlLabel
+            <Box
               key={index}
-              value={option}
-              control={
-                <Radio
-                  checked={selectedAnswers.includes(option)}
-                  onChange={() => handleRadioAnswerSelection(option)}
-                  color="primary"
-                />
-              }
-              label={option}
-            />
+              sx={{ ...(isIncorrect(option) ? incorrectStyle : correctStyle) }}
+            >
+              <FormControlLabel
+                value={option}
+                control={
+                  <Radio
+                    checked={selectedAnswers.includes(option)}
+                    onChange={() => handleRadioAnswerSelection(option)}
+                    color="primary"
+                  />
+                }
+                label={option}
+              />
+            </Box>
           ))}
         </RadioGroup>
       </FormControl>
@@ -154,20 +169,6 @@ export default function MCQBlock({
           </Button>
         </Box>
       </Box>
-      <Dialog
-        open={dialog}
-        onClose={handleDialogClose}
-        sx={{ border: '1px solid #000', borderRadius: '8px' }}
-      >
-        <DialogContent>
-          <Typography>{dialogText}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Paper>
   )
 }
