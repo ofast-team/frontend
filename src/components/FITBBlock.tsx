@@ -1,46 +1,71 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Grid, Paper, Typography } from '@mui/material'
 import { ShowAnswerBtn } from './MCQBlock'
 import React, { useState } from 'react'
+import TheBlank from './TheBlank'
+
+// Parser for FITB Questions. Determine the location of the
+// blanks and their correct answers. Create components for text and blanks.
+function createFITBFormFromQuestionString(
+  question: string,
+  submitted: boolean,
+): React.JSX.Element[] {
+  let curStr: string = ''
+  const fitbForm: React.JSX.Element[] = []
+  const arr: string[] = []
+  for (let i = 0; i < question.length; i++) {
+    if (
+      i < question.length - 1 &&
+      question[i] == '\\' &&
+      (question[i + 1] == '{' || question[i + 1] == '}')
+    ) {
+      curStr += question[i + 1]
+      i++
+    } else if (question[i] == '{') {
+      fitbForm.push(<Typography>{curStr}</Typography>)
+      curStr = ''
+      let blankAns: string = ''
+      i++
+      while (i < question.length && question[i] != '}') {
+        if (
+          i < question.length - 1 &&
+          question[i] == '\\' &&
+          (question[i + 1] == '{' || question[i + 1] == '}')
+        ) {
+          blankAns += question[i + 1]
+          i++
+        } else {
+          blankAns += question[i]
+        }
+        i++
+      }
+      fitbForm.push(<TheBlank correctAnswer={blankAns} respond={submitted} />)
+      arr.push(blankAns)
+    } else {
+      curStr += question[i]
+      if (question[i] == ' ') {
+        fitbForm.push(<Typography padding={0.3}>{curStr}</Typography>)
+        curStr = ''
+      }
+    }
+  }
+
+  if (curStr.length > 0) {
+    fitbForm.push(<Typography>{curStr}</Typography>)
+  }
+
+  fitbForm.map((x) => <Grid item>{x}</Grid>)
+
+  return fitbForm
+}
 
 interface FITBBlockProps {
   question: string
-  correctAnswer: string
 }
 
-export default function FITBBlock({ question, correctAnswer }: FITBBlockProps) {
-  const [curAnswer, setCurAnswer] = useState('')
+export default function FITBBlock({ question }: FITBBlockProps) {
+  const [submitted, setSubmitted] = useState(false)
 
-  const index = question.indexOf('**BLANK**')
-  const questionBefore: string = question.substring(0, index)
-  const questionAfter: string = question.substring(index + '**BLANK**'.length)
-
-  const [dialog, setDialog] = useState(false)
-  const [dialogText, setDialogText] = useState('')
-
-  const showAnswers = () => {
-    const text = `Correct Answer(s): ${correctAnswer}`
-    setDialog(true)
-    setDialogText(text)
-  }
-
-  const onSubmit = () => {
-    const isCorrect = correctAnswer === curAnswer
-    const text = isCorrect ? 'Correct!' : 'Incorrect! Try Again.'
-
-    setDialog(true)
-    setDialogText(text)
-    setCurAnswer('')
-  }
+  const fitbForm = createFITBFormFromQuestionString(question, submitted)
 
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
@@ -56,47 +81,16 @@ export default function FITBBlock({ question, correctAnswer }: FITBBlockProps) {
         Fill in the Blank
       </Typography>
       <Box sx={{ p: 3 }}>
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item>
-            <Typography variant="body1" gutterBottom>
-              {questionBefore}
-            </Typography>
-          </Grid>
-
-          <Grid item>
-            <TextField
-              onChange={(e) => setCurAnswer(e.target.value)}
-              size="small"
-            ></TextField>
-          </Grid>
-
-          <Grid item>
-            <Typography variant="body1" gutterBottom>
-              {questionAfter}
-            </Typography>
-          </Grid>
+        <Grid container rowGap={2.5} alignItems="center" marginBottom={4}>
+          {fitbForm}
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
-          <Button variant="contained" onClick={onSubmit}>
+          <ShowAnswerBtn>Show Answer</ShowAnswerBtn>
+          <Button variant="contained" onClick={() => setSubmitted(!submitted)}>
             Submit
           </Button>
         </Box>
       </Box>
-      <Dialog
-        open={dialog}
-        onClose={() => setDialog(false)}
-        sx={{ border: '1px solid #000', borderRadius: '8px' }}
-      >
-        <DialogContent>
-          <Typography>{dialogText}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDialog(false)} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Paper>
   )
 }
