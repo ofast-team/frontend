@@ -38,7 +38,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint '*/**/*.{ts,tsx}' --fix"
+    "lint": "eslint '*/**/*.{ts,tsx}' --fix",
+    "format": "npx prettier --write .",
+    "check-formatting": "npx prettier --check ."
   },
   "eslintConfig": {
     "extends": [

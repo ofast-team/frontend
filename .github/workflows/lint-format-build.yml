@@ -24,7 +24,7 @@ jobs:
 
       - name: Format
         run: |
-          npx prettier --check .
+          npm run check-formatting
           git diff --exit-code || (echo "Code is not formatted correctly. Please run 'npm run format' locally to fix formatting issues." && exit 1)
 
       - name: Build
