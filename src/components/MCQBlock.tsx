@@ -21,18 +21,6 @@ interface MCQBlockProps {
   correctOptions: string[]
 }
 
-const correctStyle = {
-  border: '2px solid #0f0',
-  width: '24px',
-  p: 3,
-}
-
-const incorrectStyle = {
-  border: '2px solid #f00',
-  width: '24px',
-  p: 3,
-}
-
 export const ShowAnswerBtn = styled(Button)({
   border: '1px solid #776E6E',
   color: '#776E6E',
@@ -73,25 +61,20 @@ export default function MCQBlock({
     setSelectedAnswers([option])
   }
 
-  const checkAnswers = () => {
-    setSubmitted(true)
-    // const isCorrect =
-    // [...correctOptions].every((option) => selectedAnswers.includes(option)) &&
-    // [...selectedAnswers].every((option) => correctOptions.includes(option))
-  }
-
   const showAnswers = () => {
     // const text = `Correct Answer(s): ${correctOptions.join(', ')}`
     // setDialog(true)
     // setDialogText(text)
   }
 
-  const isIncorrect = (option: string) => {
-    return (
-      submitted &&
-      selectedAnswers.includes(option) &&
-      !correctOptions.includes(option)
-    )
+  const getBorderColor = (option: string) => {
+    if (!submitted) return 'transparent'
+
+    if (selectedAnswers.includes(option)) {
+      return correctOptions.includes(option) ? 'green' : 'red'
+    }
+
+    return 'transparent'
   }
 
   const checkDisplay = () => {
@@ -124,7 +107,10 @@ export default function MCQBlock({
           {answerOptions.map((option, index) => (
             <Box
               key={index}
-              sx={{ ...(isIncorrect(option) ? incorrectStyle : correctStyle) }}
+              sx={{
+                border: `2px solid ${getBorderColor(option)}`,
+                p: 1,
+              }}
             >
               <FormControlLabel
                 value={option}
@@ -136,6 +122,12 @@ export default function MCQBlock({
                   />
                 }
                 label={option}
+                disabled={submitted}
+                sx={{
+                  '.Mui-disabled': {
+                    color: 'red',
+                  },
+                }}
               />
             </Box>
           ))}
@@ -164,9 +156,15 @@ export default function MCQBlock({
         {isMultiple ? checkDisplay() : radioDisplay()}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
           <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
-          <Button variant="contained" onClick={checkAnswers}>
-            Submit
-          </Button>
+          {submitted ? (
+            <Button variant="contained" onClick={() => setSubmitted(false)}>
+              Try Again
+            </Button>
+          ) : (
+            <Button variant="contained" onClick={() => setSubmitted(true)}>
+              Submit
+            </Button>
+          )}
         </Box>
       </Box>
     </Paper>
