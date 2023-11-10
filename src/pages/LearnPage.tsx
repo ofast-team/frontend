@@ -17,6 +17,7 @@ import ReadingBlock from '../components/ReadingBlock'
 import LessonPage from './LessonPage'
 import MCQBlock from '../components/MCQBlock'
 import FITBBlock from '../components/FITBBlock'
+import fetchLessonContent from '../functions/FetchLessonContent'
 
 const LessonButton = styled(Button)({
   border: '1px solid',
@@ -63,74 +64,10 @@ function LessonGroup({ title, children }: LessonGroupProps) {
   )
 }
 
-const dp = `
-# Dynamic Programming
-Dynamic programming is a powerful algorithmic technique used to solve complex problems by breaking them down into **simpler subproblems** and efficiently solving each subproblem **only once**. It is particularly useful for optimization problems and problems with overlapping substructures, where the same subproblems are encountered multiple times.
-
-At the core of dynamic programming is the idea of storing and reusing solutions to subproblems, which leads to significant time and computational savings. This technique is often used in problems involving sequences, such as finding the shortest path in a graph, calculating Fibonacci numbers, or solving the knapsack problem.
-
-One of the key advantages of dynamic programming is its ability to transform a problem into a more manageable form by building a solution iteratively. This process of solving subproblems and combining their solutions to tackle larger, more complex problems enables dynamic programming to provide efficient solutions to a wide range of computational challenges.
-
-## Memoization
-**Memoization** is a critical aspect of dynamic programming that involves storing the results of subproblem solutions to avoid redundant calculations. By memorizing these results in a table or data structure, dynamic programming ensures that each subproblem is **solved only once** and its solution is retrieved when needed, significantly improving the algorithm’s efficiency. This technique not only **reduces time complexity** but also simplifies the code and enhances its readability, making dynamic programming an invaluable tool in solving a diverse array of computational problems.
-
-~~~python
-# Create a dictionary to store previously computed Fibonacci values
-memo = {}
-
-def fibonacci(n):
-    # Check if the value is already memoized
-    if n in memo:
-        return memo[n]
-
-    # Base cases
-    if n <= 1:
-        return n
-
-    # Calculate and memoize the Fibonacci value
-    memo[n] = fibonacci(n - 1) + fibonacci(n - 2)
-    return memo[n]
-
-# Example usage:
-n = 10
-result = fibonacci(n)
-print(f"The {n}-th Fibonacci number is {result}")
-~~~
-`
-
-const markdown1 = `
-# Reading 1
-This is how to compute the $i$th fibonacci number: \n
-$F_i = F_{i-1} + F_{i-2}$ \n
-$\\sum_{n=1}^{\\infty} 2^{-n} = 1$ \n
-$\\pi \\approx 3.14159$ \n
-$\\pm \\, 0.2$ \n
-$\\dfrac{0}{1} \\neq \\infty$ \n
-`
-
-const markdown2 = `
-# Reading 2
-$0 < x < 1$ \n
-$0 \\leq x \\leq 1$ \n
-$x \\geq 10$ \n
-$\\forall \\, x \\in (1,2)$ \n
-$\\exists \\, x \\notin [0,1]$ \n
-$A \\subset B$ \n
-$A \\subseteq B$ \n 
-$A \\cup B$ \n
-$A \\cap B$ \n
-`
-
-const markdown3 = `
-# Reading 3
-$X \\implies Y$ \n
-$X \\impliedby Y$ \n
-$a \\to b$ \n
-$a \\longrightarrow b$ \n
-$a \\Rightarrow b$ \n
-$a \\Longrightarrow b$ \n
-$a \\propto b$
-`
+const dp = await fetchLessonContent('dynamic_programming/lesson.md')
+const markdown1 = await fetchLessonContent('dynamic_programming/markdown1.md')
+const markdown2 = await fetchLessonContent('dynamic_programming/markdown2.md')
+const markdown3 = await fetchLessonContent('dynamic_programming/markdown3.md')
 
 const q1 =
   'Which of the problems below can be solved effectively using dynamic programming.'
