@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import LearnPage from './pages/LearnPage'
+import LessonPage from './pages/LessonPage'
 import NavBar from './pages/NavBar'
 import SolvePage from './pages/SolvePage'
 
@@ -52,6 +53,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
+        <Route path="/learn/:lesson" element={<LessonPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />

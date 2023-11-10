@@ -3,9 +3,13 @@ import { Box, Container } from '@mui/material'
 
 import './LessonPage.css'
 
-interface LessonPageProps {
-  blocks: ReadonlyArray<React.ReactNode>
-}
+import { useParams, Navigate } from 'react-router-dom'
+
+import ReadingBlock from '../components/ReadingBlock'
+import MCQBlock from '../components/MCQBlock'
+import FITBBlock from '../components/FITBBlock'
+
+import fetchLessonContent from '../functions/FetchLessonContent'
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
@@ -74,7 +78,53 @@ function LessonBlockWrapper({
   )
 }
 
-export default function LessonPage({ blocks }: LessonPageProps) {
+const dp = await fetchLessonContent('dynamic_programming/lesson.md')
+const markdown1 = await fetchLessonContent('dynamic_programming/markdown1.md')
+const markdown2 = await fetchLessonContent('dynamic_programming/markdown2.md')
+const markdown3 = await fetchLessonContent('dynamic_programming/markdown3.md')
+
+const q1 =
+  'Which of the problems below can be solved effectively using dynamic programming.'
+const ans1 = ['Coin denomination', 'Knapsack Problem', 'Sorting List']
+const correct1 = ['Coin denomination', 'Knapsack Problem']
+
+const q2 =
+  'In dynamic programming, what is the key characteristic that distinguishes it from other algorithmic approaches?'
+const ans2 = ['Recursion', 'Iteration', 'Memoization']
+const correct2 = ['Memoization']
+
+const lessons = {
+  dp: [
+    <ReadingBlock content={dp} />,
+    <MCQBlock question={q1} answerOptions={ans1} correctOptions={correct1} />,
+    <MCQBlock question={q2} answerOptions={ans2} correctOptions={correct2} />,
+    <FITBBlock
+      question={
+        'Is this the real life? Is this just {fantasy}? ' +
+        'Caught in a {landslide}, no escape from reality. ' +
+        'Open your eyes, look up to the {skies} and see...'
+      }
+    />,
+    <ReadingBlock content={markdown1} />,
+    <ReadingBlock content={markdown2} />,
+    <ReadingBlock content={markdown3} />,
+  ],
+  greedy: [
+    <ReadingBlock content={`# Welcome to Greedy \n Let's get started`} />,
+    <ReadingBlock content={markdown1} />,
+    <ReadingBlock content={markdown2} />,
+    <ReadingBlock content={markdown3} />,
+  ],
+}
+
+export default function LessonPage() {
+  const params = useParams()
+
+  if (!params.lesson || !(params.lesson in lessons)) {
+    return <Navigate to="/learn" replace={true} />
+  }
+
+  const blocks = lessons[params.lesson]
   const blockRefs = useRef(new Array(blocks.length))
   const [offsetY, setOffsetY] = useState(0)
   const [windowDimensions, setWindowDimensions] = useState(
