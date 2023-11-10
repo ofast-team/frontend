@@ -1,6 +1,17 @@
 import { Buffer } from 'buffer'
 import { Octokit } from '@octokit/rest'
 
+/*
+ * @brief function to fetch the content of a file in a public GitHub repository
+ *
+ * @param repositoryOwner: owner of the repository
+ * @param repositoryName: name of the repository
+ * @param filePath: path to the file relative to the root of the repository
+ *
+ * @returns a promsied string containing the contents of the file
+ *
+ * @throws if the file is not found
+ */
 async function fetchFileContent(
   repositoryOwner: string,
   repositoryName: string,
