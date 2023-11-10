@@ -99,9 +99,7 @@ const lessons: lesson[] = [
 ]
 
 export default function LearnPage() {
-  const groupedLessons: {
-    [key: string]: lesson[]
-  } = {}
+  const groupedLessons: Record<string, lesson[]> = {}
 
   lessons.forEach((lesson) => {
     if (!(lesson.group in groupedLessons)) {
