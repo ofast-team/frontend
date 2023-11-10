@@ -1,4 +1,4 @@
-name: Lint, Format, and Build
+name: Lint, Format, Build, Test
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - '*'
 
 jobs:
-  lint-format-build:
+  make:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,3 +29,6 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Test
+        run: npm test
