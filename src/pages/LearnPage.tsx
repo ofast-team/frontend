@@ -143,7 +143,9 @@ export default function LearnPage() {
               </NextButton>
             </LessonGroup>
 
-            {groupIndex + 1 < Object.entries(groupedLessons).length && <Divider />}
+            {groupIndex + 1 < Object.entries(groupedLessons).length && (
+              <Divider />
+            )}
           </>
         )
       })}
