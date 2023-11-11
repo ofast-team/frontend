@@ -98,22 +98,6 @@ const lessons: lesson[] = [
   },
 ]
 
-const q1 =
-  'Which of the problems below can be solved effectively using dynamic programming.'
-const ans1 = ['Coin Denomination', 'Knapsack Problem', 'Sorting List']
-const correct1 = ['Coin Denomination', 'Knapsack Problem']
-const hint1 = 'DP is used to solve and store subproblem.'
-const explanation1 =
-  'Coin Denomination and Knapsack Problem both explore and store subproblem recursively.'
-
-const q2 =
-  'In dynamic programming, what is the key characteristic that distinguishes it from other algorithmic approaches?'
-const ans2 = ['Recursion', 'Iteration', 'Memoization']
-const correct2 = ['Memoization']
-const hint2 = 'Store and reuse results to avoid redundant computations.'
-const explanation2 =
-  'Memoization caches expensive functions calls and reuses when same input occurs.'
-
 export default function LearnPage() {
   const groupedLessons: Record<string, lesson[]> = {}
 
@@ -121,6 +105,7 @@ export default function LearnPage() {
     if (!(lesson.group in groupedLessons)) {
       groupedLessons[lesson.group] = []
     }
+
     groupedLessons[lesson.group].push(lesson)
   })
 
@@ -132,76 +117,6 @@ export default function LearnPage() {
 
       <SearchBar />
 
-      <LessonGroup title="Intro Algo Design">
-        <InlineSpacing spacing={40} />
-
-        <LessonButton
-          onClick={() =>
-            setLesson(
-              <LessonPage
-                blocks={[
-                  <ReadingBlock content={dp} />,
-                  <MCQBlock
-                    question={q1}
-                    answerOptions={ans1}
-                    correctOptions={correct1}
-                    hint={hint1}
-                    explanation={explanation1}
-                  />,
-                  <MCQBlock
-                    question={q2}
-                    answerOptions={ans2}
-                    correctOptions={correct2}
-                    hint={hint2}
-                    explanation={explanation2}
-                  />,
-                  <ReadingBlock content={markdown1} />,
-                  <ReadingBlock content={markdown2} />,
-                  <ReadingBlock content={markdown3} />,
-                  <FITBBlock
-                    question={
-                      'Complete the following recurrence relation: fib[i] = **BLANK** + fib[i - 2]'
-                    }
-                    correctAnswer={'fib[i - 1]'}
-                  />,
-                ]}
-              />,
-            )
-          }
-        >
-          Brute Force
-        </LessonButton>
-
-        <InlineSpacing spacing={60} />
-
-        <LessonButton>Intro Greedy</LessonButton>
-
-        <InlineSpacing spacing={60} />
-
-        <LessonButton>Time & Memory Analysis</LessonButton>
-      </LessonGroup>
-
-      <Divider />
-
-      <LessonGroup title="Intro Data Structures">
-        <InlineSpacing spacing={40} />
-
-        <LessonButton>Prefix Sums</LessonButton>
-
-        <InlineSpacing spacing={60} />
-
-        <LessonButton>Lists & Vectors</LessonButton>
-
-        <InlineSpacing spacing={60} />
-
-        <LessonButton>Stacks & Queues</LessonButton>
-
-        <InlineSpacing spacing={40} />
-
-        <NextButton>
-          <ArrowForwardIcon style={{ fontSize: '3rem' }} />
-        </NextButton>
-      </LessonGroup>
       {Object.entries(groupedLessons).map((lessonGroup, groupIndex) => {
         return (
           <>
