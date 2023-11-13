@@ -7,12 +7,12 @@ import {
   Typography,
   Menu,
   Container,
-  Avatar,
   Button,
   Tooltip,
   MenuItem,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
@@ -36,12 +36,8 @@ const linkStyle = {
   color: '#dafffb',
   borderBottom: '4px solid transparent',
 }
-interface LoggedUserProps {
-  name: string
-}
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function LoggedInUser({ name }: LoggedUserProps) {
+function LoggedInUser() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   )
@@ -60,10 +56,10 @@ function LoggedInUser({ name }: LoggedUserProps) {
     dispatch(logout())
   }
   return (
-    <Box sx={{ flexGrow: 0, pl: 3 }}>
+    <Box>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt={name} src="/static/images/avatar/2.jpg" />
+          <AccountCircleIcon sx={{ fontSize: '2.5rem', color: '#dafffb' }} />
         </IconButton>
       </Tooltip>
       <Menu
@@ -258,9 +254,7 @@ function GetStarted() {
 }
 
 const before_pages = ['', 'about', 'learn', 'solve']
-// TODO(SATH): After login navbar change
-// const after_pages = ['home', 'about', 'learn', 'solve', 'submit'];
-// const settings = ['Profile', 'Groups', 'Logout']
+const after_pages = ['', 'about', 'learn', 'solve', 'submit']
 
 function NavBar() {
   const user = useSelector((state: RootState) => state.user)
@@ -280,12 +274,10 @@ function NavBar() {
           >
             <ResponsiveMenu pages={before_pages} />
             <LogoTitle />
-            <NavItems pages={before_pages} />
-            {user.signedIn && user.id ? (
-              <LoggedInUser name={user.id} />
-            ) : (
-              <GetStarted />
-            )}
+            <NavItems
+              pages={user.signedIn && user.id ? after_pages : before_pages}
+            />
+            {user.signedIn && user.id ? <LoggedInUser /> : <GetStarted />}
           </Toolbar>
         </Container>
       </AppBar>

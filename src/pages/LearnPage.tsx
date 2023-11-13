@@ -119,11 +119,11 @@ export default function LearnPage() {
 
       {Object.entries(groupedLessons).map((lessonGroup, groupIndex) => {
         return (
-          <>
+          <React.Fragment key={groupIndex}>
             <LessonGroup title={lessonGroup[0].toString()}>
               <InlineSpacing spacing={40} />
-              {lessonGroup[1].map((lesson) => (
-                <>
+              {lessonGroup[1].map((lesson, lessonIndex) => (
+                <React.Fragment key={lessonIndex}>
                   <LessonButton>
                     <Link
                       style={{ color: 'inherit', textDecoration: 'none' }}
@@ -133,7 +133,7 @@ export default function LearnPage() {
                     </Link>
                   </LessonButton>
                   <InlineSpacing spacing={60} />
-                </>
+                </React.Fragment>
               ))}
 
               <NextButton>
@@ -144,7 +144,7 @@ export default function LearnPage() {
             {groupIndex + 1 < Object.entries(groupedLessons).length && (
               <Divider />
             )}
-          </>
+          </React.Fragment>
         )
       })}
     </Container>
