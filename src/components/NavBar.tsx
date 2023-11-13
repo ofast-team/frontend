@@ -17,7 +17,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 const activeLink = {
   display: 'inline-block',
-  mx: 2,
+  margin: 2,
   fontWeight: 700,
   letterSpacing: 0.8,
   textDecoration: 'none',
@@ -26,7 +26,7 @@ const activeLink = {
 }
 const linkStyle = {
   display: 'inline-block',
-  mx: 2,
+  margin: 2,
   fontWeight: 700,
   letterSpacing: 0.8,
   textDecoration: 'none',
