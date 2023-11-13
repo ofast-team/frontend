@@ -14,6 +14,9 @@ import {
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Link, useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store'
+import { logout } from '../userSlice';
 
 const activeLink = {
   display: 'inline-block',
@@ -42,12 +45,18 @@ function LoggedInUser({ name }: LoggedUserProps) {
     null,
   )
 
+  const dispatch = useDispatch()
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
   }
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
+  }
+
+  const handleLogout  = () => {
+    dispatch(logout())
   }
   return (
     <Box sx={{ flexGrow: 0, pl: 3 }}>
@@ -72,11 +81,16 @@ function LoggedInUser({ name }: LoggedUserProps) {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{setting}</Typography>
-          </MenuItem>
-        ))}
+        <MenuItem key={'Profile'} onClick={handleCloseUserMenu}>
+          <Typography textAlign="center">{'Profile'}</Typography>
+        </MenuItem>
+        <MenuItem key={'Groups'} onClick={handleCloseUserMenu}>
+          <Typography textAlign="center">{'Groups'}</Typography>
+        </MenuItem>
+        <MenuItem key={'Logout'} onClick={() => {handleCloseUserMenu(); handleLogout()}}>
+          <Typography textAlign="center">{'Logout'}</Typography>
+        </MenuItem>
+        
       </Menu>
     </Box>
   )
@@ -240,9 +254,12 @@ function GetStarted() {
 const before_pages = ['', 'about', 'learn', 'solve']
 // TODO(SATH): After login navbar change
 // const after_pages = ['home', 'about', 'learn', 'solve', 'submit'];
-const settings = ['Profile', 'Groups', 'Logout']
+// const settings = ['Profile', 'Groups', 'Logout']
 
 function NavBar() {
+  
+  const user = useSelector((state : RootState) => state.user)
+
   return (
     <React.Fragment>
       <AppBar position="fixed">
@@ -259,8 +276,7 @@ function NavBar() {
             <ResponsiveMenu pages={before_pages} />
             <LogoTitle />
             <NavItems pages={before_pages} />
-            {/* <LoggedInUser name="Avatar" /> */}
-            <GetStarted />
+            {user.signedIn && user.id ? <LoggedInUser name= {user.id}/> : <GetStarted/>}
           </Toolbar>
         </Container>
       </AppBar>
