@@ -31,6 +31,7 @@ const linkStyle = {
   letterSpacing: 0.8,
   textDecoration: 'none',
   color: '#dafffb',
+  borderBottom: '4px solid transparent',
 }
 interface LoggedUserProps {
   name: string

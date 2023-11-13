@@ -1,25 +1,7 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  FormControl,
-  FormControlLabel,
-  Paper,
-  Radio,
-  RadioGroup,
-  Typography,
-  styled,
-} from '@mui/material'
+import { Box, Button, Paper, Typography, styled } from '@mui/material'
 import React, { useState } from 'react'
-
-interface MCQBlockProps {
-  question: string
-  answerOptions: string[]
-  correctOptions: string[]
-}
+import OptionDisplay from './OptionDisplay'
+import HintDisplay from './HintDisplay'
 
 export const ShowAnswerBtn = styled(Button)({
   border: '1px solid #776E6E',
@@ -37,131 +19,121 @@ export const ShowAnswerBtn = styled(Button)({
   },
 })
 
-export default function MCQBlock({
-  question,
-  answerOptions,
-  correctOptions,
-}: MCQBlockProps) {
-  const isMultiple = correctOptions.length > 1
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
-
-  const [dialog, setDialog] = useState(false)
-  const [dialogText, setDialogText] = useState('')
-
-  const handleDialogClose = () => {
-    setDialog(false)
-  }
-
-  const handleAnswerSelection = (option: string) => {
-    if (selectedAnswers.includes(option)) {
-      setSelectedAnswers(
-        selectedAnswers.filter((selectedOption) => selectedOption !== option),
-      )
-    } else {
-      setSelectedAnswers([...selectedAnswers, option])
-    }
-  }
-
-  const checkAnswers = () => {
-    const isCorrect = [...correctOptions].every((option) =>
-      selectedAnswers.includes(option),
-    )
-    const text = isCorrect ? 'Correct!' : 'Incorrect! Try Again.'
-
-    setDialog(true)
-    setDialogText(text)
-    // TODO(SATH): HAVE TO UPDATE HOW TO HANDLE AFTER SUBMIT
-    setSelectedAnswers([])
-  }
-
-  const showAnswers = () => {
-    const text = `Correct Answer(s): ${correctOptions.join(', ')}`
-    setDialog(true)
-    setDialogText(text)
-  }
-
-  const checkDisplay = () => {
-    return (
-      <FormControl>
-        <Typography variant="subtitle2" color="error">
-          Select all that apply.
-        </Typography>
-        {answerOptions.map((option, index) => (
-          <FormControlLabel
-            key={index}
-            control={
-              <Checkbox
-                checked={selectedAnswers.includes(option)}
-                onChange={() => handleAnswerSelection(option)}
-                color="primary"
-              />
-            }
-            label={option}
-          />
-        ))}
-      </FormControl>
-    )
-  }
-
-  const radioDisplay = () => {
-    return (
-      <FormControl component="fieldset">
-        <RadioGroup
-          value={selectedAnswers[0] || ''}
-          onChange={(event) => handleAnswerSelection(event.target.value)}
-        >
-          {answerOptions.map((option, index) => (
-            <FormControlLabel
-              key={index}
-              value={option}
-              control={<Radio color="primary" />}
-              label={option}
-            />
-          ))}
-        </RadioGroup>
-      </FormControl>
-    )
-  }
-
+interface HeaderProps {
+  hint: string
+}
+function Header({ hint }: HeaderProps) {
   return (
-    <Paper sx={{ border: '1px solid #000', my: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#6DB6C3',
+        color: '#000',
+        p: 2,
+      }}
+    >
       <Typography
         variant="h4"
         sx={{
-          backgroundColor: '#6DB6C3',
-          color: '#000',
-          p: 2,
           textAlign: 'left',
         }}
       >
         Multiple Choice Question
       </Typography>
+      <HintDisplay hint={hint} />
+    </Box>
+  )
+}
+
+interface MCQBlockProps {
+  question: string
+  answerOptions: string[]
+  correctOptions: string[]
+  hint: string
+  explanation: string
+}
+
+export default function MCQBlock({
+  question,
+  answerOptions,
+  correctOptions,
+  hint,
+  explanation,
+}: MCQBlockProps) {
+  const isMultiple = correctOptions.length > 1
+  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
+  const [submitted, setSubmitted] = useState<boolean>(false)
+  const [attempts, setAttempts] = useState<number>(3)
+
+  const handleAnswerSelection = (option: string, display: string) => {
+    if (display === 'check') {
+      if (selectedAnswers.includes(option)) {
+        setSelectedAnswers(
+          selectedAnswers.filter((selectedOption) => selectedOption !== option),
+        )
+      } else {
+        setSelectedAnswers([...selectedAnswers, option])
+      }
+    } else if (display === 'radio') {
+      setSelectedAnswers([option])
+    }
+  }
+
+  const handleSubmission = () => {
+    setSubmitted(true)
+    setAttempts(attempts - 1)
+  }
+
+  const showAnswers = () => {
+    setSelectedAnswers(correctOptions)
+    setSubmitted(true)
+    setAttempts(0)
+  }
+
+  return (
+    <Paper sx={{ border: '1px solid #000', my: 2 }}>
+      <Header hint={hint} />
       <Box sx={{ p: 3 }}>
         <Typography variant="h6" gutterBottom>
           {question}
         </Typography>
-        {isMultiple ? checkDisplay() : radioDisplay()}
+        <OptionDisplay
+          selectedAnswers={selectedAnswers}
+          answerOptions={answerOptions}
+          correctOptions={correctOptions}
+          handleAnswerSelection={handleAnswerSelection}
+          submitted={submitted}
+          isMultiple={isMultiple}
+        />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
           <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
-          <Button variant="contained" onClick={checkAnswers}>
-            Submit
-          </Button>
+          <Typography>{attempts == 0 ? explanation : ''}</Typography>
+          <Box sx={{ alignItems: 'center' }}>
+            {submitted ? (
+              <Button
+                variant="contained"
+                onClick={() => setSubmitted(false)}
+                disabled={attempts === 0}
+              >
+                Try Again
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                onClick={handleSubmission}
+                disabled={attempts === 0}
+              >
+                Submit
+              </Button>
+            )}
+            <Typography variant="subtitle2" color="error">
+              Attempts Left: {attempts}
+            </Typography>
+          </Box>
         </Box>
       </Box>
-      <Dialog
-        open={dialog}
-        onClose={handleDialogClose}
-        sx={{ border: '1px solid #000', borderRadius: '8px' }}
-      >
-        <DialogContent>
-          <Typography>{dialogText}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Paper>
   )
 }

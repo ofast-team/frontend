@@ -87,17 +87,35 @@ const q1 =
   'Which of the problems below can be solved effectively using dynamic programming.'
 const ans1 = ['Coin denomination', 'Knapsack Problem', 'Sorting List']
 const correct1 = ['Coin denomination', 'Knapsack Problem']
+const hint1 = 'DP is used to solve and store subproblem.'
+const explanation1 =
+  'Coin Denomination and Knapsack Problem both explore and store subproblem recursively.'
 
 const q2 =
   'In dynamic programming, what is the key characteristic that distinguishes it from other algorithmic approaches?'
 const ans2 = ['Recursion', 'Iteration', 'Memoization']
 const correct2 = ['Memoization']
+const hint2 = 'Store and reuse results to avoid redundant computations.'
+const explanation2 =
+  'Memoization caches expensive functions calls and reuses when same input occurs.'
 
 const lessons = {
   dp: [
     <ReadingBlock content={dp} />,
-    <MCQBlock question={q1} answerOptions={ans1} correctOptions={correct1} />,
-    <MCQBlock question={q2} answerOptions={ans2} correctOptions={correct2} />,
+    <MCQBlock
+      question={q1}
+      answerOptions={ans1}
+      correctOptions={correct1}
+      hint={hint1}
+      explanation={explanation1}
+    />,
+    <MCQBlock
+      question={q2}
+      answerOptions={ans2}
+      correctOptions={correct2}
+      hint={hint2}
+      explanation={explanation2}
+    />,
     <FITBBlock
       question={
         'Is this the real life? Is this just {fantasy}? ' +
