@@ -11,8 +11,9 @@ import {
   Paper,
   Stack,
   InputLabel,
-  Link,
 } from '@mui/material'
+
+import { Link, useNavigate } from 'react-router-dom'
 
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
@@ -54,26 +55,35 @@ function PasswordField(props: PasswordFieldProps) {
   )
 }
 
-function registerWithEmailAndPassword() {
-  fetch(buildPath('/helloWorld'), {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res.str)
-    })
-}
-
 export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  setEmail(email)
-  setPassword(password)
+  const navigate = useNavigate()
+
+  function registerWithEmailAndPassword(email: string, password: string) {
+    fetch(buildPath('/registerWithEmail'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: password }),
+    })
+      .then((res: Response) => {
+        if (res.ok) {
+          return res.json()
+        }
+        throw Error(res.statusText)
+      })
+      .then((data) => {
+        console.log(data.general)
+        navigate('/login', { replace: true })
+      })
+      .catch((error: Error) => {
+        console.log('Register failed: ' + error.message)
+      })
+  }
 
   return (
-    <Box>
+    <Box sx={{ p: 10 }}>
       <Container maxWidth="md">
         <Paper
           sx={{
@@ -92,7 +102,7 @@ export default function RegisterPage() {
             <PasswordField setter={setPassword}></PasswordField>
             <LoginButton
               variant="outlined"
-              onClick={() => registerWithEmailAndPassword()}
+              onClick={() => registerWithEmailAndPassword(email, password)}
             >
               Sign Up
             </LoginButton>
@@ -105,8 +115,8 @@ export default function RegisterPage() {
                 GitHub
               </LoginWith3rdPartyButton>
             </Box>
-            <Link href="#" fontSize={24}>
-              Already have an account? Log In
+            <Link to="/login">
+              <Typography>Already have an account? Log In</Typography>
             </Link>
           </Stack>
         </Paper>

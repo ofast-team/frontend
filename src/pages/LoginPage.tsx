@@ -9,12 +9,13 @@ import {
   IconButton,
   FormControl,
   Button,
-  Link,
   Paper,
   Stack,
   InputLabel,
   styled,
 } from '@mui/material'
+
+import { Link, useNavigate } from 'react-router-dom'
 
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
@@ -23,6 +24,9 @@ import GoogleIcon from '@mui/icons-material/Google'
 import GitHubIcon from '@mui/icons-material/GitHub'
 
 import buildPath from '../path'
+import { useDispatch } from 'react-redux'
+
+import { login } from '../userSlice'
 
 export const LoginButton = styled(Button)({
   border: '1px solid #04364A',
@@ -49,6 +53,15 @@ export const LoginWith3rdPartyButton = styled(LoginButton)({
   border: '1px solid black',
   color: 'black',
   backgroundColor: 'white',
+})
+
+export const LinkButton = styled(Button)({
+  background: 'none',
+  border: 'none',
+  padding: 0,
+  color: '#069',
+  textDecoration: 'underline',
+  cursor: 'pointer',
 })
 
 interface PasswordFieldProps {
@@ -82,24 +95,37 @@ function PasswordField(props: PasswordFieldProps) {
   )
 }
 
-function loginWithEmailAndPassword(email, password) {
-  console.log(email + '\n' + password)
-  fetch(buildPath('/helloWorld'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res.str)
-    })
-}
-
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  function loginWithEmailAndPassword(email, password) {
+    fetch(buildPath('/loginWithEmail'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: password }),
+    })
+      .then((res: Response) => {
+        if (res.ok) {
+          return res.json()
+        }
+        throw Error(res.statusText)
+      })
+      .then((data) => {
+        console.log(data.userID)
+        dispatch(login(data.userID))
+        navigate('/home', { replace: true })
+      })
+      .catch((error: Error) => {
+        console.log('Login failed: ' + error.message)
+      })
+  }
+
   return (
-    <Box sx={{ p: 15 }}>
+    <Box sx={{ p: 10 }}>
       <Container maxWidth="md">
         <Paper
           sx={{
@@ -131,8 +157,8 @@ export default function LoginPage() {
                 GitHub
               </LoginWith3rdPartyButton>
             </Box>
-            <Link href="#" fontSize={24}>
-              Create an Account
+            <Link to="/register">
+              <Typography>Create an Account</Typography>
             </Link>
           </Stack>
         </Paper>
