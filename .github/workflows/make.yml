@@ -1,4 +1,4 @@
-name: Lint, Format, and Build
+name: Lint, Format, Build, Test
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - '*'
 
 jobs:
-  lint-format-build:
+  make:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,8 +24,11 @@ jobs:
 
       - name: Format
         run: |
-          npx prettier --check .
+          npm run check-formatting
           git diff --exit-code || (echo "Code is not formatted correctly. Please run 'npm run format' locally to fix formatting issues." && exit 1)
 
       - name: Build
         run: npm run build
+
+      - name: Test
+        run: npm test
