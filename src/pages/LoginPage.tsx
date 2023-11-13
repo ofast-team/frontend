@@ -61,7 +61,7 @@ export const LinkButton = styled(Button)({
   padding: 0,
   color: '#069',
   textDecoration: 'underline',
-  cursor: 'pointer'
+  cursor: 'pointer',
 })
 
 interface PasswordFieldProps {
@@ -95,7 +95,6 @@ function PasswordField(props: PasswordFieldProps) {
   )
 }
 
-
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -104,13 +103,12 @@ export default function LoginPage() {
   const navigate = useNavigate()
 
   function loginWithEmailAndPassword(email, password) {
-    
     fetch(buildPath('/loginWithEmail'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({email: email, password: password})
+      body: JSON.stringify({ email: email, password: password }),
     })
-      .then((res : Response) => {
+      .then((res: Response) => {
         if (res.ok) {
           return res.json()
         }
@@ -119,11 +117,10 @@ export default function LoginPage() {
       .then((data) => {
         console.log(data.userID)
         dispatch(login(data.userID))
-        navigate('/home', {replace: true})
-
+        navigate('/home', { replace: true })
       })
-      .catch((error : Error) => {
-        console.log("Login failed: " + error.message)
+      .catch((error: Error) => {
+        console.log('Login failed: ' + error.message)
       })
   }
 
@@ -160,8 +157,7 @@ export default function LoginPage() {
                 GitHub
               </LoginWith3rdPartyButton>
             </Box>
-            <Link
-              to="/register">
+            <Link to="/register">
               <Typography>Create an Account</Typography>
             </Link>
           </Stack>

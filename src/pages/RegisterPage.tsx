@@ -65,9 +65,9 @@ export default function RegisterPage() {
     fetch(buildPath('/registerWithEmail'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({email: email, password: password})
+      body: JSON.stringify({ email: email, password: password }),
     })
-      .then((res : Response) => {
+      .then((res: Response) => {
         if (res.ok) {
           return res.json()
         }
@@ -75,16 +75,15 @@ export default function RegisterPage() {
       })
       .then((data) => {
         console.log(data.general)
-        navigate('/login', {replace: true})
-  
+        navigate('/login', { replace: true })
       })
-      .catch((error : Error) => {
-        console.log("Register failed: " + error.message)
+      .catch((error: Error) => {
+        console.log('Register failed: ' + error.message)
       })
   }
 
   return (
-    <Box sx = {{p: 10}}>
+    <Box sx={{ p: 10 }}>
       <Container maxWidth="md">
         <Paper
           sx={{

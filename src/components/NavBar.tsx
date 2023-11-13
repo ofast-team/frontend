@@ -14,9 +14,9 @@ import {
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Link, useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
-import { logout } from '../userSlice';
+import { logout } from '../userSlice'
 
 const activeLink = {
   display: 'inline-block',
@@ -56,7 +56,7 @@ function LoggedInUser({ name }: LoggedUserProps) {
     setAnchorElUser(null)
   }
 
-  const handleLogout  = () => {
+  const handleLogout = () => {
     dispatch(logout())
   }
   return (
@@ -88,10 +88,15 @@ function LoggedInUser({ name }: LoggedUserProps) {
         <MenuItem key={'Groups'} onClick={handleCloseUserMenu}>
           <Typography textAlign="center">{'Groups'}</Typography>
         </MenuItem>
-        <MenuItem key={'Logout'} onClick={() => {handleCloseUserMenu(); handleLogout()}}>
+        <MenuItem
+          key={'Logout'}
+          onClick={() => {
+            handleCloseUserMenu()
+            handleLogout()
+          }}
+        >
           <Typography textAlign="center">{'Logout'}</Typography>
         </MenuItem>
-        
       </Menu>
     </Box>
   )
@@ -258,8 +263,7 @@ const before_pages = ['', 'about', 'learn', 'solve']
 // const settings = ['Profile', 'Groups', 'Logout']
 
 function NavBar() {
-  
-  const user = useSelector((state : RootState) => state.user)
+  const user = useSelector((state: RootState) => state.user)
 
   return (
     <React.Fragment>
@@ -277,7 +281,11 @@ function NavBar() {
             <ResponsiveMenu pages={before_pages} />
             <LogoTitle />
             <NavItems pages={before_pages} />
-            {user.signedIn && user.id ? <LoggedInUser name= {user.id}/> : <GetStarted/>}
+            {user.signedIn && user.id ? (
+              <LoggedInUser name={user.id} />
+            ) : (
+              <GetStarted />
+            )}
           </Toolbar>
         </Container>
       </AppBar>
