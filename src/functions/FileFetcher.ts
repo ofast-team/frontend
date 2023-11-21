@@ -40,7 +40,11 @@ async function fetchFileContent(
       throw new Error('File content not found')
     }
   } catch (error) {
-    throw new Error(`Error fetching file: ${(error as Error).message}`)
+    throw new Error(`Error fetching file: ${(error as Error).message}
+      repositoryOwner: ${repositoryOwner}
+      repositoryName: ${repositoryName}
+      filePath: ${filePath}
+    `)
   }
 }
 

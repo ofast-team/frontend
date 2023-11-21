@@ -69,7 +69,7 @@ const lessons: lesson[] = [
   {
     group: 'Intro Algo Design',
     name: 'Brute Force',
-    urlParam: 'dp',
+    urlParam: 'dynamic_programming',
   },
   {
     group: 'Intro Algo Design',
@@ -79,22 +79,22 @@ const lessons: lesson[] = [
   {
     group: 'Intro Algo Design',
     name: 'Time & Memory Analysis',
-    urlParam: 'dp',
+    urlParam: 'dynamic_programming',
   },
   {
     group: 'Intro Data Structures',
     name: 'Prefix Sums',
-    urlParam: 'dp',
+    urlParam: 'dynamic_programming',
   },
   {
     group: 'Intro Data Structures',
     name: 'Lists & Vectors',
-    urlParam: 'dp',
+    urlParam: 'dynamic_programming',
   },
   {
     group: 'Intro Data Structures',
     name: 'Stacks & Queues',
-    urlParam: 'dp',
+    urlParam: 'dynamic_programming',
   },
 ]
 
