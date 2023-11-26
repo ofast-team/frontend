@@ -45,13 +45,22 @@ export default function OptionDisplay({
       top: '50%',
       right: -10,
       transform: 'translateY(-50%)',
+      backgroundColor: '#fcfcfc',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
     }
 
     if (selectedAnswers.includes(option)) {
-      return correctOptions.includes(option) ? (
-        <CheckCircle sx={{ ...iconStyle, color: '#388e3c' }} />
-      ) : (
-        <Cancel sx={{ ...iconStyle, color: '#9e9e9e' }} />
+      return (
+        <Box sx={{ ...iconStyle }}>
+          {correctOptions.includes(option) ? (
+            <CheckCircle sx={{ color: '#388e3c' }} />
+          ) : (
+            <Cancel sx={{ color: '#9e9e9e' }} />
+          )}
+        </Box>
       )
     }
 
