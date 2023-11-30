@@ -68,12 +68,10 @@ export default function OptionDisplay({
   }
   return (
     <FormControl>
-      {isMultiple ? (
-        <Typography variant="subtitle2" color="error" sx={{ mb: 1 }}>
-          Select all that apply.
+      {isMultiple && (
+        <Typography variant="subtitle1" color="error" sx={{ mb: 0.5 }}>
+          Select <strong>{correctOptions.length}</strong> options that apply.
         </Typography>
-      ) : (
-        <></>
       )}
       {answerOptions.map((option, index) => (
         <Grid
