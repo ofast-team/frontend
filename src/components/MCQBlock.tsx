@@ -1,4 +1,12 @@
-import { Box, Button, Paper, Typography, styled } from '@mui/material'
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  Paper,
+  Typography,
+  styled,
+} from '@mui/material'
 import React, { useState } from 'react'
 import OptionDisplay from './OptionDisplay'
 import HintDisplay from './HintDisplay'
@@ -66,6 +74,7 @@ export default function MCQBlock({
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [attempts, setAttempts] = useState<number>(3)
+  const [warning, setWarning] = useState<boolean>(false)
 
   const handleAnswerSelection = (option: string, display: string) => {
     if (display === 'check') {
@@ -82,12 +91,18 @@ export default function MCQBlock({
   }
 
   const handleSubmission = () => {
-    setSubmitted(true)
-    setAttempts(attempts - 1)
+    if (selectedAnswers.length != correctOptions.length) {
+      setWarning(true)
+    } else {
+      setWarning(false)
+      setSubmitted(true)
+      setAttempts(attempts - 1)
+    }
   }
 
   const showAnswers = () => {
     setSelectedAnswers(correctOptions)
+    setWarning(false)
     setSubmitted(true)
     setAttempts(0)
   }
@@ -95,6 +110,12 @@ export default function MCQBlock({
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
       <Header hint={hint} />
+      {warning && (
+        <Alert severity="warning" sx={{ m: 1 }}>
+          <AlertTitle>Warning</AlertTitle>
+          <strong>Select {correctOptions.length}!</strong>
+        </Alert>
+      )}
       <Box sx={{ p: 3 }}>
         <Typography variant="h6" gutterBottom>
           {question}
@@ -109,7 +130,6 @@ export default function MCQBlock({
         />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
           <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
-          <Typography>{attempts == 0 ? explanation : ''}</Typography>
           <Box sx={{ alignItems: 'center' }}>
             {submitted ? (
               <Button
@@ -128,10 +148,22 @@ export default function MCQBlock({
                 Submit
               </Button>
             )}
-            <Typography variant="subtitle2" color="error">
-              Attempts Left: {attempts}
-            </Typography>
           </Box>
+        </Box>
+        <Box
+          sx={{
+            my: 1,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography sx={{ fontSize: '1rem' }}>
+            {attempts == 0 ? explanation : ''}
+          </Typography>
+          <Typography variant="subtitle2" color="error">
+            Attempts Left: {attempts}
+          </Typography>
         </Box>
       </Box>
     </Paper>
