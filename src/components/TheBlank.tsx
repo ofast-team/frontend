@@ -40,6 +40,10 @@ const IncorrectBlank = styled(TextField)({
     borderBottomColor: 'red',
   },
 
+  "& .MuiInputBase-input.Mui-disabled": {
+    WebkitTextFillColor: 'black',
+  },
+
   '.MuiFormHelperText-root.Mui-error': {
     color: 'red',
     position: 'absolute',
