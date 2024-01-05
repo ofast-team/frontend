@@ -40,7 +40,13 @@ function createFITBFormFromQuestionString(
         }
         i++
       }
-      fitbForm.push(<TheBlank correctAnswer={blankAns} respond={submitted} showAnswer = {showAnswer} />)
+      fitbForm.push(
+        <TheBlank
+          correctAnswer={blankAns}
+          respond={submitted}
+          showAnswer={showAnswer}
+        />,
+      )
       arr.push(blankAns)
     } else {
       curStr += question[i]
@@ -90,7 +96,7 @@ function Header({ hint }: HeaderProps) {
 }
 
 interface FITBBlockProps {
-  question: string,
+  question: string
   hint: string
 }
 
@@ -99,40 +105,48 @@ export default function FITBBlock({ question, hint }: FITBBlockProps) {
   const [numAttempts, setNumAttempts] = useState<number>(3)
   const [showAnswer, setShowAnswer] = useState<boolean>(false)
 
-  const fitbForm = createFITBFormFromQuestionString(question, submitted, showAnswer)
+  const fitbForm = createFITBFormFromQuestionString(
+    question,
+    submitted,
+    showAnswer,
+  )
 
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
-      <Header hint = {hint}/>
+      <Header hint={hint} />
       <Box sx={{ p: 3 }}>
         <Grid container rowGap={2.5} alignItems="center" marginBottom={4}>
           {fitbForm}
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <ShowAnswerBtn onClick={() => {
-            setNumAttempts(0)
-            setShowAnswer(true)
-          }}>Show Answer
+          <ShowAnswerBtn
+            onClick={() => {
+              setNumAttempts(0)
+              setShowAnswer(true)
+            }}
+          >
+            Show Answer
           </ShowAnswerBtn>
           {submitted ? (
-              <Button
-                variant="contained"
-                onClick={() => {
-                  setSubmitted(false)
-                  setNumAttempts(numAttempts - 1)}}
-                disabled={numAttempts <= 1}
-              >
-                Try Again
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                disabled={numAttempts === 0}
-                onClick={() => setSubmitted(true)}
-              >
-                Submit
-              </Button>
-            )}
+            <Button
+              variant="contained"
+              onClick={() => {
+                setSubmitted(false)
+                setNumAttempts(numAttempts - 1)
+              }}
+              disabled={numAttempts <= 1}
+            >
+              Try Again
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              disabled={numAttempts === 0}
+              onClick={() => setSubmitted(true)}
+            >
+              Submit
+            </Button>
+          )}
         </Box>
         <Typography variant="subtitle2" color="error">
           Attempts Left: {numAttempts}
