@@ -2,12 +2,14 @@ import { Box, Button, Grid, Paper, Typography } from '@mui/material'
 import { ShowAnswerBtn } from './MCQBlock'
 import React, { useState } from 'react'
 import TheBlank from './TheBlank'
+import HintDisplay from './HintDisplay'
 
 // Parser for FITB Questions. Determine the location of the
 // blanks and their correct answers. Create components for text and blanks.
 function createFITBFormFromQuestionString(
   question: string,
   submitted: boolean,
+  showAnswer: boolean,
 ): React.JSX.Element[] {
   let curStr: string = ''
   const fitbForm: React.JSX.Element[] = []
@@ -38,7 +40,13 @@ function createFITBFormFromQuestionString(
         }
         i++
       }
-      fitbForm.push(<TheBlank correctAnswer={blankAns} respond={submitted} />)
+      fitbForm.push(
+        <TheBlank
+          correctAnswer={blankAns}
+          respond={submitted}
+          showAnswer={showAnswer}
+        />,
+      )
       arr.push(blankAns)
     } else {
       curStr += question[i]
@@ -58,38 +66,91 @@ function createFITBFormFromQuestionString(
   return fitbForm
 }
 
-interface FITBBlockProps {
-  question: string
+interface HeaderProps {
+  hint: string
 }
 
-export default function FITBBlock({ question }: FITBBlockProps) {
-  const [submitted, setSubmitted] = useState(false)
-
-  const fitbForm = createFITBFormFromQuestionString(question, submitted)
-
+function Header({ hint }: HeaderProps) {
   return (
-    <Paper sx={{ border: '1px solid #000', my: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#6DB6C3',
+        color: '#000',
+        p: 2,
+      }}
+    >
       <Typography
         variant="h4"
         sx={{
-          backgroundColor: '#6DB6C3',
-          color: '#000',
-          p: 2,
           textAlign: 'left',
         }}
       >
         Fill in the Blank
       </Typography>
+      <HintDisplay hint={hint} />
+    </Box>
+  )
+}
+
+interface FITBBlockProps {
+  question: string
+  hint: string
+}
+
+export default function FITBBlock({ question, hint }: FITBBlockProps) {
+  const [submitted, setSubmitted] = useState<boolean>(false)
+  const [numAttempts, setNumAttempts] = useState<number>(3)
+  const [showAnswer, setShowAnswer] = useState<boolean>(false)
+
+  const fitbForm = createFITBFormFromQuestionString(
+    question,
+    submitted,
+    showAnswer,
+  )
+
+  return (
+    <Paper sx={{ border: '1px solid #000', my: 2 }}>
+      <Header hint={hint} />
       <Box sx={{ p: 3 }}>
         <Grid container rowGap={2.5} alignItems="center" marginBottom={4}>
           {fitbForm}
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <ShowAnswerBtn>Show Answer</ShowAnswerBtn>
-          <Button variant="contained" onClick={() => setSubmitted(!submitted)}>
-            Submit
-          </Button>
+          <ShowAnswerBtn
+            onClick={() => {
+              setNumAttempts(0)
+              setShowAnswer(true)
+            }}
+          >
+            Show Answer
+          </ShowAnswerBtn>
+          {submitted ? (
+            <Button
+              variant="contained"
+              onClick={() => {
+                setSubmitted(false)
+                setNumAttempts(numAttempts - 1)
+              }}
+              disabled={numAttempts <= 1}
+            >
+              Try Again
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              disabled={numAttempts === 0}
+              onClick={() => setSubmitted(true)}
+            >
+              Submit
+            </Button>
+          )}
         </Box>
+        <Typography variant="subtitle2" color="error">
+          Attempts Left: {numAttempts}
+        </Typography>
       </Box>
     </Paper>
   )
