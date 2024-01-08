@@ -60,7 +60,7 @@ export default function ProfilePage() {
 
   return (
     <Container sx={{ p: 15 }}>
-      <FlexBox sx={{maxWidth: '50%'}}>
+      <FlexBox sx={{ maxWidth: '50%' }}>
         <Typography variant={'h3'}>Profile</Typography>
         {isEditing ? (
           <IconButton onClick={handleDone}>
@@ -73,7 +73,7 @@ export default function ProfilePage() {
         )}
       </FlexBox>
       <FlexBox>
-        <Stack width = '50%' spacing={1}>
+        <Stack width="50%" spacing={1}>
           {profileLabels.map((label: string, i: number) => (
             <FlexBox key={i}>
               <Typography fontSize={24}>{label + ':'}</Typography>
@@ -95,30 +95,39 @@ export default function ProfilePage() {
             </FlexBox>
           ))}
         </Stack>
-        <Container sx = {{width: '500px', display: 'flex', gap: '10px', flexDirection: 'column', alignItems: 'center'}}>
-          <Avatar src = '' sx={{ width: '150px', height: '150px' }}/>
+        <Container
+          sx={{
+            width: '500px',
+            display: 'flex',
+            gap: '10px',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar src="" sx={{ width: '150px', height: '150px' }} />
           <FlexBox>
-            <ProfileButton>Change</ProfileButton>
-            |
+            <ProfileButton>Change</ProfileButton>|
             <ProfileButton>Remove</ProfileButton>
           </FlexBox>
-          <LoginButton sx = {{fontSize: '20px'}}>Change Password</LoginButton>
+          <LoginButton sx={{ fontSize: '20px' }}>Change Password</LoginButton>
         </Container>
       </FlexBox>
       <Typography variant={'h4'} sx={{ marginTop: 3, marginBottom: 3 }}>
         Progress
       </Typography>
       <FlexBox>
-        <Container sx = {{width: '800px', position: 'relative', right: '100px'}}>
-          <PieChart/>
+        <Container
+          sx={{ width: '800px', position: 'relative', right: '100px' }}
+        >
+          <PieChart />
         </Container>
         <Stack>
-            {progressLabels.map((label: string, i: number) => (
-              <FlexBox>
-                <Typography>{label + ':'}</Typography>
-                <Typography>{progressItems[i]}</Typography>
-              </FlexBox>
-            ))}
+          {progressLabels.map((label: string, i: number) => (
+            <FlexBox>
+              <Typography>{label + ':'}</Typography>
+              <Typography>{progressItems[i]}</Typography>
+            </FlexBox>
+          ))}
         </Stack>
       </FlexBox>
     </Container>
