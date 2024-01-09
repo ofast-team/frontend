@@ -10,6 +10,7 @@ import LearnPage from './pages/LearnPage'
 import NavBar from './components/NavBar'
 import LessonPage from './pages/LessonPage'
 import SolvePage from './pages/SolvePage'
+import ProblemPage from './pages/ProblemPage'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
@@ -54,6 +55,7 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/learn/:lesson" element={<LessonPage />} />
+        <Route path="/problem/:problem" element={<ProblemPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
