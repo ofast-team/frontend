@@ -78,9 +78,14 @@ function LoggedInUser() {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <MenuItem key={'Profile'} onClick={handleCloseUserMenu}>
-          <Typography textAlign="center">{'Profile'}</Typography>
-        </MenuItem>
+        <Link
+          to={'/profile'}
+          style={{ textDecoration: 'none', color: 'black' }}
+        >
+          <MenuItem key={'Profile'}>
+            <Typography textAlign="center">{'Profile'}</Typography>
+          </MenuItem>
+        </Link>
         <MenuItem key={'Groups'} onClick={handleCloseUserMenu}>
           <Typography textAlign="center">{'Groups'}</Typography>
         </MenuItem>

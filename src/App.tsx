@@ -10,6 +10,7 @@ import LearnPage from './pages/LearnPage'
 import NavBar from './components/NavBar'
 import LessonPage from './pages/LessonPage'
 import SolvePage from './pages/SolvePage'
+import ProfilePage from './pages/ProfilePage'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
@@ -58,6 +59,7 @@ export function App() {
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </ThemeProvider>
