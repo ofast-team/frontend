@@ -70,7 +70,7 @@ export default function OptionDisplay({
     <FormControl>
       {isMultiple && (
         <Typography variant="subtitle1" color="error" sx={{ mb: 0.5 }}>
-          Select <strong>{correctOptions.length}</strong> options that apply.
+          Select all that apply.
         </Typography>
       )}
       {answerOptions.map((option, index) => (
