@@ -1,32 +1,23 @@
-// import remarkMath from 'remark-math'
-// import rehypeMathjax from 'rehype-mathjax/svg'
-// import rehypeKatex from 'rehype-katex'
-// const remarkMath = require('remark-math');
-// const rehypeKatex = require('rehype-katex');
-
 const { addAfterLoader, loaderByName } = require('@craco/craco')
 
-module.exports = {
-  webpack: {
-    configure: (webpackConfig) => {
-      addAfterLoader(webpackConfig, loaderByName('babel-loader'), {
-        test: /\.(md|mdx)$/,
-        loader: require.resolve('@mdx-js/loader'),
-        // options: {
-        //   remarkPlugins: [remarkMath],
-        //   rehypePlugins: [rehypeKatex]
-        // }
-      })
+module.exports = async (env) => {
+  const remarkMath = (await import('remark-math')).default
+  const rehypeMathjax = (await import('rehype-mathjax/svg')).default
 
-      return webpackConfig
+  return {
+    webpack: {
+      configure: (webpackConfig) => {
+        addAfterLoader(webpackConfig, loaderByName('babel-loader'), {
+          test: /\.(md|mdx)$/,
+          loader: require.resolve('@mdx-js/loader'),
+          /** @type {import('@mdx-js/loader').Options} */
+          options: {
+            remarkPlugins: [remarkMath],
+            rehypePlugins: [rehypeMathjax]
+          }
+        })
+        return webpackConfig
+      }
     }
   }
 }
-
-// import('remark-math').then(remarkMath => {
-//   import('rehype-katex').then(rehypeKatex => {
-//     console.log(mod.msg);    //  "Hello world!"
-//   })
-
-// }
-// );
