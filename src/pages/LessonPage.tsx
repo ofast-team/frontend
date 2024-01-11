@@ -3,9 +3,13 @@ import { Box, Container } from '@mui/material'
 
 import './LessonPage.css'
 
-import { useParams, Navigate } from 'react-router-dom'
-
-import fetchLessons from '../functions/FetchLessons'
+import Fitb from './lessons/Fitb.mdx'
+import Lesson from './lessons/Lesson.mdx'
+import Mcq1 from './lessons/Mcq1.mdx'
+import Mcq2 from './lessons/Mcq2.mdx'
+import Reading1 from './lessons/Reading1.mdx'
+import Reading2 from './lessons/Reading2.mdx'
+import Reading3 from './lessons/Reading3.mdx'
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
@@ -74,16 +78,16 @@ function LessonBlockWrapper({
   )
 }
 
-const lessons = await fetchLessons()
-
 export default function LessonPage() {
-  const params = useParams()
-
-  if (!params.lesson || !(params.lesson in lessons)) {
-    return <Navigate to="/learn" replace={true} />
-  }
-
-  const blocks = lessons[params.lesson]
+  const blocks = [
+    <Fitb />,
+    <Lesson />,
+    <Mcq1 />,
+    <Reading1 />,
+    <Reading2 />,
+    <Reading3 />,
+    <Mcq2 />,
+  ]
   const blockRefs = useRef(new Array(blocks.length))
   const [offsetY, setOffsetY] = useState(0)
   const [windowDimensions, setWindowDimensions] = useState(
