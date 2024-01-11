@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Box, Container } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 
 import './LessonPage.css'
+import '../components/ReadingBlock.css'
 
 import Fitb from './lessons/Fitb.mdx'
 import Lesson from './lessons/Lesson.mdx'
@@ -10,6 +11,28 @@ import Mcq2 from './lessons/Mcq2.mdx'
 import Reading1 from './lessons/Reading1.mdx'
 import Reading2 from './lessons/Reading2.mdx'
 import Reading3 from './lessons/Reading3.mdx'
+
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
+function code(props) {
+  const { children, className, ...rest } = props
+  const match = /language-(\w+)/.exec(className || '')
+  return match ? (
+    <SyntaxHighlighter
+      {...rest}
+      children={String(children).replace(/\n$/, '')}
+      style={oneDark}
+      language={match[1]}
+      PreTag="div"
+      showLineNumbers
+    />
+  ) : (
+    <code {...rest} className={className}>
+      {children}
+    </code>
+  )
+}
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
@@ -80,13 +103,13 @@ function LessonBlockWrapper({
 
 export default function LessonPage() {
   const blocks = [
-    <Fitb />,
-    <Lesson />,
-    <Mcq1 />,
-    <Reading1 />,
-    <Reading2 />,
-    <Reading3 />,
-    <Mcq2 />,
+    <Fitb components={{ code }} />,
+    <Lesson components={{ code }} />,
+    <Mcq1 components={{ code }} />,
+    <Reading1 components={{ code }} />,
+    <Reading2 components={{ code }} />,
+    <Reading3 components={{ code }} />,
+    <Mcq2 components={{ code }} />,
   ]
   const blockRefs = useRef(new Array(blocks.length))
   const [offsetY, setOffsetY] = useState(0)
@@ -134,15 +157,22 @@ export default function LessonPage() {
           height: '100vh',
         }}
       >
-        {blocks.map((block, id) => (
-          <LessonBlockWrapper
-            key={id}
-            block={block}
-            id={id}
-            blockRefs={blockRefs}
-            windowDimensions={windowDimensions}
-          />
-        ))}
+        <Typography
+          className="markdown"
+          gutterBottom
+          color="primary"
+          component={'span'}
+        >
+          {blocks.map((block, id) => (
+            <LessonBlockWrapper
+              key={id}
+              block={block}
+              id={id}
+              blockRefs={blockRefs}
+              windowDimensions={windowDimensions}
+            />
+          ))}
+        </Typography>
       </Box>
 
       <Box
