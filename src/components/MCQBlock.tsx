@@ -48,7 +48,8 @@ function Header({ hint }: HeaderProps) {
 }
 
 interface MCQBlockProps {
-  question: string
+  // question: string
+  question: JSX.Element
   answerOptions: string[]
   correctOptions: string[]
   hint: string
@@ -96,9 +97,12 @@ export default function MCQBlock({
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
       <Header hint={hint} />
       <Box sx={{ p: 3 }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography gutterBottom component="span">
           {question}
         </Typography>
+        {/* <Typography variant="h6" gutterBottom>
+          {question}
+        </Typography> */}
         <OptionDisplay
           selectedAnswers={selectedAnswers}
           answerOptions={answerOptions}
