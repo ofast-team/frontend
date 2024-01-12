@@ -1,6 +1,13 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { Box, Typography, Grid, Stack, Button, Chip } from '@mui/material'
+import {
+  Container,
+  Box,
+  Typography,
+  Stack,
+  Button,
+  Chip,
+} from '@mui/material'
 import Markdown from 'react-markdown'
 import rehypeMathjax from 'rehype-mathjax/svg'
 import remarkMath from 'remark-math'
@@ -14,7 +21,6 @@ Alice and Bob are working on a secret project where they need to find two number
 
 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut sed placeat, itaque nesciunt hic ea molestiae voluptas error ad consequuntur distinctio animi, accusamus mollitia. Itaque debitis voluptates cupiditate dolorem animi!
     `,
-
     problem:
       'Write a program that takes an array of integers $nums$ and an integer target. The program should return indices of the two numbers such that they add up to the target.',
     input:
@@ -34,6 +40,24 @@ Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut sed placeat, itaqu
     ],
   },
 }
+
+type Verdict = 'AC' | 'WA' | 'unsolved' | 'RTE' | 'CTE' | 'TLE'
+
+interface Submission {
+  verdict: Verdict
+  time: Date
+}
+
+const submissions: Submission[] = [
+  {
+    verdict: 'AC',
+    time: new Date(1234567890000),
+  },
+  {
+    verdict: 'WA',
+    time: new Date(1114567890000),
+  },
+]
 
 interface CardProps {
   title: string
@@ -66,44 +90,35 @@ function Card(props: CardProps) {
           {props.title}
         </Typography>
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-          paddingTop: '10px',
-        }}
-      >
-        {props.children}
-      </Box>
+      {props.children}
     </Box>
   )
 }
 
 interface StatusProps {
-  status: 'solved' | 'unsolved' | 'wrong'
+  status: Verdict
+}
+
+const verdictToColor = {
+  AC: 'green',
+  WA: 'red',
+  unsolved: 'grey',
+}
+
+const verdictToText = {
+  AC: 'Correct',
+  WA: 'Wrong Answer',
+  unsolved: 'Unsolved',
 }
 
 function Status(props: StatusProps) {
-  const statusToColor = {
-    solved: 'green',
-    wrong: 'red',
-    unsolved: 'grey',
-  }
-
-  const statusToText = {
-    solved: 'Correct',
-    wrong: 'Wrong Answer',
-    unsolved: 'Unsolved',
-  }
-
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
       <Box
         sx={{
           height: '30px',
           width: '30px',
-          backgroundColor: statusToColor[props.status],
+          backgroundColor: verdictToColor[props.status],
           borderRadius: '50%',
           display: 'inline-block',
           m: '5px',
@@ -111,9 +126,25 @@ function Status(props: StatusProps) {
       />
       <Box m="10px">
         <Typography gutterBottom color="primary" component="span" variant="h5">
-          {statusToText[props.status]}
+          {verdictToText[props.status]}
         </Typography>
       </Box>
+    </Box>
+  )
+}
+
+interface SubmissionItemProps {
+  submission: Submission
+}
+
+function SubmissionItem({ submission }: SubmissionItemProps) {
+  return (
+    <Box sx={{ color: verdictToColor[submission.verdict] }}>
+      {verdictToText[submission.verdict] +
+        ' ' +
+        submission.time.toLocaleTimeString() +
+        ' ' +
+        submission.time.toLocaleDateString('en-US')}
     </Box>
   )
 }
@@ -129,70 +160,138 @@ export default function ProblemPage() {
   const problem = problems[problemID]
 
   return (
-    <Box pt={15}>
-      <Grid container>
-        <Grid item xs={8} sx={{ pl: '50px' }}>
-          <Typography gutterBottom color="primary" component="span">
-            <h1 style={{ textAlign: 'center' }}>{problem.title}</h1>
-            <Markdown
-              children={problem.text}
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeMathjax]}
-            />
+    <Container sx={{ pt: 15 }}>
+      <Box maxWidth="70%" sx={{ display: 'inline-block' }}>
+        <Typography gutterBottom color="primary" component="span">
+          <h1 style={{ textAlign: 'center' }}>{problem.title}</h1>
+          <Markdown
+            children={problem.text}
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeMathjax]}
+          />
 
-            <h2 style={{ marginBottom: '5px' }}>Problem</h2>
-            <Markdown
-              children={problem.problem}
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeMathjax]}
-            />
+          <h2 style={{ marginBottom: '5px' }}>Problem</h2>
+          <Markdown
+            children={problem.problem}
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeMathjax]}
+          />
 
-            <h2 style={{ marginBottom: '5px' }}>Input</h2>
-            <Markdown
-              children={problem.input}
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeMathjax]}
-            />
+          <h2 style={{ marginBottom: '5px' }}>Input</h2>
+          <Markdown
+            children={problem.input}
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeMathjax]}
+          />
 
-            <h2 style={{ marginBottom: '5px' }}>Output</h2>
-            <Markdown
-              children={problem.output}
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeMathjax]}
-            />
-          </Typography>
-        </Grid>
+          <h2 style={{ marginBottom: '5px' }}>Output</h2>
+          <Markdown
+            children={problem.output}
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeMathjax]}
+          />
+        </Typography>
+      </Box>
 
-        <Grid
-          item
-          xs={4}
-          sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}
-        >
-          <Stack>
-            <Card
-              title="Status"
-              style={{ height: '100px', marginBottom: '50px' }}
+      <Box
+        sx={{
+          display: 'inline-block',
+          verticalAlign: 'top',
+          pl: '30px',
+          pt: '50px',
+        }}
+      >
+        <Stack>
+          <Card
+            title="Status"
+            style={{ height: '100px', marginBottom: '50px' }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                paddingTop: '10px',
+              }}
             >
-              <Status status="solved" />
-            </Card>
+              <Status status="AC" />
+            </Box>
+          </Card>
 
-            <Card
-              title="Submit"
-              style={{ height: '100px', marginBottom: '50px' }}
+          <Card
+            title="Submit"
+            style={{
+              marginBottom: '50px',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                paddingTop: '10px',
+              }}
             >
               <Button>Choose file</Button>
-            </Card>
+            </Box>
 
-            <Card
-              title="Tags"
-              style={{ height: '100px', marginBottom: '50px' }}
+            <Box
+              sx={{
+                paddingTop: '10px',
+                paddingBottom: '30px',
+              }}
+            >
+              {submissions.map((submission, key) => (
+                <Box
+                  key={key}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'left',
+                    width: '100%',
+                    paddingLeft: '25px',
+                    marginBottom: '5px',
+                  }}
+                >
+                  <SubmissionItem submission={submission} />
+                </Box>
+              ))}
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  width: '100%',
+                }}
+              >
+                <a href="">All Submissions</a>
+              </Box>
+            </Box>
+          </Card>
+
+          <Card title="Tags" style={{ height: '100px', marginBottom: '50px' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                paddingTop: '10px',
+              }}
             >
               {problem.tags.map((tag, key) => (
                 <Chip key={key} label={tag} sx={{ mr: '10px' }} />
               ))}
-            </Card>
+            </Box>
+          </Card>
 
-            <Card title="Resources" style={{ height: '100px' }}>
+          <Card title="Resources" style={{ height: '100px' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                paddingTop: '10px',
+              }}
+            >
               {problem.resources.map((resource, key) => (
                 <span key={key} style={{ marginRight: '15px' }}>
                   <Link style={{ color: 'inherit' }} to={resource.url} replace>
@@ -207,10 +306,10 @@ export default function ProblemPage() {
                   </Link>
                 </span>
               ))}
-            </Card>
-          </Stack>
-        </Grid>
-      </Grid>
-    </Box>
+            </Box>
+          </Card>
+        </Stack>
+      </Box>
+    </Container>
   )
 }
