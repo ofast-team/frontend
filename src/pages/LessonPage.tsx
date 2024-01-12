@@ -4,14 +4,9 @@ import { Box, Container, Typography } from '@mui/material'
 import './LessonPage.css'
 import '../components/ReadingBlock.css'
 
-import MarkdownRenderer from '../components/MarkdownRenderer'
+import MDX from '../components/MDXRenderer'
 
-// import BuildingARecursiveFunction from './lessons/dynamic_programming/BuildingARecursiveFunction.mdx'
-// import Fitb1 from './lessons/dynamic_programming/Fitb1.mdx'
-// import Mcq1 from './lessons/dynamic_programming/Mcq1.mdx'
-// import OverlappingSubproblems from './lessons/dynamic_programming/OverlappingSubproblems.mdx'
-// import RecursiveFunctions from './lessons/dynamic_programming/RecursiveFunctions.mdx'
-
+// import Test from '../components/Test.mdx'
 
 // import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 // import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -109,11 +104,12 @@ export default function LessonPage() {
     // <Mcq1 />,
     // <OverlappingSubproblems />,
     // <BuildingARecursiveFunction />,
-    <MarkdownRenderer path="/lessons/dynamic_programming/TestLesson.mdx"/>,
-    // <MarkdownRenderer path="/lessons/dynamic_programming/Fitb1.mdx"/>,
-    // <MarkdownRenderer path="/lessons/dynamic_programming/Mcq1.mdx"/>,
-    <MarkdownRenderer path="/lessons/dynamic_programming/OverlappingSubproblems.mdx"/>,
-    <MarkdownRenderer path="/lessons/dynamic_programming/BuildingARecursiveFunction.mdx"/>,
+    // <MDX path={Test} />,
+    <MDX path="/lessons/dynamic_programming/TestLesson.mdx" />,
+    <MDX path="/lessons/dynamic_programming/Fitb1.mdx"/>,
+    <MDX path="/lessons/dynamic_programming/Mcq1.mdx" />,
+    <MDX path="/lessons/dynamic_programming/OverlappingSubproblems.mdx" />,
+    <MDX path="/lessons/dynamic_programming/BuildingARecursiveFunction.mdx" />,
   ]
   const blockRefs = useRef(new Array(blocks.length))
   const [offsetY, setOffsetY] = useState(0)

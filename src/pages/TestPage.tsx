@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, useState } from 'react'
+import React from 'react'
 // import Example from './Example.mdx'
 import '../components/ReadingBlock.css'
 import { Typography, Box } from '@mui/material'
@@ -8,8 +8,6 @@ import { Typography, Box } from '@mui/material'
 // import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 // import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 // import MDX from '../components/DynamicMarkdownRenderer'
-import { compile, run } from '@mdx-js/mdx'
-import * as runtime from 'react/jsx-runtime'
 // import { VFile } from 'vfile'
 
 // function code(props) {
@@ -32,25 +30,6 @@ import * as runtime from 'react/jsx-runtime'
 // }
 
 export default function TestPage() {
-  const [mdxContent, setMdxContent] = useState<JSX.Element | null>(null)
-
-  useEffect(() => {
-    const go = async () => {
-      const result = await fetch('/lessons/dynamic_programming/TestLesson.mdx')
-      const text = await result.text()
-      // console.log(text)
-
-      const compiledResult = await compile(text, {
-        outputFormat: 'function-body',
-      })
-      const res = await run(compiledResult, { ...runtime })
-
-      // console.log(res.default({}))
-      setMdxContent(res.default({}))
-    }
-
-    go()
-  }, [])
 
   return (
     <Typography
@@ -60,7 +39,6 @@ export default function TestPage() {
       component={'span'}
     >
       <Box sx={{ height: '200px', bgcolor: 'green' }}></Box>
-      <Suspense fallback={<h2>fallback</h2>}>{mdxContent}</Suspense>
     </Typography>
   )
 }
