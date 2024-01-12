@@ -2,13 +2,22 @@
 
 ## Counting number of ways to make change
 
-In this problem, we have a set of $n$ coins were the $i^{th}$ coin has a value of $c_i$. Our goal is to count the number of subsets of coins that total to a value of $x$. This problem is often referred to the **subset sum** problem. Note that this variation of the problem, we will only allow each coin to be used once.
+In this problem, we have a set of $n$ coins were the $i^{th}$ coin has a value of $c_i$. Our goal is 
+to count the number of subsets of coins that total to a value of $x$. This problem is often referred 
+to the **subset sum** problem. Note that this variation of the problem, we will only allow each coin 
+to be used once.
 
 ## What will our parameters be
-To develop our recurrence relation, we need to pick a set of parameters that uniquely define each step of the recurrence relation. There are three important values in this problem: the current coin being considered, the current sum that has been constructed so far, and the number of ways to construct this sum with the remaining coins. The last value is what we are trying to compute, so the recursive solution's answer will represent. The other two values are needed to build up the answer, so we will use those as the parameters.
+To develop our recurrence relation, we need to pick a set of parameters that uniquely define each 
+step of the recurrence relation. There are three important values in this problem: the current coin 
+being considered, the current sum that has been constructed so far, and the number of ways to 
+construct this sum with the remaining coins. The last value is what we are trying to compute, so the 
+recursive solution's answer will represent. The other two values are needed to build up the answer, 
+so we will use those as the parameters.
 
 ## Making choices
-At each index ($i$) and sum ($s$), there are possible choices: use the current coin, or don't use it. 
+At each index ($i$) and sum ($s$), there are possible choices: use the current coin, or don't use 
+it. 
 
 1. Use the current coin
     - Condition: We can only use the current coin if the sum is greater than or equal to the current coins value (i.e. $s \geq c_i$). This is because we never want the sum to become negative when recursing.
@@ -21,15 +30,19 @@ At each index ($i$) and sum ($s$), there are possible choices: use the current c
 There are two important values to consider for the base case. We want to terminate recursion when the sum becomes zero and when the index surpasses the number of coins. If the index becomes too large, we have successfully made change if the sum is also zero, so in the case where $i = n$ and $s = 0$, the recursion will return 1. If the index becomes too large, and the sum is not zero, then we have not successfully made change, so in the case where $i = n$ and $s \neq 0$ then we will return 0.
 
 ## The final recursive function
-$$f(i, s) = \begin{cases}
+$$
+f(i, s) = \begin{cases}
     f(i+1, s) & \text{if } i < n \text{ and } s < c_i\\
     f(i+1, s) + f(i+1, s - c_i) & \text{if } n \geq 2\\
     1 & \text{if } i = n \text{ and } s = 0\\
     0 & \text{if } i = n \text{ and } s > 0
-\end{cases}$$
+\end{cases}
+$$
 
 ## Memoization
-Now that we have defined our recursive function. Let's explore how memoization can solve for given input values. Because we have two parameters, we must use a 2 dimensional memo table. Just like the Fibonacci D.P., we can use -1 as our d.p. value since we can never achieve -1 as an answer.
+Now that we have defined our recursive function. Let's explore how memoization can solve for given 
+input values. Because we have two parameters, we must use a 2 dimensional memo table. Just like the 
+Fibonacci D.P., we can use -1 as our d.p. value since we can never achieve -1 as an answer.
 
 ```c++
 
@@ -52,7 +65,8 @@ int f(int i, int s, int n, vector<int> &c) {
 
 // x represents the target sum
 int coin_change(int x, int n, vector<int> &c) {
-    // Create memo table. Note that we make the second dimension one larger than x so that we can cover sum from 0 to x, inclusive.
+    // Create memo table. Note that we make the second dimension one larger than x so that we can 
+    // cover sum from 0 to x, inclusive.
     memo = vector<vector<int>>(n, vector<int>(x+1, -1));
 
     // Call the recursive function
@@ -61,14 +75,18 @@ int coin_change(int x, int n, vector<int> &c) {
 ```
 
 ## Tabulation
-Similar to the memo table, the table we will be building will also be two dimensional since we have two parameters.
+Similar to the memo table, the table we will be building will also be two dimensional since we 
+have two parameters.
 
 ```c++
 int coin_change(int x, int n, vector<int> &c) {
-    // Construct a 2D table where the first dimension represents the current index, and the second represents the current sum. Note that we increased the size of the first dimension so that our table can fit the base case
+    // Construct a 2D table where the first dimension represents the current index, 
+    // and the second represents the current sum. Note that we increased the size of 
+    // the first dimension so that our table can fit the base case
     vector<vector<int>> f(n+1, vector<int>(x+1));
 
-    // Fill in the base case when s is 0. For s > 0, the base case is one which is the default vector value, so we will leave f[n][s] as is when s > 0.
+    // Fill in the base case when s is 0. For s > 0, the base case is one which is the default 
+    // vector value, so we will leave f[n][s] as is when s > 0.
     f[n][0] = 1;
 
     // Iterate through each index.
