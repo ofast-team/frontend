@@ -8,6 +8,28 @@ import rehypeMathJax from 'rehype-mathjax/svg'
 import MCQBlock from './MCQBlock'
 import FITBBlock from './FITBBlock'
 
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
+function code(props) {
+  const { children, className, ...rest } = props
+  const match = /language-(\w+)/.exec(className || '')
+  return match ? (
+    <SyntaxHighlighter
+      {...rest}
+      children={String(children).replace(/\n$/, '')}
+      style={oneDark}
+      language={match[1]}
+      PreTag="div"
+      showLineNumbers
+    />
+  ) : (
+    <code {...rest} className={className}>
+      {children}
+    </code>
+  )
+}
+
 interface MarkdownRendererProps {
   path?: string
   value?: string
@@ -47,7 +69,7 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
         jsxs,
         baseUrl: import.meta.url,
       })
-      setMdxContent(res.default({ components }))
+      setMdxContent(res.default({ components: { code, ...components } }))
     }
 
     if (path !== '') {

@@ -6,30 +6,6 @@ import '../components/ReadingBlock.css'
 
 import MDX from '../components/MDXRenderer'
 
-// import Test from '../components/Test.mdx'
-
-// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-// import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-
-// function code(props) {
-//   const { children, className, ...rest } = props
-//   const match = /language-(\w+)/.exec(className || '')
-//   return match ? (
-//     <SyntaxHighlighter
-//       {...rest}
-//       children={String(children).replace(/\n$/, '')}
-//       style={oneDark}
-//       language={match[1]}
-//       PreTag="div"
-//       showLineNumbers
-//     />
-//   ) : (
-//     <code {...rest} className={className}>
-//       {children}
-//     </code>
-//   )
-// }
-
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
   return {
@@ -99,12 +75,6 @@ function LessonBlockWrapper({
 
 export default function LessonPage() {
   const blocks = [
-    // <RecursiveFunctions />,
-    // <Fitb1  />,
-    // <Mcq1 />,
-    // <OverlappingSubproblems />,
-    // <BuildingARecursiveFunction />,
-    // <MDX path={Test} />,
     <MDX path="/lessons/dynamic_programming/TestLesson.mdx" />,
     <MDX path="/lessons/dynamic_programming/Fitb1.mdx"/>,
     <MDX path="/lessons/dynamic_programming/Mcq1.mdx" />,
