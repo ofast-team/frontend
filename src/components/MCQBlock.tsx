@@ -68,21 +68,29 @@ function Header({
 // TODO(cam) migrate componenets to JSX.Elements instead of using strings here to support markdown & Latex
 interface MCQBlockProps {
   question: JSX.Element
-  answerOptions: string[]
-  correctOptions: string[]
-  hint: string
-  explanation: string
+  answerOptions: JSX.Element[]
+  optionVerdicts: boolean[]
+  hint: JSX.Element
+  explanation: JSX.Element
 }
 
 export default function MCQBlock({
   question,
   answerOptions,
-  correctOptions,
+  optionVerdicts,
   hint,
   explanation,
 }: MCQBlockProps) {
+  const correctOptions: number[] = []
+
+  optionVerdicts.forEach((isCorrect, index) => {
+    if (isCorrect) {
+      correctOptions.push(index)
+    }
+  })
+
   const isMultiple = correctOptions.length > 1
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
+  const [selectedAnswers, setSelectedAnswers] = useState<number[]>([])
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [result, setResult] = useState<number>(0)
   const [showHint, setShowHint] = useState<boolean>(false)
@@ -93,7 +101,7 @@ export default function MCQBlock({
     'One or more selected option is incorrect!',
   ]
 
-  const handleAnswerSelection = (option: string, display: string) => {
+  const handleAnswerSelection = (option: number, display: string) => {
     if (display === 'check') {
       if (selectedAnswers.includes(option)) {
         setSelectedAnswers(
@@ -153,12 +161,7 @@ export default function MCQBlock({
         result={result}
       />
       <Box sx={{ p: 3 }}>
-        <Typography gutterBottom component="span">
-          {question}
-        </Typography>
-        {/* <Typography variant="h6" gutterBottom>
-          {question}
-        </Typography> */}
+        <Typography gutterBottom>{question}</Typography>
         <OptionDisplay
           selectedAnswers={selectedAnswers}
           answerOptions={answerOptions}
