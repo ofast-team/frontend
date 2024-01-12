@@ -8,18 +8,18 @@ function stringsAreEqual(a: string, b: string): boolean {
   return a == b
 }
 
-interface TheBlankProps {
-  correctAnswer: string
-  respond: boolean
-}
-
 const CorrectBlank = styled(TextField)({
   '.MuiInput-underline:before': {
+    borderBottom: 'solid 1px',
     borderBottomColor: 'green',
   },
 
   '.MuiInput-underline:after': {
     borderBottomColor: 'green',
+  },
+
+  '& .MuiInputBase-input.Mui-disabled': {
+    WebkitTextFillColor: 'black',
   },
 
   '.MuiFormHelperText-root.Mui-error': {
@@ -31,11 +31,16 @@ const CorrectBlank = styled(TextField)({
 
 const IncorrectBlank = styled(TextField)({
   '.MuiInput-underline:before': {
+    borderBottom: 'solid 1px',
     borderBottomColor: 'red',
   },
 
   '.MuiInput-underline:after': {
     borderBottomColor: 'red',
+  },
+
+  '& .MuiInputBase-input.Mui-disabled': {
+    WebkitTextFillColor: 'black',
   },
 
   '.MuiFormHelperText-root.Mui-error': {
@@ -45,8 +50,40 @@ const IncorrectBlank = styled(TextField)({
   },
 })
 
-export default function TheBlank({ correctAnswer, respond }: TheBlankProps) {
+const ShowAnswerBlank = styled(TextField)({
+  '& .MuiInputBase-input.Mui-disabled': {
+    WebkitTextFillColor: 'black',
+  },
+
+  '.MuiInput-underline:before': {
+    borderBottom: 'solid 1px',
+    borderBottomColor: 'black',
+  },
+})
+
+interface TheBlankProps {
+  correctAnswer: string
+  respond: boolean
+  showAnswer: boolean
+}
+
+export default function TheBlank({
+  correctAnswer,
+  respond,
+  showAnswer,
+}: TheBlankProps) {
   const [curAnswer, setCurAnswer] = useState('')
+
+  if (showAnswer) {
+    return (
+      <ShowAnswerBlank
+        variant="standard"
+        value={correctAnswer}
+        disabled
+        sx={{ width: correctAnswer.length * 20 + 5, m: 0.5 }}
+      />
+    )
+  }
 
   if (respond) {
     return stringsAreEqual(curAnswer, correctAnswer) ? (
@@ -55,6 +92,7 @@ export default function TheBlank({ correctAnswer, respond }: TheBlankProps) {
         onChange={(e) => setCurAnswer(e.target.value)}
         value={curAnswer}
         sx={{ width: correctAnswer.length * 20 + 5, m: 0.5 }}
+        disabled
         error
         helperText="Correct"
       ></CorrectBlank>
@@ -64,6 +102,7 @@ export default function TheBlank({ correctAnswer, respond }: TheBlankProps) {
         onChange={(e) => setCurAnswer(e.target.value)}
         value={curAnswer}
         sx={{ width: correctAnswer.length * 20 + 5, m: 0.5 }}
+        disabled
         error
         helperText="Incorrect"
       ></IncorrectBlank>

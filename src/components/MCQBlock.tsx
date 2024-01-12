@@ -1,28 +1,40 @@
-import { Box, Button, Paper, Typography, styled } from '@mui/material'
-import React, { useState } from 'react'
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Typography,
+  styled,
+} from '@mui/material'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import OptionDisplay from './OptionDisplay'
-import HintDisplay from './HintDisplay'
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
+import { Lightbulb } from '@mui/icons-material'
 
 export const ShowAnswerBtn = styled(Button)({
-  border: '1px solid #776E6E',
+  borderBottom: '2px solid #776E6E',
   color: '#776E6E',
-  backgroundColor: 'transparent',
-  padding: '8px',
   '&:hover': {
-    backgroundColor: '#8E8D8D',
     borderColor: '#8E8D8D',
     color: '#000000',
   },
   '&:active': {
-    backgroundColor: '#8E8D8D',
     borderColor: '#8E8D8D',
   },
 })
 
 interface HeaderProps {
-  hint: string
+  setShowHint: Dispatch<SetStateAction<boolean>>
+  showAnswers: () => void
+  handleReset: () => void
+  result: number
 }
-function Header({ hint }: HeaderProps) {
+function Header({
+  setShowHint,
+  showAnswers,
+  handleReset,
+  result,
+}: HeaderProps) {
   return (
     <Box
       sx={{
@@ -42,7 +54,13 @@ function Header({ hint }: HeaderProps) {
       >
         Multiple Choice Question
       </Typography>
-      <HintDisplay hint={hint} />
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
+        <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
+          <Lightbulb sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
+        </IconButton>
+        <RestartAltIcon onClick={handleReset} />
+      </Box>
     </Box>
   )
 }
@@ -65,7 +83,14 @@ export default function MCQBlock({
   const isMultiple = correctOptions.length > 1
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
   const [submitted, setSubmitted] = useState<boolean>(false)
-  const [attempts, setAttempts] = useState<number>(3)
+  const [result, setResult] = useState<number>(0)
+  const [showHint, setShowHint] = useState<boolean>(false)
+
+  const resultText = [
+    '',
+    'Correct!',
+    'One or more selected option is incorrect!',
+  ]
 
   const handleAnswerSelection = (option: string, display: string) => {
     if (display === 'check') {
@@ -83,18 +108,49 @@ export default function MCQBlock({
 
   const handleSubmission = () => {
     setSubmitted(true)
-    setAttempts(attempts - 1)
+    handleResult()
+  }
+
+  const handleResult = () => {
+    const allSelected = correctOptions.every((option) =>
+      selectedAnswers.includes(option),
+    )
+    const noExtra = selectedAnswers.every((option) =>
+      correctOptions.includes(option),
+    )
+    if (allSelected && noExtra) {
+      setResult(1)
+      setShowHint(false)
+    } else setResult(2)
   }
 
   const showAnswers = () => {
     setSelectedAnswers(correctOptions)
     setSubmitted(true)
-    setAttempts(0)
+    setResult(1)
+    setShowHint(false)
+  }
+
+  const handleTryAgain = () => {
+    setSubmitted(false)
+    setResult(0)
+  }
+
+  const handleReset = () => {
+    setResult(0)
+    setSubmitted(false)
+    setSelectedAnswers([])
+    setShowHint(false)
   }
 
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
-      <Header hint={hint} />
+      <Header
+        setShowHint={setShowHint}
+        showAnswers={showAnswers}
+        handleReset={handleReset}
+        result={result}
+      />
       <Box sx={{ p: 3 }}>
         <Typography variant="h6" gutterBottom>
           {question}
@@ -108,14 +164,15 @@ export default function MCQBlock({
           isMultiple={isMultiple}
         />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
-          <Typography>{attempts == 0 ? explanation : ''}</Typography>
           <Box sx={{ alignItems: 'center' }}>
+            <Typography sx={{ fontSize: '1rem' }}>
+              {resultText[result]}
+            </Typography>
             {submitted ? (
               <Button
                 variant="contained"
-                onClick={() => setSubmitted(false)}
-                disabled={attempts === 0}
+                onClick={handleTryAgain}
+                disabled={result === 1}
               >
                 Try Again
               </Button>
@@ -123,15 +180,27 @@ export default function MCQBlock({
               <Button
                 variant="contained"
                 onClick={handleSubmission}
-                disabled={attempts === 0}
+                disabled={result === 1}
               >
                 Submit
               </Button>
             )}
-            <Typography variant="subtitle2" color="error">
-              Attempts Left: {attempts}
-            </Typography>
           </Box>
+        </Box>
+        <Box
+          sx={{
+            my: 1,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          {result === 1 && (
+            <Typography sx={{ fontSize: '1rem' }}>{explanation}</Typography>
+          )}
+          {showHint && (
+            <Typography sx={{ fontSize: '1rem' }}>{hint}</Typography>
+          )}
         </Box>
       </Box>
     </Paper>
