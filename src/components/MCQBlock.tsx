@@ -65,8 +65,8 @@ function Header({
   )
 }
 
+// TODO(cam) migrate componenets to JSX.Elements instead of using strings here to support markdown & Latex
 interface MCQBlockProps {
-  // question: string
   question: JSX.Element
   answerOptions: string[]
   correctOptions: string[]

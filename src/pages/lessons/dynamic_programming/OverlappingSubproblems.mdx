@@ -1,0 +1,62 @@
+# Overlapping Subproblems
+When working with recursive functions, often times the recursive function will be computed with the same parameters multiple time. For instance, if we wanted to compute the 5th Fibonacci number, we would want to compute the 3rd and 4th Fibonacci number. Then to get the 4th Fibonacci number, we would want to compute the 2nd and the 3rd Fibonacci number. So both the 5th and 4th Fibonacci number require the 3rd Fibonacci number to be recalculated. 
+
+% Add Diagram of Fibonacci recursion tree
+
+If we completely ignored repetition, there would be two branches created at every recursive call, resulting in a time complexity of $O(2^n)$. There are two methods we can use to speed this up: memoization and tabulation. Both of these are types of Dynamic Programming (D.P.), which is a algorithm paradigm that is often used to solve these types of recurrences that involve overlapping subproblems.
+
+## Memoization
+
+Memoization, also frequently referred to as recursive D.P. in competitive programming, is the process of storing answers such that recursion will not recompute previously computed subproblems. The general idea with memoization is that we will use a table to store answers related to the recursive function. Each of the recursive function parameters will correspond to a dimension of the table. This table will start off filled with some default value that indicates the recursive function with the current parameters have not been computed. It is very important that this default value is not a possible result of the recursive function. For instance, since the Fibonacci recursive function can only give non-negative results, we can use -1 as our flag. Then, every time we visit a new set of parameters, we update the appropriate cell in the memo table with the result. Any time we revisit those parameters, we instead return the value stored in the memo table. Below is an example of how to implement Fibonacci using memoization.
+
+```c++
+vector<int> memo;
+int F(int n) {
+    // Base Cases
+    if(n == 0) return 0;
+    if(n == 1) return 1;
+
+    // Memoization
+    if(memo[n] != -1) return memo[n];
+
+    // Recursive Case
+    int res = F(n-1) + F(n-2);
+    memo[n] = res;
+
+    return res;
+}
+
+int fib(int n) {
+    // Initialize memo table
+    memo = vector<int>(n, -1);
+
+    // Call the recursive function to get the answer
+    return F(n);
+}
+```
+
+Because we can only visit each parameter once now, this solution will run in $O(n)$ time. Full time complexity analysis for dynamic programming will be discussed in the next lesson.
+
+Memoization relies on recursing down through subproblems, so this method is also often referred to as a "top-down D.P.".
+
+## Tabulation
+Tabulation, also frequently referred to as iterative D.P. in competitive programming, is the process of building up a table to solve recurrences. Similar to the memo table, each parameter of the recursive function corresponds to a dimension in the table. The general idea with tabulation is to begin with the base cases of the table, then iterate through the array and use the functions definition to build the answer for the current table's cell. For instance with Fibonacci, you will begin a table with the 0th and 1st cell filled in as 0 and 1 respectively. Then to build the answer for the $i^{th}$ cell, you can sum the answers for cell $i-1$ and $i-2$. Below is sample code for solving Fibonacci using tabulation.
+
+```c++
+int fib(int n) {
+    // Create table
+    vector<int> F(n+1);
+    // Fill in base cases
+    F[0] = 0;
+    F[1] = 1;
+    for(int i = 2; i <= n; i++) {
+        // Combine to build the ith value
+        F[i] = F[i-1] + F[i-2];
+    }
+    return F[n];
+}
+```
+
+Similar to the memoization, this also takes $O(n)$ time to compute.
+
+Tabulation relies on building subproblems up from the base case, so this method is also often referred to as a "bottom-up D.P.".

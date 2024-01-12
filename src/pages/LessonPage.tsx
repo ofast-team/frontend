@@ -4,13 +4,11 @@ import { Box, Container, Typography } from '@mui/material'
 import './LessonPage.css'
 import '../components/ReadingBlock.css'
 
-import Fitb from './lessons/Fitb.mdx'
-import Lesson from './lessons/Lesson.mdx'
-import Mcq1 from './lessons/Mcq1.mdx'
-import Mcq2 from './lessons/Mcq2.mdx'
-import Reading1 from './lessons/Reading1.mdx'
-import Reading2 from './lessons/Reading2.mdx'
-import Reading3 from './lessons/Reading3.mdx'
+import BuildingARecursiveFunction from './lessons/dynamic_programming/BuildingARecursiveFunction.mdx'
+import Fitb1 from './lessons/dynamic_programming/Fitb1.mdx'
+import Mcq1 from './lessons/dynamic_programming/Mcq1.mdx'
+import OverlappingSubproblems from './lessons/dynamic_programming/OverlappingSubproblems.mdx'
+import RecursiveFunctions from './lessons/dynamic_programming/RecursiveFunctions.mdx'
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -103,13 +101,11 @@ function LessonBlockWrapper({
 
 export default function LessonPage() {
   const blocks = [
-    <Fitb components={{ code }} />,
-    <Lesson components={{ code }} />,
+    <RecursiveFunctions components={{ code }} />,
+    <Fitb1 components={{ code }} />,
     <Mcq1 components={{ code }} />,
-    <Reading1 components={{ code }} />,
-    <Reading2 components={{ code }} />,
-    <Reading3 components={{ code }} />,
-    <Mcq2 components={{ code }} />,
+    <OverlappingSubproblems components={{ code }} />,
+    <BuildingARecursiveFunction components={{ code }} />,
   ]
   const blockRefs = useRef(new Array(blocks.length))
   const [offsetY, setOffsetY] = useState(0)
