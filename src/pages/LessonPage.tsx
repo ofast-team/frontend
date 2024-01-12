@@ -4,33 +4,36 @@ import { Box, Container, Typography } from '@mui/material'
 import './LessonPage.css'
 import '../components/ReadingBlock.css'
 
-import BuildingARecursiveFunction from './lessons/dynamic_programming/BuildingARecursiveFunction.mdx'
-import Fitb1 from './lessons/dynamic_programming/Fitb1.mdx'
-import Mcq1 from './lessons/dynamic_programming/Mcq1.mdx'
-import OverlappingSubproblems from './lessons/dynamic_programming/OverlappingSubproblems.mdx'
-import RecursiveFunctions from './lessons/dynamic_programming/RecursiveFunctions.mdx'
+import MarkdownRenderer from '../components/MarkdownRenderer'
 
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+// import BuildingARecursiveFunction from './lessons/dynamic_programming/BuildingARecursiveFunction.mdx'
+// import Fitb1 from './lessons/dynamic_programming/Fitb1.mdx'
+// import Mcq1 from './lessons/dynamic_programming/Mcq1.mdx'
+// import OverlappingSubproblems from './lessons/dynamic_programming/OverlappingSubproblems.mdx'
+// import RecursiveFunctions from './lessons/dynamic_programming/RecursiveFunctions.mdx'
 
-function code(props) {
-  const { children, className, ...rest } = props
-  const match = /language-(\w+)/.exec(className || '')
-  return match ? (
-    <SyntaxHighlighter
-      {...rest}
-      children={String(children).replace(/\n$/, '')}
-      style={oneDark}
-      language={match[1]}
-      PreTag="div"
-      showLineNumbers
-    />
-  ) : (
-    <code {...rest} className={className}>
-      {children}
-    </code>
-  )
-}
+
+// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+// import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
+// function code(props) {
+//   const { children, className, ...rest } = props
+//   const match = /language-(\w+)/.exec(className || '')
+//   return match ? (
+//     <SyntaxHighlighter
+//       {...rest}
+//       children={String(children).replace(/\n$/, '')}
+//       style={oneDark}
+//       language={match[1]}
+//       PreTag="div"
+//       showLineNumbers
+//     />
+//   ) : (
+//     <code {...rest} className={className}>
+//       {children}
+//     </code>
+//   )
+// }
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
@@ -101,11 +104,16 @@ function LessonBlockWrapper({
 
 export default function LessonPage() {
   const blocks = [
-    <RecursiveFunctions components={{ code }} />,
-    <Fitb1 components={{ code }} />,
-    <Mcq1 components={{ code }} />,
-    <OverlappingSubproblems components={{ code }} />,
-    <BuildingARecursiveFunction components={{ code }} />,
+    // <RecursiveFunctions />,
+    // <Fitb1  />,
+    // <Mcq1 />,
+    // <OverlappingSubproblems />,
+    // <BuildingARecursiveFunction />,
+    <MarkdownRenderer path="/lessons/dynamic_programming/TestLesson.mdx"/>,
+    // <MarkdownRenderer path="/lessons/dynamic_programming/Fitb1.mdx"/>,
+    // <MarkdownRenderer path="/lessons/dynamic_programming/Mcq1.mdx"/>,
+    <MarkdownRenderer path="/lessons/dynamic_programming/OverlappingSubproblems.mdx"/>,
+    <MarkdownRenderer path="/lessons/dynamic_programming/BuildingARecursiveFunction.mdx"/>,
   ]
   const blockRefs = useRef(new Array(blocks.length))
   const [offsetY, setOffsetY] = useState(0)

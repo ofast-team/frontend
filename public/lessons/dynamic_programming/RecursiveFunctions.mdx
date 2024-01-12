@@ -1,0 +1,36 @@
+# Recursive Functions
+## Mathematics
+In mathematics, a recursive function is a type of function where the computation relies on references to the function itself. One common example of this is with the Fibonacci sequence. To compute the $n^{th}$  Fibonacci number, the following recursive function can be used:
+
+$$
+F(n) = \begin{cases}
+    F(n-1) + F(n-2) & \text{if } n \geq 2\\
+    1 & \text{if } n = 1\\
+    0 & \text{if } n = 0
+\end{cases}
+$$
+
+The first case is often referred to as the recursive case. The last two cases are referred to as the base cases. To generate a sequence, determine which case you are in and apply that function. Below is how we can compute the first six Fibonacci numbers.
+
+- Via the base case: $F(0) = 0$
+- Via the base case: $F(1) = 1$
+- Via the recursive case: $F(2) = F(1) + F(0) = 1$
+- Via the recursive case: $F(3) = F(2) + F(1) = 2$
+- Via the recursive case: $F(4) = F(3) + F(2) = 3$
+- Via the recursive case: $F(5) = F(4) + F(3) = 5$
+
+Continuing this process, we get the following sequence:
+
+- $0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...$
+
+
+## Programming
+In programming, recursive functions can be defined in a similar manner. They are functions that are written such that they call themselves. Mathematical recursive functions can be translated into code through these functions. For instance, the following code shows how the $n^{th}$ Fibonacci can be computed in code.
+
+```cpp
+int F(int n) {
+    if(n == 0) return 0;
+    if(n == 1) return 1;
+    return F(n-1) + F(n-2);
+}
+```
