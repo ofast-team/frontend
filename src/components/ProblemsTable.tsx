@@ -12,6 +12,7 @@ import {
   Chip,
   Typography,
 } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 import InlineSpacing from '../components/InlineSpacing'
 
@@ -42,58 +43,60 @@ const columns: readonly Column[] = [
 ]
 
 interface Data {
+  problemID: string
   status: string
   title: string
-  tags: React.JSX.Element[]
+  tags: string[]
 }
 
-function createData(status: string, title: string, tags: string[]): Data {
-  const tagChips = tags.map((tag) => <Chip label={tag} />)
-  return { status, title, tags: tagChips }
+function createData(
+  problemID: string,
+  status: string,
+  title: string,
+  tags: string[],
+): Data {
+  return { problemID, status, title, tags }
 }
 
 const data = [
-  createData('solved', 'Problem A', ['Tag 1', 'Tag 2']),
-  createData('wrong', 'Problem B', ['Tag 2']),
-  createData('unsolved', 'Problem C', ['Tag 1', 'Tag 2', 'Tag 3']),
-  createData('solved', 'Problem D', ['Tag 1']),
-  createData('wrong', 'Problem E', ['Tag 2']),
-  createData('unsolved', 'Problem F', ['Tag 3']),
-  createData('solved', 'Problem G', ['Tag 1', 'Tag 3']),
-  createData('wrong', 'Problem H', ['Tag 2']),
-  createData('unsolved', 'Problem I', ['Tag 3']),
-  createData('solved', 'Problem J', ['Tag 1']),
-  createData('wrong', 'Problem H', ['Tag 2']),
-  createData('unsolved', 'Problem I', ['Tag 3']),
-  createData('solved', 'Problem J', ['Tag 1']),
-  createData('wrong', 'Problem K', ['Tag 1']),
-  createData('unsolved', 'Problem L', ['Tag 1']),
-  createData('solved', 'Problem M', ['Tag 1']),
-  createData('wrong', 'Problem N', ['Tag 1']),
-  createData('unsolved', 'Problem O', ['Tag 1']),
-  createData('solved', 'Problem P', ['Tag 1']),
-  createData('wrong', 'Problem Q', ['Tag 1']),
-  createData('unsolved', 'Problem R', ['Tag 1']),
-  createData('solved', 'Problem S', ['Tag 1']),
-  createData('wrong', 'Problem T', ['Tag 1']),
+  createData('twosum', 'solved', 'Problem A', ['Tag 1', 'Tag 2']),
+  createData('twosum', 'wrong', 'Problem B', ['Tag 2']),
+  createData('twosum', 'unsolved', 'Problem C', ['Tag 1', 'Tag 2', 'Tag 3']),
+  createData('twosum', 'solved', 'Problem D', ['Tag 1']),
+  createData('twosum', 'wrong', 'Problem E', ['Tag 2']),
+  createData('twosum', 'unsolved', 'Problem F', ['Tag 3']),
+  createData('twosum', 'solved', 'Problem G', ['Tag 1', 'Tag 3']),
+  createData('twosum', 'wrong', 'Problem H', ['Tag 2']),
+  createData('twosum', 'unsolved', 'Problem I', ['Tag 3']),
+  createData('twosum', 'solved', 'Problem J', ['Tag 1']),
+  createData('twosum', 'wrong', 'Problem H', ['Tag 2']),
+  createData('twosum', 'unsolved', 'Problem I', ['Tag 3']),
+  createData('twosum', 'solved', 'Problem J', ['Tag 1']),
+  createData('twosum', 'wrong', 'Problem K', ['Tag 1']),
+  createData('twosum', 'unsolved', 'Problem L', ['Tag 1']),
+  createData('twosum', 'solved', 'Problem M', ['Tag 1']),
+  createData('twosum', 'wrong', 'Problem N', ['Tag 1']),
+  createData('twosum', 'unsolved', 'Problem O', ['Tag 1']),
+  createData('twosum', 'solved', 'Problem P', ['Tag 1']),
+  createData('twosum', 'wrong', 'Problem Q', ['Tag 1']),
+  createData('twosum', 'unsolved', 'Problem R', ['Tag 1']),
+  createData('twosum', 'solved', 'Problem S', ['Tag 1']),
+  createData('twosum', 'wrong', 'Problem T', ['Tag 1']),
 ]
 
-const getTableValue = (
-  columnID: string,
-  data: string | React.JSX.Element[],
-) => {
-  if (columnID === 'tags' && data.constructor === Array) {
-    return data.map((chip, i) => {
+const getTableValue = (columnID: string, data: Data) => {
+  if (columnID === 'tags') {
+    return data[columnID].map((tag, i) => {
       return (
         <span key={i}>
-          {chip}
+          <Chip label={tag} />
           <InlineSpacing spacing={8} />
         </span>
       )
     })
   }
 
-  if (columnID === 'status' && typeof data === 'string') {
+  if (columnID === 'status') {
     const statusToColor = {
       solved: 'green',
       wrong: 'red',
@@ -105,14 +108,33 @@ const getTableValue = (
         style={{
           height: 20,
           width: 20,
-          backgroundColor: statusToColor[data],
+          backgroundColor: statusToColor[data.status],
           borderRadius: '50%',
         }}
       />
     )
   }
 
-  return data
+  if (columnID === 'title') {
+    return (
+      <Typography
+        variant="body1"
+        gutterBottom
+        color="primary"
+        component="span"
+        sx={{ cursor: 'pointer' }}
+      >
+        <Link
+          style={{ color: 'inherit', textDecoration: 'none' }}
+          to={'/problem/' + data.problemID}
+        >
+          {data[columnID]}
+        </Link>
+      </Typography>
+    )
+  }
+
+  return <></>
 }
 
 export default function StickyHeadTable() {
@@ -125,7 +147,7 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ height: 720 }}>
+      <TableContainer sx={{ height: 770 }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -148,13 +170,13 @@ export default function StickyHeadTable() {
                 (page - 1) * rowsPerPage,
                 (page - 1) * rowsPerPage + rowsPerPage,
               )
-              .map((row) => {
+              .map((row: Data) => {
                 return (
                   <TableRow hover key={row.title}>
                     {columns.map((column) => {
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {getTableValue(column.id, row[column.id])}
+                          {getTableValue(column.id, row)}
                         </TableCell>
                       )
                     })}
