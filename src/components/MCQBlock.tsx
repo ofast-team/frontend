@@ -161,7 +161,7 @@ export default function MCQBlock({
         result={result}
       />
       <Box sx={{ p: 3 }}>
-        <Typography gutterBottom>
+        <Typography gutterBottom component="span">
           <MDX value={question} />
         </Typography>
         <OptionDisplay

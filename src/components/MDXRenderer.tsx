@@ -77,7 +77,7 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
     } else {
       compileValue(value)
     }
-  }, [])
+  }, [path, value])
 
   return <Suspense fallback={<h2>fallback</h2>}>{mdxContent}</Suspense>
 }
