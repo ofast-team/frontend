@@ -20,7 +20,7 @@ function SearchResults({ value }: { value: string }) {
     <Paper
       elevation={5}
       sx={{
-        width: '1150px',
+        width: '100%',
         maxHeight: '50vh',
         overflow: 'auto',
         position: 'absolute',
@@ -81,7 +81,7 @@ export default function SolvePage() {
   const [showResults, setShowResults] = useState<boolean>(false)
 
   return (
-    <Container sx={{ p: 15 }}>
+    <Container sx={{ p: 15, position: 'relative' }}>
       <Typography variant="h3" gutterBottom color="primary">
         Solve
       </Typography>
@@ -92,7 +92,14 @@ export default function SolvePage() {
           onChange={(e) => setSearch(e.target.value)}
           onClick={() => setShowResults(true)}
         />
-        <Box style={{ zIndex: 1, position: 'absolute' }}>
+        <Box
+          style={{
+            zIndex: 1,
+            position: 'absolute',
+            left: 20,
+            right: 66,
+          }}
+        >
           <AnimatePresence>
             {showResults && (
               <motion.div
