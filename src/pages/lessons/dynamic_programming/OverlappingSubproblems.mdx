@@ -1,5 +1,6 @@
 # Overlapping Subproblems
-When working with recursive functions, often times the recursive function will be computed with the same parameters multiple time. For instance, if we wanted to compute the 5th Fibonacci number, we would want to compute the 3rd and 4th Fibonacci number. Then to get the 4th Fibonacci number, we would want to compute the 2nd and the 3rd Fibonacci number. So both the 5th and 4th Fibonacci number require the 3rd Fibonacci number to be recalculated. 
+
+When working with recursive functions, often times the recursive function will be computed with the same parameters multiple time. For instance, if we wanted to compute the 5th Fibonacci number, we would want to compute the 3rd and 4th Fibonacci number. Then to get the 4th Fibonacci number, we would want to compute the 2nd and the 3rd Fibonacci number. So both the 5th and 4th Fibonacci number require the 3rd Fibonacci number to be recalculated.
 
 % Add Diagram of Fibonacci recursion tree
 
@@ -40,6 +41,7 @@ Because we can only visit each parameter once now, this solution will run in $O(
 Memoization relies on recursing down through subproblems, so this method is also often referred to as a "top-down D.P.".
 
 ## Tabulation
+
 Tabulation, also frequently referred to as iterative D.P. in competitive programming, is the process of building up a table to solve recurrences. Similar to the memo table, each parameter of the recursive function corresponds to a dimension in the table. The general idea with tabulation is to begin with the base cases of the table, then iterate through the array and use the functions definition to build the answer for the current table's cell. For instance with Fibonacci, you will begin a table with the 0th and 1st cell filled in as 0 and 1 respectively. Then to build the answer for the $i^{th}$ cell, you can sum the answers for cell $i-1$ and $i-2$. Below is sample code for solving Fibonacci using tabulation.
 
 ```c++

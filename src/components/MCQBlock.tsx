@@ -10,6 +10,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 import OptionDisplay from './OptionDisplay'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { Lightbulb } from '@mui/icons-material'
+import MDX from './MDXRenderer'
 
 export const ShowAnswerBtn = styled(Button)({
   borderBottom: '2px solid #776E6E',
@@ -65,13 +66,12 @@ function Header({
   )
 }
 
-// TODO(cam) migrate componenets to JSX.Elements instead of using strings here to support markdown & Latex
 interface MCQBlockProps {
-  question: JSX.Element
-  answerOptions: JSX.Element[]
+  question: string
+  answerOptions: string[]
   optionVerdicts: boolean[]
-  hint: JSX.Element
-  explanation: JSX.Element
+  hint: string
+  explanation: string
 }
 
 export default function MCQBlock({
@@ -161,7 +161,9 @@ export default function MCQBlock({
         result={result}
       />
       <Box sx={{ p: 3 }}>
-        <Typography gutterBottom>{question}</Typography>
+        <Typography gutterBottom>
+          <MDX value={question} />
+        </Typography>
         <OptionDisplay
           selectedAnswers={selectedAnswers}
           answerOptions={answerOptions}
@@ -203,10 +205,14 @@ export default function MCQBlock({
           }}
         >
           {result === 1 && (
-            <Typography sx={{ fontSize: '1rem' }}>{explanation}</Typography>
+            <Typography sx={{ fontSize: '1rem' }}>
+              <MDX value={explanation} />
+            </Typography>
           )}
           {showHint && (
-            <Typography sx={{ fontSize: '1rem' }}>{hint}</Typography>
+            <Typography sx={{ fontSize: '1rem' }}>
+              <MDX value={hint} />
+            </Typography>
           )}
         </Box>
       </Box>

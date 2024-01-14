@@ -9,9 +9,10 @@ import {
 } from '@mui/material'
 import { CheckCircle, Cancel } from '@mui/icons-material'
 import React from 'react'
+import MDX from './MDXRenderer'
 
 interface OptionDisplayProps {
-  answerOptions: JSX.Element[]
+  answerOptions: string[]
   selectedAnswers: number[]
   correctOptions: number[]
   handleAnswerSelection: (option: number, display: string) => void
@@ -122,9 +123,11 @@ export default function OptionDisplay({
                   />
                 )
               }
-              label={<div style={{marginTop: '20px'}}>
-                {option}
-              </div>}
+              label={
+                <div style={{ marginTop: '20px' }}>
+                  <MDX value={option} />
+                </div>
+              }
               disabled={submitted}
               sx={{
                 px: 1,

@@ -122,9 +122,7 @@ export default function OptionDisplay({
                   />
                 )
               }
-              label={<div style={{marginTop: '20px'}}>
-                {option}
-              </div>}
+              label={<div style={{ marginTop: '20px' }}>{option}</div>}
               disabled={submitted}
               sx={{
                 px: 1,

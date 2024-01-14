@@ -17,7 +17,7 @@ module.exports = async (env) => {
           // }
         })
         return webpackConfig
-      }
-    }
+      },
+    },
   }
 }
