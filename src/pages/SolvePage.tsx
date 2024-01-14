@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react'
+import React, { useState, useMemo } from 'react'
 
 import { Container, Typography, Box, Paper } from '@mui/material'
 import { Link } from 'react-router-dom'
@@ -6,41 +6,14 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 import SearchBar from '../components/SearchBar'
 import ProblemsTable from '../components/ProblemsTable'
+import ClickOutside from '../components/ClickOutside'
 
 import { searchProblems } from './MockProblemData'
 import { Problem } from '../pages/ProblemPage'
 
 import './SolvePage.css'
 
-function ClickOutside({
-  children,
-  onClickOutside,
-}: {
-  children: React.ReactNode
-  onClickOutside: () => void
-}) {
-  const ref: React.RefObject<HTMLInputElement> = useRef(null)
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        onClickOutside()
-        console.log('clicked outside')
-      }
-    }
-    document.addEventListener('click', handleClickOutside, true)
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true)
-    }
-  }, [])
-  return <Box ref={ref}>{children}</Box>
-}
-
 function SearchResults({ value }: { value: string }) {
-  if (value === '') {
-    return <></>
-  }
-
   const result: Problem[] = useMemo(() => searchProblems(value), [value])
 
   return (
@@ -67,7 +40,15 @@ function SearchResults({ value }: { value: string }) {
           style={{ color: 'inherit', textDecoration: 'none' }}
           to={'/problem/' + problem.problemID}
         >
-          <Box className="searchItem" sx={{ p: '10px', borderRadius: '10px' }}>
+          <motion.div
+            className="searchItem"
+            style={{ padding: '10px', borderRadius: '10px' }}
+            whileHover={{
+              scale: 1.005,
+              transition: { duration: 0.1 },
+            }}
+            whileTap={{ scale: 0.995 }}
+          >
             <Typography
               variant="body1"
               gutterBottom
@@ -77,7 +58,7 @@ function SearchResults({ value }: { value: string }) {
             >
               {problem.title}
             </Typography>
-          </Box>
+          </motion.div>
         </Link>
       ))}
       {result.length === 0 && (
@@ -97,7 +78,7 @@ function SearchResults({ value }: { value: string }) {
 
 export default function SolvePage() {
   const [search, setSearch] = useState<string>('')
-  const [showResults, setShowResults] = useState<boolean>(true)
+  const [showResults, setShowResults] = useState<boolean>(false)
 
   return (
     <Container sx={{ p: 15 }}>

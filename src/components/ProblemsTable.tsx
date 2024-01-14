@@ -19,7 +19,7 @@ import InlineSpacing from '../components/InlineSpacing'
 interface Column {
   id: 'status' | 'title' | 'tags'
   label: string
-  minWidth?: number
+  width?: number
   align?: 'right'
 }
 
@@ -27,17 +27,17 @@ const columns: readonly Column[] = [
   {
     id: 'status',
     label: 'Status',
-    minWidth: 50,
+    width: 50,
   },
   {
     id: 'title',
     label: 'Title',
-    minWidth: 170,
+    width: 170,
   },
   {
     id: 'tags',
     label: 'Tags',
-    minWidth: 170,
+    width: 120,
     align: 'right',
   },
 ]
@@ -162,7 +162,7 @@ export default function StickyHeadTable() {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{ width: column.width }}
                 >
                   <Typography variant="h5" gutterBottom color="primary">
                     {column.label}
@@ -182,7 +182,11 @@ export default function StickyHeadTable() {
                   <TableRow hover key={row.title}>
                     {columns.map((column) => {
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={{ overflow: 'hidden ' }}
+                        >
                           {getTableValue(column.id, row)}
                         </TableCell>
                       )
