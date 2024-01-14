@@ -75,7 +75,7 @@ function LessonBlockWrapper({
 
 export default function LessonPage() {
   const blocks = [
-    <MDX path="/lessons/dynamic_programming/TestLesson.mdx" />,
+    <MDX path="/lessons/dynamic_programming/RecursiveFunctions.mdx" />,
     <MDX path="/lessons/dynamic_programming/Fitb1.mdx"/>,
     <MDX path="/lessons/dynamic_programming/Mcq1.mdx" />,
     <MDX path="/lessons/dynamic_programming/OverlappingSubproblems.mdx" />,
