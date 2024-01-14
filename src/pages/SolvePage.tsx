@@ -14,7 +14,7 @@ import { Problem } from '../pages/ProblemPage'
 import './SolvePage.css'
 
 function SearchResults({ value }: { value: string }) {
-  const result: Problem[] = useMemo(() => searchProblems(value), [value])
+  const result: Problem[] = useMemo(() => searchProblems(value, 10), [value])
 
   return (
     <Paper

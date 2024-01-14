@@ -15,6 +15,10 @@ import {
 import { Link } from 'react-router-dom'
 
 import InlineSpacing from '../components/InlineSpacing'
+import {
+  getProblemMetaDataFromRange,
+  getNumProblems,
+} from '../pages/MockProblemData'
 
 interface Column {
   id: 'status' | 'title' | 'tags'
@@ -42,51 +46,16 @@ const columns: readonly Column[] = [
   },
 ]
 
-interface Data {
+export type ProblemMetaData = {
   problemID: string
   status: string
   title: string
   tags: string[]
 }
 
-function createData(
-  problemID: string,
-  status: string,
-  title: string,
-  tags: string[],
-): Data {
-  return { problemID, status, title, tags }
-}
-
-const data = [
-  createData('twosum', 'solved', 'Problem A', ['Tag 1', 'Tag 2']),
-  createData('antarctica', 'wrong', 'Problem B', ['Tag 2']),
-  createData('penguins', 'unsolved', 'Problem C', ['Tag 1', 'Tag 2', 'Tag 3']),
-  createData('fishy', 'solved', 'Problem D', ['Tag 1']),
-  createData('city', 'wrong', 'Problem E', ['Tag 2']),
-  createData('treasure', 'unsolved', 'Problem F', ['Tag 3']),
-  createData('recipe', 'solved', 'Problem G', ['Tag 1', 'Tag 3']),
-  createData('twosum', 'wrong', 'Problem H', ['Tag 2']),
-  createData('twosum', 'unsolved', 'Problem I', ['Tag 3']),
-  createData('twosum', 'solved', 'Problem J', ['Tag 1']),
-  createData('twosum', 'wrong', 'Problem H', ['Tag 2']),
-  createData('twosum', 'unsolved', 'Problem I', ['Tag 3']),
-  createData('twosum', 'solved', 'Problem J', ['Tag 1']),
-  createData('twosum', 'wrong', 'Problem K', ['Tag 1']),
-  createData('twosum', 'unsolved', 'Problem L', ['Tag 1']),
-  createData('twosum', 'solved', 'Problem M', ['Tag 1']),
-  createData('twosum', 'wrong', 'Problem N', ['Tag 1']),
-  createData('twosum', 'unsolved', 'Problem O', ['Tag 1']),
-  createData('twosum', 'solved', 'Problem P', ['Tag 1']),
-  createData('twosum', 'wrong', 'Problem Q', ['Tag 1']),
-  createData('twosum', 'unsolved', 'Problem R', ['Tag 1']),
-  createData('twosum', 'solved', 'Problem S', ['Tag 1']),
-  createData('twosum', 'wrong', 'Problem T', ['Tag 1']),
-]
-
-const getTableValue = (columnID: string, data: Data) => {
+const getTableValue = (columnID: string, problemMetaData: ProblemMetaData) => {
   if (columnID === 'tags') {
-    return data[columnID].map((tag, i) => {
+    return problemMetaData[columnID].map((tag, i) => {
       return (
         <span key={i}>
           <Chip label={tag} />
@@ -108,7 +77,7 @@ const getTableValue = (columnID: string, data: Data) => {
         style={{
           height: 20,
           width: 20,
-          backgroundColor: statusToColor[data.status],
+          backgroundColor: statusToColor[problemMetaData.status],
           borderRadius: '50%',
         }}
       />
@@ -126,9 +95,9 @@ const getTableValue = (columnID: string, data: Data) => {
       >
         <Link
           style={{ color: 'inherit', textDecoration: 'none' }}
-          to={'/problem/' + data.problemID}
+          to={'/problem/' + problemMetaData.problemID}
         >
-          {data[columnID]}
+          {problemMetaData[columnID]}
         </Link>
       </Typography>
     )
@@ -138,11 +107,11 @@ const getTableValue = (columnID: string, data: Data) => {
 }
 
 export default function StickyHeadTable() {
-  const [page, setPage] = React.useState(1)
+  const [pageNumber, setPageNumber] = React.useState(1)
   const rowsPerPage = 10
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage)
+  const handleChangePage = (event: unknown, newPageNumber: number) => {
+    setPageNumber(newPageNumber)
   }
 
   return (
@@ -172,28 +141,26 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data
-              .slice(
-                (page - 1) * rowsPerPage,
-                (page - 1) * rowsPerPage + rowsPerPage,
+            {getProblemMetaDataFromRange(
+              (pageNumber - 1) * rowsPerPage,
+              pageNumber * rowsPerPage,
+            ).map((row: ProblemMetaData) => {
+              return (
+                <TableRow hover key={row.title}>
+                  {columns.map((column) => {
+                    return (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ overflow: 'hidden ' }}
+                      >
+                        {getTableValue(column.id, row)}
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
               )
-              .map((row: Data) => {
-                return (
-                  <TableRow hover key={row.title}>
-                    {columns.map((column) => {
-                      return (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          style={{ overflow: 'hidden ' }}
-                        >
-                          {getTableValue(column.id, row)}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                )
-              })}
+            })}
           </TableBody>
         </Table>
       </TableContainer>
@@ -202,8 +169,8 @@ export default function StickyHeadTable() {
         <Pagination
           color="primary"
           onChange={handleChangePage}
-          page={page}
-          count={Math.ceil(data.length / rowsPerPage)}
+          page={pageNumber}
+          count={Math.ceil(getNumProblems() / rowsPerPage)}
         />
       </Box>
     </Paper>

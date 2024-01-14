@@ -1,20 +1,8 @@
 import { Problem } from './ProblemPage'
+import { ProblemMetaData } from '../components/ProblemsTable'
 
-export function searchProblems(text: string): Problem[] {
-  return problems.filter((problem) =>
-    problem.title.toLowerCase().includes(text.toLowerCase()),
-  )
-}
-
-export function getProblem(problemID: string): Problem | null {
-  const filtered = problems.filter((problem) => problem.problemID === problemID)
-
-  if (filtered.length === 1) {
-    return filtered[0]
-  }
-
-  return null
-}
+// This file mimics the problem storage and fetching structure until the real storage and APIs
+// are configured.
 
 const twosum: Problem = {
   problemID: 'twosum',
@@ -53,41 +41,193 @@ Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut sed placeat, itaqu
   ],
 }
 
-export const problems: Problem[] = [
+const problems: Problem[] = [
   twosum,
   {
     ...twosum,
     problemID: 'house',
     title: 'House',
+    tags: ['DP', 'Geometry'],
   },
   {
     ...twosum,
     problemID: 'antarctica',
     title: 'Antarctica',
+    tags: ['Math'],
   },
   {
     ...twosum,
     problemID: 'penguins',
     title: 'Penguins',
+    tags: ['Penguins'],
   },
   {
     ...twosum,
     problemID: 'fishy',
     title: "Something's Fishy",
+    tags: ['Water', 'Fish', 'Food'],
   },
   {
     ...twosum,
     problemID: 'city',
     title: 'City Planning Puzzle',
+    tags: ['City', 'Puzzles'],
   },
   {
     ...twosum,
     problemID: 'treasure',
     title: 'Historical Treasure Hunt',
+    tags: ['Treasure'],
   },
   {
     ...twosum,
     problemID: 'recipe',
     title: 'Recipe Dilemma',
+    tags: ['Recipe', 'Food', 'Hungry'],
+  },
+  {
+    ...twosum,
+    problemID: 'culinary',
+    title: 'Culinary Conundrum',
+    tags: ['Cook', 'Kitchen'],
+  },
+  {
+    ...twosum,
+    problemID: 'space',
+    title: 'Space Exploration Odyssey',
+  },
+  {
+    ...twosum,
+    problemID: 'enchanted',
+    title: 'Enchanted Forest',
+  },
+  {
+    ...twosum,
+    problemID: 'potion',
+    title: 'Magic Potion',
+  },
+  {
+    ...twosum,
+    problemID: 'unicorn',
+    title: 'Unicorn Parade',
+  },
+  {
+    ...twosum,
+    problemID: 'pixie',
+    title: 'Pixie Code Encryption',
+  },
+  {
+    ...twosum,
+    problemID: 'bubblegum',
+    title: 'Bubblegum Bridge Building',
+  },
+  {
+    ...twosum,
+    problemID: 'stardust',
+    title: 'Stardust Sorting Challenge',
+  },
+  {
+    ...twosum,
+    problemID: 'floating',
+    title: 'Floating Island Navigation',
+  },
+  {
+    ...twosum,
+    problemID: 'whimsical',
+    title: 'Whimsical Wonderland Arrays',
+  },
+  {
+    ...twosum,
+    problemID: 'galactic',
+    title: 'Galactic Jellybean Counting',
+  },
+  {
+    ...twosum,
+    problemID: 'moonlit',
+    title: 'Moonlit Adventure',
+  },
+  {
+    ...twosum,
+    problemID: 'goblin',
+    title: 'Goblin Mischief',
+  },
+  {
+    ...twosum,
+    problemID: 'starlight',
+    title: 'Starlight Quest',
+  },
+  {
+    ...twosum,
+    problemID: 'sparkle',
+    title: 'Sparkle Chase',
+  },
+  {
+    ...twosum,
+    problemID: 'whispering',
+    title: 'Whispering Winds',
+  },
+  {
+    ...twosum,
+    problemID: 'butterfly',
+    title: 'Butterfly Ballet',
+  },
+  {
+    ...twosum,
+    problemID: 'mermaid',
+    title: 'Mermaid Melody',
+  },
+  {
+    ...twosum,
+    problemID: 'dragonfly',
+    title: 'Dragonfly Delight',
   },
 ]
+
+const problemMetaData: ProblemMetaData[] = problems.map((problem) => {
+  const metaData: ProblemMetaData = {
+    problemID: problem.problemID,
+    status: getFakeStatus(problem),
+    title: problem.title,
+    tags: problem.tags,
+  }
+
+  return metaData
+})
+
+function getFakeStatus(problem: Problem) {
+  let sum = 0
+  for (let i = 0; i < problem.title.length; i++) {
+    sum += problem.title.charCodeAt(i)
+  }
+
+  const status = ['solved', 'wrong', 'unsolved']
+
+  return status[sum % status.length]
+}
+
+export function searchProblems(text: string, maxCount: number): Problem[] {
+  return problems
+    .filter((problem) =>
+      problem.title.toLowerCase().includes(text.toLowerCase()),
+    )
+    .splice(maxCount)
+}
+
+export function getProblem(problemID: string): Problem | null {
+  const filtered = problems.filter((problem) => problem.problemID === problemID)
+
+  if (filtered.length === 1) {
+    return filtered[0]
+  }
+
+  return null
+}
+
+// inclusive, exclusive
+export function getProblemMetaDataFromRange(start: number, end: number) {
+  return problemMetaData.slice(start, end)
+}
+
+export function getNumProblems(): number {
+  return problems.length
+}
