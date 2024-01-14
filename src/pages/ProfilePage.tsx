@@ -2,16 +2,18 @@ import React, { useState } from 'react'
 import {
   Typography,
   Container,
-  IconButton,
   Box,
   Stack,
   styled,
   TextField,
   Avatar,
   Button,
+  Card,
+  Grid,
+  IconButton,
 } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
-import DoneIcon from '@mui/icons-material/Done'
+
+import EditIcon from '@mui/icons-material/Edit';
 
 import PieChart from '../components/PieChart'
 import { LoginButton } from './LoginPage'
@@ -38,19 +40,15 @@ export const ProfileButton = styled(Button)({
 })
 
 export default function ProfilePage() {
+
   const [isEditing, setIsEditing] = useState<boolean>(false)
+
   const [profileData, setProfileData] = useState<string[]>([
     'Placeholder',
     'Placeholder',
     'Placeholder',
     'Placeholder',
   ])
-  const handleEdit = () => {
-    setIsEditing(true)
-  }
-  const handleDone = () => {
-    setIsEditing(false)
-  }
 
   const onTextFieldChange = (newString, i) => {
     const arrayCopy = profileData.map((x) => x)
@@ -58,50 +56,27 @@ export default function ProfilePage() {
     setProfileData(arrayCopy)
   }
 
+  const toggleEdit = () => {
+    setIsEditing(!isEditing)
+  }
+
   return (
-    <Container sx={{ p: 15 }}>
-      <FlexBox sx={{ maxWidth: '50%' }}>
-        <Typography variant={'h3'}>Profile</Typography>
-        {isEditing ? (
-          <IconButton onClick={handleDone}>
-            <DoneIcon sx={{ color: 'black', fontSize: '40px' }} />
-          </IconButton>
-        ) : (
-          <IconButton onClick={handleEdit}>
-            <EditIcon sx={{ color: 'black', fontSize: '40px' }} />
-          </IconButton>
-        )}
-      </FlexBox>
-      <FlexBox>
-        <Stack width="50%" spacing={1}>
-          {profileLabels.map((label: string, i: number) => (
-            <FlexBox key={i}>
-              <Typography fontSize={24}>{label + ':'}</Typography>
-              {isEditing ? (
-                <TextField
-                  value={profileData[i]}
-                  onChange={(e) => {
-                    onTextFieldChange(e.target.value, i)
-                  }}
-                  inputProps={{
-                    sx: { padding: '2px 5px', fontSize: '22px' },
-                  }}
-                >
-                  Placeholder
-                </TextField>
-              ) : (
-                <Typography fontSize={22}>{profileData[i]}</Typography>
-              )}
-            </FlexBox>
-          ))}
-        </Stack>
+    <Container sx={{ p: 15, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+      <Card sx = {{p:4, width: '32%', position: 'relative'}}>
+        <IconButton onClick={toggleEdit}
+          sx = {{position: 'absolute', top: 15, right: 15, borderBottom: '1px solid #04364A', borderRadius: 0, padding: 0.5, paddingLeft: 1}}>
+          <Typography color={'#04364A'}>Edit</Typography>
+          <Box width = {'5px'}></Box>
+          <EditIcon style={{fill: '#04364A', fontSize: '24px'}}></EditIcon>
+        </IconButton>
         <Container
           sx={{
-            width: '500px',
+            width: '350px',
             display: 'flex',
             gap: '10px',
             flexDirection: 'column',
             alignItems: 'center',
+            marginBottom: '20px'
           }}
         >
           <Avatar src="" sx={{ width: '150px', height: '150px' }} />
@@ -109,27 +84,57 @@ export default function ProfilePage() {
             <ProfileButton>Change</ProfileButton>|
             <ProfileButton>Remove</ProfileButton>
           </FlexBox>
-          <LoginButton sx={{ fontSize: '20px' }}>Change Password</LoginButton>
-        </Container>
-      </FlexBox>
-      <Typography variant={'h4'} sx={{ marginTop: 3, marginBottom: 3 }}>
-        Progress
-      </Typography>
-      <FlexBox>
-        <Container
-          sx={{ width: '800px', position: 'relative', right: '100px' }}
-        >
-          <PieChart />
+          <Typography fontSize={32} fontWeight={600}>Your Name</Typography>
         </Container>
         <Stack>
-          {progressLabels.map((label: string, i: number) => (
-            <FlexBox>
-              <Typography>{label + ':'}</Typography>
-              <Typography>{progressItems[i]}</Typography>
-            </FlexBox>
+          {profileLabels.map((label: string, i: number) => (
+            <div style = {{padding: '5px'}}>
+              <hr style = {{borderTop: '1px'}}/>
+              <Grid container gap={2} alignItems="center">
+                <Grid item xs = {3.5}>
+                  <Typography fontSize={20} textAlign={'right'}>{label + ':'}</Typography>
+                </Grid>
+                <Grid item xs = {7.5}>
+                {isEditing ? (
+                  <TextField
+                    value={profileData[i]}
+                    onChange={(e) => {
+                      onTextFieldChange(e.target.value, i)
+                    }}
+                    inputProps={{
+                      sx: { padding: '2px 5px', fontSize: '20px' },
+                    }}
+                  >
+                    Placeholder
+                  </TextField>
+                ) : (
+                  <Typography fontSize={20}>{profileData[i]}</Typography>
+                )}
+                </Grid>
+              </Grid>
+            </div>
           ))}
         </Stack>
-      </FlexBox>
+        <LoginButton sx={{ fontSize: '20px', marginTop: '20px', width: '100%'}}>Change Password</LoginButton>
+      </Card>
+      <Card sx = {{ p: 5, width: '54%'}}>
+        <Typography variant={'h4'} sx={{ marginBottom: 3 }}>
+          Progress
+        </Typography>
+        <FlexBox>
+          <Box sx = {{marginBottom: '20px', width: '100%'}}>
+            <PieChart />
+          </Box>
+          <Stack>
+            {progressLabels.map((label: string, i: number) => (
+              <FlexBox>
+                <Typography>{label + ':'}</Typography>
+                <Typography>{progressItems[i]}</Typography>
+              </FlexBox>
+            ))}
+          </Stack>
+        </FlexBox>
+      </Card>
     </Container>
   )
 }

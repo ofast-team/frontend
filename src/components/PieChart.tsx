@@ -33,7 +33,7 @@ const options: ChartOptions = {
       position: 'right',
       labels: {
         font: {
-          size: 20,
+          size: 18,
           family: 'Raleway, sans-serif',
         },
       },
@@ -43,7 +43,7 @@ const options: ChartOptions = {
 
 export default function PieChart() {
   return (
-    <Container sx={{ height: 250 }}>
+    <Container sx={{ height: 300 }}>
       <Doughnut data={data} options={options} />
     </Container>
   )
