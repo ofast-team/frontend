@@ -12,6 +12,8 @@ import LessonPage from './pages/LessonPage'
 import SolvePage from './pages/SolvePage'
 import MDXPlaygroundPage from './pages/MDXPlaygroundPage'
 import TestPage from './pages/TestPage'
+import ProblemPage from './pages/ProblemPage'
+import ProfilePage from './pages/ProfilePage'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
@@ -56,12 +58,14 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/learn/:lesson" element={<LessonPage />} />
+        <Route path="/problem/:problem" element={<ProblemPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/playground" element={<MDXPlaygroundPage />} />
         <Route path="/test" element={<TestPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </ThemeProvider>

@@ -19,7 +19,7 @@ export default function ReadingBlock(props: ReadingBlockProps) {
       className="markdown"
       gutterBottom
       color="primary"
-      component={'span'}
+      component="span"
     >
       <Markdown
         children={props.content}
