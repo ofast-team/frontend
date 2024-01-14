@@ -20,7 +20,7 @@ Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut sed placeat, itaqu
     'Output two space-separated integers, representing the indices ($0$-based) of two numbers within the array nums that sum up to the given target, $t$.',
   sampleData: [
     {
-      input: '5 4 \n\n 3 0 7 4 2',
+      input: '5 4\n\n3 0 7 4 2',
       output: '1 3',
     },
     {
@@ -216,11 +216,7 @@ export function searchProblems(text: string, maxCount: number): Problem[] {
 export function getProblem(problemID: string): Problem | null {
   const filtered = problems.filter((problem) => problem.problemID === problemID)
 
-  if (filtered.length === 1) {
-    return filtered[0]
-  }
-
-  return null
+  return filtered.length === 1 ? filtered[0] : null
 }
 
 // inclusive, exclusive
