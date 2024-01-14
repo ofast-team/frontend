@@ -210,7 +210,7 @@ export function searchProblems(text: string, maxCount: number): Problem[] {
     .filter((problem) =>
       problem.title.toLowerCase().includes(text.toLowerCase()),
     )
-    .splice(maxCount)
+    .slice(0, maxCount)
 }
 
 export function getProblem(problemID: string): Problem | null {
