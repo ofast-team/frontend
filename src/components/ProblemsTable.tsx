@@ -60,12 +60,12 @@ function createData(
 
 const data = [
   createData('twosum', 'solved', 'Problem A', ['Tag 1', 'Tag 2']),
-  createData('twosum', 'wrong', 'Problem B', ['Tag 2']),
-  createData('twosum', 'unsolved', 'Problem C', ['Tag 1', 'Tag 2', 'Tag 3']),
-  createData('twosum', 'solved', 'Problem D', ['Tag 1']),
-  createData('twosum', 'wrong', 'Problem E', ['Tag 2']),
-  createData('twosum', 'unsolved', 'Problem F', ['Tag 3']),
-  createData('twosum', 'solved', 'Problem G', ['Tag 1', 'Tag 3']),
+  createData('antarctica', 'wrong', 'Problem B', ['Tag 2']),
+  createData('penguins', 'unsolved', 'Problem C', ['Tag 1', 'Tag 2', 'Tag 3']),
+  createData('fishy', 'solved', 'Problem D', ['Tag 1']),
+  createData('city', 'wrong', 'Problem E', ['Tag 2']),
+  createData('treasure', 'unsolved', 'Problem F', ['Tag 3']),
+  createData('recipe', 'solved', 'Problem G', ['Tag 1', 'Tag 3']),
   createData('twosum', 'wrong', 'Problem H', ['Tag 2']),
   createData('twosum', 'unsolved', 'Problem I', ['Tag 3']),
   createData('twosum', 'solved', 'Problem J', ['Tag 1']),
@@ -146,7 +146,14 @@ export default function StickyHeadTable() {
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper
+      sx={{
+        width: '100%',
+        overflow: 'hidden',
+        zIndex: 0,
+        position: 'relative',
+      }}
+    >
       <TableContainer sx={{ height: 770 }}>
         <Table stickyHeader>
           <TableHead>
