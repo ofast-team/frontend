@@ -5,6 +5,7 @@ import { compile, run } from '@mdx-js/mdx'
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
 import remarkMath from 'remark-math'
 import rehypeMathJax from 'rehype-mathjax/svg'
+import remarkGfm from 'remark-gfm'
 import MCQBlock from './MCQBlock'
 import FITBBlock from './FITBBlock'
 
@@ -63,7 +64,7 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
       try {
         const compiledResult = await compile(value, {
           outputFormat: 'function-body',
-          remarkPlugins: [remarkMath],
+          remarkPlugins: [remarkMath, remarkGfm],
           rehypePlugins: [rehypeMathJax],
         })
 
