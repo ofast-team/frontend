@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { compile, run } from '@mdx-js/mdx'
 // eslint-disable-next-line
 // @ts-ignore
@@ -7,6 +7,8 @@ import remarkMath from 'remark-math'
 import rehypeMathJax from 'rehype-mathjax/svg'
 import MCQBlock from './MCQBlock'
 import FITBBlock from './FITBBlock'
+
+import Alert from '@mui/material/Alert'
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -58,18 +60,25 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
     }
 
     const compileValue = async (value: string) => {
-      const compiledResult = await compile(value, {
-        outputFormat: 'function-body',
-        remarkPlugins: [remarkMath],
-        rehypePlugins: [rehypeMathJax],
-      })
-      const res = await run(compiledResult, {
-        Fragment,
-        jsx,
-        jsxs,
-        baseUrl: import.meta.url,
-      })
-      setMdxContent(res.default({ components: { code, ...components } }))
+      try {
+        const compiledResult = await compile(value, {
+          outputFormat: 'function-body',
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeMathJax],
+        })
+
+        const res = await run(compiledResult, {
+          Fragment,
+          jsx,
+          jsxs,
+          baseUrl: import.meta.url,
+        })
+        setMdxContent(res.default({ components: { code, ...components } }))
+      } catch (e) {
+        setMdxContent(
+          <Alert severity="error">{'MDX Compile Error: ' + e.message}</Alert>,
+        )
+      }
     }
 
     if (path !== '') {
@@ -79,5 +88,5 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
     }
   }, [path, value])
 
-  return <Suspense fallback={<h2>fallback</h2>}>{mdxContent}</Suspense>
+  return mdxContent
 }
