@@ -77,7 +77,9 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                       height: '100%',
                     }}
                   >
-                    <Typography sx={{ lineHeight: 0.5 }}>{input}</Typography>
+                    <Typography sx={{ lineHeight: 0.5 }} component="span">
+                      <Markdown children={input} />
+                    </Typography>
                   </Box>
                 </Grid>
 
@@ -90,7 +92,9 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                       height: '100%',
                     }}
                   >
-                    <Typography sx={{ lineHeight: 0.5 }}>{output}</Typography>
+                    <Typography sx={{ lineHeight: 0.5 }} component="span">
+                      <Markdown children={output} />
+                    </Typography>
                   </Box>
                 </Grid>
               </Grid>

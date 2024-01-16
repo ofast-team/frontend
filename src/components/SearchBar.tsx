@@ -9,7 +9,17 @@ const verticallyCenter = {
   transform: 'translate(0%, -50%)',
 }
 
-export default function SearchBar() {
+interface SearchBarProps {
+  value: string
+  onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  onClick: React.MouseEventHandler<HTMLDivElement>
+}
+
+export default function SearchBar({
+  value,
+  onChange,
+  onClick,
+}: SearchBarProps) {
   return (
     <div
       style={{
@@ -29,6 +39,9 @@ export default function SearchBar() {
           width: 'calc(100% - 100px)',
         }}
         placeholder="search"
+        value={value}
+        onChange={onChange}
+        onClick={onClick}
       />
     </div>
   )

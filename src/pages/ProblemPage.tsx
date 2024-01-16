@@ -6,17 +6,18 @@ import { Link } from 'react-router-dom'
 import Card from '../components/ProblemPageCard'
 import ProblemBody from '../components/ProblemBody'
 
-import { problems } from './MockProblemData'
+import { getProblem } from './MockProblemData'
 
 export type Problem = {
+  problemID: string
   title: string
   text: string
   problem: string
   input: string
   output: string
   sampleData: {
-    input: JSX.Element
-    output: JSX.Element
+    input: string
+    output: string
   }[]
   tags: string[]
   resources: {
@@ -101,12 +102,11 @@ function SubmissionItem({ submission }: SubmissionItemProps) {
 export default function ProblemPage() {
   const params = useParams()
   const problemID: string = params.problem as string
+  const problem: Problem | null = getProblem(problemID)
 
-  if (!(problemID in problems)) {
+  if (problem === null) {
     return <Box pt={15}>Problem not found</Box>
   }
-
-  const problem = problems[problemID]
 
   return (
     <Container sx={{ pt: 15 }}>
