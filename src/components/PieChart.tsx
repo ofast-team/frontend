@@ -13,8 +13,6 @@ import { Container } from '@mui/material'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
-
-
 const options: ChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
@@ -32,16 +30,26 @@ const options: ChartOptions = {
 }
 
 export interface PieChartProps {
-  numAC: number,
-  numWA: number,
-  numTLE: number,
+  numAC: number
+  numWA: number
+  numTLE: number
   numRTE: number
 }
 
-export default function PieChart({numAC, numWA, numTLE, numRTE}: PieChartProps) {
-  console.log("numAC = " + numAC)
+export default function PieChart({
+  numAC,
+  numWA,
+  numTLE,
+  numRTE,
+}: PieChartProps) {
+  console.log('numAC = ' + numAC)
   const data = {
-    labels: ['Accepted', 'Wrong Answer', 'Time-Limit Exceeded', 'Runtime Error'],
+    labels: [
+      'Accepted',
+      'Wrong Answer',
+      'Time-Limit Exceeded',
+      'Runtime Error',
+    ],
     datasets: [
       {
         label: 'Judge Verdicts',

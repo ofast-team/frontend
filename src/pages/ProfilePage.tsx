@@ -38,31 +38,32 @@ export const ProfileButton = styled(Button)({
 })
 
 interface ProfileData {
-  username: string,
-  email: string,
-  name: string,
-  school: string,
-  numAttempts: number,
-  pieChartData: PieChartProps,
+  username: string
+  email: string
+  name: string
+  school: string
+  numAttempts: number
+  pieChartData: PieChartProps
 }
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
   const profileDataDefault = {
-    username: "empty",
-    email: "empty",
-    name: "empty",
-    school: "empty",
+    username: 'empty',
+    email: 'empty',
+    name: 'empty',
+    school: 'empty',
     pieChartData: {
       numAC: 0,
       numWA: 0,
       numTLE: 0,
       numRTE: 0,
     },
-    numAttempts: 0
+    numAttempts: 0,
   }
-  const [profileData, setProfileData] = useState<ProfileData>(profileDataDefault)
+  const [profileData, setProfileData] =
+    useState<ProfileData>(profileDataDefault)
 
   const user = useSelector((state: RootState) => state.user)
 
@@ -79,21 +80,21 @@ export default function ProfilePage() {
         throw Error(res.statusText)
       })
       .then((data) => {
-        console.log("Fetched data for " + data.username)
+        console.log('Fetched data for ' + data.username)
         console.log(data)
 
-        const newPieChartData : PieChartProps = {
+        const newPieChartData: PieChartProps = {
           numAC: data.problemsAccepted,
           numWA: data.problemsWrong,
           numTLE: data.problemsTLE,
-          numRTE: data.problemsRTE
+          numRTE: data.problemsRTE,
         }
 
-        const newProfileData : ProfileData = {
-          username: data.username,
+        const newProfileData: ProfileData = {
+          username: 'testuser',
           email: data.email,
           name: data.name,
-          school: "University of Maryland",
+          school: 'University of Maryland',
           numAttempts: data.problemsAttempted,
           pieChartData: newPieChartData,
         }
@@ -101,12 +102,14 @@ export default function ProfilePage() {
         setProfileData(newProfileData)
       })
       .catch((error: Error) => {
-        console.log('Error fetching data for user ' + user.id + ': ' + error.message)
+        console.log(
+          'Error fetching data for user ' + user.id + ': ' + error.message,
+        )
       })
   }, [])
 
   const onTextFieldChange = (key, newString) => {
-    const jsonCopy : ProfileData = {...profileData}
+    const jsonCopy: ProfileData = { ...profileData }
     jsonCopy[key] = newString
     setProfileData(jsonCopy)
   }
@@ -166,20 +169,21 @@ export default function ProfilePage() {
             <hr style={{ borderTop: '1px' }} />
             <Grid container gap={2} alignItems="center">
               <Grid item xs={3.5}>
-                <Typography fontSize={20} textAlign={'right'}>Username:</Typography>
+                <Typography fontSize={20} textAlign={'right'}>
+                  Username:
+                </Typography>
               </Grid>
               <Grid item xs={7.5}>
                 {isEditing ? (
                   <TextField
                     value={profileData?.username}
                     onChange={(e) => {
-                      onTextFieldChange("email", e.target.value)
+                      onTextFieldChange('email', e.target.value)
                     }}
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
-                  >
-                  </TextField>
+                  ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.username}</Typography>
                 )}
@@ -191,20 +195,21 @@ export default function ProfilePage() {
             <hr style={{ borderTop: '1px' }} />
             <Grid container gap={2} alignItems="center">
               <Grid item xs={3.5}>
-                <Typography fontSize={20} textAlign={'right'}>Email:</Typography>
+                <Typography fontSize={20} textAlign={'right'}>
+                  Email:
+                </Typography>
               </Grid>
               <Grid item xs={7.5}>
                 {isEditing ? (
                   <TextField
                     value={profileData?.email}
                     onChange={(e) => {
-                      onTextFieldChange("email", e.target.value)
+                      onTextFieldChange('email', e.target.value)
                     }}
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
-                  >
-                  </TextField>
+                  ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.email}</Typography>
                 )}
@@ -216,20 +221,21 @@ export default function ProfilePage() {
             <hr style={{ borderTop: '1px' }} />
             <Grid container gap={2} alignItems="center">
               <Grid item xs={3.5}>
-                <Typography fontSize={20} textAlign={'right'}>Name:</Typography>
+                <Typography fontSize={20} textAlign={'right'}>
+                  Name:
+                </Typography>
               </Grid>
               <Grid item xs={7.5}>
                 {isEditing ? (
                   <TextField
                     value={profileData?.name}
                     onChange={(e) => {
-                      onTextFieldChange("name", e.target.value)
+                      onTextFieldChange('name', e.target.value)
                     }}
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
-                  >
-                  </TextField>
+                  ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.name}</Typography>
                 )}
@@ -241,20 +247,21 @@ export default function ProfilePage() {
             <hr style={{ borderTop: '1px' }} />
             <Grid container gap={2} alignItems="center">
               <Grid item xs={3.5}>
-                <Typography fontSize={20} textAlign={'right'}>School:</Typography>
+                <Typography fontSize={20} textAlign={'right'}>
+                  School:
+                </Typography>
               </Grid>
               <Grid item xs={7.5}>
                 {isEditing ? (
                   <TextField
                     value={profileData?.school}
                     onChange={(e) => {
-                      onTextFieldChange("school", e.target.value)
+                      onTextFieldChange('school', e.target.value)
                     }}
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
-                  >
-                  </TextField>
+                  ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.school}</Typography>
                 )}
@@ -274,19 +281,24 @@ export default function ProfilePage() {
         </Typography>
         <FlexBox>
           <Box sx={{ marginBottom: '20px', width: '100%' }}>
-            <PieChart numAC={profileData.pieChartData.numAC} numWA = {profileData.pieChartData.numWA} numTLE={profileData.pieChartData.numTLE} numRTE={profileData.pieChartData.numRTE}/>
+            <PieChart
+              numAC={profileData.pieChartData.numAC}
+              numWA={profileData.pieChartData.numWA}
+              numTLE={profileData.pieChartData.numTLE}
+              numRTE={profileData.pieChartData.numRTE}
+            />
           </Box>
           <Stack>
             <FlexBox>
-              <Typography>{"Attempted Problems:"}</Typography>
+              <Typography>{'Attempted Problems:'}</Typography>
               <Typography>{profileData.numAttempts}</Typography>
             </FlexBox>
             <FlexBox>
-              <Typography>{"Solved Problems:"}</Typography>
+              <Typography>{'Solved Problems:'}</Typography>
               <Typography>{profileData.pieChartData.numAC}</Typography>
             </FlexBox>
             <FlexBox>
-              <Typography>{"Lessons Completed:"}</Typography>
+              <Typography>{'Lessons Completed:'}</Typography>
               <Typography>{0}</Typography>
             </FlexBox>
           </Stack>
