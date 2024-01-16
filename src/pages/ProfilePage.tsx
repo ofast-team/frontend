@@ -107,13 +107,13 @@ export default function ProfilePage() {
   }, [])
 
   const onTextFieldChange = (key, newString) => {
-    const jsonCopy: ProfileData = { ...profileData }
-    jsonCopy[key] = newString
-    setProfileData(jsonCopy)
+    setProfileData((oldData : ProfileData) => {
+      return {...oldData, [key]: newString}
+    })
   }
 
   const toggleEdit = () => {
-    setIsEditing(!isEditing)
+    setIsEditing(isEditing => !isEditing)
   }
 
   return (
