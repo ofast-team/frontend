@@ -95,6 +95,7 @@ function Header({ hint }: HeaderProps) {
   )
 }
 
+// TODO(cam) migrate componenets to JSX.Elements instead of using strings here to support markdown & Latex
 interface FITBBlockProps {
   question: string
   hint: string

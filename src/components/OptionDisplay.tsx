@@ -9,12 +9,13 @@ import {
 } from '@mui/material'
 import { CheckCircle, Cancel } from '@mui/icons-material'
 import React from 'react'
+import MDX from './MDXRenderer'
 
 interface OptionDisplayProps {
   answerOptions: string[]
-  selectedAnswers: string[]
-  correctOptions: string[]
-  handleAnswerSelection: (option: string, display: string) => void
+  selectedAnswers: number[]
+  correctOptions: number[]
+  handleAnswerSelection: (option: number, display: string) => void
   submitted: boolean
   isMultiple: boolean
 }
@@ -27,7 +28,7 @@ export default function OptionDisplay({
   submitted,
   isMultiple,
 }: OptionDisplayProps) {
-  const getBorderColor = (option: string) => {
+  const getBorderColor = (option: number) => {
     if (!submitted) return 'transparent'
 
     if (selectedAnswers.includes(option)) {
@@ -37,7 +38,7 @@ export default function OptionDisplay({
     return 'transparent'
   }
 
-  const getIcon = (option: string) => {
+  const getIcon = (option: number) => {
     if (!submitted) return ''
 
     const iconStyle = {
@@ -86,7 +87,8 @@ export default function OptionDisplay({
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              border: `2px solid ${getBorderColor(option)}`,
+              border: `2px solid ${getBorderColor(index)}`,
+              transition: 'border 0.5s',
               borderRadius: '10px',
               flexGrow: 1,
               my: 0.75,
@@ -97,8 +99,8 @@ export default function OptionDisplay({
               control={
                 isMultiple ? (
                   <Checkbox
-                    checked={selectedAnswers.includes(option)}
-                    onChange={() => handleAnswerSelection(option, 'check')}
+                    checked={selectedAnswers.includes(index)}
+                    onChange={() => handleAnswerSelection(index, 'check')}
                     color="primary"
                     sx={{
                       '&.Mui-disabled': {
@@ -109,8 +111,8 @@ export default function OptionDisplay({
                   />
                 ) : (
                   <Radio
-                    checked={selectedAnswers.includes(option)}
-                    onChange={() => handleAnswerSelection(option, 'radio')}
+                    checked={selectedAnswers.includes(index)}
+                    onChange={() => handleAnswerSelection(index, 'radio')}
                     color="primary"
                     sx={{
                       '&.Mui-disabled': {
@@ -121,7 +123,11 @@ export default function OptionDisplay({
                   />
                 )
               }
-              label={option}
+              label={
+                <div style={{ marginTop: '20px' }}>
+                  <MDX value={option} />
+                </div>
+              }
               disabled={submitted}
               sx={{
                 px: 1,
@@ -132,7 +138,7 @@ export default function OptionDisplay({
               }}
             />
           </Box>
-          {getIcon(option)}
+          {getIcon(index)}
         </Grid>
       ))}
     </FormControl>

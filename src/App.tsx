@@ -10,6 +10,7 @@ import LearnPage from './pages/LearnPage'
 import NavBar from './components/NavBar'
 import LessonPage from './pages/LessonPage'
 import SolvePage from './pages/SolvePage'
+import MDXPlaygroundPage from './pages/MDXPlaygroundPage'
 import ProblemPage from './pages/ProblemPage'
 import ProfilePage from './pages/ProfilePage'
 
@@ -65,6 +66,7 @@ export function App() {
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/playground" element={<MDXPlaygroundPage />} />
         <Route
           path="/profile"
           element={
