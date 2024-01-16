@@ -67,7 +67,9 @@ export function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/profile"
-          element={user.signedIn ? <ProfilePage /> : <HomePage />}
+          element={
+            user.signedIn ? <ProfilePage /> : <Navigate to="/" replace />
+          }
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

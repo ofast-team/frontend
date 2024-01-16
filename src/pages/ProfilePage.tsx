@@ -81,9 +81,6 @@ export default function ProfilePage() {
         throw Error(res.statusText)
       })
       .then((data) => {
-        console.log('Fetched data for ' + data.username)
-        console.log(data)
-
         const newPieChartData: PieChartProps = {
           numAC: data.problemsAccepted,
           numWA: data.problemsWrong,
@@ -296,12 +293,7 @@ export default function ProfilePage() {
         </Typography>
         <FlexBox>
           <Box sx={{ marginBottom: '20px', width: '100%' }}>
-            <PieChart
-              numAC={profileData.pieChartData.numAC}
-              numWA={profileData.pieChartData.numWA}
-              numTLE={profileData.pieChartData.numTLE}
-              numRTE={profileData.pieChartData.numRTE}
-            />
+            <PieChart {...profileData.pieChartData} />
           </Box>
           <Stack>
             <FlexBox>
