@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 
 import EditIcon from '@mui/icons-material/Edit'
-import DoneIcon from '@mui/icons-material/Done';
+import DoneIcon from '@mui/icons-material/Done'
 
 import PieChart, { PieChartProps } from '../components/PieChart'
 import { LoginButton } from './LoginPage'
@@ -140,20 +140,24 @@ export default function ProfilePage() {
             padding: 0.5,
             paddingLeft: 1,
           }}
-        > 
-          { isEditing ? 
+        >
+          {isEditing ? (
             <React.Fragment>
               <Typography color={'#04364A'}>Done</Typography>
               <Box width={'5px'}></Box>
-              <DoneIcon style={{ fill: '#04364A', fontSize: '24px' }}></DoneIcon>
+              <DoneIcon
+                style={{ fill: '#04364A', fontSize: '24px' }}
+              ></DoneIcon>
             </React.Fragment>
-          :
+          ) : (
             <React.Fragment>
               <Typography color={'#04364A'}>Edit</Typography>
               <Box width={'5px'}></Box>
-              <EditIcon style={{ fill: '#04364A', fontSize: '24px' }}></EditIcon>
+              <EditIcon
+                style={{ fill: '#04364A', fontSize: '24px' }}
+              ></EditIcon>
             </React.Fragment>
-          }
+          )}
         </IconButton>
         <Container
           sx={{

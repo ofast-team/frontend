@@ -65,7 +65,10 @@ export function App() {
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={user.signedIn ? <ProfilePage /> : <HomePage/>} />
+        <Route
+          path="/profile"
+          element={user.signedIn ? <ProfilePage /> : <HomePage />}
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </ThemeProvider>
