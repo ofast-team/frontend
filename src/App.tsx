@@ -19,7 +19,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Raleway, sans-serif',
+    fontFamily: 'Lato, sans-serif',
     fontSize: 16,
     fontWeightRegular: 400,
     fontWeightBold: 700,
