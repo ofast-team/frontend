@@ -15,6 +15,8 @@ import TestPage from './pages/TestPage'
 import ProblemPage from './pages/ProblemPage'
 import ProfilePage from './pages/ProfilePage'
 
+import { useSelector } from 'react-redux'
+import { RootState } from './store'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const theme = createTheme({
@@ -51,6 +53,8 @@ const theme = createTheme({
 })
 
 export function App() {
+  const user = useSelector((state: RootState) => state.user)
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
@@ -65,7 +69,12 @@ export function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/playground" element={<MDXPlaygroundPage />} />
         <Route path="/test" element={<TestPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile"
+          element={
+            user.signedIn ? <ProfilePage /> : <Navigate to="/" replace />
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </ThemeProvider>
