@@ -9,27 +9,56 @@ import remarkGfm from 'remark-gfm'
 import MCQBlock from './MCQBlock'
 import FITBBlock from './FITBBlock'
 
-import Alert from '@mui/material/Alert'
+import { Alert, Box, Fab, Tooltip } from '@mui/material'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 function code(props) {
+  const [tooltip, setTooltip] = useState<string>('Copy to clipboard')
   const { children, className, ...rest } = props
   const match = /language-(\w+)/.exec(className || '')
-  return match ? (
-    <SyntaxHighlighter
-      {...rest}
-      children={String(children).replace(/\n$/, '')}
-      style={oneDark}
-      language={match[1]}
-      PreTag="div"
-      showLineNumbers
-    />
-  ) : (
-    <code {...rest} className={className}>
-      {children}
-    </code>
+
+  if (!match) {
+    return (
+      <code {...rest} className={className}>
+        {children}
+      </code>
+    )
+  }
+
+  const codeStr = String(children).replace(/\n$/, '')
+
+  return (
+    <Box sx={{ position: 'relative' }}>
+      <Tooltip
+        title={tooltip}
+        onClose={async () => {
+          await new Promise((r) => setTimeout(r, 200))
+          setTooltip('Copy to clipboard')
+        }}
+        sx={{ position: 'absolute', top: '20px', right: '20px' }}
+      >
+        <Fab
+          color="secondary"
+          onClick={() => {
+            navigator.clipboard.writeText(codeStr)
+            setTooltip('Copied!')
+          }}
+        >
+          <ContentCopyIcon />
+        </Fab>
+      </Tooltip>
+      <SyntaxHighlighter
+        {...rest}
+        children={codeStr}
+        style={oneDark}
+        language={match[1]}
+        PreTag="div"
+        showLineNumbers
+      />
+    </Box>
   )
 }
 
