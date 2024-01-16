@@ -70,7 +70,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetch(buildPath('/getUserData'), {
-      method: 'POST',
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ uid: user.id }),
     })
