@@ -50,7 +50,7 @@ interface ProfileData {
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
-  const profileDataDefault = {
+  const profileDataDefault : ProfileData = {
     username: 'empty',
     email: 'empty',
     name: 'empty',
