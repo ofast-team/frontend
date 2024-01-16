@@ -13,17 +13,7 @@ import { Container } from '@mui/material'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
-const data = {
-  labels: ['Accepted', 'Wrong Answer', 'Time-Limit Exceeded', 'Runtime Error'],
-  datasets: [
-    {
-      label: 'Judge Verdicts',
-      data: [3, 8, 5, 2],
-      backgroundColor: ['#02b2af', '#2e96ff', '#c004dc', '#68049c'],
-      borderWidth: 1,
-    },
-  ],
-}
+
 
 const options: ChartOptions = {
   responsive: true,
@@ -41,7 +31,27 @@ const options: ChartOptions = {
   },
 }
 
-export default function PieChart() {
+export interface PieChartProps {
+  numAC: number,
+  numWA: number,
+  numTLE: number,
+  numRTE: number
+}
+
+export default function PieChart({numAC, numWA, numTLE, numRTE}: PieChartProps) {
+  console.log("numAC = " + numAC)
+  const data = {
+    labels: ['Accepted', 'Wrong Answer', 'Time-Limit Exceeded', 'Runtime Error'],
+    datasets: [
+      {
+        label: 'Judge Verdicts',
+        data: [numAC, numWA, numTLE, numRTE],
+        backgroundColor: ['#02b2af', '#2e96ff', '#c004dc', '#68049c'],
+        borderWidth: 1,
+      },
+    ],
+  }
+
   return (
     <Container sx={{ height: 300 }}>
       <Doughnut data={data} options={options} />

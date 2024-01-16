@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Typography,
   Container,
@@ -15,13 +16,10 @@ import {
 
 import EditIcon from '@mui/icons-material/Edit'
 
-import PieChart from '../components/PieChart'
+import PieChart, { PieChartProps } from '../components/PieChart'
 import { LoginButton } from './LoginPage'
-
-// Not sure what we're going to store in the database yet, this is placeholder.
-const profileLabels = ['Username', 'Email', 'Name', 'School']
-const progressLabels = ['Submissions', 'Solved Problems', 'Completed Lessons']
-const progressItems = ['0', '0 / 1', '0 / 4']
+import { RootState } from '../store'
+import buildPath from '../path'
 
 const FlexBox = styled(Box)({
   display: 'flex',
@@ -39,20 +37,78 @@ export const ProfileButton = styled(Button)({
   fontWeight: 500,
 })
 
+interface ProfileData {
+  username: string,
+  email: string,
+  name: string,
+  school: string,
+  numAttempts: number,
+  pieChartData: PieChartProps,
+}
+
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
-  const [profileData, setProfileData] = useState<string[]>([
-    'Placeholder',
-    'Placeholder',
-    'Placeholder',
-    'Placeholder',
-  ])
+  const profileDataDefault = {
+    username: "empty",
+    email: "empty",
+    name: "empty",
+    school: "empty",
+    pieChartData: {
+      numAC: 0,
+      numWA: 0,
+      numTLE: 0,
+      numRTE: 0,
+    },
+    numAttempts: 0
+  }
+  const [profileData, setProfileData] = useState<ProfileData>(profileDataDefault)
 
-  const onTextFieldChange = (newString, i) => {
-    const arrayCopy = profileData.map((x) => x)
-    arrayCopy[i] = newString
-    setProfileData(arrayCopy)
+  const user = useSelector((state: RootState) => state.user)
+
+  useEffect(() => {
+    fetch(buildPath('/getUserData'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ uid: user.id }),
+    })
+      .then((res: Response) => {
+        if (res.ok) {
+          return res.json()
+        }
+        throw Error(res.statusText)
+      })
+      .then((data) => {
+        console.log("Fetched data for " + data.username)
+        console.log(data)
+
+        const newPieChartData : PieChartProps = {
+          numAC: data.problemsAccepted,
+          numWA: data.problemsWrong,
+          numTLE: data.problemsTLE,
+          numRTE: data.problemsRTE
+        }
+
+        const newProfileData : ProfileData = {
+          username: data.username,
+          email: data.email,
+          name: data.name,
+          school: "University of Maryland",
+          numAttempts: data.problemsAttempted,
+          pieChartData: newPieChartData,
+        }
+
+        setProfileData(newProfileData)
+      })
+      .catch((error: Error) => {
+        console.log('Error fetching data for user ' + user.id + ': ' + error.message)
+      })
+  }, [])
+
+  const onTextFieldChange = (key, newString) => {
+    const jsonCopy : ProfileData = {...profileData}
+    jsonCopy[key] = newString
+    setProfileData(jsonCopy)
   }
 
   const toggleEdit = () => {
@@ -101,39 +157,110 @@ export default function ProfilePage() {
             <ProfileButton>Remove</ProfileButton>
           </FlexBox>
           <Typography fontSize={32} fontWeight={600}>
-            Your Name
+            {profileData?.name}
           </Typography>
         </Container>
         <Stack>
-          {profileLabels.map((label: string, i: number) => (
-            <div style={{ padding: '5px' }}>
-              <hr style={{ borderTop: '1px' }} />
-              <Grid container gap={2} alignItems="center">
-                <Grid item xs={3.5}>
-                  <Typography fontSize={20} textAlign={'right'}>
-                    {label + ':'}
-                  </Typography>
-                </Grid>
-                <Grid item xs={7.5}>
-                  {isEditing ? (
-                    <TextField
-                      value={profileData[i]}
-                      onChange={(e) => {
-                        onTextFieldChange(e.target.value, i)
-                      }}
-                      inputProps={{
-                        sx: { padding: '2px 5px', fontSize: '20px' },
-                      }}
-                    >
-                      Placeholder
-                    </TextField>
-                  ) : (
-                    <Typography fontSize={20}>{profileData[i]}</Typography>
-                  )}
-                </Grid>
+          {/* Username */}
+          <div style={{ padding: '5px' }}>
+            <hr style={{ borderTop: '1px' }} />
+            <Grid container gap={2} alignItems="center">
+              <Grid item xs={3.5}>
+                <Typography fontSize={20} textAlign={'right'}>Username:</Typography>
               </Grid>
-            </div>
-          ))}
+              <Grid item xs={7.5}>
+                {isEditing ? (
+                  <TextField
+                    value={profileData?.username}
+                    onChange={(e) => {
+                      onTextFieldChange("email", e.target.value)
+                    }}
+                    inputProps={{
+                      sx: { padding: '2px 5px', fontSize: '20px' },
+                    }}
+                  >
+                  </TextField>
+                ) : (
+                  <Typography fontSize={20}>{profileData?.username}</Typography>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+          {/* Email */}
+          <div style={{ padding: '5px' }}>
+            <hr style={{ borderTop: '1px' }} />
+            <Grid container gap={2} alignItems="center">
+              <Grid item xs={3.5}>
+                <Typography fontSize={20} textAlign={'right'}>Email:</Typography>
+              </Grid>
+              <Grid item xs={7.5}>
+                {isEditing ? (
+                  <TextField
+                    value={profileData?.email}
+                    onChange={(e) => {
+                      onTextFieldChange("email", e.target.value)
+                    }}
+                    inputProps={{
+                      sx: { padding: '2px 5px', fontSize: '20px' },
+                    }}
+                  >
+                  </TextField>
+                ) : (
+                  <Typography fontSize={20}>{profileData?.email}</Typography>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+          {/*"Name"*/}
+          <div style={{ padding: '5px' }}>
+            <hr style={{ borderTop: '1px' }} />
+            <Grid container gap={2} alignItems="center">
+              <Grid item xs={3.5}>
+                <Typography fontSize={20} textAlign={'right'}>Name:</Typography>
+              </Grid>
+              <Grid item xs={7.5}>
+                {isEditing ? (
+                  <TextField
+                    value={profileData?.name}
+                    onChange={(e) => {
+                      onTextFieldChange("name", e.target.value)
+                    }}
+                    inputProps={{
+                      sx: { padding: '2px 5px', fontSize: '20px' },
+                    }}
+                  >
+                  </TextField>
+                ) : (
+                  <Typography fontSize={20}>{profileData?.name}</Typography>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+          {/* School */}
+          <div style={{ padding: '5px' }}>
+            <hr style={{ borderTop: '1px' }} />
+            <Grid container gap={2} alignItems="center">
+              <Grid item xs={3.5}>
+                <Typography fontSize={20} textAlign={'right'}>School:</Typography>
+              </Grid>
+              <Grid item xs={7.5}>
+                {isEditing ? (
+                  <TextField
+                    value={profileData?.school}
+                    onChange={(e) => {
+                      onTextFieldChange("school", e.target.value)
+                    }}
+                    inputProps={{
+                      sx: { padding: '2px 5px', fontSize: '20px' },
+                    }}
+                  >
+                  </TextField>
+                ) : (
+                  <Typography fontSize={20}>{profileData?.school}</Typography>
+                )}
+              </Grid>
+            </Grid>
+          </div>
         </Stack>
         <LoginButton
           sx={{ fontSize: '20px', marginTop: '20px', width: '100%' }}
@@ -147,15 +274,21 @@ export default function ProfilePage() {
         </Typography>
         <FlexBox>
           <Box sx={{ marginBottom: '20px', width: '100%' }}>
-            <PieChart />
+            <PieChart numAC={profileData.pieChartData.numAC} numWA = {profileData.pieChartData.numWA} numTLE={profileData.pieChartData.numTLE} numRTE={profileData.pieChartData.numRTE}/>
           </Box>
           <Stack>
-            {progressLabels.map((label: string, i: number) => (
-              <FlexBox>
-                <Typography>{label + ':'}</Typography>
-                <Typography>{progressItems[i]}</Typography>
-              </FlexBox>
-            ))}
+            <FlexBox>
+              <Typography>{"Attempted Problems:"}</Typography>
+              <Typography>{profileData.numAttempts}</Typography>
+            </FlexBox>
+            <FlexBox>
+              <Typography>{"Solved Problems:"}</Typography>
+              <Typography>{profileData.pieChartData.numAC}</Typography>
+            </FlexBox>
+            <FlexBox>
+              <Typography>{"Lessons Completed:"}</Typography>
+              <Typography>{0}</Typography>
+            </FlexBox>
           </Stack>
         </FlexBox>
       </Card>
