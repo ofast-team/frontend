@@ -15,6 +15,7 @@ import {
 } from '@mui/material'
 
 import EditIcon from '@mui/icons-material/Edit'
+import DoneIcon from '@mui/icons-material/Done';
 
 import PieChart, { PieChartProps } from '../components/PieChart'
 import { LoginButton } from './LoginPage'
@@ -139,10 +140,20 @@ export default function ProfilePage() {
             padding: 0.5,
             paddingLeft: 1,
           }}
-        >
-          <Typography color={'#04364A'}>Edit</Typography>
-          <Box width={'5px'}></Box>
-          <EditIcon style={{ fill: '#04364A', fontSize: '24px' }}></EditIcon>
+        > 
+          { isEditing ? 
+            <React.Fragment>
+              <Typography color={'#04364A'}>Done</Typography>
+              <Box width={'5px'}></Box>
+              <DoneIcon style={{ fill: '#04364A', fontSize: '24px' }}></DoneIcon>
+            </React.Fragment>
+          :
+            <React.Fragment>
+              <Typography color={'#04364A'}>Edit</Typography>
+              <Box width={'5px'}></Box>
+              <EditIcon style={{ fill: '#04364A', fontSize: '24px' }}></EditIcon>
+            </React.Fragment>
+          }
         </IconButton>
         <Container
           sx={{
@@ -178,7 +189,7 @@ export default function ProfilePage() {
                   <TextField
                     value={profileData?.username}
                     onChange={(e) => {
-                      onTextFieldChange('email', e.target.value)
+                      onTextFieldChange('username', e.target.value)
                     }}
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
