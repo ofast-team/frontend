@@ -50,7 +50,7 @@ interface ProfileData {
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
-  const profileDataDefault : ProfileData = {
+  const profileDataDefault: ProfileData = {
     username: 'empty',
     email: 'empty',
     name: 'empty',
@@ -107,13 +107,13 @@ export default function ProfilePage() {
   }, [])
 
   const onTextFieldChange = (key, newString) => {
-    setProfileData((oldData : ProfileData) => {
-      return {...oldData, [key]: newString}
+    setProfileData((oldData: ProfileData) => {
+      return { ...oldData, [key]: newString }
     })
   }
 
   const toggleEdit = () => {
-    setIsEditing(isEditing => !isEditing)
+    setIsEditing((isEditing) => !isEditing)
   }
 
   return (
