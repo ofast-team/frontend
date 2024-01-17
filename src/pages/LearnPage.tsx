@@ -10,6 +10,7 @@ import {
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { styled } from '@mui/material/styles'
 
+import lessonsData from '../lessons.json'
 import SearchBar from '../components/SearchBar'
 import InlineSpacing from '../components/InlineSpacing'
 import { Link } from 'react-router-dom'
@@ -65,38 +66,13 @@ interface lesson {
   urlParam: string
 }
 
-const lessons: lesson[] = [
-  {
-    group: 'Intro Algo Design',
-    name: 'Brute Force',
-    urlParam: 'dynamic_programming',
-  },
-  {
-    group: 'Intro Algo Design',
-    name: 'Intro Greedy',
-    urlParam: 'greedy',
-  },
-  {
-    group: 'Intro Algo Design',
-    name: 'Time & Memory Analysis',
-    urlParam: 'dynamic_programming',
-  },
-  {
-    group: 'Intro Data Structures',
-    name: 'Prefix Sums',
-    urlParam: 'dynamic_programming',
-  },
-  {
-    group: 'Intro Data Structures',
-    name: 'Lists & Vectors',
-    urlParam: 'dynamic_programming',
-  },
-  {
-    group: 'Intro Data Structures',
-    name: 'Stacks & Queues',
-    urlParam: 'dynamic_programming',
-  },
-]
+const lessons: lesson[] = Object.entries(lessonsData).map((lessonData) => {
+  return {
+    group: lessonData[1].lessonGroup,
+    name: lessonData[1].lessonName,
+    urlParam: lessonData[0],
+  }
+})
 
 export default function LearnPage() {
   const groupedLessons: Record<string, lesson[]> = {}
@@ -115,7 +91,7 @@ export default function LearnPage() {
         Learn
       </Typography>
 
-      <SearchBar />
+      <SearchBar value="" onChange={() => {}} onClick={() => {}} />
 
       {Object.entries(groupedLessons).map((lessonGroup, groupIndex) => {
         return (
@@ -132,7 +108,7 @@ export default function LearnPage() {
                       {lesson.name}
                     </Link>
                   </LessonButton>
-                  <InlineSpacing spacing={60} />
+                  <InlineSpacing spacing={40} />
                 </React.Fragment>
               ))}
 
