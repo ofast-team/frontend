@@ -112,7 +112,7 @@ function LogoTitle() {
         display: 'flex',
         justifyContent: { xs: 'center', md: 'flex-start' },
         textAlign: 'center',
-        fontFamily: ['Kaushan Script', 'cursive'].join(','),
+        fontFamily: 'Kaushan Script, cursive',
         fontWeight: 700,
         letterSpacing: '.1rem',
         color: '#dafffb',

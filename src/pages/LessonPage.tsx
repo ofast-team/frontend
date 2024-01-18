@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Box, Container, Typography } from '@mui/material'
 
 import './LessonPage.css'
-import '../components/ReadingBlock.css'
 
 import MDX from '../components/MDXRenderer'
 
