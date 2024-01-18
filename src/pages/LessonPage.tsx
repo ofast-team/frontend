@@ -3,7 +3,6 @@ import { Box, Container, Typography } from '@mui/material'
 import lessons from '../lessons.json'
 
 import './LessonPage.css'
-import '../components/ReadingBlock.css'
 
 import MDX from '../components/MDXRenderer'
 import { useParams, Navigate } from 'react-router-dom'
