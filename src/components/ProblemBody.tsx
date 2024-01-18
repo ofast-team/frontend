@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 const dataTheme = createTheme({
   typography: {
     fontFamily: 'Source Code Pro, monospace',
+    fontWeightRegular: 700,
   },
 })
 
