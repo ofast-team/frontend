@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Box, Container } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 
 import './LessonPage.css'
 
-import { useParams, Navigate } from 'react-router-dom'
-
-import fetchLessons from '../functions/FetchLessons'
+import MDX from '../components/MDXRenderer'
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
@@ -74,16 +72,14 @@ function LessonBlockWrapper({
   )
 }
 
-const lessons = await fetchLessons()
-
 export default function LessonPage() {
-  const params = useParams()
-
-  if (!params.lesson || !(params.lesson in lessons)) {
-    return <Navigate to="/learn" replace={true} />
-  }
-
-  const blocks = lessons[params.lesson]
+  const blocks = [
+    <MDX path="/lessons/dynamic_programming/RecursiveFunctions.mdx" />,
+    <MDX path="/lessons/dynamic_programming/Fitb1.mdx" />,
+    <MDX path="/lessons/dynamic_programming/Mcq1.mdx" />,
+    <MDX path="/lessons/dynamic_programming/OverlappingSubproblems.mdx" />,
+    <MDX path="/lessons/dynamic_programming/BuildingARecursiveFunction.mdx" />,
+  ]
   const blockRefs = useRef(new Array(blocks.length))
   const [offsetY, setOffsetY] = useState(0)
   const [windowDimensions, setWindowDimensions] = useState(
@@ -130,15 +126,22 @@ export default function LessonPage() {
           height: '100vh',
         }}
       >
-        {blocks.map((block, id) => (
-          <LessonBlockWrapper
-            key={id}
-            block={block}
-            id={id}
-            blockRefs={blockRefs}
-            windowDimensions={windowDimensions}
-          />
-        ))}
+        <Typography
+          className="markdown"
+          gutterBottom
+          color="primary"
+          component={'span'}
+        >
+          {blocks.map((block, id) => (
+            <LessonBlockWrapper
+              key={id}
+              block={block}
+              id={id}
+              blockRefs={blockRefs}
+              windowDimensions={windowDimensions}
+            />
+          ))}
+        </Typography>
       </Box>
 
       <Box

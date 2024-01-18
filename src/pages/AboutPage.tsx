@@ -66,7 +66,9 @@ export default function AboutPage() {
             >
               {profile.role}
             </Typography>
-            <Typography variant="body2">{profile.bio}</Typography>
+            <Typography variant="body2" sx={{ fontSize: '1.2rem' }}>
+              {profile.bio}
+            </Typography>
           </div>
         </Box>
       ))}

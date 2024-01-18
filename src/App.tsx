@@ -10,28 +10,38 @@ import LearnPage from './pages/LearnPage'
 import NavBar from './components/NavBar'
 import LessonPage from './pages/LessonPage'
 import SolvePage from './pages/SolvePage'
+import MDXPlaygroundPage from './pages/MDXPlaygroundPage'
+import ProblemPage from './pages/ProblemPage'
 import ProfilePage from './pages/ProfilePage'
 import SubmitPage from './pages/SubmitPage'
 
+import { useSelector } from 'react-redux'
+import { RootState } from './store'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Raleway, sans-serif',
+    fontFamily: 'Lato, sans-serif',
     fontSize: 16,
-    fontWeightRegular: 400,
-    fontWeightBold: 700,
+    fontWeightRegular: 300,
+    fontWeightBold: 400,
+    h1: {
+      fontWeight: 400,
+    },
+    h2: {
+      fontWeight: 400,
+    },
     h3: {
       fontSize: '3rem',
-      fontWeight: 'bold',
+      fontWeight: 400,
     },
     h4: {
       fontSize: '2rem',
-      fontWeight: 600,
+      fontWeight: 400,
     },
     h5: {
       fontSize: '1.2rem',
-      fontWeight: 600,
+      fontWeight: 400,
     },
     body1: {
       fontSize: '1.25rem',
@@ -49,6 +59,8 @@ const theme = createTheme({
 })
 
 export function App() {
+  const user = useSelector((state: RootState) => state.user)
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
@@ -56,12 +68,19 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/learn/:lesson" element={<LessonPage />} />
+        <Route path="/problem/:problem" element={<ProblemPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/submit" element={<SubmitPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/playground" element={<MDXPlaygroundPage />} />
+        <Route
+          path="/profile"
+          element={
+            user.signedIn ? <ProfilePage /> : <Navigate to="/" replace />
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </ThemeProvider>

@@ -12,13 +12,18 @@ import {
   Chip,
   Typography,
 } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 import InlineSpacing from '../components/InlineSpacing'
+import {
+  getProblemMetaDataFromRange,
+  getNumProblems,
+} from '../pages/MockProblemData'
 
 interface Column {
   id: 'status' | 'title' | 'tags'
   label: string
-  minWidth?: number
+  width?: number
   align?: 'right'
 }
 
@@ -26,74 +31,41 @@ const columns: readonly Column[] = [
   {
     id: 'status',
     label: 'Status',
-    minWidth: 50,
+    width: 50,
   },
   {
     id: 'title',
     label: 'Title',
-    minWidth: 170,
+    width: 170,
   },
   {
     id: 'tags',
     label: 'Tags',
-    minWidth: 170,
+    width: 120,
     align: 'right',
   },
 ]
 
-interface Data {
+export type ProblemMetaData = {
+  problemID: string
   status: string
   title: string
-  tags: React.JSX.Element[]
+  tags: string[]
 }
 
-function createData(status: string, title: string, tags: string[]): Data {
-  const tagChips = tags.map((tag) => <Chip label={tag} />)
-  return { status, title, tags: tagChips }
-}
-
-const data = [
-  createData('solved', 'Problem A', ['Tag 1', 'Tag 2']),
-  createData('wrong', 'Problem B', ['Tag 2']),
-  createData('unsolved', 'Problem C', ['Tag 1', 'Tag 2', 'Tag 3']),
-  createData('solved', 'Problem D', ['Tag 1']),
-  createData('wrong', 'Problem E', ['Tag 2']),
-  createData('unsolved', 'Problem F', ['Tag 3']),
-  createData('solved', 'Problem G', ['Tag 1', 'Tag 3']),
-  createData('wrong', 'Problem H', ['Tag 2']),
-  createData('unsolved', 'Problem I', ['Tag 3']),
-  createData('solved', 'Problem J', ['Tag 1']),
-  createData('wrong', 'Problem H', ['Tag 2']),
-  createData('unsolved', 'Problem I', ['Tag 3']),
-  createData('solved', 'Problem J', ['Tag 1']),
-  createData('wrong', 'Problem K', ['Tag 1']),
-  createData('unsolved', 'Problem L', ['Tag 1']),
-  createData('solved', 'Problem M', ['Tag 1']),
-  createData('wrong', 'Problem N', ['Tag 1']),
-  createData('unsolved', 'Problem O', ['Tag 1']),
-  createData('solved', 'Problem P', ['Tag 1']),
-  createData('wrong', 'Problem Q', ['Tag 1']),
-  createData('unsolved', 'Problem R', ['Tag 1']),
-  createData('solved', 'Problem S', ['Tag 1']),
-  createData('wrong', 'Problem T', ['Tag 1']),
-]
-
-const getTableValue = (
-  columnID: string,
-  data: string | React.JSX.Element[],
-) => {
-  if (columnID === 'tags' && data.constructor === Array) {
-    return data.map((chip, i) => {
+const getTableValue = (columnID: string, problemMetaData: ProblemMetaData) => {
+  if (columnID === 'tags') {
+    return problemMetaData[columnID].map((tag, i) => {
       return (
         <span key={i}>
-          {chip}
+          <Chip label={tag} />
           <InlineSpacing spacing={8} />
         </span>
       )
     })
   }
 
-  if (columnID === 'status' && typeof data === 'string') {
+  if (columnID === 'status') {
     const statusToColor = {
       solved: 'green',
       wrong: 'red',
@@ -105,27 +77,53 @@ const getTableValue = (
         style={{
           height: 20,
           width: 20,
-          backgroundColor: statusToColor[data],
+          backgroundColor: statusToColor[problemMetaData.status],
           borderRadius: '50%',
         }}
       />
     )
   }
 
-  return data
+  if (columnID === 'title') {
+    return (
+      <Typography
+        variant="body1"
+        gutterBottom
+        color="primary"
+        component="span"
+        sx={{ cursor: 'pointer' }}
+      >
+        <Link
+          style={{ color: 'inherit', textDecoration: 'none' }}
+          to={'/problem/' + problemMetaData.problemID}
+        >
+          {problemMetaData[columnID]}
+        </Link>
+      </Typography>
+    )
+  }
+
+  return <></>
 }
 
 export default function StickyHeadTable() {
-  const [page, setPage] = React.useState(1)
+  const [pageNumber, setPageNumber] = React.useState(1)
   const rowsPerPage = 10
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage)
+  const handleChangePage = (event: unknown, newPageNumber: number) => {
+    setPageNumber(newPageNumber)
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ height: 720 }}>
+    <Paper
+      sx={{
+        width: '100%',
+        overflow: 'hidden',
+        zIndex: 0,
+        position: 'relative',
+      }}
+    >
+      <TableContainer sx={{ height: 770 }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -133,7 +131,7 @@ export default function StickyHeadTable() {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{ width: column.width }}
                 >
                   <Typography variant="h5" gutterBottom color="primary">
                     {column.label}
@@ -143,24 +141,26 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data
-              .slice(
-                (page - 1) * rowsPerPage,
-                (page - 1) * rowsPerPage + rowsPerPage,
+            {getProblemMetaDataFromRange(
+              (pageNumber - 1) * rowsPerPage,
+              pageNumber * rowsPerPage,
+            ).map((row: ProblemMetaData) => {
+              return (
+                <TableRow hover key={row.title}>
+                  {columns.map((column) => {
+                    return (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ overflow: 'hidden ' }}
+                      >
+                        {getTableValue(column.id, row)}
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
               )
-              .map((row) => {
-                return (
-                  <TableRow hover key={row.title}>
-                    {columns.map((column) => {
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {getTableValue(column.id, row[column.id])}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                )
-              })}
+            })}
           </TableBody>
         </Table>
       </TableContainer>
@@ -169,8 +169,8 @@ export default function StickyHeadTable() {
         <Pagination
           color="primary"
           onChange={handleChangePage}
-          page={page}
-          count={Math.ceil(data.length / rowsPerPage)}
+          page={pageNumber}
+          count={Math.ceil(getNumProblems() / rowsPerPage)}
         />
       </Box>
     </Paper>
