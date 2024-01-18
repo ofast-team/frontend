@@ -22,7 +22,7 @@ const theme = createTheme({
   typography: {
     fontFamily: 'Roboto, sans-serif',
     fontSize: 16,
-    fontWeightRegular: 300,
+    fontWeightRegular: 400,
     fontWeightBold: 500,
     h1: {
       fontWeight: 500,
@@ -36,11 +36,11 @@ const theme = createTheme({
     },
     h4: {
       fontSize: '2rem',
-      fontWeight: 500,
+      fontWeight: 700,
     },
     h5: {
       fontSize: '1.2rem',
-      fontWeight: 500,
+      fontWeight: 700,
     },
     body1: {
       fontSize: '1.25rem',
