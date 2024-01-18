@@ -152,7 +152,7 @@ function NavItems({ pages }: pagesProps) {
             ...(location.pathname === `/${page}` ? activeLink : linkStyle),
           }}
         >
-          {page === '' ? 'Home' : page}
+          {page === '' ? 'HOME' : page}
         </Button>
       ))}
     </Box>
@@ -216,7 +216,7 @@ function ResponsiveMenu({ pages }: pagesProps) {
           >
             <MenuItem onClick={handleCloseNavMenu}>
               <Typography textAlign="center">
-                {page === '' ? 'Home' : page}
+                {page === '' ? 'HOME' : page}
               </Typography>
             </MenuItem>
           </Link>
@@ -252,14 +252,14 @@ function GetStarted() {
           },
         }}
       >
-        Get Started
+        GET STARTED
       </Button>
     </Box>
   )
 }
 
-const before_pages = ['', 'about', 'learn', 'solve']
-const after_pages = ['', 'about', 'learn', 'solve', 'submit']
+const before_pages = ['', 'ABOUT', 'LEARN', 'SOLVE']
+const after_pages = ['', 'ABOUT', 'LEARN', 'SOLVE', 'SUBMIT']
 
 function NavBar() {
   const user = useSelector((state: RootState) => state.user)
