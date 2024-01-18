@@ -61,17 +61,17 @@ const ShowAnswerBlank = styled(TextField)({
   },
 })
 
-interface TheBlankProps {
+interface BlankProps {
   correctAnswer: string
   respond: boolean
   showAnswer: boolean
 }
 
-export default function TheBlank({
+export default function Blank({
   correctAnswer,
   respond,
   showAnswer,
-}: TheBlankProps) {
+}: BlankProps) {
   const [curAnswer, setCurAnswer] = useState('')
 
   if (showAnswer) {
