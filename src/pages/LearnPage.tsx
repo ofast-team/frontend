@@ -91,7 +91,7 @@ export default function LearnPage() {
         Learn
       </Typography>
 
-      <SearchBar value="" onChange={() => {}} onClick={() => {}} />
+      <SearchBar />
 
       {Object.entries(groupedLessons).map((lessonGroup, groupIndex) => {
         return (
