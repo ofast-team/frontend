@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Box, Container, Typography } from '@mui/material'
+import lessons from '../lessons.json'
 
 import './LessonPage.css'
 
 import MDX from '../components/MDXRenderer'
+import { useParams, Navigate } from 'react-router-dom'
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
@@ -73,18 +75,26 @@ function LessonBlockWrapper({
 }
 
 export default function LessonPage() {
-  const blocks = [
-    <MDX path="/lessons/dynamic_programming/RecursiveFunctions.mdx" />,
-    <MDX path="/lessons/dynamic_programming/Fitb1.mdx" />,
-    <MDX path="/lessons/dynamic_programming/Mcq1.mdx" />,
-    <MDX path="/lessons/dynamic_programming/OverlappingSubproblems.mdx" />,
-    <MDX path="/lessons/dynamic_programming/BuildingARecursiveFunction.mdx" />,
-  ]
+  const params = useParams()
+  const lesson: string = params.lesson as string
+
+  if (!(lesson in lessons)) {
+    return <Navigate to="/learn" replace />
+  }
+
+  const blockFilenames: string[] =
+    'files' in lessons[lesson] ? lessons[lesson].files : []
+
+  const blocks: JSX.Element[] = blockFilenames.map((lessonFilename) => (
+    <MDX path={'/lessons/' + lesson + '/' + lessonFilename} />
+  ))
+
   const blockRefs = useRef(new Array(blocks.length))
-  const [offsetY, setOffsetY] = useState(0)
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions(),
-  )
+  const [offsetY, setOffsetY] = useState<number>(0)
+  const [windowDimensions, setWindowDimensions] = useState<{
+    width: number
+    height: number
+  }>(getWindowDimensions())
 
   const currentIndex = () => {
     if (!blockRefs.current[0]) {

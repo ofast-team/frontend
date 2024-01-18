@@ -10,9 +10,9 @@ const verticallyCenter = {
 }
 
 interface SearchBarProps {
-  value: string
-  onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  onClick: React.MouseEventHandler<HTMLDivElement>
+  value?: string
+  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
 export default function SearchBar({
