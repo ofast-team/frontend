@@ -1,8 +1,9 @@
 import { Box, Container, Fab, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import ReadingBlock from '../components/ReadingBlock'
 import SubmitFields from '../components/SubmitFields'
+
+import MDX from '../components/MDXRenderer'
 
 declare module 'react' {
   interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
@@ -62,12 +63,13 @@ const CodeCard = () => {
             overflowY: 'auto',
             maxWidth: '600px',
             maxHeight: '600px',
+            p: 2,
           }}
         >
           <Typography variant="h6" gutterBottom>
             Code Preview
           </Typography>
-          <ReadingBlock content={codePreview} />
+          <MDX value={codePreview} />
         </Box>
       ) : (
         <Box>
@@ -93,6 +95,16 @@ const CodeCard = () => {
               <AddIcon /> Upload File
             </Fab>
           </label>
+          <Typography
+            variant="subtitle2"
+            color="red"
+            sx={{
+              width: '50%',
+              mt: 2,
+            }}
+          >
+            <strong>Supported Languages: C, C++, Java, Python</strong>
+          </Typography>
         </Box>
       )}
     </Box>
@@ -187,7 +199,7 @@ const FolderCard = () => {
               mt: 2,
             }}
           >
-            Folder structure: Each test case folder with input{' '}
+            Zip Folder structure: Each test case folder with input{' '}
             <strong>(.in)</strong> and output <strong>(.out)</strong> files.
           </Typography>
         </Box>
@@ -201,16 +213,6 @@ export default function SubmitPage() {
     <Container sx={{ p: 15 }}>
       <Typography variant="h3" gutterBottom color="primary">
         Submit
-      </Typography>
-
-      <Typography
-        variant="body1"
-        color="red"
-        paragraph
-        mb={3}
-        sx={{ fontSize: '1.3rem' }}
-      >
-        <strong>Supported Languages: C, C++, Java, Python</strong>
       </Typography>
 
       <SubmitFields />
