@@ -10,6 +10,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 import OptionDisplay from './OptionDisplay'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { Lightbulb } from '@mui/icons-material'
+import MDX from './MDXRenderer'
 
 export const ShowAnswerBtn = styled(Button)({
   borderBottom: '2px solid #776E6E',
@@ -68,7 +69,7 @@ function Header({
 interface MCQBlockProps {
   question: string
   answerOptions: string[]
-  correctOptions: string[]
+  optionVerdicts: boolean[]
   hint: string
   explanation: string
 }
@@ -76,12 +77,20 @@ interface MCQBlockProps {
 export default function MCQBlock({
   question,
   answerOptions,
-  correctOptions,
+  optionVerdicts,
   hint,
   explanation,
 }: MCQBlockProps) {
+  const correctOptions: number[] = []
+
+  optionVerdicts.forEach((isCorrect, index) => {
+    if (isCorrect) {
+      correctOptions.push(index)
+    }
+  })
+
   const isMultiple = correctOptions.length > 1
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
+  const [selectedAnswers, setSelectedAnswers] = useState<number[]>([])
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [result, setResult] = useState<number>(0)
   const [showHint, setShowHint] = useState<boolean>(false)
@@ -92,7 +101,7 @@ export default function MCQBlock({
     'One or more selected option is incorrect!',
   ]
 
-  const handleAnswerSelection = (option: string, display: string) => {
+  const handleAnswerSelection = (option: number, display: string) => {
     if (display === 'check') {
       if (selectedAnswers.includes(option)) {
         setSelectedAnswers(
@@ -152,8 +161,8 @@ export default function MCQBlock({
         result={result}
       />
       <Box sx={{ p: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          {question}
+        <Typography gutterBottom component="span">
+          <MDX value={question} />
         </Typography>
         <OptionDisplay
           selectedAnswers={selectedAnswers}
@@ -196,10 +205,14 @@ export default function MCQBlock({
           }}
         >
           {result === 1 && (
-            <Typography sx={{ fontSize: '1rem' }}>{explanation}</Typography>
+            <Typography sx={{ fontSize: '1rem' }}>
+              <MDX value={explanation} />
+            </Typography>
           )}
           {showHint && (
-            <Typography sx={{ fontSize: '1rem' }}>{hint}</Typography>
+            <Typography sx={{ fontSize: '1rem' }}>
+              <MDX value={hint} />
+            </Typography>
           )}
         </Box>
       </Box>
