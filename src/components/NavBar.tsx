@@ -24,6 +24,7 @@ const activeLink = {
   fontWeight: 700,
   letterSpacing: 0.8,
   textDecoration: 'none',
+  textTransform: 'uppercase',
   color: '#dafffb',
   borderBottom: '4px solid #dafffb',
 }
@@ -33,6 +34,7 @@ const linkStyle = {
   fontWeight: 700,
   letterSpacing: 0.8,
   textDecoration: 'none',
+  textTransform: 'uppercase',
   color: '#dafffb',
   borderBottom: '4px solid transparent',
 }
@@ -152,7 +154,7 @@ function NavItems({ pages }: pagesProps) {
             ...(location.pathname === `/${page}` ? activeLink : linkStyle),
           }}
         >
-          {page === '' ? 'Home' : page}
+          {page === '' ? 'home' : page}
         </Button>
       ))}
     </Box>
@@ -215,8 +217,8 @@ function ResponsiveMenu({ pages }: pagesProps) {
             to={`/${page}`}
           >
             <MenuItem onClick={handleCloseNavMenu}>
-              <Typography textAlign="center">
-                {page === '' ? 'Home' : page}
+              <Typography textAlign="center" textTransform="uppercase">
+                {page === '' ? 'home' : page}
               </Typography>
             </MenuItem>
           </Link>
@@ -252,7 +254,7 @@ function GetStarted() {
           },
         }}
       >
-        Get Started
+        GET STARTED
       </Button>
     </Box>
   )

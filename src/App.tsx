@@ -20,31 +20,35 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Lato, sans-serif',
+    fontFamily: 'Roboto, sans-serif',
     fontSize: 16,
-    fontWeightRegular: 300,
-    fontWeightBold: 400,
+    fontWeightRegular: 400,
+    fontWeightBold: 500,
     h1: {
-      fontWeight: 400,
+      fontWeight: 500,
     },
     h2: {
-      fontWeight: 400,
+      fontWeight: 500,
     },
     h3: {
       fontSize: '3rem',
-      fontWeight: 400,
+      fontWeight: 500,
     },
     h4: {
       fontSize: '2rem',
-      fontWeight: 400,
+      fontWeight: 700,
     },
     h5: {
       fontSize: '1.2rem',
-      fontWeight: 400,
+      fontWeight: 700,
     },
     body1: {
       fontSize: '1.25rem',
       lineHeight: 1.5,
+    },
+    button: {
+      textTransform: 'none',
+      fontWeight: 500,
     },
   },
   palette: {
