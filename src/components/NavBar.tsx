@@ -154,7 +154,7 @@ function NavItems({ pages }: pagesProps) {
             ...(location.pathname === `/${page}` ? activeLink : linkStyle),
           }}
         >
-          {page === '' ? 'HOME' : page}
+          {page === '' ? 'home' : page}
         </Button>
       ))}
     </Box>
