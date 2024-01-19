@@ -24,6 +24,7 @@ const activeLink = {
   fontWeight: 700,
   letterSpacing: 0.8,
   textDecoration: 'none',
+  textTransform: 'uppercase',
   color: '#dafffb',
   borderBottom: '4px solid #dafffb',
 }
@@ -33,6 +34,7 @@ const linkStyle = {
   fontWeight: 700,
   letterSpacing: 0.8,
   textDecoration: 'none',
+  textTransform: 'uppercase',
   color: '#dafffb',
   borderBottom: '4px solid transparent',
 }
@@ -215,8 +217,8 @@ function ResponsiveMenu({ pages }: pagesProps) {
             to={`/${page}`}
           >
             <MenuItem onClick={handleCloseNavMenu}>
-              <Typography textAlign="center">
-                {page === '' ? 'HOME' : page}
+              <Typography textAlign="center" textTransform="uppercase">
+                {page === '' ? 'home' : page}
               </Typography>
             </MenuItem>
           </Link>
@@ -258,8 +260,8 @@ function GetStarted() {
   )
 }
 
-const before_pages = ['', 'ABOUT', 'LEARN', 'SOLVE']
-const after_pages = ['', 'ABOUT', 'LEARN', 'SOLVE', 'SUBMIT']
+const before_pages = ['', 'about', 'learn', 'solve']
+const after_pages = ['', 'about', 'learn', 'solve', 'submit']
 
 function NavBar() {
   const user = useSelector((state: RootState) => state.user)
