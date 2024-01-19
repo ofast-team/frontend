@@ -72,7 +72,14 @@ const CodeCard = () => {
           <MDX value={codePreview} />
         </Box>
       ) : (
-        <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+          }}
+        >
           <Typography mr={2} variant="h6" gutterBottom>
             Program Code
           </Typography>
@@ -113,7 +120,7 @@ const CodeCard = () => {
 
 const FolderCard = () => {
   const [testFolder, setTestFolder] = useState<FileList>()
-  const [testCasesCount, setTestCasesCount] = useState<number>(0)
+  const [uploaded, setUploaded] = useState<boolean>(false)
 
   useEffect(() => {
     if (testFolder) {
@@ -123,10 +130,10 @@ const FolderCard = () => {
 
   const handleTestFolder = (event) => {
     console.log(event.target.files)
-    const folder = event.target.files
+    const folder = event.target.files[0]
     if (folder) {
       setTestFolder(folder)
-      setTestCasesCount(folder.length)
+      setUploaded(true)
     }
   }
 
@@ -144,7 +151,7 @@ const FolderCard = () => {
         border: '1px solid #04364a',
       }}
     >
-      {testCasesCount ? (
+      {uploaded ? (
         <Box
           sx={{
             flexGrow: 1,
@@ -157,7 +164,7 @@ const FolderCard = () => {
           <Typography variant="h6" gutterBottom>
             Test Cases Count
           </Typography>
-          <Typography>{testCasesCount}</Typography>
+          <Typography>Uploaded</Typography>
         </Box>
       ) : (
         <Box
@@ -176,8 +183,7 @@ const FolderCard = () => {
               style={{ display: 'none' }}
               id="testFolder"
               type="file"
-              directory="true"
-              webkitdirectory="true"
+              accept=".zip, .tar, .7zip"
               onChange={handleTestFolder}
             />
             <Fab

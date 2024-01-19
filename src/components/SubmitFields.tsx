@@ -8,6 +8,7 @@ import {
   TextField,
   Checkbox,
 } from '@mui/material'
+import PlayIcon from '@mui/icons-material/PlayArrow'
 
 export default function SubmitFields() {
   const [timeLimit, setTimeLimit] = useState('')
@@ -122,8 +123,13 @@ export default function SubmitFields() {
           alignItems: 'center',
         }}
       >
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Submit
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          endIcon={<PlayIcon fontSize="large" />}
+        >
+          Run
         </Button>
       </Box>
     </Container>
