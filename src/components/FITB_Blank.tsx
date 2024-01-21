@@ -67,8 +67,7 @@ interface BlankProps {
   correctAnswer: string
 }
 
-export default function Blank({correctAnswer} : BlankProps) {
-
+export default function Blank({ correctAnswer }: BlankProps) {
   const state = useContext<FITBState>(FITBContext)
   const [curAnswer, setCurAnswer] = useState('')
 
@@ -79,7 +78,13 @@ export default function Blank({correctAnswer} : BlankProps) {
         variant="standard"
         value={correctAnswer}
         disabled
-        sx={{position: 'relative', bottom: 6, paddingLeft: 1, width: correctAnswer.length * 12, m: 0.5 }}
+        sx={{
+          position: 'relative',
+          bottom: 6,
+          paddingLeft: 1,
+          width: correctAnswer.length * 12,
+          m: 0.5,
+        }}
       />
     )
   }
@@ -90,7 +95,14 @@ export default function Blank({correctAnswer} : BlankProps) {
         variant="standard"
         onChange={(e) => setCurAnswer(e.target.value)}
         value={curAnswer}
-        sx={{position: 'relative', bottom: 6, paddingLeft: 1, fontSize: 22, width: correctAnswer.length * 12, m: 0.5 }}
+        sx={{
+          position: 'relative',
+          bottom: 6,
+          paddingLeft: 1,
+          fontSize: 22,
+          width: correctAnswer.length * 12,
+          m: 0.5,
+        }}
         disabled
         error
         helperText="Correct"
@@ -100,7 +112,14 @@ export default function Blank({correctAnswer} : BlankProps) {
         variant="standard"
         onChange={(e) => setCurAnswer(e.target.value)}
         value={curAnswer}
-        sx={{position: 'relative', bottom: 6, paddingLeft: 1, fontSize: 22, width: correctAnswer.length * 12, m: 0.5 }}
+        sx={{
+          position: 'relative',
+          bottom: 6,
+          paddingLeft: 1,
+          fontSize: 22,
+          width: correctAnswer.length * 12,
+          m: 0.5,
+        }}
         disabled
         error
         helperText="Incorrect"
@@ -113,7 +132,14 @@ export default function Blank({correctAnswer} : BlankProps) {
       variant="standard"
       onChange={(e) => setCurAnswer(e.target.value)}
       value={curAnswer}
-      sx={{position: 'relative', bottom: 6, paddingLeft: 1, fontSize: 22, width: correctAnswer.length * 12, m: 0.5 }}
+      sx={{
+        position: 'relative',
+        bottom: 6,
+        paddingLeft: 1,
+        fontSize: 22,
+        width: correctAnswer.length * 12,
+        m: 0.5,
+      }}
     />
   )
 }

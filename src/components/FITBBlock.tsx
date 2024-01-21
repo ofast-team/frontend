@@ -1,4 +1,10 @@
-import React, { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react'
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useState,
+} from 'react'
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material'
 import { ShowAnswerBtn } from './MCQBlock'
 import { Lightbulb } from '@mui/icons-material'
@@ -6,18 +12,12 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import MDX from './MDXRenderer'
 
 interface HeaderProps {
-  setShowHint: Dispatch<SetStateAction<boolean>>,
-  handleReset: () => void,
-  handleShowAnswer: () => void,
+  setShowHint: Dispatch<SetStateAction<boolean>>
+  handleReset: () => void
+  handleShowAnswer: () => void
 }
 
-
-
-function Header({
-  setShowHint,
-  handleShowAnswer,
-  handleReset,
-}: HeaderProps) {
+function Header({ setShowHint, handleShowAnswer, handleReset }: HeaderProps) {
   return (
     <Box
       sx={{
@@ -54,16 +54,18 @@ interface FITBBlockProps {
 }
 
 export interface FITBState {
-  submitted: boolean,
-  showAnswer: boolean,
+  submitted: boolean
+  showAnswer: boolean
 }
 
-export const FITBContext = createContext<FITBState>({ submitted: false, showAnswer: false })
+export const FITBContext = createContext<FITBState>({
+  submitted: false,
+  showAnswer: false,
+})
 
 export default function FITBBlock({ hint, children }: FITBBlockProps) {
-
   // only for the state we're passing down to the blanks
-  const defaultState : FITBState = {submitted: false, showAnswer: false}
+  const defaultState: FITBState = { submitted: false, showAnswer: false }
   const [state, setState] = useState<FITBState>(defaultState)
 
   // everything else
@@ -75,25 +77,25 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
       return { ...oldData, submitted: false }
     })
     setState((oldData: FITBState) => {
-      return { ...oldData, showAnswer: false}
+      return { ...oldData, showAnswer: false }
     })
   }
 
   const handleShowAnswer = () => {
     setState((oldData: FITBState) => {
-        return { ...oldData, showAnswer: true }
+      return { ...oldData, showAnswer: true }
     })
   }
 
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
-      <Header setShowHint={setShowHint}
+      <Header
+        setShowHint={setShowHint}
         handleReset={handleReset}
-        handleShowAnswer={handleShowAnswer} />
+        handleShowAnswer={handleShowAnswer}
+      />
       <Box sx={{ p: 3 }}>
-        <FITBContext.Provider value = {state}>
-          {children}
-        </FITBContext.Provider>
+        <FITBContext.Provider value={state}>{children}</FITBContext.Provider>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
           {state.submitted ? (
             <Button
@@ -121,9 +123,13 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
             </Button>
           )}
         </Box>
-        {showHint ? <Typography sx={{ fontSize: '1rem' }}>
+        {showHint ? (
+          <Typography sx={{ fontSize: '1rem' }}>
             <MDX value={hint} />
-        </Typography> : <React.Fragment/>}
+          </Typography>
+        ) : (
+          <React.Fragment />
+        )}
       </Box>
     </Paper>
   )

@@ -75,7 +75,7 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
     MDX,
     FITBBlock,
     FITB_Text,
-    FITB_Blank
+    FITB_Blank,
   }
 
   const [mdxContent, setMdxContent] = useState<JSX.Element | null>(null)
