@@ -1,5 +1,5 @@
 import React, { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react'
-import { Box, Button, Grid, IconButton, Paper, Typography } from '@mui/material'
+import { Box, Button, IconButton, Paper, Typography } from '@mui/material'
 import { ShowAnswerBtn } from './MCQBlock'
 import { Lightbulb } from '@mui/icons-material'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
@@ -91,11 +91,9 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
         handleReset={handleReset}
         handleShowAnswer={handleShowAnswer} />
       <Box sx={{ p: 3 }}>
-        <Grid container gap = {0.6} alignItems="center" marginBottom={4}>
-          <FITBContext.Provider value = {state}>
-            {children}
-          </FITBContext.Provider>
-        </Grid>
+        <FITBContext.Provider value = {state}>
+          {children}
+        </FITBContext.Provider>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
           {state.submitted ? (
             <Button
