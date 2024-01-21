@@ -1,13 +1,6 @@
-<FITBBlock>
-    <FITB_Text text = {"Alice and Bob are playing a game. In this game, " +
-    "Alice starts off with 2 pieces of chocolate. She is going to magically " +
-    "double the amount of chocolate she has and give it all to Bob. Bob is then " +
-    "going to eat 1 piece of chocolate and give the remaining pieces back to Alice " +
-    "so that she can repeat this process. Determine how many pieces of chocolate Alice " +
-    "will have after $n$ iterations of this process."}>
-    </FITB_Text>
-    <br/>
-    <FITB_Text text = "If $n = 0:$ $f(n) = 2$  If $n > 0$: $f(n) = $"></FITB_Text>
-    <FITB_Blank correctAnswer = "2 * f(n - 1)"/>
-    <FITB_Text text = "$- 1$"></FITB_Text>
+<FITBBlock hint = "Derive the nth term using the n-1th term">
+    Alice and Bob are playing a game. In this game Alice starts off with 2 pieces of chocolate. She is going to magically double the amount of chocolate she has and give it all to Bob. Bob is then going to eat 1 piece of chocolate and give the remaining pieces back to Alice so that she can repeat this process. Determine how many pieces of chocolate Alice will have after $n$ iterations of this process.
+    
+    If $n = 0: f(n) = 2$  
+    If $n > 0: f(n) =  $ <FITB_Blank correctAnswer = "2 * f(n - 1)"/> $- 1$.
 </FITBBlock>
