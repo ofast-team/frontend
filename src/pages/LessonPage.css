@@ -8,3 +8,13 @@ html {
   -webkit-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
 }
+
+* {
+  margin-top: 0;
+}
+
+.markdown h1,
+h2,
+h3 {
+  font-weight: 500;
+}
