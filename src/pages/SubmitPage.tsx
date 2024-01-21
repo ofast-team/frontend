@@ -19,6 +19,7 @@ export default function SubmitPage() {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'stretch',
+          gap: '10px',
           mt: 2,
         }}
       >

@@ -90,7 +90,6 @@ export default function SubmitCode() {
         justifyContent: 'center',
         border: '1px solid #04364a',
         borderRadius: '10px',
-        mr: 1,
       }}
     >
       {testFolder ? (
