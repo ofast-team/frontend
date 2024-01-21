@@ -79,7 +79,7 @@ export default function Blank({correctAnswer} : BlankProps) {
         variant="standard"
         value={correctAnswer}
         disabled
-        sx={{ width: correctAnswer.length * 18 + 3, m: 0.5 }}
+        sx={{position: 'relative', bottom: 6, paddingLeft: 1, width: correctAnswer.length * 12, m: 0.5 }}
       />
     )
   }
@@ -90,7 +90,7 @@ export default function Blank({correctAnswer} : BlankProps) {
         variant="standard"
         onChange={(e) => setCurAnswer(e.target.value)}
         value={curAnswer}
-        sx={{ fontSize: 22, width: correctAnswer.length * 18 + 3, m: 0.5 }}
+        sx={{position: 'relative', bottom: 6, paddingLeft: 1, fontSize: 22, width: correctAnswer.length * 12, m: 0.5 }}
         disabled
         error
         helperText="Correct"
@@ -100,7 +100,7 @@ export default function Blank({correctAnswer} : BlankProps) {
         variant="standard"
         onChange={(e) => setCurAnswer(e.target.value)}
         value={curAnswer}
-        sx={{ fontSize: 22, width: correctAnswer.length * 18 + 3, m: 0.5 }}
+        sx={{position: 'relative', bottom: 6, paddingLeft: 1, fontSize: 22, width: correctAnswer.length * 12, m: 0.5 }}
         disabled
         error
         helperText="Incorrect"
@@ -113,7 +113,7 @@ export default function Blank({correctAnswer} : BlankProps) {
       variant="standard"
       onChange={(e) => setCurAnswer(e.target.value)}
       value={curAnswer}
-      sx={{ fontSize: 22, width: correctAnswer.length * 18 + 3, m: 0.5 }}
+      sx={{position: 'relative', bottom: 6, paddingLeft: 1, fontSize: 22, width: correctAnswer.length * 12, m: 0.5 }}
     />
   )
 }
