@@ -32,6 +32,7 @@ export default function SubmitFields() {
         display: 'flex',
         justifyContent: 'space-between',
         border: '1px solid #04364a',
+        borderRadius: '10px',
       }}
     >
       <Box sx={{ flexBasis: '15%' }}>
