@@ -50,7 +50,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint '*/**/*.{ts,tsx}' --fix",
     "format": "npx prettier --write .",
-    "check-formatting": "npx prettier --check ."
+    "check-formatting": "npx prettier --check --ignore '**/*.mdx ."
   },
   "eslintConfig": {
     "extends": [
