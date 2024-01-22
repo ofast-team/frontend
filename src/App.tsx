@@ -13,6 +13,7 @@ import SolvePage from './pages/SolvePage'
 import MDXPlaygroundPage from './pages/MDXPlaygroundPage'
 import ProblemPage from './pages/ProblemPage'
 import ProfilePage from './pages/ProfilePage'
+import SubmitPage from './pages/SubmitPage'
 
 import { useSelector } from 'react-redux'
 import { RootState } from './store'
@@ -20,25 +21,35 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Raleway, sans-serif',
+    fontFamily: 'Roboto, sans-serif',
     fontSize: 16,
     fontWeightRegular: 400,
-    fontWeightBold: 700,
+    fontWeightBold: 500,
+    h1: {
+      fontWeight: 500,
+    },
+    h2: {
+      fontWeight: 500,
+    },
     h3: {
       fontSize: '3rem',
-      fontWeight: 'bold',
+      fontWeight: 500,
     },
     h4: {
       fontSize: '2rem',
-      fontWeight: 600,
+      fontWeight: 700,
     },
     h5: {
       fontSize: '1.2rem',
-      fontWeight: 600,
+      fontWeight: 700,
     },
     body1: {
       fontSize: '1.25rem',
       lineHeight: 1.5,
+    },
+    button: {
+      textTransform: 'none',
+      fontWeight: 500,
     },
   },
   palette: {
@@ -66,6 +77,7 @@ export function App() {
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/submit" element={<SubmitPage />} />
         <Route path="/playground" element={<MDXPlaygroundPage />} />
         <Route
           path="/profile"
