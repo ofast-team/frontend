@@ -95,7 +95,9 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
         handleShowAnswer={handleShowAnswer}
       />
       <Box sx={{ p: 3 }}>
-        <FITBContext.Provider value={fitbState}>{children}</FITBContext.Provider>
+        <FITBContext.Provider value={fitbState}>
+          {children}
+        </FITBContext.Provider>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
           {fitbState.submitted ? (
             <Button
