@@ -65,24 +65,24 @@ export const FITBContext = createContext<FITBState>({
 
 export default function FITBBlock({ hint, children }: FITBBlockProps) {
   // only for the state we're passing down to the blanks
-  const defaultState: FITBState = { submitted: false, showAnswer: false }
-  const [state, setState] = useState<FITBState>(defaultState)
+  const defaultFitbState: FITBState = { submitted: false, showAnswer: false }
+  const [fitbState, setFitbState] = useState<FITBState>(defaultFitbState)
 
   // everything else
   const [showHint, setShowHint] = useState<boolean>(false)
 
   const handleReset = () => {
     setShowHint(false)
-    setState((oldData: FITBState) => {
+    setFitbState((oldData: FITBState) => {
       return { ...oldData, submitted: false }
     })
-    setState((oldData: FITBState) => {
+    setFitbState((oldData: FITBState) => {
       return { ...oldData, showAnswer: false }
     })
   }
 
   const handleShowAnswer = () => {
-    setState((oldData: FITBState) => {
+    setFitbState((oldData: FITBState) => {
       return { ...oldData, showAnswer: true }
     })
   }
@@ -95,17 +95,17 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
         handleShowAnswer={handleShowAnswer}
       />
       <Box sx={{ p: 3 }}>
-        <FITBContext.Provider value={state}>{children}</FITBContext.Provider>
+        <FITBContext.Provider value={fitbState}>{children}</FITBContext.Provider>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          {state.submitted ? (
+          {fitbState.submitted ? (
             <Button
               variant="contained"
               onClick={() => {
-                setState((oldData: FITBState) => {
+                setFitbState((oldData: FITBState) => {
                   return { ...oldData, submitted: false }
                 })
               }}
-              disabled={state.showAnswer}
+              disabled={fitbState.showAnswer}
             >
               Try Again
             </Button>
@@ -113,11 +113,11 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
             <Button
               variant="contained"
               onClick={() => {
-                setState((oldData: FITBState) => {
+                setFitbState((oldData: FITBState) => {
                   return { ...oldData, submitted: true }
                 })
               }}
-              disabled={state.showAnswer}
+              disabled={fitbState.showAnswer}
             >
               Submit
             </Button>

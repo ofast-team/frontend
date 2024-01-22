@@ -8,8 +8,7 @@ import rehypeMathJax from 'rehype-mathjax/svg'
 import remarkGfm from 'remark-gfm'
 import MCQBlock from './MCQBlock'
 import FITBBlock from './FITBBlock'
-import FITB_Text from './FITB_Text'
-import FITB_Blank from './FITB_Blank'
+import FITBBlank from './FITBBlank'
 
 import { Alert, Box, Fab, Tooltip } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
@@ -74,8 +73,7 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
     MCQBlock,
     MDX,
     FITBBlock,
-    FITB_Text,
-    FITB_Blank,
+    FITBBlank,
   }
 
   const [mdxContent, setMdxContent] = useState<JSX.Element | null>(null)

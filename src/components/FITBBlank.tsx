@@ -67,12 +67,11 @@ interface BlankProps {
   correctAnswer: string
 }
 
-export default function Blank({ correctAnswer }: BlankProps) {
-  const state = useContext<FITBState>(FITBContext)
+export default function FITBBlank({ correctAnswer }: BlankProps) {
+  const fitbState : FITBState = useContext<FITBState>(FITBContext)
   const [curAnswer, setCurAnswer] = useState('')
 
-  if (state.showAnswer) {
-    console.log(typeof correctAnswer)
+  if (fitbState.showAnswer) {
     return (
       <ShowAnswerBlank
         variant="standard"
@@ -89,7 +88,7 @@ export default function Blank({ correctAnswer }: BlankProps) {
     )
   }
 
-  if (state.submitted) {
+  if (fitbState.submitted) {
     return stringsAreEqual(curAnswer, correctAnswer) ? (
       <CorrectBlank
         variant="standard"
