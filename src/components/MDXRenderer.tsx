@@ -28,7 +28,7 @@ function code(props) {
         className={className}
         style={{
           borderRadius: '5px',
-          backgroundColor: '#DAFFFB',
+          backgroundColor: '#dae5ed',
           paddingLeft: '5px',
           paddingRight: '5px',
         }}
