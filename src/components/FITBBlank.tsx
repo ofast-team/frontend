@@ -1,10 +1,12 @@
 import { TextField, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+
+import { FITBContext, FITBState } from './FITBBlock'
 
 // removes spaces, and checks for equality ignoring caps
 function stringsAreEqual(a: string, b: string): boolean {
-  a = a.replace(' ', '').toLowerCase()
-  b = b.replace(' ', '').toLowerCase()
+  a = a.replace(/ /gi, '').toLowerCase()
+  b = b.replace(/ /gi, '').toLowerCase()
   return a == b
 }
 
@@ -61,37 +63,45 @@ const ShowAnswerBlank = styled(TextField)({
   },
 })
 
-interface TheBlankProps {
+interface BlankProps {
   correctAnswer: string
-  respond: boolean
-  showAnswer: boolean
 }
 
-export default function TheBlank({
-  correctAnswer,
-  respond,
-  showAnswer,
-}: TheBlankProps) {
+export default function FITBBlank({ correctAnswer }: BlankProps) {
+  const fitbState: FITBState = useContext<FITBState>(FITBContext)
   const [curAnswer, setCurAnswer] = useState('')
 
-  if (showAnswer) {
+  if (fitbState.showAnswer) {
     return (
       <ShowAnswerBlank
         variant="standard"
         value={correctAnswer}
         disabled
-        sx={{ width: correctAnswer.length * 20 + 5, m: 0.5 }}
+        sx={{
+          position: 'relative',
+          bottom: 6,
+          paddingLeft: 1,
+          width: correctAnswer.length * 12,
+          m: 0.5,
+        }}
       />
     )
   }
 
-  if (respond) {
+  if (fitbState.submitted) {
     return stringsAreEqual(curAnswer, correctAnswer) ? (
       <CorrectBlank
         variant="standard"
         onChange={(e) => setCurAnswer(e.target.value)}
         value={curAnswer}
-        sx={{ width: correctAnswer.length * 20 + 5, m: 0.5 }}
+        sx={{
+          position: 'relative',
+          bottom: 6,
+          paddingLeft: 1,
+          fontSize: 22,
+          width: correctAnswer.length * 12,
+          m: 0.5,
+        }}
         disabled
         error
         helperText="Correct"
@@ -101,7 +111,14 @@ export default function TheBlank({
         variant="standard"
         onChange={(e) => setCurAnswer(e.target.value)}
         value={curAnswer}
-        sx={{ width: correctAnswer.length * 20 + 5, m: 0.5 }}
+        sx={{
+          position: 'relative',
+          bottom: 6,
+          paddingLeft: 1,
+          fontSize: 22,
+          width: correctAnswer.length * 12,
+          m: 0.5,
+        }}
         disabled
         error
         helperText="Incorrect"
@@ -114,7 +131,14 @@ export default function TheBlank({
       variant="standard"
       onChange={(e) => setCurAnswer(e.target.value)}
       value={curAnswer}
-      sx={{ width: correctAnswer.length * 20 + 5, m: 0.5 }}
+      sx={{
+        position: 'relative',
+        bottom: 6,
+        paddingLeft: 1,
+        fontSize: 22,
+        width: correctAnswer.length * 12,
+        m: 0.5,
+      }}
     />
   )
 }

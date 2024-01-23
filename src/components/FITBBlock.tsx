@@ -1,76 +1,23 @@
-import { Box, Button, Grid, Paper, Typography } from '@mui/material'
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useState,
+} from 'react'
+import { Box, Button, IconButton, Paper, Typography } from '@mui/material'
 import { ShowAnswerBtn } from './MCQBlock'
-import React, { useState } from 'react'
-import TheBlank from './TheBlank'
-import HintDisplay from './HintDisplay'
-
-// Parser for FITB Questions. Determine the location of the
-// blanks and their correct answers. Create components for text and blanks.
-function createFITBFormFromQuestionString(
-  question: string,
-  submitted: boolean,
-  showAnswer: boolean,
-): React.JSX.Element[] {
-  let curStr: string = ''
-  const fitbForm: React.JSX.Element[] = []
-  const arr: string[] = []
-  for (let i = 0; i < question.length; i++) {
-    if (
-      i < question.length - 1 &&
-      question[i] == '\\' &&
-      (question[i + 1] == '{' || question[i + 1] == '}')
-    ) {
-      curStr += question[i + 1]
-      i++
-    } else if (question[i] == '{') {
-      fitbForm.push(<Typography>{curStr}</Typography>)
-      curStr = ''
-      let blankAns: string = ''
-      i++
-      while (i < question.length && question[i] != '}') {
-        if (
-          i < question.length - 1 &&
-          question[i] == '\\' &&
-          (question[i + 1] == '{' || question[i + 1] == '}')
-        ) {
-          blankAns += question[i + 1]
-          i++
-        } else {
-          blankAns += question[i]
-        }
-        i++
-      }
-      fitbForm.push(
-        <TheBlank
-          correctAnswer={blankAns}
-          respond={submitted}
-          showAnswer={showAnswer}
-        />,
-      )
-      arr.push(blankAns)
-    } else {
-      curStr += question[i]
-      if (question[i] == ' ') {
-        fitbForm.push(<Typography padding={0.3}>{curStr}</Typography>)
-        curStr = ''
-      }
-    }
-  }
-
-  if (curStr.length > 0) {
-    fitbForm.push(<Typography>{curStr}</Typography>)
-  }
-
-  fitbForm.map((x) => <Grid item>{x}</Grid>)
-
-  return fitbForm
-}
+import { Lightbulb } from '@mui/icons-material'
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
+import MDX from './MDXRenderer'
 
 interface HeaderProps {
-  hint: string
+  setShowHint: Dispatch<SetStateAction<boolean>>
+  handleReset: () => void
+  handleShowAnswer: () => void
 }
 
-function Header({ hint }: HeaderProps) {
+function Header({ setShowHint, handleShowAnswer, handleReset }: HeaderProps) {
   return (
     <Box
       sx={{
@@ -90,68 +37,101 @@ function Header({ hint }: HeaderProps) {
       >
         Fill in the Blank
       </Typography>
-      <HintDisplay hint={hint} />
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        <ShowAnswerBtn onClick={handleShowAnswer}>Show Answer</ShowAnswerBtn>
+        <IconButton onClick={() => setShowHint(true)}>
+          <Lightbulb sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
+        </IconButton>
+        <RestartAltIcon onClick={handleReset} />
+      </Box>
     </Box>
   )
 }
 
-// TODO(cam) migrate componenets to JSX.Elements instead of using strings here to support markdown & Latex
 interface FITBBlockProps {
-  question: string
   hint: string
+  children: ReactNode
 }
 
-export default function FITBBlock({ question, hint }: FITBBlockProps) {
-  const [submitted, setSubmitted] = useState<boolean>(false)
-  const [numAttempts, setNumAttempts] = useState<number>(3)
-  const [showAnswer, setShowAnswer] = useState<boolean>(false)
+export interface FITBState {
+  submitted: boolean
+  showAnswer: boolean
+}
 
-  const fitbForm = createFITBFormFromQuestionString(
-    question,
-    submitted,
-    showAnswer,
-  )
+export const FITBContext = createContext<FITBState>({
+  submitted: false,
+  showAnswer: false,
+})
+
+export default function FITBBlock({ hint, children }: FITBBlockProps) {
+  // only for the state we're passing down to the blanks
+  const defaultFitbState: FITBState = { submitted: false, showAnswer: false }
+  const [fitbState, setFitbState] = useState<FITBState>(defaultFitbState)
+
+  // everything else
+  const [showHint, setShowHint] = useState<boolean>(false)
+
+  const handleReset = () => {
+    setShowHint(false)
+    setFitbState((oldData: FITBState) => {
+      return { ...oldData, submitted: false }
+    })
+    setFitbState((oldData: FITBState) => {
+      return { ...oldData, showAnswer: false }
+    })
+  }
+
+  const handleShowAnswer = () => {
+    setFitbState((oldData: FITBState) => {
+      return { ...oldData, showAnswer: true }
+    })
+  }
 
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
-      <Header hint={hint} />
+      <Header
+        setShowHint={setShowHint}
+        handleReset={handleReset}
+        handleShowAnswer={handleShowAnswer}
+      />
       <Box sx={{ p: 3 }}>
-        <Grid container rowGap={2.5} alignItems="center" marginBottom={4}>
-          {fitbForm}
-        </Grid>
+        <FITBContext.Provider value={fitbState}>
+          {children}
+        </FITBContext.Provider>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <ShowAnswerBtn
-            onClick={() => {
-              setNumAttempts(0)
-              setShowAnswer(true)
-            }}
-          >
-            Show Answer
-          </ShowAnswerBtn>
-          {submitted ? (
+          {fitbState.submitted ? (
             <Button
               variant="contained"
               onClick={() => {
-                setSubmitted(false)
-                setNumAttempts(numAttempts - 1)
+                setFitbState((oldData: FITBState) => {
+                  return { ...oldData, submitted: false }
+                })
               }}
-              disabled={numAttempts <= 1}
+              disabled={fitbState.showAnswer}
             >
               Try Again
             </Button>
           ) : (
             <Button
               variant="contained"
-              disabled={numAttempts === 0}
-              onClick={() => setSubmitted(true)}
+              onClick={() => {
+                setFitbState((oldData: FITBState) => {
+                  return { ...oldData, submitted: true }
+                })
+              }}
+              disabled={fitbState.showAnswer}
             >
               Submit
             </Button>
           )}
         </Box>
-        <Typography variant="subtitle2" color="error">
-          Attempts Left: {numAttempts}
-        </Typography>
+        {showHint ? (
+          <Typography sx={{ fontSize: '1rem' }}>
+            <MDX value={hint} />
+          </Typography>
+        ) : (
+          <React.Fragment />
+        )}
       </Box>
     </Paper>
   )
