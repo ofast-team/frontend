@@ -19,6 +19,25 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 function code(props) {
   const [tooltip, setTooltip] = useState<string>('Copy to clipboard')
   const { children, className, ...rest } = props
+
+  // Inline code blocks (single backticks)
+  if (!className) {
+    return (
+      <code
+        {...rest}
+        className={className}
+        style={{
+          borderRadius: '5px',
+          backgroundColor: '#DAFFFB',
+          paddingLeft: '5px',
+          paddingRight: '5px',
+        }}
+      >
+        {children}
+      </code>
+    )
+  }
+
   const match = /language-(\w+)/.exec(className || '')
 
   if (!match) {
