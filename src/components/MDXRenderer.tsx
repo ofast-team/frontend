@@ -25,7 +25,6 @@ function code(props) {
     return (
       <code
         {...rest}
-        className={className}
         style={{
           borderRadius: '5px',
           backgroundColor: '#dae5ed',
