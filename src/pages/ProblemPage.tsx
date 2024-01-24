@@ -5,26 +5,8 @@ import { Link } from 'react-router-dom'
 
 import Card from '../components/ProblemPageCard'
 import ProblemBody from '../components/ProblemBody'
-
-import { getProblem } from './MockProblemData'
-
-export type Problem = {
-  problemID: string
-  title: string
-  text: string
-  problem: string
-  input: string
-  output: string
-  sampleData: {
-    input: string
-    output: string
-  }[]
-  tags: string[]
-  resources: {
-    name: string
-    url: string
-  }[]
-}
+import { useProblemsObject } from '../components/ProblemProvider'
+import { Problem } from '../objects/Problems'
 
 type Verdict = 'AC' | 'WA' | 'unsolved' | 'RTE' | 'CTE' | 'TLE'
 
@@ -102,7 +84,9 @@ function SubmissionItem({ submission }: SubmissionItemProps) {
 export default function ProblemPage() {
   const params = useParams()
   const problemID: string = params.problem as string
-  const problem: Problem | null = getProblem(problemID)
+
+  const problemsObject = useProblemsObject()
+  const problem: Problem | null = problemsObject.getProblem(problemID)
 
   if (problem === null) {
     return <Box pt={15}>Problem not found</Box>

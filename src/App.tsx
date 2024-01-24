@@ -14,6 +14,7 @@ import MDXPlaygroundPage from './pages/MDXPlaygroundPage'
 import ProblemPage from './pages/ProblemPage'
 import ProfilePage from './pages/ProfilePage'
 import SubmitPage from './pages/SubmitPage'
+import { ProblemProvider } from './components/ProblemProvider'
 
 import { useSelector } from 'react-redux'
 import { RootState } from './store'
@@ -74,7 +75,14 @@ export function App() {
         <Route path="/learn/:lesson" element={<LessonPage />} />
         <Route path="/problem/:problem" element={<ProblemPage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/solve" element={<SolvePage />} />
+        <Route
+          path="/solve"
+          element={
+            <ProblemProvider>
+              <SolvePage />
+            </ProblemProvider>
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/submit" element={<SubmitPage />} />
