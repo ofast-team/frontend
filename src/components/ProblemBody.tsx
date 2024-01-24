@@ -11,13 +11,20 @@ const dataTheme = createTheme({
   },
 })
 
-import { Problem } from '../pages/ProblemPage'
+import { Problem } from '../objects/Problems'
+
+function doubleNewlines(inputString: string): string {
+  // Use regular expression to match newline characters and replace them with two newline characters
+  return inputString.replace(/\n/g, '\n\n')
+}
 
 interface ProblemBodyProps {
   problem: Problem
 }
 
 export default function ProblemBody({ problem }: ProblemBodyProps) {
+  console.log(problem.sampleData[0].input)
+
   return (
     <Box maxWidth="70%" sx={{ display: 'inline-block' }}>
       <Typography color="primary" component="span">
@@ -78,7 +85,7 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                     }}
                   >
                     <Typography sx={{ lineHeight: 0.5 }} component="span">
-                      <Markdown children={input} />
+                      <Markdown children={doubleNewlines(input)} />
                     </Typography>
                   </Box>
                 </Grid>
@@ -93,7 +100,7 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                     }}
                   >
                     <Typography sx={{ lineHeight: 0.5 }} component="span">
-                      <Markdown children={output} />
+                      <Markdown children={doubleNewlines(output)} />
                     </Typography>
                   </Box>
                 </Grid>
