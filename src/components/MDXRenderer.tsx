@@ -19,6 +19,24 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 function code(props) {
   const [tooltip, setTooltip] = useState<string>('Copy to clipboard')
   const { children, className, ...rest } = props
+
+  // Inline code blocks (single backticks)
+  if (!className) {
+    return (
+      <code
+        {...rest}
+        style={{
+          borderRadius: '5px',
+          backgroundColor: '#dae5ed',
+          paddingLeft: '5px',
+          paddingRight: '5px',
+        }}
+      >
+        {children}
+      </code>
+    )
+  }
+
   const match = /language-(\w+)/.exec(className || '')
 
   if (!match) {
@@ -74,6 +92,7 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
     MDX,
     FITBBlock,
     FITBBlank,
+    code,
   }
 
   const [mdxContent, setMdxContent] = useState<JSX.Element | null>(null)
@@ -105,7 +124,7 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
           jsxs,
           baseUrl: import.meta.url,
         })
-        setMdxContent(res.default({ components: { code, ...components } }))
+        setMdxContent(res.default({ components }))
       } catch (e) {
         setMdxContent(
           <Alert severity="error">{'MDX Compile Error: ' + e.message}</Alert>,
