@@ -70,6 +70,14 @@ interface BlankProps {
 export default function FITBBlank({ correctAnswer }: BlankProps) {
   const fitbState: FITBState = useContext<FITBState>(FITBContext)
   const [curAnswer, setCurAnswer] = useState('')
+  const [counter, setCounter] = useState(0)
+
+  if (fitbState.counter > counter) {
+    setCurAnswer('')
+    setCounter(fitbState.counter)
+    console.log(counter)
+  }
+  
 
   if (fitbState.showAnswer) {
     return (

@@ -56,16 +56,18 @@ interface FITBBlockProps {
 export interface FITBState {
   submitted: boolean
   showAnswer: boolean
+  counter: number
 }
 
 export const FITBContext = createContext<FITBState>({
   submitted: false,
   showAnswer: false,
+  counter: 0,
 })
 
 export default function FITBBlock({ hint, children }: FITBBlockProps) {
   // only for the state we're passing down to the blanks
-  const defaultFitbState: FITBState = { submitted: false, showAnswer: false }
+  const defaultFitbState: FITBState = { submitted: false, showAnswer: false, counter: 0 }
   const [fitbState, setFitbState] = useState<FITBState>(defaultFitbState)
 
   // everything else
@@ -78,6 +80,9 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
     })
     setFitbState((oldData: FITBState) => {
       return { ...oldData, showAnswer: false }
+    })
+    setFitbState((oldData: FITBState) => {
+      return {...oldData, counter: oldData.counter + 1}
     })
   }
 
