@@ -1,7 +1,9 @@
 import { TextField, styled } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { FITBContext, FITBState } from './FITBBlock'
+
+import { v4 as uuidv4 } from 'uuid';
 
 // removes spaces, and checks for equality ignoring caps
 function stringsAreEqual(a: string, b: string): boolean {
@@ -70,15 +72,30 @@ interface BlankProps {
 export default function FITBBlank({ correctAnswer }: BlankProps) {
   const fitbState: FITBState = useContext<FITBState>(FITBContext)
   const [curAnswer, setCurAnswer] = useState('')
-  const [counter, setCounter] = useState(0)
+  const [numResets, setNumResets] = useState(0)
+  const [guid, setGuid] = useState<string>('')
 
-  if (fitbState.counter > counter) {
+  // Set the guid if this is the first time rendering
+  useEffect(() => {
+    if (guid === '') {
+      setGuid(uuidv4())
+    }
+  }, [])
+
+  // Clear the blanks if the user just reset.
+  if (fitbState.numResets > numResets) {
     setCurAnswer('')
-    setCounter(fitbState.counter)
-    console.log(counter)
+    setNumResets(fitbState.numResets)
+  }
+
+  if (guid !== '') {
+    fitbState.setBlankStatus(guid, stringsAreEqual(curAnswer, correctAnswer))
+  }
+
+  const handleChange = (curText: string) => {
+    setCurAnswer(curText)
   }
   
-
   if (fitbState.showAnswer) {
     return (
       <ShowAnswerBlank
@@ -100,7 +117,7 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
     return stringsAreEqual(curAnswer, correctAnswer) ? (
       <CorrectBlank
         variant="standard"
-        onChange={(e) => setCurAnswer(e.target.value)}
+        onChange={(e) => {handleChange(e.target.value)}}
         value={curAnswer}
         sx={{
           position: 'relative',
@@ -117,7 +134,7 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
     ) : (
       <IncorrectBlank
         variant="standard"
-        onChange={(e) => setCurAnswer(e.target.value)}
+        onChange={(e) => {handleChange(e.target.value)}}
         value={curAnswer}
         sx={{
           position: 'relative',
@@ -137,7 +154,7 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
   return (
     <TextField
       variant="standard"
-      onChange={(e) => setCurAnswer(e.target.value)}
+      onChange={(e) => {handleChange(e.target.value)}}
       value={curAnswer}
       sx={{
         position: 'relative',
