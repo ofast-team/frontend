@@ -15,10 +15,10 @@ interface HeaderProps {
   setShowHint: Dispatch<SetStateAction<boolean>>
   handleReset: () => void
   handleShowAnswer: () => void
-  setBlankStatus: (uuid: string, correct: boolean) => void 
+  setBlankStatus: (uuid: string, correct: boolean) => void
 }
 
-function Header({ setShowHint, handleShowAnswer, handleReset}: HeaderProps) {
+function Header({ setShowHint, handleShowAnswer, handleReset }: HeaderProps) {
   return (
     <Box
       sx={{
@@ -49,15 +49,17 @@ function Header({ setShowHint, handleShowAnswer, handleReset}: HeaderProps) {
   )
 }
 
+// Store each blank and its status.
 type HashMap = {
-  [uuid: string]: boolean;
-};
+  [uuid: string]: boolean
+}
 
 interface FITBBlockProps {
   hint: string
   children: ReactNode
 }
 
+// This data will be passed down to the blanks
 export interface FITBState {
   submitted: boolean
   showAnswer: boolean
@@ -69,29 +71,25 @@ export const FITBContext = createContext<FITBState>({
   submitted: false,
   showAnswer: false,
   numResets: 0,
-  setBlankStatus: () => {}
-} as FITBState)
+  setBlankStatus: () => {},
+})
 
 export default function FITBBlock({ hint, children }: FITBBlockProps) {
-
-  const [blanks, setBlanks] = useState<object>({})
+  const [blanks, setBlanks] = useState<HashMap>({})
 
   const setBlankStatus = (uuid: string, correct: boolean) => {
-    console.log(uuid + ": " + correct)
     setBlanks((oldData: HashMap) => {
-      const newBlanks = {...oldData, [uuid]: correct}
-      for (const i in newBlanks) {
-        console.log("[" + i + "]:  " + newBlanks[i])
-      }
-      return newBlanks
+      return { ...oldData, [uuid]: correct }
     })
   }
 
-  // only for the state we're passing down to the blanks
-  const defaultFitbState: FITBState = { submitted: false, showAnswer: false, numResets: 0, setBlankStatus: setBlankStatus }
+  const defaultFitbState: FITBState = {
+    submitted: false,
+    showAnswer: false,
+    numResets: 0,
+    setBlankStatus: setBlankStatus,
+  }
   const [fitbState, setFitbState] = useState<FITBState>(defaultFitbState)
-  
-  // everything else
   const [showHint, setShowHint] = useState<boolean>(false)
 
   const handleReset = () => {
@@ -108,8 +106,7 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
   }
 
   const allCorrect = () => {
-    console.log(blanks)
-    return Object.values(blanks).every(blank => blank === true)
+    return Object.values(blanks).every((blank) => blank === true)
   }
 
   return (
@@ -125,7 +122,7 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
           {children}
         </FITBContext.Provider>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          {!fitbState.submitted || (fitbState.submitted && allCorrect()) ? 
+          {!fitbState.submitted || (fitbState.submitted && allCorrect()) ? (
             <Button
               variant="contained"
               onClick={() => {
@@ -133,11 +130,13 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
                   return { ...oldData, submitted: true }
                 })
               }}
-              disabled={fitbState.showAnswer || (fitbState.submitted && allCorrect())}
+              disabled={
+                fitbState.showAnswer || (fitbState.submitted && allCorrect())
+              }
             >
               Submit
             </Button>
-            :
+          ) : (
             <Button
               variant="contained"
               onClick={() => {
@@ -149,15 +148,15 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
             >
               Try Again
             </Button>
-          }
-          </Box>
-          {showHint ? (
-            <Typography sx={{ fontSize: '1rem' }}>
-              <MDX value={hint} />
-            </Typography>
-          ) : (
-            <React.Fragment />
           )}
+        </Box>
+        {showHint ? (
+          <Typography sx={{ fontSize: '1rem' }}>
+            <MDX value={hint} />
+          </Typography>
+        ) : (
+          <React.Fragment />
+        )}
       </Box>
     </Paper>
   )

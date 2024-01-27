@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { FITBContext, FITBState } from './FITBBlock'
 
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
 // removes spaces, and checks for equality ignoring caps
 function stringsAreEqual(a: string, b: string): boolean {
@@ -88,6 +88,7 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
     setNumResets(fitbState.numResets)
   }
 
+  // Every render, send status back up to the parent
   if (guid !== '') {
     fitbState.setBlankStatus(guid, stringsAreEqual(curAnswer, correctAnswer))
   }
@@ -95,7 +96,7 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
   const handleChange = (curText: string) => {
     setCurAnswer(curText)
   }
-  
+
   if (fitbState.showAnswer) {
     return (
       <ShowAnswerBlank
@@ -117,7 +118,9 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
     return stringsAreEqual(curAnswer, correctAnswer) ? (
       <CorrectBlank
         variant="standard"
-        onChange={(e) => {handleChange(e.target.value)}}
+        onChange={(e) => {
+          handleChange(e.target.value)
+        }}
         value={curAnswer}
         sx={{
           position: 'relative',
@@ -134,7 +137,9 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
     ) : (
       <IncorrectBlank
         variant="standard"
-        onChange={(e) => {handleChange(e.target.value)}}
+        onChange={(e) => {
+          handleChange(e.target.value)
+        }}
         value={curAnswer}
         sx={{
           position: 'relative',
@@ -154,7 +159,9 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
   return (
     <TextField
       variant="standard"
-      onChange={(e) => {handleChange(e.target.value)}}
+      onChange={(e) => {
+        handleChange(e.target.value)
+      }}
       value={curAnswer}
       sx={{
         position: 'relative',
