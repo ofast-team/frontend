@@ -78,8 +78,7 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
   useEffect(() => {
     if (guid === '') {
       setGuid(uuidv4())
-    }
-    else {
+    } else {
       fitbState.setBlankStatus(guid, stringsAreEqual(curAnswer, correctAnswer))
     }
   }, [curAnswer, numResets, fitbState])
