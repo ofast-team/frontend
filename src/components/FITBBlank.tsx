@@ -75,22 +75,19 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
   const [numResets, setNumResets] = useState(0)
   const [guid, setGuid] = useState<string>('')
 
-  // Set the guid if this is the first time rendering
   useEffect(() => {
     if (guid === '') {
       setGuid(uuidv4())
     }
-  }, [])
+    else {
+      fitbState.setBlankStatus(guid, stringsAreEqual(curAnswer, correctAnswer))
+    }
+  }, [curAnswer, numResets, fitbState])
 
   // Clear the blanks if the user just reset.
   if (fitbState.numResets > numResets) {
     setCurAnswer('')
     setNumResets(fitbState.numResets)
-  }
-
-  // Every render, send status back up to the parent
-  if (guid !== '') {
-    fitbState.setBlankStatus(guid, stringsAreEqual(curAnswer, correctAnswer))
   }
 
   const handleChange = (curText: string) => {
