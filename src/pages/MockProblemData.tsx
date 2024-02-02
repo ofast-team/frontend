@@ -28,14 +28,14 @@ Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut sed placeat, itaqu
       output: '0 2',
     },
   ],
-  tags: ['Tag 1', 'Tag 2', 'Tag 3'],
+  tags: ['Brute Force', 'Data Structures'],
   resources: [
     {
-      name: 'Google1',
+      name: 'Hash Map',
       url: 'https://www.google.com',
     },
     {
-      name: 'Google2',
+      name: 'For Loop',
       url: 'https://www.google.com',
     },
   ],

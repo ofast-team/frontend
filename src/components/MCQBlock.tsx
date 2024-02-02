@@ -13,8 +13,8 @@ import { Lightbulb } from '@mui/icons-material'
 import MDX from './MDXRenderer'
 
 export const ShowAnswerBtn = styled(Button)({
-  borderBottom: '2px solid #776E6E',
-  color: '#776E6E',
+  fontSize: '1.1rem',
+  color: '#04364a',
   '&:hover': {
     borderColor: '#8E8D8D',
     color: '#000000',
@@ -45,6 +45,7 @@ function Header({
         backgroundColor: '#6DB6C3',
         color: '#000',
         p: 2,
+        alignItems: 'center',
       }}
     >
       <Typography
@@ -60,7 +61,12 @@ function Header({
         <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
           <Lightbulb sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
         </IconButton>
-        <RestartAltIcon onClick={handleReset} />
+        <IconButton>
+          <RestartAltIcon
+            sx={{ color: '#04364a', fontSize: '2rem', m: 0 }}
+            onClick={handleReset}
+          />
+        </IconButton>
       </Box>
     </Box>
   )
@@ -100,6 +106,8 @@ export default function MCQBlock({
     'Correct!',
     'One or more selected option is incorrect!',
   ]
+
+  const bgResultColor = ['', '#388e3c', '#9e9e9e']
 
   const handleAnswerSelection = (option: number, display: string) => {
     if (display === 'check') {
@@ -174,7 +182,15 @@ export default function MCQBlock({
         />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
           <Box sx={{ alignItems: 'center' }}>
-            <Typography sx={{ fontSize: '1rem' }}>
+            <Typography
+              sx={{
+                fontSize: '1.2rem',
+                backgroundColor: `${bgResultColor[result]}`,
+                py: 1,
+                px: 4,
+                my: 2,
+              }}
+            >
               {resultText[result]}
             </Typography>
             {submitted ? (
