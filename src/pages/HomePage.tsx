@@ -41,6 +41,7 @@ export default function HomePage() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          pt: 3,
         }}
       >
         <HomeCard />
