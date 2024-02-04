@@ -91,7 +91,6 @@ export default function OptionDisplay({
               transition: 'border 0.5s',
               borderRadius: '10px',
               flexGrow: 1,
-              my: 0.75,
               mr: 0.5,
             }}
           >
@@ -131,9 +130,13 @@ export default function OptionDisplay({
               disabled={submitted}
               sx={{
                 px: 1,
+                '.MuiFormControlLabel-label': {
+                  lineHeight: '1',
+                },
                 '.MuiFormControlLabel-label.Mui-disabled': {
                   color: '#000',
                   opacity: '0.8',
+                  lineHeight: '1',
                 },
               }}
             />

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Icon,
   IconButton,
   Paper,
   Typography,
@@ -9,8 +10,34 @@ import {
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import OptionDisplay from './OptionDisplay'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
-import { Lightbulb } from '@mui/icons-material'
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import CheckIcon from '@mui/icons-material/Check'
 import MDX from './MDXRenderer'
+
+interface HighlightTitleProps {
+  value: string
+  color?: string
+}
+function HighlightTile({ value, color }: HighlightTitleProps) {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        width: 'fit-content',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        pr: 1,
+        backgroundColor: `${color}`,
+        gap: '8px',
+      }}
+    >
+      <TipsAndUpdatesIcon sx={{ color: 'primary', fontSize: '1.3rem', m: 0 }} />
+      <Typography>{value}</Typography>
+    </Box>
+  )
+}
 
 export const ShowAnswerBtn = styled(Button)({
   fontSize: '1.1rem',
@@ -59,7 +86,9 @@ function Header({
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
         <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
         <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
-          <Lightbulb sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
+          <TipsAndUpdatesIcon
+            sx={{ color: '#04364a', fontSize: '2rem', m: 0 }}
+          />
         </IconButton>
         <IconButton>
           <RestartAltIcon
@@ -107,7 +136,9 @@ export default function MCQBlock({
     'One or more selected option is incorrect!',
   ]
 
-  const bgResultColor = ['', '#388e3c', '#9e9e9e']
+  const resultIcon = ['', <CheckIcon />, <ErrorOutlineIcon />]
+
+  const bgResultColor = ['#ffffff00', '#a3eca6', '#9e9e9e']
 
   const handleAnswerSelection = (option: number, display: string) => {
     if (display === 'check') {
@@ -169,7 +200,7 @@ export default function MCQBlock({
         result={result}
       />
       <Box sx={{ p: 3 }}>
-        <Typography gutterBottom component="span">
+        <Typography sx={{ lineHeight: '1', mb: '6px' }} component="span">
           <MDX value={question} />
         </Typography>
         <OptionDisplay
@@ -180,57 +211,83 @@ export default function MCQBlock({
           submitted={submitted}
           isMultiple={isMultiple}
         />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <Box sx={{ alignItems: 'center' }}>
-            <Typography
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            mt: 3,
+            flexDirection: 'row',
+          }}
+        >
+          {submitted ? (
+            <Button
+              variant="contained"
+              onClick={handleTryAgain}
+              disabled={result === 1}
               sx={{
-                fontSize: '1.2rem',
-                backgroundColor: `${bgResultColor[result]}`,
-                py: 1,
-                px: 4,
-                my: 2,
+                fontSize: '1rem',
+                display: `${result === 1 ? 'none' : 'block'}`,
               }}
             >
-              {resultText[result]}
-            </Typography>
-            {submitted ? (
-              <Button
-                variant="contained"
-                onClick={handleTryAgain}
-                disabled={result === 1}
-              >
-                Try Again
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                onClick={handleSubmission}
-                disabled={result === 1}
-              >
-                Submit
-              </Button>
-            )}
-          </Box>
+              Try Again
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={handleSubmission}
+              disabled={result === 1}
+              sx={{
+                fontSize: '1rem',
+                display: `${result === 1 ? 'none' : 'block'}`,
+              }}
+            >
+              Submit
+            </Button>
+          )}
         </Box>
         <Box
           sx={{
-            my: 1,
+            mt: 2,
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
             justifyContent: 'space-between',
+            color: 'black',
+            backgroundColor: `${bgResultColor[result]}`,
+            borderRadius: '5px',
+            flexGrow: 1,
           }}
         >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '6px',
+              marginBottom: '10px',
+              padding: 1,
+            }}
+          >
+            <Icon sx={{ fontSize: '1.4rem' }}>{resultIcon[result]}</Icon>
+            <Typography sx={{ fontSize: '1.4rem' }}>
+              {resultText[result]}
+            </Typography>
+          </div>
           {result === 1 && (
-            <Typography sx={{ fontSize: '1rem' }}>
-              <MDX value={explanation} />
-            </Typography>
-          )}
-          {showHint && (
-            <Typography sx={{ fontSize: '1rem' }}>
-              <MDX value={hint} />
-            </Typography>
+            <div>
+              <HighlightTile value="Explanation" />
+              <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
+                <MDX value={explanation} />
+              </Typography>
+            </div>
           )}
         </Box>
+        {showHint && (
+          <div>
+            <HighlightTile value="Hint" color="#FFFF00" />
+            <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
+              <MDX value={hint} />
+            </Typography>
+          </div>
+        )}
       </Box>
     </Paper>
   )
