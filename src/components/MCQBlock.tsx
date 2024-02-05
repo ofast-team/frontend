@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Icon,
   IconButton,
   Paper,
   Typography,
@@ -9,10 +8,12 @@ import {
 } from '@mui/material'
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import OptionDisplay from './OptionDisplay'
-import RestartAltIcon from '@mui/icons-material/RestartAlt'
-import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
-import CheckIcon from '@mui/icons-material/Check'
+import {
+  CheckCircle,
+  RestartAlt,
+  TipsAndUpdates,
+  ErrorOutline,
+} from '@mui/icons-material'
 import MDX from './MDXRenderer'
 
 interface HighlightTitleProps {
@@ -28,12 +29,13 @@ function HighlightTile({ value, color }: HighlightTitleProps) {
         width: 'fit-content',
         alignItems: 'center',
         justifyContent: 'space-evenly',
+        mt: 1,
         pr: 1,
         backgroundColor: `${color}`,
         gap: '8px',
       }}
     >
-      <TipsAndUpdatesIcon sx={{ color: 'primary', fontSize: '1.3rem', m: 0 }} />
+      <TipsAndUpdates sx={{ color: 'primary', fontSize: '1.3rem', m: 0 }} />
       <Typography>{value}</Typography>
     </Box>
   )
@@ -86,12 +88,10 @@ function Header({
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
         <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
         <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
-          <TipsAndUpdatesIcon
-            sx={{ color: '#04364a', fontSize: '2rem', m: 0 }}
-          />
+          <TipsAndUpdates sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
         </IconButton>
         <IconButton>
-          <RestartAltIcon
+          <RestartAlt
             sx={{ color: '#04364a', fontSize: '2rem', m: 0 }}
             onClick={handleReset}
           />
@@ -136,7 +136,7 @@ export default function MCQBlock({
     'One or more selected option is incorrect!',
   ]
 
-  const resultIcon = ['', <CheckIcon />, <ErrorOutlineIcon />]
+  const resultIcon = ['', <CheckCircle />, <ErrorOutline />]
 
   const bgResultColor = ['#ffffff00', '#a3eca6', '#9e9e9e']
 
@@ -248,29 +248,31 @@ export default function MCQBlock({
         <Box
           sx={{
             mt: 2,
-            display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
             color: 'black',
             backgroundColor: `${bgResultColor[result]}`,
             borderRadius: '5px',
             flexGrow: 1,
+            p: 1,
+            display: `${submitted ? 'flex' : 'none'}`,
+            gap: '10px',
           }}
         >
-          <div
-            style={{
+          <Box
+            sx={{
               display: 'flex',
               flexDirection: 'row',
               gap: '6px',
-              marginBottom: '10px',
-              padding: 1,
+              mt: '4px',
+              alignItems: 'center',
             }}
           >
-            <Icon sx={{ fontSize: '1.4rem' }}>{resultIcon[result]}</Icon>
-            <Typography sx={{ fontSize: '1.4rem' }}>
+            {resultIcon[result]}
+            <Typography sx={{ fontSize: '1.4rem', fontWeight: '500' }}>
               {resultText[result]}
             </Typography>
-          </div>
+          </Box>
           {result === 1 && (
             <div>
               <HighlightTile value="Explanation" />
@@ -280,14 +282,16 @@ export default function MCQBlock({
             </div>
           )}
         </Box>
-        {showHint && (
-          <div>
-            <HighlightTile value="Hint" color="#FFFF00" />
-            <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
-              <MDX value={hint} />
-            </Typography>
-          </div>
-        )}
+        <Box>
+          {showHint && (
+            <div>
+              <HighlightTile value="Hint" color="#FFFF00" />
+              <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
+                <MDX value={hint} />
+              </Typography>
+            </div>
+          )}
+        </Box>
       </Box>
     </Paper>
   )
