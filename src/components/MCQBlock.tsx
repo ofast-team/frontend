@@ -1,20 +1,9 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Paper,
-  Typography,
-  styled,
-} from '@mui/material'
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import { Box, Button, Paper, Typography, styled } from '@mui/material'
+import React, { useState } from 'react'
 import OptionDisplay from './OptionDisplay'
-import {
-  CheckCircle,
-  RestartAlt,
-  TipsAndUpdates,
-  ErrorOutline,
-} from '@mui/icons-material'
+import { CheckCircle, TipsAndUpdates, ErrorOutline } from '@mui/icons-material'
 import MDX from './MDXRenderer'
+import Header from './Header'
 
 interface HighlightTitleProps {
   value: string
@@ -52,54 +41,6 @@ export const ShowAnswerBtn = styled(Button)({
     borderColor: '#8E8D8D',
   },
 })
-
-interface HeaderProps {
-  setShowHint: Dispatch<SetStateAction<boolean>>
-  showAnswers: () => void
-  handleReset: () => void
-  result: number
-}
-function Header({
-  setShowHint,
-  showAnswers,
-  handleReset,
-  result,
-}: HeaderProps) {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#6DB6C3',
-        color: '#000',
-        p: 2,
-        alignItems: 'center',
-      }}
-    >
-      <Typography
-        variant="h4"
-        sx={{
-          textAlign: 'left',
-        }}
-      >
-        Multiple Choice Question
-      </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
-        <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
-          <TipsAndUpdates sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
-        </IconButton>
-        <IconButton>
-          <RestartAlt
-            sx={{ color: '#04364a', fontSize: '2rem', m: 0 }}
-            onClick={handleReset}
-          />
-        </IconButton>
-      </Box>
-    </Box>
-  )
-}
 
 interface MCQBlockProps {
   question: string
@@ -194,6 +135,7 @@ export default function MCQBlock({
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
       <Header
+        title={'Multiple Choice Question'}
         setShowHint={setShowHint}
         showAnswers={showAnswers}
         handleReset={handleReset}
