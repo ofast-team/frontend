@@ -1,46 +1,10 @@
-import { Box, Button, Paper, Typography, styled } from '@mui/material'
+import { Box, Button, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import OptionDisplay from './OptionDisplay'
-import { CheckCircle, TipsAndUpdates, ErrorOutline } from '@mui/icons-material'
+import { TipsAndUpdates } from '@mui/icons-material'
 import MDX from './MDXRenderer'
 import Header from './Header'
-
-interface HighlightTitleProps {
-  value: string
-  color?: string
-}
-function HighlightTile({ value, color }: HighlightTitleProps) {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        width: 'fit-content',
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        mt: 1,
-        pr: 1,
-        backgroundColor: `${color}`,
-        gap: '8px',
-      }}
-    >
-      <TipsAndUpdates sx={{ color: 'primary', fontSize: '1.3rem', m: 0 }} />
-      <Typography>{value}</Typography>
-    </Box>
-  )
-}
-
-export const ShowAnswerBtn = styled(Button)({
-  fontSize: '1.1rem',
-  color: '#04364a',
-  '&:hover': {
-    borderColor: '#8E8D8D',
-    color: '#000000',
-  },
-  '&:active': {
-    borderColor: '#8E8D8D',
-  },
-})
+import Result from './Result'
 
 interface MCQBlockProps {
   question: string
@@ -70,16 +34,6 @@ export default function MCQBlock({
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [result, setResult] = useState<number>(0)
   const [showHint, setShowHint] = useState<boolean>(false)
-
-  const resultText = [
-    '',
-    'Correct!',
-    'One or more selected option is incorrect!',
-  ]
-
-  const resultIcon = ['', <CheckCircle />, <ErrorOutline />]
-
-  const bgResultColor = ['#ffffff00', '#a3eca6', '#9e9e9e']
 
   const handleAnswerSelection = (option: number, display: string) => {
     if (display === 'check') {
@@ -187,47 +141,32 @@ export default function MCQBlock({
             </Button>
           )}
         </Box>
-        <Box
-          sx={{
-            mt: 2,
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            color: 'black',
-            backgroundColor: `${bgResultColor[result]}`,
-            borderRadius: '5px',
-            flexGrow: 1,
-            p: 1,
-            display: `${submitted ? 'flex' : 'none'}`,
-            gap: '10px',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: '6px',
-              mt: '4px',
-              alignItems: 'center',
-            }}
-          >
-            {resultIcon[result]}
-            <Typography sx={{ fontSize: '1.4rem', fontWeight: '500' }}>
-              {resultText[result]}
-            </Typography>
-          </Box>
-          {result === 1 && (
-            <div>
-              <HighlightTile value="Explanation" />
-              <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
-                <MDX value={explanation} />
-              </Typography>
-            </div>
-          )}
-        </Box>
+        <Result
+          result={result}
+          explanation={explanation}
+          submitted={submitted}
+        />
         <Box>
           {showHint && (
             <div>
-              <HighlightTile value="Hint" color="#FFFF00" />
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: 'fit-content',
+                  alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                  mt: 1,
+                  pr: 1,
+                  backgroundColor: '#FFFF00',
+                  gap: '8px',
+                }}
+              >
+                <TipsAndUpdates
+                  sx={{ color: 'primary', fontSize: '1.3rem', m: 0 }}
+                />
+                <Typography>Hint</Typography>
+              </Box>
               <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
                 <MDX value={hint} />
               </Typography>

@@ -1,52 +1,7 @@
-import React, {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  createContext,
-  useState,
-} from 'react'
-import { Box, Button, IconButton, Paper, Typography } from '@mui/material'
-import { ShowAnswerBtn } from './MCQBlock'
-import { Lightbulb } from '@mui/icons-material'
-import RestartAltIcon from '@mui/icons-material/RestartAlt'
+import React, { ReactNode, createContext, useState } from 'react'
+import { Box, Button, Paper, Typography } from '@mui/material'
+import Header from './Header'
 import MDX from './MDXRenderer'
-
-interface HeaderProps {
-  setShowHint: Dispatch<SetStateAction<boolean>>
-  handleReset: () => void
-  handleShowAnswer: () => void
-}
-
-function Header({ setShowHint, handleShowAnswer, handleReset }: HeaderProps) {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#6DB6C3',
-        color: '#000',
-        p: 2,
-      }}
-    >
-      <Typography
-        variant="h4"
-        sx={{
-          textAlign: 'left',
-        }}
-      >
-        Fill in the Blank
-      </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <ShowAnswerBtn onClick={handleShowAnswer}>Show Answer</ShowAnswerBtn>
-        <IconButton onClick={() => setShowHint(true)}>
-          <Lightbulb sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
-        </IconButton>
-        <RestartAltIcon onClick={handleReset} />
-      </Box>
-    </Box>
-  )
-}
 
 interface FITBBlockProps {
   hint: string
@@ -90,15 +45,24 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
       <Header
+        title={'Fill in the Blank'}
         setShowHint={setShowHint}
         handleReset={handleReset}
-        handleShowAnswer={handleShowAnswer}
+        showAnswers={handleShowAnswer}
+        result={2}
       />
       <Box sx={{ p: 3 }}>
         <FITBContext.Provider value={fitbState}>
           {children}
         </FITBContext.Provider>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            mt: 3,
+            flexDirection: 'row',
+          }}
+        >
           {fitbState.submitted ? (
             <Button
               variant="contained"

@@ -12,12 +12,12 @@ function stringsAreEqual(a: string, b: string): boolean {
 
 const CorrectBlank = styled(TextField)({
   '.MuiInput-underline:before': {
-    borderBottom: 'solid 1px',
-    borderBottomColor: 'green',
+    borderBottom: 'solid 2px',
+    borderBottomColor: '#388e3c',
   },
 
   '.MuiInput-underline:after': {
-    borderBottomColor: 'green',
+    borderBottomColor: '#388e3c',
   },
 
   '& .MuiInputBase-input.Mui-disabled': {
@@ -25,20 +25,22 @@ const CorrectBlank = styled(TextField)({
   },
 
   '.MuiFormHelperText-root.Mui-error': {
-    color: 'green',
+    color: '#388e3c',
     position: 'absolute',
-    top: '2.75em',
+    top: '2em',
+    fontSize: '1rem',
+    fontWeight: '500',
   },
 })
 
 const IncorrectBlank = styled(TextField)({
   '.MuiInput-underline:before': {
-    borderBottom: 'solid 1px',
-    borderBottomColor: 'red',
+    borderBottom: 'solid 2px',
+    borderBottomColor: '#9e9e9e',
   },
 
   '.MuiInput-underline:after': {
-    borderBottomColor: 'red',
+    borderBottomColor: '#9e9e9e',
   },
 
   '& .MuiInputBase-input.Mui-disabled': {
@@ -46,9 +48,11 @@ const IncorrectBlank = styled(TextField)({
   },
 
   '.MuiFormHelperText-root.Mui-error': {
-    color: 'red',
+    color: '#9e9e9e',
     position: 'absolute',
-    top: '2.75em',
+    top: '2em',
+    fontSize: '1rem',
+    fontWeight: '500',
   },
 })
 

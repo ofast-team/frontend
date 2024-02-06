@@ -1,7 +1,18 @@
 import { TipsAndUpdates, RestartAlt } from '@mui/icons-material'
-import { Box, Typography, IconButton } from '@mui/material'
+import { Box, Typography, IconButton, Button, styled } from '@mui/material'
 import React, { Dispatch, SetStateAction } from 'react'
-import { ShowAnswerBtn } from './MCQBlock'
+
+const ShowAnswerBtn = styled(Button)({
+  fontSize: '1.1rem',
+  color: '#04364a',
+  '&:hover': {
+    borderColor: '#8E8D8D',
+    color: '#000000',
+  },
+  '&:active': {
+    borderColor: '#8E8D8D',
+  },
+})
 
 interface HeaderProps {
   title: string
