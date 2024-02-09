@@ -21,7 +21,7 @@ export default function PlaygroundPage() {
       />
 
       <Typography
-        className="markdown"
+        className="markdown themeborder"
         gutterBottom
         color="primary"
         component="span"
