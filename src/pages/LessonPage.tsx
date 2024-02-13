@@ -4,12 +4,29 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import lessons from '../lessons.json'
 import MDX from '../components/MDXRenderer'
-import { useParams, Navigate, Link } from 'react-router-dom'
+import { useParams, Navigate, Link, useLocation } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import './LessonPage.css'
 
+function LessonArrowButton({ children }) {
+  return (
+    <motion.div
+      className="button arrowButtonContainer"
+      whileHover={{
+        scale: 1.005,
+        transition: { duration: 0.1 },
+      }}
+      whileTap={{ scale: 0.995 }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 export default function LessonPage() {
   const params = useParams()
+  const location = useLocation()
   const lesson: string = params.lesson as string
 
   if (!(lesson in lessons)) {
@@ -26,7 +43,16 @@ export default function LessonPage() {
     'files' in lessons[lesson] ? lessons[lesson].files : []
 
   const blocks: JSX.Element[] = blockFilenames.map((lessonFilename) => (
-    <MDX path={'/lessons/' + lesson + '/' + lessonFilename} />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        duration: 0.2,
+        delay: 0.2,
+      }}
+    >
+      <MDX path={'/lessons/' + lesson + '/' + lessonFilename} />
+    </motion.div>
   ))
 
   if (page < 0 || page >= blocks.length) {
@@ -42,7 +68,9 @@ export default function LessonPage() {
           color="primary"
           component="span"
         >
-          {blocks[page]}
+          <AnimatePresence>
+            <div key={location.pathname}>{blocks[page]}</div>
+          </AnimatePresence>
         </Typography>
       </Container>
 
@@ -51,14 +79,15 @@ export default function LessonPage() {
           to={buildLessonURL(page - 1)}
           style={{
             textDecoration: 'none',
-            color: 'black',
             transform: 'translateY(-50%)',
             position: 'fixed',
             top: '50%',
-            left: '20px',
+            left: '10px',
           }}
         >
-          <ArrowBackIosNewIcon />
+          <LessonArrowButton>
+            <ArrowBackIosNewIcon className="arrowButtonIcon" />
+          </LessonArrowButton>
         </Link>
       )}
 
@@ -66,15 +95,15 @@ export default function LessonPage() {
         <Link
           to={buildLessonURL(page + 1)}
           style={{
-            textDecoration: 'none',
-            color: 'black',
             transform: 'translateY(-50%)',
             position: 'fixed',
             top: '50%',
-            right: '20px',
+            right: '10px',
           }}
         >
-          <ArrowForwardIosIcon />
+          <LessonArrowButton>
+            <ArrowForwardIosIcon className="arrowButtonIcon" />
+          </LessonArrowButton>
         </Link>
       )}
     </Box>

@@ -18,3 +18,18 @@ h2,
 h3 {
   font-weight: 500;
 }
+
+.arrowButtonContainer {
+  height: 70vh;
+  width: 50px;
+  border-radius: 10px;
+}
+
+.arrowButtonIcon {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  color: #04364a;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
