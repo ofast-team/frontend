@@ -59,8 +59,6 @@ export default function ProfilePage() {
   const [usernameStatus, setUsernameStatus] = useState<string>('Not Updated')
   const [emailStatus, setEmailStatus] = useState<string>('Not Updated')
 
-
-
   const profileDataDefault: ProfileData = {
     username: 'empty',
     email: 'empty',
@@ -121,7 +119,7 @@ export default function ProfilePage() {
       })
   }, [])
 
-  async function submitEdit() : Promise<void> {
+  async function submitEdit(): Promise<void> {
     interface ProfileEditQuery {
       uid: string
       username?: string
@@ -131,7 +129,7 @@ export default function ProfilePage() {
     }
 
     // compare old data to new data, and only submit the fields that were changed.
-    const sendToAPI: ProfileEditQuery = {uid: user.id}
+    const sendToAPI: ProfileEditQuery = { uid: user.id }
     if (oldProfileData.username != profileData.username) {
       sendToAPI.username = profileData.username
     }
@@ -159,10 +157,9 @@ export default function ProfilePage() {
         throw Error(res.statusText)
       })
       .then((data) => {
-        
         setIsWaiting(false)
 
-        let editWasSuccessful : boolean = true
+        let editWasSuccessful: boolean = true
         for (const key of Object.keys(data)) {
           if (data[key] != 'Not Updated' && data[key] != 'Success') {
             editWasSuccessful = false
@@ -189,8 +186,7 @@ export default function ProfilePage() {
   const toggleEdit = () => {
     if (isEditing) {
       submitEdit()
-    }
-    else {
+    } else {
       setIsEditing(true)
     }
   }
@@ -211,7 +207,14 @@ export default function ProfilePage() {
         justifyContent: 'space-between',
       }}
     >
-      <Card sx={{ p: 4, width: '32%', position: 'relative', cursor: isWaiting ? 'wait' : 'default' }}>
+      <Card
+        sx={{
+          p: 4,
+          width: '32%',
+          position: 'relative',
+          cursor: isWaiting ? 'wait' : 'default',
+        }}
+      >
         <IconButton
           onClick={toggleEdit}
           sx={{
@@ -222,7 +225,7 @@ export default function ProfilePage() {
             borderRadius: 0,
             padding: 0.5,
             paddingLeft: 1,
-            cursor: isWaiting ? 'wait' : 'pointer'
+            cursor: isWaiting ? 'wait' : 'pointer',
           }}
         >
           {isEditing ? (
@@ -275,7 +278,11 @@ export default function ProfilePage() {
               <Grid item xs={7.5}>
                 {isEditing ? (
                   <TextField
-                  value={hasIssue(usernameStatus) ? oldProfileData.username : profileData?.username}
+                    value={
+                      hasIssue(usernameStatus)
+                        ? oldProfileData.username
+                        : profileData?.username
+                    }
                     onChange={(e) => {
                       onTextFieldChange('username', e.target.value)
                     }}
@@ -287,12 +294,15 @@ export default function ProfilePage() {
                   <Typography fontSize={20}>{profileData?.username}</Typography>
                 )}
               </Grid>
-              {hasIssue(usernameStatus) ? <Grid item xs={10}>
-                <Typography color = {'#8B0000'} align = 'right' fontSize={15}>{"Try Again: " + usernameStatus}</Typography>
-              </Grid>
-              : <React.Fragment/>
-              }
-              
+              {hasIssue(usernameStatus) ? (
+                <Grid item xs={10}>
+                  <Typography color={'#8B0000'} align="right" fontSize={15}>
+                    {'Try Again: ' + usernameStatus}
+                  </Typography>
+                </Grid>
+              ) : (
+                <React.Fragment />
+              )}
             </Grid>
           </div>
           {/* Email */}
@@ -307,7 +317,11 @@ export default function ProfilePage() {
               <Grid item xs={7.5}>
                 {isEditing ? (
                   <TextField
-                    value={hasIssue(emailStatus) ? oldProfileData.email : profileData?.email}
+                    value={
+                      hasIssue(emailStatus)
+                        ? oldProfileData.email
+                        : profileData?.email
+                    }
                     onChange={(e) => {
                       onTextFieldChange('email', e.target.value)
                     }}
@@ -319,13 +333,20 @@ export default function ProfilePage() {
                   <Typography fontSize={20}>{profileData?.email}</Typography>
                 )}
               </Grid>
-              {hasIssue(emailStatus) ?
-              <Grid item xs={12}>
-                <Typography paddingRight = {4} color = {'#8B0000'} align = 'right' fontSize={15}>{"Try Again: " + emailStatus}</Typography>
-              </Grid>
-              :
-              <React.Fragment/>
-              } 
+              {hasIssue(emailStatus) ? (
+                <Grid item xs={12}>
+                  <Typography
+                    paddingRight={4}
+                    color={'#8B0000'}
+                    align="right"
+                    fontSize={15}
+                  >
+                    {'Try Again: ' + emailStatus}
+                  </Typography>
+                </Grid>
+              ) : (
+                <React.Fragment />
+              )}
             </Grid>
           </div>
           {/*"Name"*/}
