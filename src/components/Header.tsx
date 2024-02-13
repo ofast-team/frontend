@@ -1,16 +1,25 @@
 import { TipsAndUpdates, RestartAlt } from '@mui/icons-material'
-import { Box, Typography, IconButton, Button, styled } from '@mui/material'
+import {
+  Box,
+  Typography,
+  IconButton,
+  Button,
+  styled,
+  Tooltip,
+} from '@mui/material'
 import React, { Dispatch, SetStateAction } from 'react'
 
 const ShowAnswerBtn = styled(Button)({
   fontSize: '1.1rem',
   color: '#04364a',
+  borderBottom: '2px solid #04364a',
   '&:hover': {
-    borderColor: '#8E8D8D',
+    borderBottom: '2px solid #000000',
     color: '#000000',
   },
   '&:active': {
-    borderColor: '#8E8D8D',
+    borderBottom: '2px solid #000000',
+    color: '#000000',
   },
 })
 
@@ -49,17 +58,21 @@ export default function Header({
       >
         {title}
       </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
         <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
-        <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
-          <TipsAndUpdates sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
-        </IconButton>
-        <IconButton>
-          <RestartAlt
-            sx={{ color: '#04364a', fontSize: '2rem', m: 0 }}
-            onClick={handleReset}
-          />
-        </IconButton>
+        <Tooltip title="Show Hint" placement="top">
+          <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
+            <TipsAndUpdates sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Reset" placement="top">
+          <IconButton>
+            <RestartAlt
+              sx={{ color: '#04364a', fontSize: '2rem', m: 0 }}
+              onClick={handleReset}
+            />
+          </IconButton>
+        </Tooltip>
       </Box>
     </Box>
   )
