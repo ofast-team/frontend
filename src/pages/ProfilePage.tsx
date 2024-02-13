@@ -38,6 +38,10 @@ export const ProfileButton = styled(Button)({
   fontWeight: 500,
 })
 
+const hasIssue = (str: string) => {
+  return str != 'Success' && str != 'Not Updated'
+}
+
 interface ProfileData {
   username: string
   email: string
@@ -49,6 +53,13 @@ interface ProfileData {
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false)
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true)
+  const [isWaiting, setIsWaiting] = useState<boolean>(false)
+
+  const [usernameStatus, setUsernameStatus] = useState<string>('Not Updated')
+  const [emailStatus, setEmailStatus] = useState<string>('Not Updated')
+
+
 
   const profileDataDefault: ProfileData = {
     username: 'empty',
@@ -64,6 +75,8 @@ export default function ProfilePage() {
     numAttempts: 0,
   }
   const [profileData, setProfileData] =
+    useState<ProfileData>(profileDataDefault)
+  const [oldProfileData, setOldProfileData] =
     useState<ProfileData>(profileDataDefault)
 
   const user = useSelector((state: RootState) => state.user)
@@ -89,15 +102,17 @@ export default function ProfilePage() {
         }
 
         const newProfileData: ProfileData = {
-          username: 'testuser',
+          username: data.username,
           email: data.email,
           name: data.name,
-          school: 'University of Maryland',
+          school: data.school,
           numAttempts: data.problemsAttempted,
           pieChartData: newPieChartData,
         }
 
+        setOldProfileData(newProfileData)
         setProfileData(newProfileData)
+        setIsLoadingPage(false)
       })
       .catch((error: Error) => {
         console.log(
@@ -106,6 +121,65 @@ export default function ProfilePage() {
       })
   }, [])
 
+  async function submitEdit() : Promise<void> {
+    interface ProfileEditQuery {
+      uid: string
+      username?: string
+      email?: string
+      name?: string
+      school?: string
+    }
+
+    // compare old data to new data, and only submit the fields that were changed.
+    const sendToAPI: ProfileEditQuery = {uid: user.id}
+    if (oldProfileData.username != profileData.username) {
+      sendToAPI.username = profileData.username
+    }
+    if (oldProfileData.email != profileData.email) {
+      sendToAPI.email = profileData.email
+    }
+    if (oldProfileData.name != profileData.name) {
+      sendToAPI.name = profileData.name
+    }
+    if (oldProfileData.school != profileData.school) {
+      sendToAPI.school = profileData.school
+    }
+
+    setIsWaiting(true)
+    fetch(buildPath('/updateUserData'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sendToAPI),
+    })
+      .then((res: Response) => {
+        console.log(res)
+        if (res.ok) {
+          return res.json()
+        }
+        throw Error(res.statusText)
+      })
+      .then((data) => {
+        
+        setIsWaiting(false)
+
+        let editWasSuccessful : boolean = true
+        for (const key of Object.keys(data)) {
+          if (data[key] != 'Not Updated' && data[key] != 'Success') {
+            editWasSuccessful = false
+            profileData[key] = oldProfileData[key]
+          }
+        }
+        console.log(editWasSuccessful)
+
+        setUsernameStatus(data.username)
+        setEmailStatus(data.email)
+
+        if (editWasSuccessful) {
+          setIsEditing(false)
+        }
+      })
+  }
+
   const onTextFieldChange = (key, newString) => {
     setProfileData((oldData: ProfileData) => {
       return { ...oldData, [key]: newString }
@@ -113,8 +187,20 @@ export default function ProfilePage() {
   }
 
   const toggleEdit = () => {
-    setIsEditing((isEditing) => !isEditing)
+    if (isEditing) {
+      submitEdit()
+    }
+    else {
+      setIsEditing(true)
+    }
   }
+
+  if (isLoadingPage) {
+    document.body.style.cursor = 'wait'
+    return <React.Fragment />
+  }
+
+  document.body.style.cursor = 'default'
 
   return (
     <Container
@@ -125,7 +211,7 @@ export default function ProfilePage() {
         justifyContent: 'space-between',
       }}
     >
-      <Card sx={{ p: 4, width: '32%', position: 'relative' }}>
+      <Card sx={{ p: 4, width: '32%', position: 'relative', cursor: isWaiting ? 'wait' : 'default' }}>
         <IconButton
           onClick={toggleEdit}
           sx={{
@@ -136,6 +222,7 @@ export default function ProfilePage() {
             borderRadius: 0,
             padding: 0.5,
             paddingLeft: 1,
+            cursor: isWaiting ? 'wait' : 'pointer'
           }}
         >
           {isEditing ? (
@@ -179,8 +266,8 @@ export default function ProfilePage() {
           {/* Username */}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container gap={2} alignItems="center">
-              <Grid item xs={3.5}>
+            <Grid container columnSpacing={2} alignItems="center">
+              <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   Username:
                 </Typography>
@@ -188,7 +275,7 @@ export default function ProfilePage() {
               <Grid item xs={7.5}>
                 {isEditing ? (
                   <TextField
-                    value={profileData?.username}
+                  value={hasIssue(usernameStatus) ? oldProfileData.username : profileData?.username}
                     onChange={(e) => {
                       onTextFieldChange('username', e.target.value)
                     }}
@@ -200,13 +287,19 @@ export default function ProfilePage() {
                   <Typography fontSize={20}>{profileData?.username}</Typography>
                 )}
               </Grid>
+              {hasIssue(usernameStatus) ? <Grid item xs={10}>
+                <Typography color = {'#8B0000'} align = 'right' fontSize={15}>{"Try Again: " + usernameStatus}</Typography>
+              </Grid>
+              : <React.Fragment/>
+              }
+              
             </Grid>
           </div>
           {/* Email */}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container gap={2} alignItems="center">
-              <Grid item xs={3.5}>
+            <Grid container columnSpacing={2} alignItems="center">
+              <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   Email:
                 </Typography>
@@ -214,7 +307,7 @@ export default function ProfilePage() {
               <Grid item xs={7.5}>
                 {isEditing ? (
                   <TextField
-                    value={profileData?.email}
+                    value={hasIssue(emailStatus) ? oldProfileData.email : profileData?.email}
                     onChange={(e) => {
                       onTextFieldChange('email', e.target.value)
                     }}
@@ -226,13 +319,20 @@ export default function ProfilePage() {
                   <Typography fontSize={20}>{profileData?.email}</Typography>
                 )}
               </Grid>
+              {hasIssue(emailStatus) ?
+              <Grid item xs={12}>
+                <Typography paddingRight = {4} color = {'#8B0000'} align = 'right' fontSize={15}>{"Try Again: " + emailStatus}</Typography>
+              </Grid>
+              :
+              <React.Fragment/>
+              } 
             </Grid>
           </div>
           {/*"Name"*/}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container gap={2} alignItems="center">
-              <Grid item xs={3.5}>
+            <Grid container columnSpacing={2} alignItems="center">
+              <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   Name:
                 </Typography>
@@ -257,8 +357,8 @@ export default function ProfilePage() {
           {/* School */}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container gap={2} alignItems="center">
-              <Grid item xs={3.5}>
+            <Grid container columnSpacing={2} alignItems="center">
+              <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   School:
                 </Typography>
