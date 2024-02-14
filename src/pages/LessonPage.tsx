@@ -137,10 +137,10 @@ export default function LessonPage() {
         }}
       >
         <Typography
-          className="markdown"
+          className="markdown themeborder"
           gutterBottom
           color="primary"
-          component={'span'}
+          component="span"
         >
           {blocks.map((block, id) => (
             <LessonBlockWrapper
