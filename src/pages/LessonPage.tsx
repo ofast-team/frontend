@@ -33,34 +33,42 @@ export default function LessonPage() {
     return <Navigate to="/learn" replace />
   }
 
-  const page = params.page ? parseInt(params.page) : 0
-
-  const buildLessonURL = (newPage: number) => {
-    return `/learn/${lesson}/${newPage}`
-  }
-
   const blockFilenames: string[] =
     'files' in lessons[lesson] ? lessons[lesson].files : []
+
+  const buildLessonURL = (newPageIndex: number) => {
+    const filenameWithoutExt = blockFilenames[newPageIndex].substring(
+      0,
+      blockFilenames[newPageIndex].indexOf('.'),
+    )
+
+    return `/learn/${lesson}/${filenameWithoutExt}`
+  }
+
+  const filenameWithoutExt = params.filenameWithoutExt
+    ? params.filenameWithoutExt
+    : blockFilenames[0]
+  const pageIndex = blockFilenames.indexOf(filenameWithoutExt + '.mdx')
 
   const blocks: JSX.Element[] = blockFilenames.map((lessonFilename) => (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{
-        duration: 0.2,
-        delay: 0.2,
+        duration: 0.3,
+        delay: 0.1,
       }}
     >
       <MDX path={'/lessons/' + lesson + '/' + lessonFilename} />
     </motion.div>
   ))
 
-  if (page < 0 || page >= blocks.length) {
+  if (pageIndex === -1) {
     return <Navigate to={buildLessonURL(0)} replace />
   }
 
   return (
-    <Box sx={{ position: 'relative', p: 15 }}>
+    <Box sx={{ position: 'relative', mt: 15 }}>
       <Container>
         <Typography
           className="markdown"
@@ -69,14 +77,14 @@ export default function LessonPage() {
           component="span"
         >
           <AnimatePresence>
-            <div key={location.pathname}>{blocks[page]}</div>
+            <div key={location.pathname}>{blocks[pageIndex]}</div>
           </AnimatePresence>
         </Typography>
       </Container>
 
-      {page > 0 && (
+      {pageIndex > 0 && (
         <Link
-          to={buildLessonURL(page - 1)}
+          to={buildLessonURL(pageIndex - 1)}
           style={{
             textDecoration: 'none',
             transform: 'translateY(-50%)',
@@ -91,9 +99,9 @@ export default function LessonPage() {
         </Link>
       )}
 
-      {page + 1 < blocks.length && (
+      {pageIndex + 1 < blocks.length && (
         <Link
-          to={buildLessonURL(page + 1)}
+          to={buildLessonURL(pageIndex + 1)}
           style={{
             transform: 'translateY(-50%)',
             position: 'fixed',

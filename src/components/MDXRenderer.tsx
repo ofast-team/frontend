@@ -21,6 +21,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { useLocation } from 'react-router-dom'
 
 import './MDXRenderer.css'
 
@@ -111,6 +112,8 @@ interface MarkdownRendererProps {
 }
 
 export default function MDX({ path, value }: MarkdownRendererProps) {
+  const location = useLocation()
+
   const components = {
     MCQBlock,
     MDX,
@@ -191,6 +194,26 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
       compileValue(value)
     }
   }, [path, value])
+
+  useEffect(() => {
+    const handleScrollToAnchor = () => {
+      if (location.hash) {
+        const anchorId = location.hash.substring(1)
+        const anchorElement = document.getElementById(anchorId)
+
+        if (anchorElement) {
+          anchorElement.scrollIntoView({ behavior: 'smooth' })
+        }
+      }
+    }
+
+    // Listen for the window's onload event
+    window.onload = handleScrollToAnchor
+
+    return () => {
+      window.onload = null
+    }
+  }, [mdxContent, location.hash])
 
   return mdxContent
 }
