@@ -71,7 +71,7 @@ export default function LessonPage() {
     <Box sx={{ position: 'relative', mt: 15 }}>
       <Container>
         <Typography
-          className="markdown"
+          className="markdown themeborder"
           gutterBottom
           color="primary"
           component="span"

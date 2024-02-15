@@ -20,3 +20,12 @@ html {
 .button:active {
   background-color: #7cc1fb;
 }
+  
+.themeborder table,
+.themeborder td,
+.themeborder tr,
+.themeborder th {
+  border: 1px solid #04364a;
+  border-collapse: collapse;
+  padding: 5px;
+}
