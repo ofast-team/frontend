@@ -71,7 +71,10 @@ export function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
-        <Route path="/learn/:lesson/:filenameWithoutExt?" element={<LessonPage />} />
+        <Route
+          path="/learn/:lesson/:filenameWithoutExt?"
+          element={<LessonPage />}
+        />
         <Route path="/problem/:problem" element={<ProblemPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/solve" element={<SolvePage />} />
