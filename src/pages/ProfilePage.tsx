@@ -228,12 +228,13 @@ export default function ProfilePage() {
             <React.Fragment>
               <Typography color={'#04364A'}>Done</Typography>
               <Box width={'5px'}></Box>
-              {isWaiting ? 
-              <CircleLoadAnimation/>
-              :
-              <DoneIcon
-                style={{ fill: '#04364A', fontSize: '24px' }}
-              ></DoneIcon>}
+              {isWaiting ? (
+                <CircleLoadAnimation />
+              ) : (
+                <DoneIcon
+                  style={{ fill: '#04364A', fontSize: '24px' }}
+                ></DoneIcon>
+              )}
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -288,7 +289,7 @@ export default function ProfilePage() {
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
-                    disabled = {isWaiting}
+                    disabled={isWaiting}
                   ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.username}</Typography>
@@ -328,7 +329,7 @@ export default function ProfilePage() {
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
-                    disabled = {isWaiting}
+                    disabled={isWaiting}
                   ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.email}</Typography>
@@ -369,7 +370,7 @@ export default function ProfilePage() {
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
-                    disabled = {isWaiting}
+                    disabled={isWaiting}
                   ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.name}</Typography>
@@ -396,7 +397,7 @@ export default function ProfilePage() {
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
-                    disabled = {isWaiting}
+                    disabled={isWaiting}
                   ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.school}</Typography>
