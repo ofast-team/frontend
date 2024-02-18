@@ -21,6 +21,7 @@ import PieChart, { PieChartProps } from '../components/PieChart'
 import { LoginButton } from './LoginPage'
 import { RootState } from '../store'
 import buildPath from '../path'
+import CircleLoadAnimation from '../components/CircleLoadAnimation'
 
 const FlexBox = styled(Box)({
   display: 'flex',
@@ -192,11 +193,8 @@ export default function ProfilePage() {
   }
 
   if (isLoadingPage) {
-    document.body.style.cursor = 'wait'
     return <React.Fragment />
   }
-
-  document.body.style.cursor = 'default'
 
   return (
     <Container
@@ -212,7 +210,6 @@ export default function ProfilePage() {
           p: 4,
           width: '32%',
           position: 'relative',
-          cursor: isWaiting ? 'wait' : 'default',
         }}
       >
         <IconButton
@@ -225,16 +222,18 @@ export default function ProfilePage() {
             borderRadius: 0,
             padding: 0.5,
             paddingLeft: 1,
-            cursor: isWaiting ? 'wait' : 'pointer',
           }}
         >
           {isEditing ? (
             <React.Fragment>
               <Typography color={'#04364A'}>Done</Typography>
               <Box width={'5px'}></Box>
+              {isWaiting ? 
+              <CircleLoadAnimation/>
+              :
               <DoneIcon
                 style={{ fill: '#04364A', fontSize: '24px' }}
-              ></DoneIcon>
+              ></DoneIcon>}
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -289,6 +288,7 @@ export default function ProfilePage() {
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
+                    disabled = {isWaiting}
                   ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.username}</Typography>
@@ -328,6 +328,7 @@ export default function ProfilePage() {
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
+                    disabled = {isWaiting}
                   ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.email}</Typography>
@@ -368,6 +369,7 @@ export default function ProfilePage() {
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
+                    disabled = {isWaiting}
                   ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.name}</Typography>
@@ -394,6 +396,7 @@ export default function ProfilePage() {
                     inputProps={{
                       sx: { padding: '2px 5px', fontSize: '20px' },
                     }}
+                    disabled = {isWaiting}
                   ></TextField>
                 ) : (
                   <Typography fontSize={20}>{profileData?.school}</Typography>
