@@ -9,26 +9,12 @@ import {
 } from '@mui/material'
 import React, { Dispatch, SetStateAction } from 'react'
 
-const ShowAnswerBtn = styled(Button)({
-  fontSize: '1.1rem',
-  color: '#04364a',
-  borderBottom: '2px solid #04364a',
-  '&:hover': {
-    borderBottom: '2px solid #000000',
-    color: '#000000',
-  },
-  '&:active': {
-    borderBottom: '2px solid #000000',
-    color: '#000000',
-  },
-})
-
 interface HeaderProps {
   title: string
   setShowHint: Dispatch<SetStateAction<boolean>>
   showAnswers: () => void
   handleReset: () => void
-  result: number
+  result?: number
 }
 
 export default function Header({
@@ -38,6 +24,22 @@ export default function Header({
   handleReset,
   result,
 }: HeaderProps) {
+  const getColor = `${result === 1 ? '#04364a7a' : '#04364a'}`
+
+  const ShowAnswerBtn = styled(Button)({
+    fontSize: '1.1rem',
+    color: `${getColor}`,
+    borderBottom: `2px solid ${getColor}`,
+    '&:hover': {
+      borderBottom: '2px solid #000000',
+      color: '#000000',
+    },
+    '&:active': {
+      borderBottom: '2px solid #000000',
+      color: '#04364a7a',
+    },
+  })
+
   return (
     <Box
       sx={{
@@ -62,7 +64,13 @@ export default function Header({
         <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
         <Tooltip title="Show Hint" placement="top">
           <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
-            <TipsAndUpdates sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
+            <TipsAndUpdates
+              sx={{
+                color: `${getColor}`,
+                fontSize: '2rem',
+                m: 0,
+              }}
+            />
           </IconButton>
         </Tooltip>
         <Tooltip title="Reset" placement="top">

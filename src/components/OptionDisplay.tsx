@@ -91,7 +91,7 @@ export default function OptionDisplay({
               transition: 'border 0.5s',
               borderRadius: '10px',
               flexGrow: 1,
-              mr: 0.5,
+              m: 0.5,
             }}
           >
             <FormControlLabel
@@ -123,7 +123,7 @@ export default function OptionDisplay({
                 )
               }
               label={
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '15px' }}>
                   <MDX value={option} />
                 </div>
               }

@@ -5,7 +5,7 @@ import MDX from './MDXRenderer'
 
 interface ResultProps {
   result: number
-  explanation: string
+  explanation?: string
   submitted: boolean
 }
 
@@ -17,12 +17,15 @@ export default function Result({
   const resultText = [
     '',
     'Correct!',
-    'One or more selected option is incorrect!',
+    'One or more correct option is not selected!',
   ]
 
   const resultIcon = ['', <CheckCircle />, <ErrorOutline />]
 
-  const bgResultColor = ['#ffffff00', '#a3eca6', '#9e9e9e']
+  const bgResultColor = ['#ffffff00', '#a3eca6', '#cbcbcb']
+
+  const style = [[], ['1.4rem', '500'], ['1.2rem', '400']]
+
   return (
     <Box
       sx={{
@@ -48,7 +51,12 @@ export default function Result({
         }}
       >
         {resultIcon[result]}
-        <Typography sx={{ fontSize: '1.4rem', fontWeight: '500' }}>
+        <Typography
+          sx={{
+            fontSize: `${style[result][0]}`,
+            fontWeight: `${style[result][1]}`,
+          }}
+        >
           {resultText[result]}
         </Typography>
       </Box>

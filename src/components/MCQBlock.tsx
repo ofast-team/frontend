@@ -10,16 +10,16 @@ interface MCQBlockProps {
   question: string
   answerOptions: string[]
   optionVerdicts: boolean[]
-  hint: string
-  explanation: string
+  hint?: string
+  explanation?: string
 }
 
 export default function MCQBlock({
   question,
   answerOptions,
   optionVerdicts,
-  hint,
-  explanation,
+  explanation = 'Explanation not provided!',
+  hint = 'Hint not provided!',
 }: MCQBlockProps) {
   const correctOptions: number[] = []
 
@@ -64,7 +64,11 @@ export default function MCQBlock({
     if (allSelected && noExtra) {
       setResult(1)
       setShowHint(false)
-    } else setResult(2)
+      return true
+    } else if (isMultiple && !allSelected) {
+      setResult(2)
+    }
+    return false
   }
 
   const showAnswers = () => {
@@ -141,11 +145,13 @@ export default function MCQBlock({
             </Button>
           )}
         </Box>
-        <Result
-          result={result}
-          explanation={explanation}
-          submitted={submitted}
-        />
+        {result != 0 && (
+          <Result
+            result={result}
+            explanation={explanation}
+            submitted={submitted}
+          />
+        )}
         <Box>
           {showHint && (
             <div>
@@ -158,12 +164,12 @@ export default function MCQBlock({
                   justifyContent: 'space-evenly',
                   mt: 1,
                   pr: 1,
-                  backgroundColor: '#FFFF00',
+                  backgroundColor: '#f4e458',
                   gap: '8px',
                 }}
               >
                 <TipsAndUpdates
-                  sx={{ color: 'primary', fontSize: '1.3rem', m: 0 }}
+                  sx={{ color: 'primary', fontSize: '1.3rem', m: 0, pl: 1 }}
                 />
                 <Typography>Hint</Typography>
               </Box>
