@@ -15,7 +15,7 @@ interface HeaderProps {
   showAnswers: () => void
   handleReset: () => void
   result?: number
-  hint? : string
+  hint?: string
 }
 
 export default function Header({
@@ -24,7 +24,7 @@ export default function Header({
   showAnswers,
   handleReset,
   result,
-  hint
+  hint,
 }: HeaderProps) {
   const getColor = `${result === 1 ? '#04364a7a' : '#04364a'}`
 
