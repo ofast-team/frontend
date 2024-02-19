@@ -1,49 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  Typography,
-  Container,
-  Box,
-  Stack,
-  styled,
-  TextField,
-  Avatar,
-  Button,
-  Card,
-  Grid,
-  IconButton,
-} from '@mui/material'
+import { Container } from '@mui/material'
 
-import EditIcon from '@mui/icons-material/Edit'
-import DoneIcon from '@mui/icons-material/Done'
-
-import PieChart, { PieChartProps } from '../components/PieChart'
-import { LoginButton } from './LoginPage'
 import { RootState } from '../store'
 import buildPath from '../path'
-import CircleLoadAnimation from '../components/CircleLoadAnimation'
+import ProfileCard from '../components/ProfileCard'
+import ProfileProgressCard from '../components/ProfileProgressCard'
+import { PieChartProps } from '../components/PieChart'
 
-const FlexBox = styled(Box)({
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  alignItems: 'center',
-  gap: '20px',
-})
-
-export const ProfileButton = styled(Button)({
-  padding: '0px 16px',
-  textTransform: 'none',
-  fontSize: 20,
-  fontFamily: ['Raleway', 'sans-serif'].join(','),
-  fontWeight: 500,
-})
-
-const hasIssue = (str: string) => {
-  return str != 'Success' && str != 'Not Updated'
-}
-
-interface ProfileData {
+export interface ProfileData {
   username: string
   email: string
   name: string
@@ -52,6 +17,7 @@ interface ProfileData {
   pieChartData: PieChartProps
 }
 
+// Parent Component for Profile Page, primarily handles API calls.
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true)
@@ -80,6 +46,7 @@ export default function ProfilePage() {
 
   const user = useSelector((state: RootState) => state.user)
 
+  // Fetch user's data and populate the state when the page first loads.
   useEffect(() => {
     fetch(buildPath('/getUserData'), {
       method: 'POST',
@@ -163,8 +130,8 @@ export default function ProfilePage() {
             editWasSuccessful = false
 
             // Revert this item (key) back to what it was before editing.
-            setProfileData((oldData: ProfileData) => {
-              return { ...oldData, [key]: oldData[key] }
+            setProfileData((prevData: ProfileData) => {
+              return { ...prevData, [key]: oldProfileData[key] }
             })
           }
         }
@@ -176,12 +143,6 @@ export default function ProfilePage() {
           setIsEditing(false)
         }
       })
-  }
-
-  const onTextFieldChange = (key, newString) => {
-    setProfileData((oldData: ProfileData) => {
-      return { ...oldData, [key]: newString }
-    })
   }
 
   const toggleEdit = () => {
@@ -205,237 +166,19 @@ export default function ProfilePage() {
         justifyContent: 'space-between',
       }}
     >
-      <Card
-        sx={{
-          p: 4,
-          width: '32%',
-          position: 'relative',
+      <ProfileCard
+        {...{
+          profileData,
+          setProfileData,
+          oldProfileData,
+          isEditing,
+          toggleEdit,
+          isWaiting,
+          usernameStatus,
+          emailStatus,
         }}
-      >
-        <IconButton
-          onClick={toggleEdit}
-          sx={{
-            position: 'absolute',
-            top: 15,
-            right: 15,
-            borderBottom: '1px solid #04364A',
-            borderRadius: 0,
-            padding: 0.5,
-            paddingLeft: 1,
-          }}
-        >
-          {isEditing ? (
-            <React.Fragment>
-              <Typography color={'#04364A'}>Done</Typography>
-              <Box width={'5px'}></Box>
-              {isWaiting ? (
-                <CircleLoadAnimation />
-              ) : (
-                <DoneIcon
-                  style={{ fill: '#04364A', fontSize: '24px' }}
-                ></DoneIcon>
-              )}
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Typography color={'#04364A'}>Edit</Typography>
-              <Box width={'5px'}></Box>
-              <EditIcon
-                style={{ fill: '#04364A', fontSize: '24px' }}
-              ></EditIcon>
-            </React.Fragment>
-          )}
-        </IconButton>
-        <Container
-          sx={{
-            width: '350px',
-            display: 'flex',
-            gap: '10px',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginBottom: '20px',
-          }}
-        >
-          <Avatar src="" sx={{ width: '150px', height: '150px' }} />
-          <FlexBox>
-            <ProfileButton>Change</ProfileButton>|
-            <ProfileButton>Remove</ProfileButton>
-          </FlexBox>
-          <Typography fontSize={32} fontWeight={600}>
-            {profileData?.name}
-          </Typography>
-        </Container>
-        <Stack>
-          {/* Username */}
-          <div style={{ padding: '5px' }}>
-            <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
-              <Grid item xs={4}>
-                <div style={{ width: '100%', textAlign: 'right' }}>
-                  <Typography fontSize={20}>Username:</Typography>
-                </div>
-              </Grid>
-              <Grid item xs={8}>
-                {isEditing ? (
-                  <TextField
-                    value={
-                      hasIssue(usernameStatus)
-                        ? oldProfileData.username
-                        : profileData?.username
-                    }
-                    onChange={(e) => {
-                      onTextFieldChange('username', e.target.value)
-                    }}
-                    inputProps={{
-                      sx: { padding: '2px 5px', fontSize: '20px' },
-                    }}
-                    disabled={isWaiting}
-                  ></TextField>
-                ) : (
-                  <Typography fontSize={20}>{profileData?.username}</Typography>
-                )}
-              </Grid>
-              {hasIssue(usernameStatus) ? (
-                <Grid item xs={10}>
-                  <Typography color={'#8B0000'} align="right" fontSize={15}>
-                    {'Try Again: ' + usernameStatus}
-                  </Typography>
-                </Grid>
-              ) : (
-                <React.Fragment />
-              )}
-            </Grid>
-          </div>
-          {/* Email */}
-          <div style={{ padding: '5px' }}>
-            <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
-              <Grid item xs={4}>
-                <Typography fontSize={20} textAlign={'right'}>
-                  Email:
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                {isEditing ? (
-                  <TextField
-                    value={
-                      hasIssue(emailStatus)
-                        ? oldProfileData.email
-                        : profileData?.email
-                    }
-                    onChange={(e) => {
-                      onTextFieldChange('email', e.target.value)
-                    }}
-                    inputProps={{
-                      sx: { padding: '2px 5px', fontSize: '20px' },
-                    }}
-                    disabled={isWaiting}
-                  ></TextField>
-                ) : (
-                  <Typography fontSize={20}>{profileData?.email}</Typography>
-                )}
-              </Grid>
-              {hasIssue(emailStatus) ? (
-                <Grid item xs={12}>
-                  <Typography
-                    paddingRight={4}
-                    color={'#8B0000'}
-                    align="right"
-                    fontSize={15}
-                  >
-                    {'Try Again: ' + emailStatus}
-                  </Typography>
-                </Grid>
-              ) : (
-                <React.Fragment />
-              )}
-            </Grid>
-          </div>
-          {/*"Name"*/}
-          <div style={{ padding: '5px' }}>
-            <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
-              <Grid item xs={4}>
-                <Typography fontSize={20} textAlign={'right'}>
-                  Name:
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                {isEditing ? (
-                  <TextField
-                    value={profileData?.name}
-                    onChange={(e) => {
-                      onTextFieldChange('name', e.target.value)
-                    }}
-                    inputProps={{
-                      sx: { padding: '2px 5px', fontSize: '20px' },
-                    }}
-                    disabled={isWaiting}
-                  ></TextField>
-                ) : (
-                  <Typography fontSize={20}>{profileData?.name}</Typography>
-                )}
-              </Grid>
-            </Grid>
-          </div>
-          {/* School */}
-          <div style={{ padding: '5px' }}>
-            <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
-              <Grid item xs={4}>
-                <Typography fontSize={20} textAlign={'right'}>
-                  School:
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                {isEditing ? (
-                  <TextField
-                    value={profileData?.school}
-                    onChange={(e) => {
-                      onTextFieldChange('school', e.target.value)
-                    }}
-                    inputProps={{
-                      sx: { padding: '2px 5px', fontSize: '20px' },
-                    }}
-                    disabled={isWaiting}
-                  ></TextField>
-                ) : (
-                  <Typography fontSize={20}>{profileData?.school}</Typography>
-                )}
-              </Grid>
-            </Grid>
-          </div>
-        </Stack>
-        <LoginButton
-          sx={{ fontSize: '20px', marginTop: '20px', width: '100%' }}
-        >
-          Change Password
-        </LoginButton>
-      </Card>
-      <Card sx={{ p: 5, width: '54%' }}>
-        <Typography variant={'h4'} sx={{ marginBottom: 3 }}>
-          Progress
-        </Typography>
-        <FlexBox>
-          <Box sx={{ marginBottom: '20px', width: '100%' }}>
-            <PieChart {...profileData.pieChartData} />
-          </Box>
-          <Stack>
-            <FlexBox>
-              <Typography>{'Attempted Problems:'}</Typography>
-              <Typography>{profileData.numAttempts}</Typography>
-            </FlexBox>
-            <FlexBox>
-              <Typography>{'Solved Problems:'}</Typography>
-              <Typography>{profileData.pieChartData.numAC}</Typography>
-            </FlexBox>
-            <FlexBox>
-              <Typography>{'Lessons Completed:'}</Typography>
-              <Typography>{0}</Typography>
-            </FlexBox>
-          </Stack>
-        </FlexBox>
-      </Card>
+      />
+      <ProfileProgressCard profileData={profileData} />
     </Container>
   )
 }
