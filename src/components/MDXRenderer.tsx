@@ -21,7 +21,6 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { useLocation } from 'react-router-dom'
 
 import './MDXRenderer.css'
 
@@ -40,6 +39,17 @@ const AnchorLinkIcon = h(
     d: 'M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z',
   }),
 )
+
+const handleScrollToAnchor = () => {
+  if (location.hash) {
+    const anchorId = location.hash.substring(1)
+    const anchorElement = document.getElementById(anchorId)
+
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+}
 
 function code(props) {
   const [tooltip, setTooltip] = useState<string>('Copy to clipboard')
@@ -112,8 +122,6 @@ interface MarkdownRendererProps {
 }
 
 export default function MDX({ path, value }: MarkdownRendererProps) {
-  const location = useLocation()
-
   const components = {
     MCQBlock,
     MDX,
@@ -136,6 +144,8 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
         })
         .catch((error) => console.error(error))
     }
+
+    let timer: NodeJS.Timeout | null = null
 
     const compileValue = async (value: string) => {
       try {
@@ -180,7 +190,12 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
           jsxs,
           baseUrl: import.meta.url,
         })
+
         setMdxContent(res.default({ components }))
+
+        timer = setTimeout(() => {
+          handleScrollToAnchor()
+        }, 300)
       } catch (e) {
         setMdxContent(
           <Alert severity="error">{'MDX Compile Error: ' + e.message}</Alert>,
@@ -193,27 +208,11 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
     } else {
       compileValue(value)
     }
+
+    if (timer !== null) {
+      return () => clearTimeout(timer as NodeJS.Timeout)
+    }
   }, [path, value])
-
-  useEffect(() => {
-    const handleScrollToAnchor = () => {
-      if (location.hash) {
-        const anchorId = location.hash.substring(1)
-        const anchorElement = document.getElementById(anchorId)
-
-        if (anchorElement) {
-          anchorElement.scrollIntoView({ behavior: 'smooth' })
-        }
-      }
-    }
-
-    // Listen for the window's onload event
-    window.onload = handleScrollToAnchor
-
-    return () => {
-      window.onload = null
-    }
-  }, [mdxContent, location.hash])
 
   return mdxContent
 }
