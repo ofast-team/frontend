@@ -9,7 +9,7 @@ export default function ProblemPage() {
 
   return (
     <Container sx={{ pt: 15 }}>
-      <ProblemBlock problemID={problemID} />{' '}
+      <ProblemBlock problemID={problemID} />
     </Container>
   )
 }

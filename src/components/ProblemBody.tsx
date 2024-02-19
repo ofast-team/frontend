@@ -1,15 +1,16 @@
 import React from 'react'
+
 import { Grid, Box, Typography } from '@mui/material'
-import MDX from '../components/MDXRenderer'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+import MDX from '../components/MDXRenderer'
+import { Problem } from './ProblemBlock'
 
 const dataTheme = createTheme({
   typography: {
     fontFamily: 'Source Code Pro, monospace',
   },
 })
-
-import { Problem } from './ProblemBlock'
 
 interface ProblemBodyProps {
   problem: Problem
