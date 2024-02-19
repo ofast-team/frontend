@@ -114,9 +114,7 @@ export default function ProfilePage() {
         setIsLoadingPage(false)
       })
       .catch((error: Error) => {
-        console.log(
-          'Error fetching data for user ' + user.id + ': ' + error.message,
-        )
+        console.error(error)
       })
   }, [])
 
@@ -131,16 +129,16 @@ export default function ProfilePage() {
 
     // compare old data to new data, and only submit the fields that were changed.
     const sendToAPI: ProfileEditQuery = { uid: user.id }
-    if (oldProfileData.username != profileData.username) {
+    if (oldProfileData.username !== profileData.username) {
       sendToAPI.username = profileData.username
     }
-    if (oldProfileData.email != profileData.email) {
+    if (oldProfileData.email !== profileData.email) {
       sendToAPI.email = profileData.email
     }
-    if (oldProfileData.name != profileData.name) {
+    if (oldProfileData.name !== profileData.name) {
       sendToAPI.name = profileData.name
     }
-    if (oldProfileData.school != profileData.school) {
+    if (oldProfileData.school !== profileData.school) {
       sendToAPI.school = profileData.school
     }
 
@@ -151,7 +149,6 @@ export default function ProfilePage() {
       body: JSON.stringify(sendToAPI),
     })
       .then((res: Response) => {
-        console.log(res)
         if (res.ok) {
           return res.json()
         }
@@ -162,12 +159,15 @@ export default function ProfilePage() {
 
         let editWasSuccessful: boolean = true
         for (const key of Object.keys(data)) {
-          if (data[key] != 'Not Updated' && data[key] != 'Success') {
+          if (data[key] !== 'Not Updated' && data[key] !== 'Success') {
             editWasSuccessful = false
-            profileData[key] = oldProfileData[key]
+
+            // Revert this item (key) back to what it was before editing.
+            setProfileData((oldData : ProfileData) => {
+              return {...oldData, [key]: oldData[key]}
+            })
           }
         }
-        console.log(editWasSuccessful)
 
         setUsernameStatus(data.username)
         setEmailStatus(data.email)
@@ -269,13 +269,15 @@ export default function ProfilePage() {
           {/* Username */}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center">
+            <Grid container columnSpacing={2} alignItems="center" pl= {2} pr = {2}>
               <Grid item xs={4}>
-                <Typography fontSize={20} textAlign={'right'}>
-                  Username:
-                </Typography>
+                <div style={{ width: '100%', textAlign: 'right' }}>
+                  <Typography fontSize={20}>
+                    Username:
+                  </Typography>
+                </div>
               </Grid>
-              <Grid item xs={7.5}>
+              <Grid item xs={8}>
                 {isEditing ? (
                   <TextField
                     value={
@@ -309,13 +311,13 @@ export default function ProfilePage() {
           {/* Email */}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center">
+            <Grid container columnSpacing={2} alignItems="center" pl= {2} pr = {2}>
               <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   Email:
                 </Typography>
               </Grid>
-              <Grid item xs={7.5}>
+              <Grid item xs={8}>
                 {isEditing ? (
                   <TextField
                     value={
@@ -354,13 +356,13 @@ export default function ProfilePage() {
           {/*"Name"*/}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center">
+            <Grid container columnSpacing={2} alignItems="center" pl= {2} pr = {2}>
               <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   Name:
                 </Typography>
               </Grid>
-              <Grid item xs={7.5}>
+              <Grid item xs={8}>
                 {isEditing ? (
                   <TextField
                     value={profileData?.name}
@@ -381,13 +383,13 @@ export default function ProfilePage() {
           {/* School */}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center">
+            <Grid container columnSpacing={2} alignItems="center" pl= {2} pr = {2}>
               <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   School:
                 </Typography>
               </Grid>
-              <Grid item xs={7.5}>
+              <Grid item xs={8}>
                 {isEditing ? (
                   <TextField
                     value={profileData?.school}
