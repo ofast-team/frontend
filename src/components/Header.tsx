@@ -31,11 +31,11 @@ export default function Header({
     color: `${getColor}`,
     borderBottom: `2px solid ${getColor}`,
     '&:hover': {
-      borderBottom: '2px solid #000000',
-      color: '#000000',
+      borderBottom: `2px solid ${result === 1 ? '#04364a7a' : '#000000'}`,
+      color: `${result === 1 ? '#04364a7a' : '#000000'}`,
     },
     '&:active': {
-      borderBottom: '2px solid #000000',
+      borderBottom: '2px solid #04364a7a',
       color: '#04364a7a',
     },
   })
