@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 // eslint-disable-next-line
 // @ts-ignore
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
-import { useLocation } from 'react-router-dom'
 
 import { compile, run } from '@mdx-js/mdx'
 
