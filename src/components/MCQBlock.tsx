@@ -18,8 +18,8 @@ export default function MCQBlock({
   question,
   answerOptions,
   optionVerdicts,
-  explanation = 'Explanation not provided!',
-  hint = 'Hint not provided!',
+  explanation,
+  hint,
 }: MCQBlockProps) {
   const correctOptions: number[] = []
 
@@ -73,7 +73,6 @@ export default function MCQBlock({
 
   const showAnswers = () => {
     setSelectedAnswers(correctOptions)
-    setSubmitted(true)
     setResult(1)
     setShowHint(false)
   }
@@ -98,6 +97,7 @@ export default function MCQBlock({
         showAnswers={showAnswers}
         handleReset={handleReset}
         result={result}
+        hint={hint}
       />
       <Box sx={{ p: 3 }}>
         <Typography sx={{ lineHeight: '1', mb: '6px' }} component="span">

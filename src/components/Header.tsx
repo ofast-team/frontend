@@ -15,6 +15,7 @@ interface HeaderProps {
   showAnswers: () => void
   handleReset: () => void
   result?: number
+  hint? : string
 }
 
 export default function Header({
@@ -23,6 +24,7 @@ export default function Header({
   showAnswers,
   handleReset,
   result,
+  hint
 }: HeaderProps) {
   const getColor = `${result === 1 ? '#04364a7a' : '#04364a'}`
 
@@ -62,17 +64,22 @@ export default function Header({
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
         <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
-        <Tooltip title="Show Hint" placement="top">
-          <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
-            <TipsAndUpdates
-              sx={{
-                color: `${getColor}`,
-                fontSize: '2rem',
-                m: 0,
-              }}
-            />
-          </IconButton>
-        </Tooltip>
+        {hint && (
+          <Tooltip title="Show Hint" placement="top">
+            <IconButton
+              onClick={() => setShowHint(true)}
+              disabled={result === 1}
+            >
+              <TipsAndUpdates
+                sx={{
+                  color: `${getColor}`,
+                  fontSize: '2rem',
+                  m: 0,
+                }}
+              />
+            </IconButton>
+          </Tooltip>
+        )}
         <Tooltip title="Reset" placement="top">
           <IconButton>
             <RestartAlt

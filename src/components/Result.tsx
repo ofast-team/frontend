@@ -14,6 +14,8 @@ export default function Result({
   explanation,
   submitted,
 }: ResultProps) {
+  const showExplanation = explanation && result === 1
+
   const resultText = [
     '',
     'Correct!',
@@ -27,63 +29,68 @@ export default function Result({
   const style = [[], ['1.4rem', '500'], ['1.2rem', '400']]
 
   return (
-    <Box
-      sx={{
-        mt: 2,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        color: 'black',
-        backgroundColor: `${bgResultColor[result]}`,
-        borderRadius: '5px',
-        flexGrow: 1,
-        p: 1,
-        display: `${submitted ? 'flex' : 'none'}`,
-        gap: '10px',
-      }}
-    >
+    <Box>
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '6px',
-          mt: '4px',
-          alignItems: 'center',
+          mt: 1,
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          color: 'black',
+          backgroundColor: `${bgResultColor[result]}`,
+          borderRadius: '5px',
+          flexGrow: 1,
+          p: 1,
+          display: `${submitted ? 'flex' : 'none'}`,
+          gap: '10px',
         }}
       >
-        {resultIcon[result]}
-        <Typography
+        <Box
           sx={{
-            fontSize: `${style[result][0]}`,
-            fontWeight: `${style[result][1]}`,
+            flexDirection: 'row',
+            gap: '6px',
+            mt: '4px',
+            alignItems: 'center',
+            display: 'flex',
           }}
         >
-          {resultText[result]}
-        </Typography>
-      </Box>
-      {result === 1 && (
-        <div>
-          <Box
+          {resultIcon[result]}
+          <Typography
             sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              width: 'fit-content',
-              alignItems: 'center',
-              justifyContent: 'space-evenly',
-              mt: 1,
-              pr: 1,
-              gap: '8px',
+              fontSize: `${style[result][0]}`,
+              fontWeight: `${style[result][1]}`,
             }}
           >
-            <TipsAndUpdates
-              sx={{ color: 'primary', fontSize: '1.3rem', m: 0 }}
-            />
-            <Typography>Explanation</Typography>
-          </Box>
-          <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
-            <MDX value={explanation} />
+            {resultText[result]}
           </Typography>
-        </div>
-      )}
+        </Box>
+      </Box>
+      <Box>
+        {showExplanation && (
+          <div>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                width: 'fit-content',
+                alignItems: 'center',
+                justifyContent: 'space-evenly',
+                mt: 1,
+                pr: 1,
+                backgroundColor: '#f4e458',
+                gap: '8px',
+              }}
+            >
+              <TipsAndUpdates
+                sx={{ color: 'primary', fontSize: '1.3rem', m: 0, pl: 1 }}
+              />
+              <Typography>Explanation</Typography>
+            </Box>
+            <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
+              <MDX value={explanation} />
+            </Typography>
+          </div>
+        )}
+      </Box>
     </Box>
   )
 }

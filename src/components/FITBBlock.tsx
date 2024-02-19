@@ -32,8 +32,8 @@ export const FITBContext = createContext<FITBState>({
 })
 
 export default function FITBBlock({
-  explanation = 'Explanation not provided!',
-  hint = 'Hint not provided!',
+  explanation,
+  hint,
   children,
 }: FITBBlockProps) {
   const [blanks, setBlanks] = useState<HashMap>({})
@@ -63,11 +63,10 @@ export default function FITBBlock({
   }
 
   const handleShowAnswer = () => {
-    console.log(result)
     setResult(1)
     setShowHint(false)
     setFitbState((oldData: FITBState) => {
-      return { ...oldData, submitted: true, showAnswer: true }
+      return { ...oldData, showAnswer: true }
     })
   }
 
@@ -94,6 +93,7 @@ export default function FITBBlock({
         showAnswers={handleShowAnswer}
         handleReset={handleReset}
         result={result}
+        hint={hint}
       />
       <Box sx={{ p: 3 }}>
         <FITBContext.Provider value={fitbState}>
