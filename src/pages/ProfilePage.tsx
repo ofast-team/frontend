@@ -163,8 +163,8 @@ export default function ProfilePage() {
             editWasSuccessful = false
 
             // Revert this item (key) back to what it was before editing.
-            setProfileData((oldData : ProfileData) => {
-              return {...oldData, [key]: oldData[key]}
+            setProfileData((oldData: ProfileData) => {
+              return { ...oldData, [key]: oldData[key] }
             })
           }
         }
@@ -269,12 +269,10 @@ export default function ProfilePage() {
           {/* Username */}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center" pl= {2} pr = {2}>
+            <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
               <Grid item xs={4}>
                 <div style={{ width: '100%', textAlign: 'right' }}>
-                  <Typography fontSize={20}>
-                    Username:
-                  </Typography>
+                  <Typography fontSize={20}>Username:</Typography>
                 </div>
               </Grid>
               <Grid item xs={8}>
@@ -311,7 +309,7 @@ export default function ProfilePage() {
           {/* Email */}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center" pl= {2} pr = {2}>
+            <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
               <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   Email:
@@ -356,7 +354,7 @@ export default function ProfilePage() {
           {/*"Name"*/}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center" pl= {2} pr = {2}>
+            <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
               <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   Name:
@@ -383,7 +381,7 @@ export default function ProfilePage() {
           {/* School */}
           <div style={{ padding: '5px' }}>
             <hr style={{ borderTop: '1px' }} />
-            <Grid container columnSpacing={2} alignItems="center" pl= {2} pr = {2}>
+            <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
               <Grid item xs={4}>
                 <Typography fontSize={20} textAlign={'right'}>
                   School:
