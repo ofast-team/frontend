@@ -46,6 +46,17 @@ const AnchorLinkIcon = h(
   }),
 )
 
+const handleScrollToAnchor = () => {
+  if (location.hash) {
+    const anchorId = location.hash.substring(1)
+    const anchorElement = document.getElementById(anchorId)
+
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+}
+
 function code(props) {
   const [tooltip, setTooltip] = useState<string>('Copy to clipboard')
   const { children, className, ...rest } = props
@@ -117,8 +128,6 @@ interface MarkdownRendererProps {
 }
 
 export default function MDX({ path, value }: MarkdownRendererProps) {
-  const location = useLocation()
-
   const components = {
     MDX,
     code,
@@ -142,6 +151,8 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
         })
         .catch((error) => console.error(error))
     }
+
+    let timer: NodeJS.Timeout | null = null
 
     const compileValue = async (value: string) => {
       try {
@@ -186,7 +197,12 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
           jsxs,
           baseUrl: import.meta.url,
         })
+
         setMdxContent(res.default({ components }))
+
+        timer = setTimeout(() => {
+          handleScrollToAnchor()
+        }, 300)
       } catch (e) {
         setMdxContent(
           <Alert severity="error">{'MDX Compile Error: ' + e.message}</Alert>,
@@ -199,27 +215,11 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
     } else {
       compileValue(value)
     }
+
+    if (timer !== null) {
+      return () => clearTimeout(timer as NodeJS.Timeout)
+    }
   }, [path, value])
-
-  useEffect(() => {
-    const handleScrollToAnchor = () => {
-      if (location.hash) {
-        const anchorId = location.hash.substring(1)
-        const anchorElement = document.getElementById(anchorId)
-
-        if (anchorElement) {
-          anchorElement.scrollIntoView({ behavior: 'smooth' })
-        }
-      }
-    }
-
-    // Listen for the window's onload event
-    window.onload = handleScrollToAnchor
-
-    return () => {
-      window.onload = null
-    }
-  }, [mdxContent, location.hash])
 
   return mdxContent
 }
