@@ -9,15 +9,16 @@ const dataTheme = createTheme({
   },
 })
 
-import { Problem } from '../pages/ProblemPage'
+import { Problem } from './ProblemBlock'
 
 interface ProblemBodyProps {
   problem: Problem
 }
 
+// TODO: (Stretch Goal) Add copy button for samples
 export default function ProblemBody({ problem }: ProblemBodyProps) {
   return (
-    <Box maxWidth="70%" sx={{ display: 'inline-block' }}>
+    <>
       <Typography className="themeborder" color="primary" component="span">
         <h1 style={{ textAlign: 'center' }}>{problem.title}</h1>
         <MDX value={problem.text} />
@@ -92,6 +93,6 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
           ))}
         </ThemeProvider>
       </Typography>
-    </Box>
+    </>
   )
 }
