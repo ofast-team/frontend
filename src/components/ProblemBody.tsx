@@ -1,7 +1,10 @@
 import React from 'react'
+
 import { Grid, Box, Typography } from '@mui/material'
-import MDX from '../components/MDXRenderer'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+import MDX from '../components/MDXRenderer'
+import { Problem } from './ProblemBlock'
 
 const dataTheme = createTheme({
   typography: {
@@ -9,15 +12,14 @@ const dataTheme = createTheme({
   },
 })
 
-import { Problem } from '../pages/ProblemPage'
-
 interface ProblemBodyProps {
   problem: Problem
 }
 
+// TODO: (Stretch Goal) Add copy button for samples
 export default function ProblemBody({ problem }: ProblemBodyProps) {
   return (
-    <Box maxWidth="70%" sx={{ display: 'inline-block' }}>
+    <>
       <Typography className="themeborder" color="primary" component="span">
         <h1 style={{ textAlign: 'center' }}>{problem.title}</h1>
         <MDX value={problem.text} />
@@ -92,6 +94,6 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
           ))}
         </ThemeProvider>
       </Typography>
-    </Box>
+    </>
   )
 }

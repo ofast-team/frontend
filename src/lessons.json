@@ -1,15 +1,16 @@
 {
-  "dynamic_programming": {
+  "dynamic-programming": {
     "lessonName": "Dynamic Programming",
     "lessonGroup": "Intro Algo Design",
     "files": [
-      "RecursiveFunctions.mdx",
-      "Fitb1.mdx",
-      "Mcq1.mdx",
-      "OverlappingSubproblems.mdx",
-      "Fitb2.mdx",
-      "BuildingARecursiveFunction.mdx",
-      "Mcq2.mdx"
+      "recursive-functions.mdx",
+      "fitb-1.mdx",
+      "mcq-1.mdx",
+      "problem-twosum.mdx",
+      "overlapping-subproblems.mdx",
+      "fitb-2.mdx",
+      "building-a-recursive-function.mdx",
+      "mcq-2.mdx"
     ]
   },
   "greedy": {

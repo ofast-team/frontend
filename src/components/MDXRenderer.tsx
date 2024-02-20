@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { compile, run } from '@mdx-js/mdx'
 // eslint-disable-next-line
 // @ts-ignore
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
+
+import { compile, run } from '@mdx-js/mdx'
+
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import remarkToC from 'remark-toc'
@@ -11,9 +13,12 @@ import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeMathJax from 'rehype-mathjax/svg'
 import remarkGfm from 'remark-gfm'
+
 import MCQBlock from './MCQBlock'
 import FITBBlock from './FITBBlock'
 import FITBBlank from './FITBBlank'
+import ProblemBlock from './ProblemBlock'
+
 import { h } from 'hastscript'
 
 import { Alert, Box, Fab, Tooltip } from '@mui/material'
@@ -123,11 +128,12 @@ interface MarkdownRendererProps {
 
 export default function MDX({ path, value }: MarkdownRendererProps) {
   const components = {
-    MCQBlock,
     MDX,
+    code,
+    MCQBlock,
     FITBBlock,
     FITBBlank,
-    code,
+    ProblemBlock,
   }
 
   const [mdxContent, setMdxContent] = useState<JSX.Element | null>(null)
