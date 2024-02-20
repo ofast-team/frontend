@@ -143,6 +143,7 @@ export default function FITBBlock({
             result={result}
             explanation={explanation}
             submitted={fitbState.submitted}
+            showAnswer={fitbState.showAnswer}
           />
         )}
         <Box>

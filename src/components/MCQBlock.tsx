@@ -34,6 +34,7 @@ export default function MCQBlock({
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [result, setResult] = useState<number>(0)
   const [showHint, setShowHint] = useState<boolean>(false)
+  const [showAnswer, setShowAnswer] = useState<boolean>(false)
 
   const handleAnswerSelection = (option: number, display: string) => {
     if (display === 'check') {
@@ -74,6 +75,7 @@ export default function MCQBlock({
   const showAnswers = () => {
     setSelectedAnswers(correctOptions)
     setResult(1)
+    setShowAnswer(true)
     setShowHint(false)
   }
 
@@ -87,6 +89,7 @@ export default function MCQBlock({
     setSubmitted(false)
     setSelectedAnswers([])
     setShowHint(false)
+    setShowAnswer(false)
   }
 
   return (
@@ -109,6 +112,7 @@ export default function MCQBlock({
           correctOptions={correctOptions}
           handleAnswerSelection={handleAnswerSelection}
           submitted={submitted}
+          showAnswer={showAnswer}
           isMultiple={isMultiple}
         />
         <Box
@@ -150,6 +154,7 @@ export default function MCQBlock({
             result={result}
             explanation={explanation}
             submitted={submitted}
+            showAnswer={showAnswer}
           />
         )}
         <Box>

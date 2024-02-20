@@ -7,12 +7,14 @@ interface ResultProps {
   result: number
   explanation?: string
   submitted: boolean
+  showAnswer: boolean
 }
 
 export default function Result({
   result,
   explanation,
   submitted,
+  showAnswer,
 }: ResultProps) {
   const showExplanation = explanation && result === 1
 
@@ -30,40 +32,42 @@ export default function Result({
 
   return (
     <Box>
-      <Box
-        sx={{
-          mt: 1,
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          color: 'black',
-          backgroundColor: `${bgResultColor[result]}`,
-          borderRadius: '5px',
-          flexGrow: 1,
-          p: 1,
-          display: `${submitted ? 'flex' : 'none'}`,
-          gap: '10px',
-        }}
-      >
+      {!showAnswer && (
         <Box
           sx={{
-            flexDirection: 'row',
-            gap: '6px',
-            mt: '4px',
-            alignItems: 'center',
-            display: 'flex',
+            mt: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            color: 'black',
+            backgroundColor: `${bgResultColor[result]}`,
+            borderRadius: '5px',
+            flexGrow: 1,
+            p: 1,
+            display: `${submitted && result != 0 ? 'flex' : 'none'}`,
+            gap: '10px',
           }}
         >
-          {resultIcon[result]}
-          <Typography
+          <Box
             sx={{
-              fontSize: `${style[result][0]}`,
-              fontWeight: `${style[result][1]}`,
+              flexDirection: 'row',
+              gap: '6px',
+              mt: '4px',
+              alignItems: 'center',
+              display: 'flex',
             }}
           >
-            {resultText[result]}
-          </Typography>
+            {resultIcon[result]}
+            <Typography
+              sx={{
+                fontSize: `${style[result][0]}`,
+                fontWeight: `${style[result][1]}`,
+              }}
+            >
+              {resultText[result]}
+            </Typography>
+          </Box>
         </Box>
-      </Box>
+      )}
       {showExplanation && (
         <Box
           sx={{

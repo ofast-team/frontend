@@ -15,11 +15,11 @@ function stringsAreEqual(a: string, b: string): boolean {
 const CorrectBlank = styled(TextField)({
   '.MuiInput-underline:before': {
     borderBottom: 'solid 2px',
-    borderBottomColor: '#388e3c',
+    borderBottomColor: '#1db924',
   },
 
   '.MuiInput-underline:after': {
-    borderBottomColor: '#388e3c',
+    borderBottomColor: '#1db924',
   },
 
   '& .MuiInputBase-input.Mui-disabled': {
@@ -27,7 +27,7 @@ const CorrectBlank = styled(TextField)({
   },
 
   '.MuiFormHelperText-root.Mui-error': {
-    color: '#388e3c',
+    color: '#1db924',
     position: 'absolute',
     top: '2em',
     fontSize: '1rem',
@@ -38,11 +38,11 @@ const CorrectBlank = styled(TextField)({
 const IncorrectBlank = styled(TextField)({
   '.MuiInput-underline:before': {
     borderBottom: 'solid 2px',
-    borderBottomColor: '#672da8',
+    borderBottomColor: '#266078',
   },
 
   '.MuiInput-underline:after': {
-    borderBottomColor: '#672da8',
+    borderBottomColor: '#266078',
   },
 
   '& .MuiInputBase-input.Mui-disabled': {
@@ -50,7 +50,7 @@ const IncorrectBlank = styled(TextField)({
   },
 
   '.MuiFormHelperText-root.Mui-error': {
-    color: '#672da8',
+    color: '#266078',
     position: 'absolute',
     top: '2em',
     fontSize: '1rem',
@@ -60,12 +60,12 @@ const IncorrectBlank = styled(TextField)({
 
 const ShowAnswerBlank = styled(TextField)({
   '& .MuiInputBase-input.Mui-disabled': {
-    WebkitTextFillColor: '#176b87',
+    WebkitTextFillColor: '#194db5',
   },
 
   '.MuiInput-underline:before': {
     borderBottom: 'solid 1px',
-    borderBottomColor: '#176b87',
+    borderBottomColor: '#194db5',
   },
 })
 

@@ -17,6 +17,7 @@ interface OptionDisplayProps {
   correctOptions: number[]
   handleAnswerSelection: (option: number, display: string) => void
   submitted: boolean
+  showAnswer: boolean
   isMultiple: boolean
 }
 
@@ -26,9 +27,13 @@ export default function OptionDisplay({
   correctOptions,
   handleAnswerSelection,
   submitted,
+  showAnswer,
   isMultiple,
 }: OptionDisplayProps) {
   const getBorderColor = (option: number) => {
+    if (showAnswer)
+      return correctOptions.includes(option) ? '#194db5' : 'transparent'
+
     if (!submitted) return 'transparent'
 
     if (selectedAnswers.includes(option)) {
@@ -39,8 +44,6 @@ export default function OptionDisplay({
   }
 
   const getIcon = (option: number) => {
-    if (!submitted) return ''
-
     const iconStyle = {
       position: 'absolute',
       top: '50%',
@@ -52,6 +55,18 @@ export default function OptionDisplay({
       alignItems: 'center',
       justifyContent: 'center',
     }
+
+    if (showAnswer) {
+      return (
+        <Box sx={{ ...iconStyle }}>
+          {correctOptions.includes(option) && (
+            <CheckCircle sx={{ color: '#194db5' }} />
+          )}
+        </Box>
+      )
+    }
+
+    if (!submitted) return ''
 
     if (selectedAnswers.includes(option)) {
       return (
