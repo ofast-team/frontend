@@ -37,7 +37,7 @@ export default function OptionDisplay({
     if (!submitted) return 'transparent'
 
     if (selectedAnswers.includes(option)) {
-      return correctOptions.includes(option) ? '#1db924' : '#266078'
+      return correctOptions.includes(option) ? '#1db924' : '#808385'
     }
 
     return 'transparent'
@@ -74,7 +74,7 @@ export default function OptionDisplay({
           {correctOptions.includes(option) ? (
             <CheckCircle sx={{ color: '#1db924' }} />
           ) : (
-            <Cancel sx={{ color: '#266078' }} />
+            <Cancel sx={{ color: '#808385' }} />
           )}
         </Box>
       )

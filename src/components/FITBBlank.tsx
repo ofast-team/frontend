@@ -38,11 +38,11 @@ const CorrectBlank = styled(TextField)({
 const IncorrectBlank = styled(TextField)({
   '.MuiInput-underline:before': {
     borderBottom: 'solid 2px',
-    borderBottomColor: '#266078',
+    borderBottomColor: '#808385',
   },
 
   '.MuiInput-underline:after': {
-    borderBottomColor: '#266078',
+    borderBottomColor: '#808385',
   },
 
   '& .MuiInputBase-input.Mui-disabled': {
@@ -50,7 +50,7 @@ const IncorrectBlank = styled(TextField)({
   },
 
   '.MuiFormHelperText-root.Mui-error': {
-    color: '#266078',
+    color: '#808385',
     position: 'absolute',
     top: '2em',
     fontSize: '1rem',
