@@ -69,7 +69,7 @@ export default function ProfileCard({
   }
 
   const hasIssue = (str: string) => {
-    return str != 'Success' && str != 'Not Updated'
+    return str !== 'Success' && str !== 'Not Updated'
   }
 
   return (
@@ -161,14 +161,12 @@ export default function ProfileCard({
                 <Typography fontSize={20}>{profileData?.username}</Typography>
               )}
             </Grid>
-            {hasIssue(usernameStatus) ? (
+            {hasIssue(usernameStatus) && (
               <Grid item xs={10}>
                 <Typography color={'#8B0000'} align="right" fontSize={15}>
                   {'Try Again: ' + usernameStatus}
                 </Typography>
               </Grid>
-            ) : (
-              <React.Fragment />
             )}
           </Grid>
         </div>
@@ -201,7 +199,7 @@ export default function ProfileCard({
                 <Typography fontSize={20}>{profileData?.email}</Typography>
               )}
             </Grid>
-            {hasIssue(emailStatus) ? (
+            {hasIssue(emailStatus) && (
               <Grid item xs={12}>
                 <Typography
                   paddingRight={4}
@@ -212,8 +210,6 @@ export default function ProfileCard({
                   {'Try Again: ' + emailStatus}
                 </Typography>
               </Grid>
-            ) : (
-              <React.Fragment />
             )}
           </Grid>
         </div>
