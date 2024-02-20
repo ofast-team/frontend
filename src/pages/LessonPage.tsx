@@ -24,6 +24,91 @@ function LessonArrowButton({ children }) {
   )
 }
 
+interface TOCHeader {
+  id: string
+  value: string
+  depth: number
+}
+
+function TableOfContents({ headers }: { headers: TOCHeader[] }) {
+  if (headers.length === 0) {
+    return <></>
+  }
+
+  return (
+    <div style={{ paddingLeft: '10px' }}>
+      <h3 style={{ marginBottom: 0 }}>Table of Contents</h3>
+      {headers.map((header, i) => (
+        <div
+          key={i}
+          style={{
+            marginLeft: `${header.depth * 20}px`,
+          }}
+        >
+          <a className="tocHeader" href={`#${header.id}`}>
+            {header.value}
+          </a>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function LessonBlock({ path }: { path: string }) {
+  const mdx = <MDX path={path} />
+
+  const headers = [
+    {
+      id: 'what-will-our-parameters-be',
+      value: 'What will our parameters be',
+      depth: 1,
+    },
+    { id: 'making-choices', value: 'Making choices', depth: 2 },
+    { id: 'base-cases', value: 'Base Cases', depth: 3 },
+    { id: 'base-cases', value: 'Base Cases', depth: 2 },
+    { id: 'base-cases', value: 'Base Cases', depth: 2 },
+  ]
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        duration: 0.3,
+        delay: 0.1,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'inline-block',
+          width: {
+            xs: 'none',
+            sm: 'none',
+            md: 'none',
+            lg: '80%',
+          },
+        }}
+      >
+        {mdx}
+      </Box>
+      <Box
+        sx={{
+          width: '20%',
+          display: {
+            xs: 'none',
+            sm: 'none',
+            md: 'none',
+            lg: 'inline-block',
+          },
+          verticalAlign: 'top',
+        }}
+      >
+        <TableOfContents headers={path.includes('building') ? headers : []} />
+      </Box>
+    </motion.div>
+  )
+}
+
 export default function LessonPage() {
   const params = useParams()
   const location = useLocation()
@@ -51,16 +136,10 @@ export default function LessonPage() {
   const pageIndex = blockFilenames.indexOf(filenameWithoutExt + '.mdx')
 
   const blocks: JSX.Element[] = blockFilenames.map((lessonFilename) => (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{
-        duration: 0.3,
-        delay: 0.1,
-      }}
-    >
-      <MDX path={'/lessons/' + lesson + '/' + lessonFilename} />
-    </motion.div>
+    <LessonBlock
+      key={lessonFilename}
+      path={'/lessons/' + lesson + '/' + lessonFilename}
+    />
   ))
 
   if (pageIndex === -1) {
@@ -69,7 +148,7 @@ export default function LessonPage() {
 
   return (
     <Box sx={{ position: 'relative', mt: 15 }}>
-      <Container>
+      <Container maxWidth="xl">
         <Typography
           className="markdown themeborder"
           gutterBottom
