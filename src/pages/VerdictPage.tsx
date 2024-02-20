@@ -68,6 +68,9 @@ export default function VerdictPage() {
 
   return (
     <Container sx={{ pt: 15 }}>
+      <Typography variant = {'h4'} mb = {2}>
+        Submission #######
+      </Typography>
       <Box
         sx={{
           borderRadius: '15px', // Apply border radius to the whole box
