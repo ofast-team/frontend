@@ -42,7 +42,6 @@ export default function PieChart({
   numTLE,
   numRTE,
 }: PieChartProps) {
-  console.log('numAC = ' + numAC)
   const data = {
     labels: [
       'Accepted',
