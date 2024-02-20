@@ -140,9 +140,7 @@ export default function ProfilePage() {
         setEmailStatus(data.email)
 
         if (editWasSuccessful) {
-          setOldProfileData(() => {
-            return profileData
-          })
+          setOldProfileData(profileData)
           setIsEditing(false)
         }
       })
