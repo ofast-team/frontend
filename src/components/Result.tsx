@@ -64,33 +64,37 @@ export default function Result({
           </Typography>
         </Box>
       </Box>
-      <Box>
-        {showExplanation && (
-          <div>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                width: 'fit-content',
-                alignItems: 'center',
-                justifyContent: 'space-evenly',
-                mt: 1,
-                pr: 1,
-                backgroundColor: '#f4e458',
-                gap: '8px',
-              }}
-            >
-              <TipsAndUpdates
-                sx={{ color: 'primary', fontSize: '1.3rem', m: 0, pl: 1 }}
-              />
-              <Typography>Explanation</Typography>
-            </Box>
-            <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
-              <MDX value={explanation} />
-            </Typography>
-          </div>
-        )}
-      </Box>
+      {showExplanation && (
+        <Box
+          sx={{
+            backgroundColor: '#f4e458',
+            p: 0.5,
+            borderRadius: '3px',
+            mt: 1,
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: 'fit-content',
+              alignItems: 'center',
+              justifyContent: 'space-evenly',
+              mt: 1,
+              pr: 1,
+              gap: '8px',
+            }}
+          >
+            <TipsAndUpdates
+              sx={{ color: 'primary', fontSize: '1.3rem', m: 0, pl: 1 }}
+            />
+            <Typography>Explanation</Typography>
+          </Box>
+          <Typography sx={{ fontSize: '1.1rem', px: 1 }}>
+            <MDX value={explanation} />
+          </Typography>
+        </Box>
+      )}
     </Box>
   )
 }

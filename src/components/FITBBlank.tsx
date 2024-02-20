@@ -38,11 +38,11 @@ const CorrectBlank = styled(TextField)({
 const IncorrectBlank = styled(TextField)({
   '.MuiInput-underline:before': {
     borderBottom: 'solid 2px',
-    borderBottomColor: '#9e9e9e',
+    borderBottomColor: '#672da8',
   },
 
   '.MuiInput-underline:after': {
-    borderBottomColor: '#9e9e9e',
+    borderBottomColor: '#672da8',
   },
 
   '& .MuiInputBase-input.Mui-disabled': {
@@ -50,7 +50,7 @@ const IncorrectBlank = styled(TextField)({
   },
 
   '.MuiFormHelperText-root.Mui-error': {
-    color: '#9e9e9e',
+    color: '#672da8',
     position: 'absolute',
     top: '2em',
     fontSize: '1rem',
@@ -60,12 +60,12 @@ const IncorrectBlank = styled(TextField)({
 
 const ShowAnswerBlank = styled(TextField)({
   '& .MuiInputBase-input.Mui-disabled': {
-    WebkitTextFillColor: 'black',
+    WebkitTextFillColor: '#176b87',
   },
 
   '.MuiInput-underline:before': {
     borderBottom: 'solid 1px',
-    borderBottomColor: 'black',
+    borderBottomColor: '#176b87',
   },
 })
 

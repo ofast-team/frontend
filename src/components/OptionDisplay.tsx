@@ -32,7 +32,7 @@ export default function OptionDisplay({
     if (!submitted) return 'transparent'
 
     if (selectedAnswers.includes(option)) {
-      return correctOptions.includes(option) ? '#388e3c' : '#9e9e9e'
+      return correctOptions.includes(option) ? '#1db924' : '#266078'
     }
 
     return 'transparent'
@@ -57,9 +57,9 @@ export default function OptionDisplay({
       return (
         <Box sx={{ ...iconStyle }}>
           {correctOptions.includes(option) ? (
-            <CheckCircle sx={{ color: '#388e3c' }} />
+            <CheckCircle sx={{ color: '#1db924' }} />
           ) : (
-            <Cancel sx={{ color: '#9e9e9e' }} />
+            <Cancel sx={{ color: '#266078' }} />
           )}
         </Box>
       )
@@ -104,7 +104,7 @@ export default function OptionDisplay({
                     sx={{
                       '&.Mui-disabled': {
                         color: '#04364a',
-                        opacity: '0.8',
+                        opacity: '0.7',
                       },
                     }}
                   />
@@ -116,7 +116,7 @@ export default function OptionDisplay({
                     sx={{
                       '&.Mui-disabled': {
                         color: '#04364a',
-                        opacity: '0.8',
+                        opacity: '0.7',
                       },
                     }}
                   />
