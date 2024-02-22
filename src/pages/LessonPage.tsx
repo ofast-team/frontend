@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Typography, Container } from '@mui/material'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
@@ -6,6 +6,7 @@ import lessons from '../lessons.json'
 import MDX from '../components/MDXRenderer'
 import { useParams, Navigate, Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import getHeaders, { TOCHeader } from '../mdx-util/get-headers'
 
 import './LessonPage.css'
 
@@ -24,12 +25,6 @@ function LessonArrowButton({ children }) {
   )
 }
 
-interface TOCHeader {
-  id: string
-  value: string
-  depth: number
-}
-
 function TableOfContents({ headers }: { headers: TOCHeader[] }) {
   if (headers.length === 0) {
     return <></>
@@ -45,7 +40,7 @@ function TableOfContents({ headers }: { headers: TOCHeader[] }) {
             marginLeft: `${header.depth * 20}px`,
           }}
         >
-          <a className="tocHeader" href={`#${header.id}`}>
+          <a className="tocHeader" href={`#${header.slug}`}>
             {header.value}
           </a>
         </div>
@@ -54,20 +49,13 @@ function TableOfContents({ headers }: { headers: TOCHeader[] }) {
   )
 }
 
-function LessonBlock({ path }: { path: string }) {
-  const mdx = <MDX path={path} />
+interface LessonBlockProps {
+  path: string
+  headers: TOCHeader[]
+}
 
-  const headers = [
-    {
-      id: 'what-will-our-parameters-be',
-      value: 'What will our parameters be',
-      depth: 1,
-    },
-    { id: 'making-choices', value: 'Making choices', depth: 2 },
-    { id: 'base-cases', value: 'Base Cases', depth: 3 },
-    { id: 'base-cases', value: 'Base Cases', depth: 2 },
-    { id: 'base-cases', value: 'Base Cases', depth: 2 },
-  ]
+function LessonBlock({ path, headers }: LessonBlockProps) {
+  const mdx = <MDX path={path} />
 
   return (
     <motion.div
@@ -82,9 +70,9 @@ function LessonBlock({ path }: { path: string }) {
         sx={{
           display: 'inline-block',
           width: {
-            xs: 'none',
-            sm: 'none',
-            md: 'none',
+            xs: '100%',
+            sm: '100%',
+            md: '100%',
             lg: '80%',
           },
         }}
@@ -103,7 +91,7 @@ function LessonBlock({ path }: { path: string }) {
           verticalAlign: 'top',
         }}
       >
-        <TableOfContents headers={path.includes('building') ? headers : []} />
+        <TableOfContents headers={headers} />
       </Box>
     </motion.div>
   )
@@ -113,13 +101,13 @@ export default function LessonPage() {
   const params = useParams()
   const location = useLocation()
   const lesson: string = params.lesson as string
+  const blockFilenames: string[] =
+    'files' in lessons[lesson] ? lessons[lesson].files : []
+  const [tocHeaders, setTocHeaders] = useState<TOCHeader[]>([])
 
   if (!(lesson in lessons)) {
     return <Navigate to="/learn" replace />
   }
-
-  const blockFilenames: string[] =
-    'files' in lessons[lesson] ? lessons[lesson].files : []
 
   const buildLessonURL = (newPageIndex: number) => {
     const filenameWithoutExt = blockFilenames[newPageIndex].substring(
@@ -139,12 +127,33 @@ export default function LessonPage() {
     <LessonBlock
       key={lessonFilename}
       path={'/lessons/' + lesson + '/' + lessonFilename}
+      headers={tocHeaders}
     />
   ))
 
   if (pageIndex === -1) {
     return <Navigate to={buildLessonURL(0)} replace />
   }
+
+  useEffect(() => {
+    async function go(lessonFilename: string) {
+      fetch('/lessons/' + lesson + '/' + lessonFilename)
+        .then((response) => response.text())
+        .then(async (text) => {
+          const headers = await getHeaders(text)
+          setTocHeaders((curHeaders) => curHeaders.concat(headers))
+        })
+        .catch((error) => console.error(error))
+    }
+
+    async function go2() {
+      for (const lessonFilename of blockFilenames) {
+        await go(lessonFilename)
+      }
+    }
+
+    go2()
+  }, [])
 
   return (
     <Box sx={{ position: 'relative', mt: 15 }}>
@@ -155,6 +164,7 @@ export default function LessonPage() {
           color="primary"
           component="span"
         >
+          {/* {tocHeaders.length > 0 && tocHeaders[0].slug} */}
           <AnimatePresence>
             <div key={location.pathname}>{blocks[pageIndex]}</div>
           </AnimatePresence>

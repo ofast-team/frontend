@@ -1,6 +1,8 @@
 html {
   scroll-snap-type: y mandatory;
   scroll-padding-top: 80px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .fadeColor {

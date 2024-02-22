@@ -7,7 +7,6 @@ import { compile, run } from '@mdx-js/mdx'
 
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
-import remarkToC from 'remark-toc'
 import remarkMath from 'remark-math'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -162,7 +161,6 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
             remarkMdxFrontmatter,
             remarkMath,
             remarkGfm,
-            remarkToC,
           ],
           rehypePlugins: [
             rehypeMathJax,
@@ -170,7 +168,7 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
             [
               rehypeAutolinkHeadings,
               {
-                behavior: 'prepend',
+                behavior: 'append',
                 properties: {
                   ariaHidden: 'true',
                   tabindex: -1,
@@ -189,14 +187,14 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
             ],
           ],
         })
-
+        
         const res = await run(compiledResult, {
           Fragment,
           jsx,
           jsxs,
           baseUrl: import.meta.url,
         })
-
+        
         setMdxContent(res.default({ components }))
 
         timer = setTimeout(() => {
