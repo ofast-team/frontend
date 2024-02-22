@@ -136,7 +136,7 @@ export default function LessonPage() {
   }
 
   useEffect(() => {
-    async function go(lessonFilename: string) {
+    async function genHeadersFromFile(lessonFilename: string) {
       fetch('/lessons/' + lesson + '/' + lessonFilename)
         .then((response) => response.text())
         .then(async (text) => {
@@ -146,13 +146,9 @@ export default function LessonPage() {
         .catch((error) => console.error(error))
     }
 
-    async function go2() {
-      for (const lessonFilename of blockFilenames) {
-        await go(lessonFilename)
-      }
+    for (const lessonFilename of blockFilenames) {
+      genHeadersFromFile(lessonFilename)
     }
-
-    go2()
   }, [])
 
   return (
