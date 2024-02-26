@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
+
 import { Box, Typography, Container } from '@mui/material'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
-import lessons from '../lessons.json'
-import MDX from '../components/MDXRenderer'
-import { useParams, Navigate, Link, useLocation } from 'react-router-dom'
+
 import { motion, AnimatePresence } from 'framer-motion'
-import getHeaders, { TOCHeader } from '../mdx-util/get-headers'
+
+import { useParams, Navigate, Link, useLocation } from 'react-router-dom'
+
+import lessons from '../lessons.json'
+import getHeaders, { TOCHeader } from '../mdx-utils/get-headers'
+import removeExtension from '../utils/removeExtension'
+import LessonBlock from '../components/LessonPage/LessonBlock'
 
 import './LessonPage.css'
 
@@ -25,78 +30,6 @@ function LessonArrowButton({ children }) {
   )
 }
 
-function TableOfContents({ headers }: { headers: TOCHeader[] }) {
-  if (headers.length === 0) {
-    return <></>
-  }
-
-  return (
-    <div style={{ paddingLeft: '10px' }}>
-      <h3 style={{ marginBottom: 0 }}>Table of Contents</h3>
-      {headers.map((header, i) => (
-        <div
-          key={i}
-          style={{
-            marginLeft: `${header.depth * 20}px`,
-          }}
-        >
-          <a className="tocHeader" href={`#${header.slug}`}>
-            {header.value}
-          </a>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-interface LessonBlockProps {
-  path: string
-  headers: TOCHeader[]
-}
-
-function LessonBlock({ path, headers }: LessonBlockProps) {
-  const mdx = <MDX path={path} />
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{
-        duration: 0.3,
-        delay: 0.1,
-      }}
-    >
-      <Box
-        sx={{
-          display: 'inline-block',
-          width: {
-            xs: '100%',
-            sm: '100%',
-            md: '100%',
-            lg: '80%',
-          },
-        }}
-      >
-        {mdx}
-      </Box>
-      <Box
-        sx={{
-          width: '20%',
-          display: {
-            xs: 'none',
-            sm: 'none',
-            md: 'none',
-            lg: 'inline-block',
-          },
-          verticalAlign: 'top',
-        }}
-      >
-        <TableOfContents headers={headers} />
-      </Box>
-    </motion.div>
-  )
-}
-
 export default function LessonPage() {
   const params = useParams()
   const location = useLocation()
@@ -110,11 +43,7 @@ export default function LessonPage() {
   }
 
   const buildLessonURL = (newPageIndex: number) => {
-    const filenameWithoutExt = blockFilenames[newPageIndex].substring(
-      0,
-      blockFilenames[newPageIndex].indexOf('.'),
-    )
-
+    const filenameWithoutExt = removeExtension(blockFilenames[newPageIndex])
     return `/learn/${lesson}/${filenameWithoutExt}`
   }
 
@@ -131,25 +60,52 @@ export default function LessonPage() {
     />
   ))
 
-  if (pageIndex === -1) {
-    return <Navigate to={buildLessonURL(0)} replace />
-  }
-
   useEffect(() => {
-    async function genHeadersFromFile(lessonFilename: string) {
-      fetch('/lessons/' + lesson + '/' + lessonFilename)
+    async function genHeadersFromFile(filename: string) {
+      fetch(`/lessons/${lesson}/${filename}`)
         .then((response) => response.text())
         .then(async (text) => {
           const headers = await getHeaders(text)
-          setTocHeaders((curHeaders) => curHeaders.concat(headers))
+          headers.forEach((header) => {
+            header.filenameWithoutExt = removeExtension(filename)
+          })
+
+          setTocHeaders((curHeaders) => {
+            const newHeaders: TOCHeader[] = [...curHeaders]
+
+            // To avoid duplicates during development because of React Strict Mode
+            for (const header of headers) {
+              if (
+                !newHeaders.some(
+                  (h) =>
+                    h.slug === header.slug &&
+                    h.depth === header.depth &&
+                    h.value === header.value &&
+                    h.filenameWithoutExt === header.filenameWithoutExt,
+                )
+              ) {
+                newHeaders.push(header)
+              }
+            }
+
+            return newHeaders
+          })
         })
         .catch((error) => console.error(error))
     }
 
-    for (const lessonFilename of blockFilenames) {
-      genHeadersFromFile(lessonFilename)
+    async function genAllHeaders() {
+      for (const lessonFilename of blockFilenames) {
+        await genHeadersFromFile(lessonFilename)
+      }
     }
+
+    genAllHeaders()
   }, [])
+
+  if (pageIndex === -1) {
+    return <Navigate to={buildLessonURL(0)} replace />
+  }
 
   return (
     <Box sx={{ position: 'relative', mt: 15 }}>
@@ -160,7 +116,6 @@ export default function LessonPage() {
           color="primary"
           component="span"
         >
-          {/* {tocHeaders.length > 0 && tocHeaders[0].slug} */}
           <AnimatePresence>
             <div key={location.pathname}>{blocks[pageIndex]}</div>
           </AnimatePresence>

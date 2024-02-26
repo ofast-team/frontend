@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import GithubSlugger from 'github-slugger'
 
 export default ({ tableOfContents }) => {

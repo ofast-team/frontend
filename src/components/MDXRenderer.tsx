@@ -187,14 +187,14 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
             ],
           ],
         })
-        
+
         const res = await run(compiledResult, {
           Fragment,
           jsx,
           jsxs,
           baseUrl: import.meta.url,
         })
-        
+
         setMdxContent(res.default({ components }))
 
         timer = setTimeout(() => {
