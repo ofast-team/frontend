@@ -17,6 +17,7 @@ interface OptionDisplayProps {
   correctOptions: number[]
   handleAnswerSelection: (option: number, display: string) => void
   submitted: boolean
+  showAnswer: boolean
   isMultiple: boolean
 }
 
@@ -26,21 +27,23 @@ export default function OptionDisplay({
   correctOptions,
   handleAnswerSelection,
   submitted,
+  showAnswer,
   isMultiple,
 }: OptionDisplayProps) {
   const getBorderColor = (option: number) => {
+    if (showAnswer)
+      return correctOptions.includes(option) ? '#194db5' : 'transparent'
+
     if (!submitted) return 'transparent'
 
     if (selectedAnswers.includes(option)) {
-      return correctOptions.includes(option) ? '#388e3c' : '#9e9e9e'
+      return correctOptions.includes(option) ? '#1db924' : '#808385'
     }
 
     return 'transparent'
   }
 
   const getIcon = (option: number) => {
-    if (!submitted) return ''
-
     const iconStyle = {
       position: 'absolute',
       top: '50%',
@@ -53,13 +56,25 @@ export default function OptionDisplay({
       justifyContent: 'center',
     }
 
+    if (showAnswer) {
+      return (
+        <Box sx={{ ...iconStyle }}>
+          {correctOptions.includes(option) && (
+            <CheckCircle sx={{ color: '#194db5' }} />
+          )}
+        </Box>
+      )
+    }
+
+    if (!submitted) return ''
+
     if (selectedAnswers.includes(option)) {
       return (
         <Box sx={{ ...iconStyle }}>
           {correctOptions.includes(option) ? (
-            <CheckCircle sx={{ color: '#388e3c' }} />
+            <CheckCircle sx={{ color: '#1db924' }} />
           ) : (
-            <Cancel sx={{ color: '#9e9e9e' }} />
+            <Cancel sx={{ color: '#808385' }} />
           )}
         </Box>
       )
@@ -91,8 +106,7 @@ export default function OptionDisplay({
               transition: 'border 0.5s',
               borderRadius: '10px',
               flexGrow: 1,
-              my: 0.75,
-              mr: 0.5,
+              m: 0.5,
             }}
           >
             <FormControlLabel
@@ -105,7 +119,7 @@ export default function OptionDisplay({
                     sx={{
                       '&.Mui-disabled': {
                         color: '#04364a',
-                        opacity: '0.8',
+                        opacity: '0.7',
                       },
                     }}
                   />
@@ -117,23 +131,27 @@ export default function OptionDisplay({
                     sx={{
                       '&.Mui-disabled': {
                         color: '#04364a',
-                        opacity: '0.8',
+                        opacity: '0.7',
                       },
                     }}
                   />
                 )
               }
               label={
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '15px' }}>
                   <MDX value={option} />
                 </div>
               }
               disabled={submitted}
               sx={{
                 px: 1,
+                '.MuiFormControlLabel-label': {
+                  lineHeight: '1',
+                },
                 '.MuiFormControlLabel-label.Mui-disabled': {
                   color: '#000',
                   opacity: '0.8',
+                  lineHeight: '1',
                 },
               }}
             />
