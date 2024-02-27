@@ -1,53 +1,9 @@
-import React, {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  createContext,
-  useState,
-} from 'react'
-import { Box, Button, IconButton, Paper, Typography } from '@mui/material'
-import { ShowAnswerBtn } from './MCQBlock'
-import { Lightbulb } from '@mui/icons-material'
-import RestartAltIcon from '@mui/icons-material/RestartAlt'
+import React, { ReactNode, createContext, useState } from 'react'
+import { Box, Button, Paper, Typography } from '@mui/material'
 import MDX from './MDXRenderer'
-
-interface HeaderProps {
-  setShowHint: Dispatch<SetStateAction<boolean>>
-  handleReset: () => void
-  handleShowAnswer: () => void
-  setBlankStatus: (uuid: string, correct: boolean) => void
-}
-
-function Header({ setShowHint, handleShowAnswer, handleReset }: HeaderProps) {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#6DB6C3',
-        color: '#000',
-        p: 2,
-      }}
-    >
-      <Typography
-        variant="h4"
-        sx={{
-          textAlign: 'left',
-        }}
-      >
-        Fill in the Blank
-      </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <ShowAnswerBtn onClick={handleShowAnswer}>Show Answer</ShowAnswerBtn>
-        <IconButton onClick={() => setShowHint(true)}>
-          <Lightbulb sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
-        </IconButton>
-        <RestartAltIcon onClick={handleReset} />
-      </Box>
-    </Box>
-  )
-}
+import Header from './Header'
+import Result from './Result'
+import { TipsAndUpdates } from '@mui/icons-material'
 
 // Store each blank and its status.
 type HashMap = {
@@ -55,7 +11,8 @@ type HashMap = {
 }
 
 interface FITBBlockProps {
-  hint: string
+  explanation?: string
+  hint?: string
   children: ReactNode
 }
 
@@ -74,7 +31,11 @@ export const FITBContext = createContext<FITBState>({
   setBlankStatus: () => {},
 })
 
-export default function FITBBlock({ hint, children }: FITBBlockProps) {
+export default function FITBBlock({
+  explanation,
+  hint,
+  children,
+}: FITBBlockProps) {
   const [blanks, setBlanks] = useState<HashMap>({})
 
   const setBlankStatus = (uuid: string, correct: boolean) => {
@@ -91,8 +52,10 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
   }
   const [fitbState, setFitbState] = useState<FITBState>(defaultFitbState)
   const [showHint, setShowHint] = useState<boolean>(false)
+  const [result, setResult] = useState<number>(0)
 
   const handleReset = () => {
+    setResult(0)
     setShowHint(false)
     setFitbState((oldData: FITBState) => {
       return { ...defaultFitbState, numResets: oldData.numResets + 1 }
@@ -100,63 +63,116 @@ export default function FITBBlock({ hint, children }: FITBBlockProps) {
   }
 
   const handleShowAnswer = () => {
+    setResult(1)
+    setShowHint(false)
     setFitbState((oldData: FITBState) => {
       return { ...oldData, showAnswer: true }
     })
   }
 
+  const handleTryAgain = () => {
+    setResult(0)
+    setFitbState((oldData: FITBState) => {
+      return { ...oldData, submitted: false }
+    })
+  }
+
   const allCorrect = () => {
-    return Object.values(blanks).every((blank) => blank === true)
+    if (Object.values(blanks).every((blank) => blank === true)) {
+      setResult(1)
+      return true
+    }
+    return false
   }
 
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
       <Header
+        title="Fill in the Blank"
         setShowHint={setShowHint}
+        showAnswers={handleShowAnswer}
         handleReset={handleReset}
-        handleShowAnswer={handleShowAnswer}
-        setBlankStatus={setBlankStatus}
+        result={result}
+        hint={hint}
       />
       <Box sx={{ p: 3 }}>
         <FITBContext.Provider value={fitbState}>
           {children}
         </FITBContext.Provider>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          {!fitbState.submitted || (fitbState.submitted && allCorrect()) ? (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            mt: 3,
+            flexDirection: 'row',
+          }}
+        >
+          {fitbState.submitted ? (
             <Button
               variant="contained"
-              onClick={() => {
-                setFitbState((oldData: FITBState) => {
-                  return { ...oldData, submitted: true }
-                })
+              onClick={handleTryAgain}
+              disabled={result === 1}
+              sx={{
+                fontSize: '1rem',
+                display: `${result === 1 ? 'none' : 'block'}`,
               }}
-              disabled={
-                fitbState.showAnswer || (fitbState.submitted && allCorrect())
-              }
             >
-              Submit
+              Try Again
             </Button>
           ) : (
             <Button
               variant="contained"
               onClick={() => {
+                allCorrect()
                 setFitbState((oldData: FITBState) => {
-                  return { ...oldData, submitted: false }
+                  return { ...oldData, submitted: true }
                 })
               }}
-              disabled={fitbState.showAnswer || allCorrect()}
+              disabled={result === 1}
+              sx={{
+                fontSize: '1rem',
+                display: `${result === 1 ? 'none' : 'block'}`,
+              }}
             >
-              Try Again
+              Submit
             </Button>
           )}
         </Box>
-        {showHint ? (
-          <Typography sx={{ fontSize: '1rem' }}>
-            <MDX value={hint} />
-          </Typography>
-        ) : (
-          <React.Fragment />
+        {result != 0 && (
+          <Result
+            result={result}
+            explanation={explanation}
+            submitted={fitbState.submitted}
+            showAnswer={fitbState.showAnswer}
+          />
         )}
+        <Box>
+          {showHint && (
+            <div>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: 'fit-content',
+                  alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                  mt: 1,
+                  pr: 1,
+                  backgroundColor: '#f4e458',
+                  gap: '8px',
+                }}
+              >
+                <TipsAndUpdates
+                  sx={{ color: 'primary', fontSize: '1.3rem', m: 0, pl: 1 }}
+                />
+                <Typography>Hint</Typography>
+              </Box>
+              <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
+                <MDX value={hint} />
+              </Typography>
+            </div>
+          )}
+        </Box>
       </Box>
     </Paper>
   )
