@@ -19,6 +19,7 @@ import VerdictPage from './pages/VerdictPage'
 import { useSelector } from 'react-redux'
 import { RootState } from './store'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import SubmissionsList from './pages/SubmissionsList'
 
 const theme = createTheme({
   typography: {
@@ -83,6 +84,7 @@ export function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/submit" element={<SubmitPage />} />
         <Route path="/verdict" element={<VerdictPage/>} />
+        <Route path="/submissions" element={<SubmissionsList/>}/>
         <Route path="/playground" element={<MDXPlaygroundPage />} />
         <Route
           path="/profile"

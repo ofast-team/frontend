@@ -34,8 +34,8 @@ function SearchResults({ value }: { value: string }) {
     >
       {result.map((problem, key) => (
         <Link
-          key={key}
-          style={{ color: 'inherit', textDecoration: 'none' }}
+          key={key}style
+          ={{ color: 'inherit', textDecoration: 'none' }}
           to={'/problem/' + problem.problemID}
         >
           <motion.div
