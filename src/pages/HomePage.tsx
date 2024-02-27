@@ -1,6 +1,7 @@
 import { Typography, Container, Box } from '@mui/material'
 import React from 'react'
-import HomeCard from '../components/HomeCard'
+import HomeCard from '../components/HomePage/HomeCard'
+import HomeLearn from '../components/HomePage/HomeLearn'
 
 export default function HomePage() {
   return (
@@ -41,11 +42,12 @@ export default function HomePage() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          pt: 3,
+          py: 3,
         }}
       >
         <HomeCard />
       </Box>
+      <HomeLearn />
     </Container>
   )
 }
