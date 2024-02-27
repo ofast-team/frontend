@@ -15,20 +15,20 @@ import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
 
 import ShareSubmissionDialog from '../components/ShareSubmissionDialog'
-import ShareIcon from '@mui/icons-material/Share';
+import ShareIcon from '@mui/icons-material/Share'
 
 const CorrectIcon = () => {
   return (
-    <Avatar sx= {{backgroundColor: '#1db924'}}>
-        <CheckIcon sx = {{color: 'white', fontSize: '32px'}}></CheckIcon>
+    <Avatar sx={{ backgroundColor: '#1db924' }}>
+      <CheckIcon sx={{ color: 'white', fontSize: '32px' }}></CheckIcon>
     </Avatar>
   )
 }
 
 const WrongAnswerIcon = () => {
   return (
-    <Avatar sx = {{backgroundColor: '#FF5555'}}>
-      <CloseIcon sx = {{color: 'white', fontSize: '32px'}}/>
+    <Avatar sx={{ backgroundColor: '#FF5555' }}>
+      <CloseIcon sx={{ color: 'white', fontSize: '32px' }} />
     </Avatar>
   )
 }
@@ -63,11 +63,14 @@ export default function VerdictPage() {
   return (
     <Container sx={{ pt: 15 }}>
       <Box display="flex" gap={1} alignItems={'center'} mb={2}>
-        <Typography variant={'h4'}>
-          Submission #######
-        </Typography>
+        <Typography variant={'h4'}>Submission #######</Typography>
         <IconButton>
-          <ShareIcon sx = {{alignSelf: 'center', fontSize: '32px', color: 'black'}} onClick = {() => {setDialogIsOpen(true)}}></ShareIcon>
+          <ShareIcon
+            sx={{ alignSelf: 'center', fontSize: '32px', color: 'black' }}
+            onClick={() => {
+              setDialogIsOpen(true)
+            }}
+          ></ShareIcon>
         </IconButton>
       </Box>
 
@@ -133,9 +136,14 @@ export default function VerdictPage() {
       <Box>
         <MDXRenderer value={code}></MDXRenderer>
       </Box>
-      {dialogIsOpen && 
-      <ShareSubmissionDialog onClose = {() => {setDialogIsOpen(false)}} isOpen = {true}>
-      </ShareSubmissionDialog>}
+      {dialogIsOpen && (
+        <ShareSubmissionDialog
+          onClose={() => {
+            setDialogIsOpen(false)
+          }}
+          isOpen={true}
+        ></ShareSubmissionDialog>
+      )}
     </Container>
   )
 }

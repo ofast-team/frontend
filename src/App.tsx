@@ -83,8 +83,8 @@ export function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/submit" element={<SubmitPage />} />
-        <Route path="/verdict" element={<VerdictPage/>} />
-        <Route path="/submissions" element={<SubmissionsList/>}/>
+        <Route path="/verdict" element={<VerdictPage />} />
+        <Route path="/submissions" element={<SubmissionsList />} />
         <Route path="/playground" element={<MDXPlaygroundPage />} />
         <Route
           path="/profile"
