@@ -1,6 +1,6 @@
-import { Box, Container } from '@mui/material'
-import React, { useRef } from 'react'
-import { useScroll, motion, useTransform } from 'framer-motion'
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Box, Container, Typography } from '@mui/material'
 
 export default function HomeSolve() {
   const solveCards = [
@@ -10,30 +10,66 @@ export default function HomeSolve() {
     'assets/solve4.svg',
     'assets/solve5.svg',
   ]
-  const targetRef = useRef<HTMLDivElement | null>(null)
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  })
+  const [scrollX, setScrollX] = useState(0)
 
-  const x = useTransform(scrollYProgress, [0, 1], ['1%', '-95%'])
+  const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
+    setScrollX(scrollX + event.deltaY * 2)
+  }
 
   return (
-    <Container ref={targetRef} sx={{ position: 'relative', height: '300vh' }}>
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        my: 10,
+      }}
+    >
       <Box
         sx={{
-          position: 'sticky',
-          pt: 0,
           display: 'flex',
+          flexDirection: 'row',
           alignItems: 'center',
-          overflow: 'hidden',
+          gap: '10px',
         }}
       >
-        <motion.div style={{ x }}>
-          {solveCards.map((path) => {
-            return <img src={path} alt="Solve Card" />
-          })}
-        </motion.div>
+        <Typography
+          variant="h2"
+          sx={{
+            justifyContent: 'flex-end',
+            letterSpacing: '5px',
+            textTransform: 'upperCase',
+            alignItems: 'center',
+            color: 'primary',
+          }}
+        >
+          Solve
+        </Typography>
       </Box>
+      <div
+        style={{
+          width: '100%',
+          overflowX: 'scroll',
+          overflowY: 'hidden',
+          whiteSpace: 'nowrap',
+        }}
+        onWheel={handleScroll}
+      >
+        {solveCards.map((path, index) => (
+          <motion.img
+            key={index}
+            src={path}
+            alt="Solve card"
+            style={{
+              display: 'inline-block',
+              marginRight: '40px',
+              cursor: 'pointer',
+            }}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          />
+        ))}
+      </div>
     </Container>
   )
 }
