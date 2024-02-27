@@ -20,6 +20,7 @@ import { logout } from '../userSlice'
 
 const activeLink = {
   display: 'inline-block',
+  fontSize: '1.1rem',
   margin: 2,
   fontWeight: 700,
   letterSpacing: 0.8,
@@ -30,6 +31,7 @@ const activeLink = {
 }
 const linkStyle = {
   display: 'inline-block',
+  fontSize: '1.1rem',
   margin: 2,
   fontWeight: 700,
   letterSpacing: 0.8,
