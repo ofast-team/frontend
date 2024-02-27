@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Typography,
-  styled,
-} from '@mui/material'
+import { Box, Button, Container, Grid, Typography, styled } from '@mui/material'
 import React from 'react'
 
 import { Link } from 'react-router-dom'
@@ -99,26 +92,29 @@ export default function VerdictPage() {
         <Box>
           {/* First, render the rows that aren't involved with the current submission. */}
           {submissions.map((submission: SubmissionData) => (
-            <Button sx = {{display: 'block', width: '100%', p:0,}}>
-            <Link style={{ color: 'inherit', textDecoration: 'none' }} to={'/verdict'}>
-              <Grid container borderTop={'solid black 1px'}>
-                {columnNames.map((columnName, i) => (
-                  <Grid item xs={columnWidths[i]} p={1} textAlign={'center'}>
-                    <Typography variant={'body2'} fontSize={18}>
-                      {submission[columnName]}
-                    </Typography>
-                  </Grid>
-                ))}
-              </Grid>
-              <Box sx={{ p: 2, display: 'flex', gap: 2}}>
-                <CorrectIcon />
-                <CorrectIcon />
-                <CorrectIcon />
-                <WrongAnswerIcon></WrongAnswerIcon>
-                <PendingIcon></PendingIcon>
-                <PendingIcon></PendingIcon>
-              </Box>
-            </Link>
+            <Button sx={{ display: 'block', width: '100%', p: 0 }}>
+              <Link
+                style={{ color: 'inherit', textDecoration: 'none' }}
+                to={'/verdict'}
+              >
+                <Grid container borderTop={'solid black 1px'}>
+                  {columnNames.map((columnName, i) => (
+                    <Grid item xs={columnWidths[i]} p={1} textAlign={'center'}>
+                      <Typography variant={'body2'} fontSize={18}>
+                        {submission[columnName]}
+                      </Typography>
+                    </Grid>
+                  ))}
+                </Grid>
+                <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
+                  <CorrectIcon />
+                  <CorrectIcon />
+                  <CorrectIcon />
+                  <WrongAnswerIcon></WrongAnswerIcon>
+                  <PendingIcon></PendingIcon>
+                  <PendingIcon></PendingIcon>
+                </Box>
+              </Link>
             </Button>
           ))}
         </Box>
