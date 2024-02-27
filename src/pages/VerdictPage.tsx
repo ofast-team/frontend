@@ -1,43 +1,36 @@
 import {
+  Avatar,
   Box,
   Container,
   Grid,
   IconButton,
   Typography,
-  styled,
 } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
 import DownloadIcon from '@mui/icons-material/Download'
-import CircleIcon from '@mui/icons-material/Circle'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import CancelIcon from '@mui/icons-material/Cancel'
 import MDXRenderer from '../components/MDXRenderer'
 
-const PendingIcon = styled(CircleIcon)({
-  fontSize: '48px',
-  color: '#B5B1B1', // TODO: Find the right color gray for this
-})
+import CheckIcon from '@mui/icons-material/Check'
+import CloseIcon from '@mui/icons-material/Close'
 
-const CorrectIcon = styled(CheckCircleIcon)({
-  fontSize: '48px',
-  color: 'green',
-})
+import ShareSubmissionDialog from '../components/ShareSubmissionDialog'
+import ShareIcon from '@mui/icons-material/Share';
 
-const WrongAnswerIcon = styled(CancelIcon)({
-  fontSize: '48px',
-  color: 'red',
-})
+const CorrectIcon = () => {
+  return (
+    <Avatar sx= {{backgroundColor: '#1db924'}}>
+        <CheckIcon sx = {{color: 'white', fontSize: '32px'}}></CheckIcon>
+    </Avatar>
+  )
+}
 
-// Temporary until we have a uniform way to store submissions
-interface SubmissionData {
-  Date: string
-  Problem: string
-  Verdict: string
-  Language: string
-  Time: string
-  Memory: string
-  'Test Cases': string
+const WrongAnswerIcon = () => {
+  return (
+    <Avatar sx = {{backgroundColor: '#FF5555'}}>
+      <CloseIcon sx = {{color: 'white', fontSize: '32px'}}/>
+    </Avatar>
+  )
 }
 
 const code: string =
@@ -53,7 +46,6 @@ const sub1 = {
   'Test Cases': '3/5',
 }
 
-const submissions: SubmissionData[] = [sub1, sub1, sub1]
 export default function VerdictPage() {
   const columnNames = [
     'Date',
@@ -66,14 +58,22 @@ export default function VerdictPage() {
   ]
   const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
 
+  const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
+
   return (
     <Container sx={{ pt: 15 }}>
-      <Typography variant = {'h4'} mb = {2}>
-        Submission #######
-      </Typography>
+      <Box display="flex" gap={1} alignItems={'center'} mb={2}>
+        <Typography variant={'h4'}>
+          Submission #######
+        </Typography>
+        <IconButton>
+          <ShareIcon sx = {{alignSelf: 'center', fontSize: '32px', color: 'black'}} onClick = {() => {setDialogIsOpen(true)}}></ShareIcon>
+        </IconButton>
+      </Box>
+
       <Box
         sx={{
-          borderRadius: '15px', // Apply border radius to the whole box
+          borderRadius: '10px', // Apply border radius to the whole box
           border: 'solid black 1px',
           overflow: 'hidden', // Ensure rounded corners are visible
           mb: 5,
@@ -99,19 +99,7 @@ export default function VerdictPage() {
           </Grid>
         </Box>
         <Box>
-          {/* First, render the rows that aren't involved with the current submission. */}
-          {submissions.map((submission: SubmissionData) => (
-            <Grid container>
-              {columnNames.map((columnName, i) => (
-                <Grid item xs={columnWidths[i]} p={1} textAlign={'center'}>
-                  <Typography variant={'body2'}>
-                    {submission[columnName]}
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
-          ))}
-          {/* Then, render the current submission and all test cases associated with it.*/}
+          {/* Render the current submission and and its metadata*/}
           <Grid container>
             {columnNames.map((columnName, i) => (
               <Grid
@@ -121,17 +109,17 @@ export default function VerdictPage() {
                 textAlign={'center'}
                 borderTop={'solid black 1px'}
               >
-                <Typography variant={'body2'}>{sub1[columnName]}</Typography>
+                <Typography variant={'body2'} fontSize={18}>
+                  {sub1[columnName]}
+                </Typography>
               </Grid>
             ))}
           </Grid>
-          <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
+          <Box sx={{ p: 2, display: 'flex', gap: 3 }}>
             <CorrectIcon />
             <CorrectIcon />
             <CorrectIcon />
             <WrongAnswerIcon></WrongAnswerIcon>
-            <PendingIcon></PendingIcon>
-            <PendingIcon></PendingIcon>
           </Box>
         </Box>
       </Box>
@@ -145,6 +133,9 @@ export default function VerdictPage() {
       <Box>
         <MDXRenderer value={code}></MDXRenderer>
       </Box>
+      {dialogIsOpen && 
+      <ShareSubmissionDialog onClose = {() => {setDialogIsOpen(false)}} isOpen = {true}>
+      </ShareSubmissionDialog>}
     </Container>
   )
 }
