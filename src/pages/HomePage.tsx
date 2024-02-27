@@ -2,6 +2,7 @@ import { Typography, Container, Box } from '@mui/material'
 import React from 'react'
 import HomeCard from '../components/HomePage/HomeCard'
 import HomeLearn from '../components/HomePage/HomeLearn'
+import HomeSolve from '../components/HomePage/HomeSolve'
 
 export default function HomePage() {
   return (
@@ -48,6 +49,7 @@ export default function HomePage() {
         <HomeCard />
       </Box>
       <HomeLearn />
+      <HomeSolve />
     </Container>
   )
 }
