@@ -84,13 +84,16 @@ interface SubmissionItemProps {
 
 function SubmissionItem({ submission }: SubmissionItemProps) {
   return (
-    <Box sx={{ color: verdictToColor[submission.verdict] }}>
+    <Typography
+      variant="body1"
+      sx={{ color: verdictToColor[submission.verdict] }}
+    >
       {verdictToText[submission.verdict] +
         ' ' +
         submission.time.toLocaleTimeString() +
         ' ' +
         submission.time.toLocaleDateString('en-US')}
-    </Box>
+    </Typography>
   )
 }
 
