@@ -41,6 +41,7 @@ export default function HomeSolve() {
             textTransform: 'upperCase',
             alignItems: 'center',
             color: 'primary',
+            textShadow: '2px 2px 4px gray',
           }}
         >
           Solve
