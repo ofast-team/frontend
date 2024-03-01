@@ -8,7 +8,6 @@ export default function HomePage() {
   return (
     <Container
       sx={{
-        height: '100vh',
         p: 15,
       }}
     >
