@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Box, Container, Typography } from '@mui/material'
+import './HomeSolve.css'
 
 export default function HomeSolve() {
   const solveCards = [
@@ -52,6 +53,7 @@ export default function HomeSolve() {
           overflowY: 'hidden',
           whiteSpace: 'nowrap',
         }}
+        className="scroll-container"
         onWheel={handleScroll}
       >
         {solveCards.map((path, index) => (
@@ -61,8 +63,8 @@ export default function HomeSolve() {
             alt="Solve card"
             style={{
               display: 'inline-block',
-              marginRight: '40px',
               cursor: 'pointer',
+              width: '45%',
             }}
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
