@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Box, IconButton } from '@mui/material'
+import { Box, IconButton, Tooltip } from '@mui/material'
 import TocIcon from '@mui/icons-material/Toc'
 
 import { motion } from 'framer-motion'
@@ -58,29 +58,48 @@ export default function LessonBlock({ path, headers }: LessonBlockProps) {
             : 'none',
           pt: '7px',
           verticalAlign: 'top',
+          position: 'relative',
         }}
       >
         <TableOfContents headers={headers} />
+        <Tooltip title="Hide Table of Contents">
+          <IconButton
+            sx={{
+              position: 'absolute',
+              top: '2px',
+              left: '220px',
+              zIndex: 1,
+            }}
+            onClick={() => setShowTOC((showTOC) => !showTOC)}
+          >
+            <TocIcon color="primary" />
+          </IconButton>
+        </Tooltip>
       </Box>
 
       {/* TOC Toggle Icon */}
-      <IconButton
-        sx={{
-          display: {
-            xs: 'none',
-            sm: 'none',
-            md: 'none',
-            lg: 'flex',
-          },
-          position: 'fixed',
-          top: '144px',
-          right: '20px',
-          transform: 'translateY(-50%)',
-        }}
-        onClick={() => setShowTOC((showTOC) => !showTOC)}
-      >
-        <TocIcon color="primary" />
-      </IconButton>
+      {!showTOC && (
+        <Tooltip title="Show Table of Contents">
+          <IconButton
+            sx={{
+              display: {
+                xs: 'none',
+                sm: 'none',
+                md: 'none',
+                lg: 'flex',
+              },
+              position: 'fixed',
+              top: '144px',
+              right: '13px',
+              transform: 'translateY(-50%)',
+              zIndex: 1,
+            }}
+            onClick={() => setShowTOC((showTOC) => !showTOC)}
+          >
+            <TocIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+      )}
     </motion.div>
   )
 }

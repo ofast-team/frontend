@@ -23,7 +23,7 @@ h3 {
 }
 
 .arrowButtonContainer {
-  height: 70vh;
+  height: calc(100vh - 350px);
   width: 50px;
   border-radius: 10px;
 }
