@@ -108,7 +108,13 @@ export default function RegisterPage() {
               onChange={(e) => setEmail(e.target.value)}
             ></TextField>
             <PasswordField setter={setPassword}></PasswordField>
-            <Typography color={'red'} fontSize={'18px'} visibility={feedback === 'none' ? 'hidden' : 'visible'}>{feedback}</Typography>
+            <Typography
+              color={'red'}
+              fontSize={'18px'}
+              visibility={feedback === 'none' ? 'hidden' : 'visible'}
+            >
+              {feedback}
+            </Typography>
             <LoginButton
               variant="outlined"
               onClick={() => registerWithEmailAndPassword(email, password)}

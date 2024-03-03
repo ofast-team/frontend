@@ -65,8 +65,10 @@ export default function VerificationBanner() {
         >
           <Typography variant="body1" alignSelf={'center'}>
             You need to verify your email to use some features of O(fast). Click{' '}
-            <Link onClick={verifyEmail} style={{ cursor: 'pointer' }}>this link</Link> to resend a
-            verification email.
+            <Link onClick={verifyEmail} style={{ cursor: 'pointer' }}>
+              this link
+            </Link>{' '}
+            to resend a verification email.
           </Typography>
         </Box>
       </Box>

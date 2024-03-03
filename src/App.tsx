@@ -69,7 +69,7 @@ export function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
-      <VerificationBanner/>
+      <VerificationBanner />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />
