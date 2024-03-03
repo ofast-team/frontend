@@ -28,7 +28,7 @@ interface PasswordFieldProps {
   setter: (string) => void
 }
 function PasswordField(props: PasswordFieldProps) {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   return (
     <FormControl variant="standard" fullWidth>
@@ -59,6 +59,8 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [feedback, setFeedback] = useState<string>('none')
+
   const navigate = useNavigate()
 
   function registerWithEmailAndPassword(email: string, password: string) {
@@ -70,12 +72,18 @@ export default function RegisterPage() {
       .then((res: Response) => {
         if (res.ok) {
           return res.json()
+        } else if (res.status === 401) {
+          return res.json()
         }
         throw Error(res.statusText)
       })
       .then((data) => {
-        console.log(data.general)
-        navigate('/login', { replace: true })
+        if (data.general === 'User Created') {
+          setFeedback('none')
+          navigate('/login', { replace: true })
+        } else {
+          setFeedback(data.general + '. Please try again.')
+        }
       })
       .catch((error: Error) => {
         console.log('Register failed: ' + error.message)
@@ -100,6 +108,7 @@ export default function RegisterPage() {
               onChange={(e) => setEmail(e.target.value)}
             ></TextField>
             <PasswordField setter={setPassword}></PasswordField>
+            <Typography color={'red'} fontSize={'18px'} visibility={feedback === 'none' ? 'hidden' : 'visible'}>{feedback}</Typography>
             <LoginButton
               variant="outlined"
               onClick={() => registerWithEmailAndPassword(email, password)}
