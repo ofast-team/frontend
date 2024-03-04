@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Box, Container, Typography } from '@mui/material'
-import './HomeSolve.css'
+import './HomePage.css'
 
 export default function HomeSolve() {
   const solveCards = [
@@ -52,7 +52,7 @@ export default function HomeSolve() {
           whiteSpace: 'nowrap',
         }}
         ref={ref}
-        className="scroll-container"
+        className="solve-scroll-container"
       >
         {solveCards.map((path, index) => (
           <motion.img

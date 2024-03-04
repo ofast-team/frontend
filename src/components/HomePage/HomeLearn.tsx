@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Box, Container, Typography } from '@mui/material'
 import { Settings } from '@mui/icons-material'
+// import { useScroll } from 'framer-motion'
+import './HomePage.css'
 
 interface HomeLearnComponent {
   svgModule: string
@@ -8,45 +10,50 @@ interface HomeLearnComponent {
 }
 
 function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponent) {
+  const ref = useRef(null)
+  // const { scrollYProgress } = useScroll({ target: ref })
+
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'spaceBetween',
-        my: 10,
-      }}
-    >
-      <Box sx={{ width: '50%' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '10px',
-          }}
-        >
-          <Typography
-            variant="h2"
+    <div ref={ref} className="scroll-svg">
+      <Container
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'spaceBetween',
+          my: 10,
+        }}
+      >
+        <Box sx={{ width: '50%' }}>
+          <Box
             sx={{
-              justifyContent: 'flex-end',
-              letterSpacing: '5px',
-              textTransform: 'upperCase',
+              display: 'flex',
+              flexDirection: 'row',
               alignItems: 'center',
-              color: 'primary',
-              textShadow: '2px 2px 4px gray',
+              gap: '10px',
             }}
           >
-            Learn
-          </Typography>
-          <Settings sx={{ fontSize: '5em' }} />
+            <Typography
+              variant="h2"
+              sx={{
+                justifyContent: 'flex-end',
+                letterSpacing: '5px',
+                textTransform: 'upperCase',
+                alignItems: 'center',
+                color: 'primary',
+                textShadow: '2px 2px 4px gray',
+              }}
+            >
+              Learn
+            </Typography>
+            <Settings sx={{ fontSize: '5em' }} />
+          </Box>
+          <img src={svgModule} alt="Learn SVG" width="100%" />
         </Box>
-        <img src={svgModule} alt="Learn SVG" width="100%" />
-      </Box>
-      <Box sx={{ width: '50%' }}>
-        <img src={svgGraphics} alt="Learn SVG" width="100%" />
-      </Box>
-    </Container>
+        <Box sx={{ width: '50%' }}>
+          <img src={svgGraphics} alt="Learn SVG" width="100%" />
+        </Box>
+      </Container>
+    </div>
   )
 }
 
