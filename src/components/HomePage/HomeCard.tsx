@@ -15,7 +15,7 @@ export default function HomeCard() {
       }}
     >
       <Container
-        sx={{ display: 'flex', flexDirection: 'column', mt: 2, mb: 8 }}
+        sx={{ display: 'flex', flexDirection: 'column', mt: 2, mb: 4 }}
       >
         <Typography
           variant="h2"
@@ -24,6 +24,7 @@ export default function HomeCard() {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
+            pt: 2,
           }}
           gutterBottom
         >
@@ -42,7 +43,7 @@ export default function HomeCard() {
         >
           Learn & Solve with O(fast)
         </Typography>
-        <Box sx={{ height: '90vh' }}>
+        <Box sx={{ height: 'fit-content' }}>
           <img
             className="card-rotate card-left"
             src="assets/learn.svg"

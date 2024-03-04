@@ -30,8 +30,7 @@ export default function HomeSolve() {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          mb: 8,
-          mt: 1,
+          pt: 2,
         }}
       >
         <Box
@@ -39,7 +38,7 @@ export default function HomeSolve() {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            gap: '10px',
+            gap: '3px',
           }}
         >
           <Typography
@@ -62,6 +61,8 @@ export default function HomeSolve() {
             overflowX: 'scroll',
             overflowY: 'hidden',
             whiteSpace: 'nowrap',
+            display: 'flex',
+            flexDirection: 'row',
           }}
           ref={ref}
           className="solve-scroll-container"
@@ -72,9 +73,10 @@ export default function HomeSolve() {
               src={path}
               alt="Solve card"
               style={{
-                display: 'inline-block',
+                // display: 'block',
                 cursor: 'pointer',
-                width: '45%',
+                width: '42%',
+                position: 'relative',
               }}
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
