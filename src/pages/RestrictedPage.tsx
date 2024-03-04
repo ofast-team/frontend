@@ -9,11 +9,11 @@ export default function RestrictedPage() {
         p: 15,
       }}
     >
-    <Card>
-      <Typography textAlign={'center'} fontWeight={600} fontSize={32}>
-        You may not use this feature until your email is verified.
-      </Typography>
-    </Card>
+      <Card>
+        <Typography textAlign={'center'} fontWeight={600} fontSize={32}>
+          You may not use this feature until your email is verified.
+        </Typography>
+      </Card>
     </Container>
   )
 }

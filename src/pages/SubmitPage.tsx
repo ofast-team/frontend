@@ -11,9 +11,9 @@ import RestrictedPage from './RestrictedPage'
 export default function SubmitPage() {
   const user = useSelector((state: RootState) => state.user)
   if (!user.verified) {
-    return <RestrictedPage/>
+    return <RestrictedPage />
   }
-  
+
   return (
     <Container sx={{ p: 15 }}>
       <Typography variant="h3" gutterBottom color="primary">
