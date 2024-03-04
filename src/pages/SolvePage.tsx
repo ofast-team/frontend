@@ -9,7 +9,7 @@ import ProblemsTable from '../components/ProblemsTable'
 import ClickOutside from '../components/ClickOutside'
 
 import { searchProblems } from './MockProblemData'
-import { Problem } from '../pages/ProblemPage'
+import { Problem } from '../components/ProblemBlock'
 
 function SearchResults({ value }: { value: string }) {
   const result: Problem[] = useMemo(() => searchProblems(value, 10), [value])

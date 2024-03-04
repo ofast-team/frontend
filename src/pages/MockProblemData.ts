@@ -1,4 +1,4 @@
-import { Problem } from './ProblemPage'
+import { Problem } from '../components/ProblemBlock'
 import { ProblemMetaData } from '../components/ProblemsTable'
 
 // This file mimics the problem storage and fetching structure until the real storage and APIs
