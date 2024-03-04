@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Box, Container, Typography } from '@mui/material'
 import './HomeSolve.css'
@@ -11,11 +11,8 @@ export default function HomeSolve() {
     'assets/solve4.svg',
     'assets/solve5.svg',
   ]
-  const [scrollX, setScrollX] = useState(0)
 
-  const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
-    setScrollX(scrollX + event.deltaY * 2)
-  }
+  const ref = useRef(null)
 
   return (
     <Container
@@ -54,8 +51,8 @@ export default function HomeSolve() {
           overflowY: 'hidden',
           whiteSpace: 'nowrap',
         }}
+        ref={ref}
         className="scroll-container"
-        onWheel={handleScroll}
       >
         {solveCards.map((path, index) => (
           <motion.img
