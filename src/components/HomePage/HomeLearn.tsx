@@ -17,7 +17,7 @@ function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponent) {
 
   return (
     <div
-      className="snap-child-start"
+      className="snap-child-start snap-center"
       ref={ref}
       style={{
         height: '100vh',
@@ -26,8 +26,6 @@ function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponent) {
       <Container
         sx={{
           display: 'flex',
-          mt: 1,
-          mb: 8,
         }}
       >
         <Box sx={{ width: '50%' }}>
