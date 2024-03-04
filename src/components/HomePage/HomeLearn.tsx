@@ -1,7 +1,8 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Box, Container, Typography } from '@mui/material'
 import { Settings } from '@mui/icons-material'
-// import { useScroll } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
+
 import './HomePage.css'
 
 interface HomeLearnComponent {
@@ -10,17 +11,23 @@ interface HomeLearnComponent {
 }
 
 function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponent) {
-  const ref = useRef(null)
-  // const { scrollYProgress } = useScroll({ target: ref })
+  const { ref } = useInView({
+    threshold: 0.75,
+  })
 
   return (
-    <div ref={ref} className="scroll-svg">
+    <div
+      className="snap-child-start"
+      ref={ref}
+      style={{
+        height: '100vh',
+      }}
+    >
       <Container
         sx={{
           display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'spaceBetween',
-          my: 10,
+          mt: 1,
+          mb: 8,
         }}
       >
         <Box sx={{ width: '50%' }}>
@@ -65,10 +72,10 @@ export default function HomeLearn() {
   ]
 
   return (
-    <Container>
+    <>
       {objects.map((index) => (
         <HomeLearnComponent svgModule={index[0]} svgGraphics={index[1]} />
       ))}
-    </Container>
+    </>
   )
 }
