@@ -75,7 +75,7 @@ export default function LearnPage() {
   })
 
   return (
-    <Container sx={{ p: 15, position: 'relative' }}>
+    <Container sx={{ p: 15 }}>
       <Typography variant="h3" gutterBottom color="primary">
         Learn
       </Typography>
