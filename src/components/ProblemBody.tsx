@@ -6,6 +6,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import MDX from '../components/MDXRenderer'
 import { Problem } from './ProblemBlock'
 
+function doubleNewlines(inputString: string): string {
+  // Use regular expression to match newline characters and replace them with two newline characters
+  return inputString.replace(/\n/g, '\n\n')
+}
+
 const dataTheme = createTheme({
   typography: {
     fontFamily: 'Source Code Pro, monospace',
@@ -66,7 +71,7 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                       component="span"
                       sx={{ lineHeight: 0.5 }}
                     >
-                      <MDX value={input} />
+                      <MDX value={doubleNewlines(input)} />
                     </Typography>
                   </Box>
                 </Grid>
@@ -85,7 +90,7 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                       component="span"
                       sx={{ lineHeight: 0.5 }}
                     >
-                      <MDX value={output} />
+                      <MDX value={doubleNewlines(output)} />
                     </Typography>
                   </Box>
                 </Grid>

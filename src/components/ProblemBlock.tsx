@@ -3,8 +3,7 @@ import { Box } from '@mui/material'
 
 import ProblemBody from '../components/ProblemBody'
 import ProblemBlockCards from './ProblemBlockCards'
-
-import { getProblem } from '../pages/MockProblemData'
+import { useProblemsObject } from '../components/ProblemProvider'
 
 export type Problem = {
   problemID: string
@@ -25,7 +24,8 @@ export type Problem = {
 }
 
 export default function ProblemBlock({ problemID }: { problemID: string }) {
-  const problem: Problem | null = getProblem(problemID)
+  const problemsObject = useProblemsObject()
+  const problem: Problem | null = problemsObject.getProblem(problemID)
 
   if (problem === null) {
     return <Box pt={15}>Problem not found</Box>
