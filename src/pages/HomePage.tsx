@@ -1,8 +1,8 @@
 import { Typography, Container, Box } from '@mui/material'
 import React from 'react'
-import HomeCard from '../components/HomePage/HomeCard'
 import HomeLearn from '../components/HomePage/HomeLearn'
 import HomeSolve from '../components/HomePage/HomeSolve'
+import '../components/HomePage/HomePage.css'
 
 export default function HomePage() {
   return (
@@ -36,16 +36,17 @@ export default function HomePage() {
       >
         Learn & Solve with O(fast)
       </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          py: 3,
-        }}
-      >
-        <HomeCard />
+      <Box sx={{ height: '90vh' }}>
+        <img
+          className="card-rotate card-left"
+          src="assets/learn.svg"
+          alt="Learn card"
+        />
+        <img
+          className="card-rotate card-right"
+          src="assets/solve.svg"
+          alt="Solve card"
+        />
       </Box>
       <HomeLearn />
       <HomeSolve />

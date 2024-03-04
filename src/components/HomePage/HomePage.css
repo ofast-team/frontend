@@ -1,0 +1,34 @@
+.card-rotate {
+  rotate: 3deg;
+  position: relative;
+}
+
+.card-left {
+  top: 5%;
+  left: 5%;
+}
+
+.card-right {
+  top: -30%;
+  left: 40%;
+}
+
+.scroll-svg {
+  scroll-snap-type: y mandatory;
+  scroll-snap-align: 'start';
+  scroll-snap-stop: 'always';
+}
+
+.solve-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.solve-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #87c4ce;
+  border-radius: 10px;
+}
+
+.solve-scroll-container::-webkit-scrollbar-track {
+  background-color: #e2dcdc;
+  border-radius: 10px;
+}
