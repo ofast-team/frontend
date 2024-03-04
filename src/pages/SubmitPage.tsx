@@ -4,8 +4,16 @@ import SubmitFields from '../components/SubmitFields'
 
 import SubmitCodeCard from '../components/SubmitCodeCard'
 import SubmitFolderCard from '../components/SubmitFolderCard'
+import { RootState } from '../store'
+import { useSelector } from 'react-redux'
+import RestrictedPage from './RestrictedPage'
 
 export default function SubmitPage() {
+  const user = useSelector((state: RootState) => state.user)
+  if (!user.verified) {
+    return <RestrictedPage />
+  }
+
   return (
     <Container sx={{ p: 15 }}>
       <Typography variant="h3" gutterBottom color="primary">

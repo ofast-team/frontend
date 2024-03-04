@@ -1,85 +1,25 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Paper,
-  Typography,
-  styled,
-} from '@mui/material'
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import { Box, Button, Paper, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import OptionDisplay from './OptionDisplay'
-import RestartAltIcon from '@mui/icons-material/RestartAlt'
-import { Lightbulb } from '@mui/icons-material'
+import { TipsAndUpdates } from '@mui/icons-material'
 import MDX from './MDXRenderer'
-
-export const ShowAnswerBtn = styled(Button)({
-  borderBottom: '2px solid #776E6E',
-  color: '#776E6E',
-  '&:hover': {
-    borderColor: '#8E8D8D',
-    color: '#000000',
-  },
-  '&:active': {
-    borderColor: '#8E8D8D',
-  },
-})
-
-interface HeaderProps {
-  setShowHint: Dispatch<SetStateAction<boolean>>
-  showAnswers: () => void
-  handleReset: () => void
-  result: number
-}
-function Header({
-  setShowHint,
-  showAnswers,
-  handleReset,
-  result,
-}: HeaderProps) {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#6DB6C3',
-        color: '#000',
-        p: 2,
-      }}
-    >
-      <Typography
-        variant="h4"
-        sx={{
-          textAlign: 'left',
-        }}
-      >
-        Multiple Choice Question
-      </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <ShowAnswerBtn onClick={showAnswers}>Show Answer</ShowAnswerBtn>
-        <IconButton onClick={() => setShowHint(true)} disabled={result === 1}>
-          <Lightbulb sx={{ color: '#04364a', fontSize: '2rem', m: 0 }} />
-        </IconButton>
-        <RestartAltIcon onClick={handleReset} />
-      </Box>
-    </Box>
-  )
-}
+import Header from './Header'
+import Result from './Result'
 
 interface MCQBlockProps {
   question: string
   answerOptions: string[]
   optionVerdicts: boolean[]
-  hint: string
-  explanation: string
+  hint?: string
+  explanation?: string
 }
 
 export default function MCQBlock({
   question,
   answerOptions,
   optionVerdicts,
-  hint,
   explanation,
+  hint,
 }: MCQBlockProps) {
   const correctOptions: number[] = []
 
@@ -94,12 +34,7 @@ export default function MCQBlock({
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [result, setResult] = useState<number>(0)
   const [showHint, setShowHint] = useState<boolean>(false)
-
-  const resultText = [
-    '',
-    'Correct!',
-    'One or more selected option is incorrect!',
-  ]
+  const [showAnswer, setShowAnswer] = useState<boolean>(false)
 
   const handleAnswerSelection = (option: number, display: string) => {
     if (display === 'check') {
@@ -130,13 +65,17 @@ export default function MCQBlock({
     if (allSelected && noExtra) {
       setResult(1)
       setShowHint(false)
-    } else setResult(2)
+      return true
+    } else if (isMultiple && !allSelected) {
+      setResult(2)
+    }
+    return false
   }
 
   const showAnswers = () => {
     setSelectedAnswers(correctOptions)
-    setSubmitted(true)
     setResult(1)
+    setShowAnswer(true)
     setShowHint(false)
   }
 
@@ -150,18 +89,21 @@ export default function MCQBlock({
     setSubmitted(false)
     setSelectedAnswers([])
     setShowHint(false)
+    setShowAnswer(false)
   }
 
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
       <Header
+        title={'Multiple Choice Question'}
         setShowHint={setShowHint}
         showAnswers={showAnswers}
         handleReset={handleReset}
         result={result}
+        hint={hint}
       />
       <Box sx={{ p: 3 }}>
-        <Typography gutterBottom component="span">
+        <Typography sx={{ lineHeight: '1', mb: '6px' }} component="span">
           <MDX value={question} />
         </Typography>
         <OptionDisplay
@@ -170,49 +112,76 @@ export default function MCQBlock({
           correctOptions={correctOptions}
           handleAnswerSelection={handleAnswerSelection}
           submitted={submitted}
+          showAnswer={showAnswer}
           isMultiple={isMultiple}
         />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <Box sx={{ alignItems: 'center' }}>
-            <Typography sx={{ fontSize: '1rem' }}>
-              {resultText[result]}
-            </Typography>
-            {submitted ? (
-              <Button
-                variant="contained"
-                onClick={handleTryAgain}
-                disabled={result === 1}
-              >
-                Try Again
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                onClick={handleSubmission}
-                disabled={result === 1}
-              >
-                Submit
-              </Button>
-            )}
-          </Box>
-        </Box>
         <Box
           sx={{
-            my: 1,
             display: 'flex',
+            justifyContent: 'flex-end',
+            mt: 3,
             flexDirection: 'row',
-            justifyContent: 'space-between',
           }}
         >
-          {result === 1 && (
-            <Typography sx={{ fontSize: '1rem' }}>
-              <MDX value={explanation} />
-            </Typography>
+          {submitted ? (
+            <Button
+              variant="contained"
+              onClick={handleTryAgain}
+              disabled={result === 1}
+              sx={{
+                fontSize: '1rem',
+                display: `${result === 1 ? 'none' : 'block'}`,
+              }}
+            >
+              Try Again
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={handleSubmission}
+              disabled={result === 1}
+              sx={{
+                fontSize: '1rem',
+                display: `${result === 1 ? 'none' : 'block'}`,
+              }}
+            >
+              Submit
+            </Button>
           )}
+        </Box>
+        {result != 0 && (
+          <Result
+            result={result}
+            explanation={explanation}
+            submitted={submitted}
+            showAnswer={showAnswer}
+          />
+        )}
+        <Box>
           {showHint && (
-            <Typography sx={{ fontSize: '1rem' }}>
-              <MDX value={hint} />
-            </Typography>
+            <div>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: 'fit-content',
+                  alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                  mt: 1,
+                  pr: 1,
+                  backgroundColor: '#f4e458',
+                  gap: '8px',
+                }}
+              >
+                <TipsAndUpdates
+                  sx={{ color: 'primary', fontSize: '1.3rem', m: 0, pl: 1 }}
+                />
+                <Typography>Hint</Typography>
+              </Box>
+              <Typography sx={{ fontSize: '1.1rem', pr: 1 }}>
+                <MDX value={hint} />
+              </Typography>
+            </div>
           )}
         </Box>
       </Box>

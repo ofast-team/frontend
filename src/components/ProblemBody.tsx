@@ -1,9 +1,15 @@
 import React from 'react'
+
 import { Grid, Box, Typography } from '@mui/material'
-import Markdown from 'react-markdown'
-import rehypeMathjax from 'rehype-mathjax/svg'
-import remarkMath from 'remark-math'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+import MDX from '../components/MDXRenderer'
+import { Problem } from './ProblemBlock'
+
+function doubleNewlines(inputString: string): string {
+  // Use regular expression to match newline characters and replace them with two newline characters
+  return inputString.replace(/\n/g, '\n\n')
+}
 
 const dataTheme = createTheme({
   typography: {
@@ -11,43 +17,26 @@ const dataTheme = createTheme({
   },
 })
 
-import { Problem } from '../pages/ProblemPage'
-
 interface ProblemBodyProps {
   problem: Problem
 }
 
+// TODO: (Stretch Goal) Add copy button for samples
 export default function ProblemBody({ problem }: ProblemBodyProps) {
   return (
-    <Box maxWidth="70%" sx={{ display: 'inline-block' }}>
-      <Typography color="primary" component="span">
+    <>
+      <Typography className="themeborder" color="primary" component="span">
         <h1 style={{ textAlign: 'center' }}>{problem.title}</h1>
-        <Markdown
-          children={problem.text}
-          remarkPlugins={[remarkMath]}
-          rehypePlugins={[rehypeMathjax]}
-        />
+        <MDX value={problem.text} />
 
         <h2 style={{ marginBottom: '5px' }}>Problem</h2>
-        <Markdown
-          children={problem.problem}
-          remarkPlugins={[remarkMath]}
-          rehypePlugins={[rehypeMathjax]}
-        />
+        <MDX value={problem.problem} />
 
         <h2 style={{ marginBottom: '5px' }}>Input</h2>
-        <Markdown
-          children={problem.input}
-          remarkPlugins={[remarkMath]}
-          rehypePlugins={[rehypeMathjax]}
-        />
+        <MDX value={problem.input} />
 
         <h2 style={{ marginBottom: '5px' }}>Output</h2>
-        <Markdown
-          children={problem.output}
-          remarkPlugins={[remarkMath]}
-          rehypePlugins={[rehypeMathjax]}
-        />
+        <MDX value={problem.output} />
 
         <ThemeProvider theme={dataTheme}>
           {problem.sampleData.map(({ input, output }, index) => (
@@ -77,8 +66,12 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                       height: '100%',
                     }}
                   >
-                    <Typography sx={{ lineHeight: 0.5 }} component="span">
-                      <Markdown children={input} />
+                    <Typography
+                      className="themeborder"
+                      component="span"
+                      sx={{ lineHeight: 0.5 }}
+                    >
+                      <MDX value={doubleNewlines(input)} />
                     </Typography>
                   </Box>
                 </Grid>
@@ -92,8 +85,12 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                       height: '100%',
                     }}
                   >
-                    <Typography sx={{ lineHeight: 0.5 }} component="span">
-                      <Markdown children={output} />
+                    <Typography
+                      className="themeborder"
+                      component="span"
+                      sx={{ lineHeight: 0.5 }}
+                    >
+                      <MDX value={doubleNewlines(output)} />
                     </Typography>
                   </Box>
                 </Grid>
@@ -102,6 +99,6 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
           ))}
         </ThemeProvider>
       </Typography>
-    </Box>
+    </>
   )
 }
