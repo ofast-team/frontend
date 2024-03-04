@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
 import buildPath from '../path'
@@ -10,7 +10,10 @@ export default function VerificationBanner() {
 
   const dispatch = useDispatch()
 
+  const [isClicked, setIsClicked] = useState<boolean>(false)
+
   const verifyEmail = () => {
+    setIsClicked(true)
     fetch(buildPath('/sendVerificationEmail'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -59,13 +62,17 @@ export default function VerificationBanner() {
           sx={{ width: '100%', backgroundColor: 'lightblue' }}
           display={'flex'}
           flexDirection={'column'}
+          position={'absolute'}
           alignSelf={'center'}
-          position={'fixed'}
           top={80}
         >
           <Typography variant="body1" alignSelf={'center'}>
             You need to verify your email to use some features of O(fast). Click{' '}
-            <Link onClick={verifyEmail} style={{ cursor: 'pointer' }}>
+            <Link
+              onClick={verifyEmail}
+              color={isClicked ? '#800080' : 'inherit'}
+              style={{ cursor: 'pointer' }}
+            >
               this link
             </Link>{' '}
             to resend a verification email.
