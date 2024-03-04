@@ -1,0 +1,14 @@
+<MCQBlock
+  question="In the previous section, the subset sum problem was discussed. One common variation of this problem allows for an element to be taken as many times as we want. What would be the recursive case(s) for this function?
+  
+  For this question, let's say `idx` refers to the current index of the element, `sum` is the current sum we are exploring, and `val` is the array of elements."
+  answerOptions={[
+    'Take the current element, updating the current sum and moving to the next element: <br />`f(idx, sum) += f(idx+1, sum - val[i])`',
+    'Take the current element, updating the current sum and staying on the current element: <br />`f(idx, sum) += f(idx, sum - val[i])`',
+    'Move the next element, leaving the current sum the same and moving to the next element: <br />`f(idx, sum) += f(idx+1, sum)`',
+    'Move the next element, updating the current sum and moving to the next element: <br />`f(idx, sum) += f(idx+1, sum - val[i])`',
+  ]}
+  optionVerdicts={[false, true, true, false]}
+  hint="Refer to the initial subset sum solution. What must we change about that function to allow us to take a coin indefinitely?"
+  explanation="To allow a coin to be taken multiple times, we allow the function to take the current coin indefinitely and choose at some point to move to the next coin. To avoid infinite recursion, we only allow the coin to be taken if it would keep the sum from going negative."
+/>

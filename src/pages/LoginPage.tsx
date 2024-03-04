@@ -95,9 +95,16 @@ function PasswordField(props: PasswordFieldProps) {
   )
 }
 
+export interface LoginPayload {
+  id: string
+  isVerified: boolean
+}
+
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const [hasInvalidCredentials, setHasInvalidCredentials] = useState(false)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -112,11 +119,18 @@ export default function LoginPage() {
         if (res.ok) {
           return res.json()
         }
+
+        setHasInvalidCredentials(true)
+        console.log(res.status)
         throw Error(res.statusText)
       })
       .then((data) => {
-        console.log(data.userID)
-        dispatch(login(data.userID))
+        setHasInvalidCredentials(false)
+        const payload: LoginPayload = {
+          id: data.userId,
+          isVerified: data.isVerified,
+        }
+        dispatch(login(payload))
         navigate('/home', { replace: true })
       })
       .catch((error: Error) => {
@@ -142,6 +156,13 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
             ></TextField>
             <PasswordField setter={setPassword}></PasswordField>
+            <Typography
+              fontSize={'18px'}
+              color={'red'}
+              visibility={hasInvalidCredentials ? 'visible' : 'hidden'}
+            >
+              Invalid Credentials, please try again.
+            </Typography>
             <LoginButton
               variant="outlined"
               onClick={() => loginWithEmailAndPassword(email, password)}

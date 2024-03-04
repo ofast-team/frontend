@@ -1,180 +1,159 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { Box, Container, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+
+import { Box, Typography, Container } from '@mui/material'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+
+import { motion, AnimatePresence } from 'framer-motion'
+
+import { useParams, Navigate, Link, useLocation } from 'react-router-dom'
+
 import lessons from '../lessons.json'
+import getHeaders, { TOCHeader } from '../mdx-utils/get-headers'
+import removeExtension from '../utils/removeExtension'
+import LessonBlock from '../components/LessonPage/LessonBlock'
 
 import './LessonPage.css'
 
-import MDX from '../components/MDXRenderer'
-import { useParams, Navigate } from 'react-router-dom'
-
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window
-  return {
-    width,
-    height,
-  }
-}
-
-function SideNavigatorItem({ selected, onClick }) {
+function LessonArrowButton({ children }) {
   return (
-    <div
-      onClick={onClick}
-      className="fadeColor"
-      style={{
-        marginTop: 10,
-        height: selected ? 100 : 40,
-        backgroundColor: selected ? '#04364a' : '#6DB6C3',
-        borderRadius: 50,
-        cursor: 'pointer',
+    <motion.div
+      className="button arrowButtonContainer"
+      whileHover={{
+        scale: 1.005,
+        transition: { duration: 0.1 },
       }}
-    />
-  )
-}
-
-interface LessonBlockWrapperProps {
-  block: React.ReactNode
-  id: number
-  blockRefs: React.MutableRefObject<(HTMLDivElement | null)[]>
-  windowDimensions: {
-    width: number
-    height: number
-  }
-}
-
-function LessonBlockWrapper({
-  block,
-  id,
-  blockRefs,
-  windowDimensions,
-}: LessonBlockWrapperProps) {
-  const [height, setHeight] = useState<number | undefined | null>(null)
-
-  let adjustedHeight = height
-
-  if (height && windowDimensions && height < windowDimensions.height) {
-    adjustedHeight = windowDimensions.height
-  }
-
-  return (
-    <Container
-      key={id}
-      sx={{
-        scrollSnapAlign: 'start',
-        height: adjustedHeight ? adjustedHeight : 'auto',
-        overflowY: 'auto',
-        pt: 15,
-      }}
-      ref={(element) => {
-        blockRefs.current[id] = element
-        setHeight(element?.offsetHeight)
-      }}
+      whileTap={{ scale: 0.995 }}
     >
-      {block}
-    </Container>
+      {children}
+    </motion.div>
   )
 }
 
 export default function LessonPage() {
   const params = useParams()
+  const location = useLocation()
   const lesson: string = params.lesson as string
+  const blockFilenames: string[] =
+    'files' in lessons[lesson] ? lessons[lesson].files : []
+  const [tocHeaders, setTocHeaders] = useState<TOCHeader[]>([])
 
   if (!(lesson in lessons)) {
     return <Navigate to="/learn" replace />
   }
 
-  const blockFilenames: string[] =
-    'files' in lessons[lesson] ? lessons[lesson].files : []
-
-  const blocks: JSX.Element[] = blockFilenames.map((lessonFilename) => (
-    <MDX path={'/lessons/' + lesson + '/' + lessonFilename} />
-  ))
-
-  const blockRefs = useRef(new Array(blocks.length))
-  const [offsetY, setOffsetY] = useState<number>(0)
-  const [windowDimensions, setWindowDimensions] = useState<{
-    width: number
-    height: number
-  }>(getWindowDimensions())
-
-  const currentIndex = () => {
-    if (!blockRefs.current[0]) {
-      return 0
-    }
-
-    let sum = 0
-    let i = 0
-
-    while (
-      i + 1 < blockRefs.current.length &&
-      sum + blockRefs.current[i].offsetHeight <= offsetY
-    ) {
-      sum += blockRefs.current[i].offsetHeight
-      i++
-    }
-
-    return i
+  const buildLessonURL = (newPageIndex: number) => {
+    const filenameWithoutExt = removeExtension(blockFilenames[newPageIndex])
+    return `/learn/${lesson}/${filenameWithoutExt}`
   }
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setOffsetY(window.scrollY)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  const filenameWithoutExt = params.filenameWithoutExt
+    ? params.filenameWithoutExt
+    : blockFilenames[0]
+  const pageIndex = blockFilenames.indexOf(filenameWithoutExt + '.mdx')
+
+  const blocks: JSX.Element[] = blockFilenames.map((lessonFilename) => (
+    <LessonBlock
+      key={lessonFilename}
+      path={'/lessons/' + lesson + '/' + lessonFilename}
+      headers={tocHeaders}
+    />
+  ))
 
   useEffect(() => {
-    const handleResize = () => setWindowDimensions(getWindowDimensions())
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    async function genHeadersFromFile(filename: string) {
+      fetch(`/lessons/${lesson}/${filename}`)
+        .then((response) => response.text())
+        .then(async (text) => {
+          const headers = await getHeaders(text)
+          headers.forEach((header) => {
+            header.filenameWithoutExt = removeExtension(filename)
+          })
+
+          setTocHeaders((curHeaders) => {
+            const newHeaders: TOCHeader[] = [...curHeaders]
+
+            // To avoid duplicates during development because of React Strict Mode
+            for (const header of headers) {
+              if (
+                !newHeaders.some(
+                  (h) =>
+                    h.slug === header.slug &&
+                    h.depth === header.depth &&
+                    h.value === header.value &&
+                    h.filenameWithoutExt === header.filenameWithoutExt,
+                )
+              ) {
+                newHeaders.push(header)
+              }
+            }
+
+            return newHeaders
+          })
+        })
+        .catch((error) => console.error(error))
+    }
+
+    async function genAllHeaders() {
+      for (const lessonFilename of blockFilenames) {
+        await genHeadersFromFile(lessonFilename)
+      }
+    }
+
+    genAllHeaders()
   }, [])
+
+  if (pageIndex === -1) {
+    return <Navigate to={buildLessonURL(0)} replace />
+  }
 
   return (
-    <Box sx={{ position: 'relative' }}>
-      <Box
-        sx={{
-          height: '100vh',
-        }}
-      >
+    <Box sx={{ position: 'relative', mt: 15 }}>
+      <Container maxWidth="xl">
         <Typography
-          className="markdown"
+          className="markdown themeborder"
           gutterBottom
           color="primary"
-          component={'span'}
+          component="span"
         >
-          {blocks.map((block, id) => (
-            <LessonBlockWrapper
-              key={id}
-              block={block}
-              id={id}
-              blockRefs={blockRefs}
-              windowDimensions={windowDimensions}
-            />
-          ))}
+          <AnimatePresence>
+            <div key={location.pathname}>{blocks[pageIndex]}</div>
+          </AnimatePresence>
         </Typography>
-      </Box>
+      </Container>
 
-      <Box
-        sx={{
-          width: 20,
-          transform: 'translateY(-50%)',
-          position: 'fixed',
-          top: '50%',
-          left: '20px',
-        }}
-      >
-        {blocks.map((_item, id) => {
-          return (
-            <SideNavigatorItem
-              key={id}
-              selected={currentIndex() === id}
-              onClick={() =>
-                blockRefs.current[id].scrollIntoView({ behavior: 'smooth' })
-              }
-            />
-          )
-        })}
-      </Box>
+      {pageIndex > 0 && (
+        <Link
+          to={buildLessonURL(pageIndex - 1)}
+          style={{
+            textDecoration: 'none',
+            transform: 'translateY(-50%)',
+            position: 'fixed',
+            top: '50%',
+            left: '10px',
+          }}
+        >
+          <LessonArrowButton>
+            <ArrowBackIosNewIcon className="arrowButtonIcon" />
+          </LessonArrowButton>
+        </Link>
+      )}
+
+      {pageIndex + 1 < blocks.length && (
+        <Link
+          to={buildLessonURL(pageIndex + 1)}
+          style={{
+            transform: 'translateY(-50%)',
+            position: 'fixed',
+            top: '50%',
+            right: '10px',
+          }}
+        >
+          <LessonArrowButton>
+            <ArrowForwardIosIcon className="arrowButtonIcon" />
+          </LessonArrowButton>
+        </Link>
+      )}
     </Box>
   )
 }

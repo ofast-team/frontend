@@ -8,13 +8,16 @@ import SearchBar from '../components/SearchBar'
 import ProblemsTable from '../components/ProblemsTable'
 import ClickOutside from '../components/ClickOutside'
 
-import { searchProblems } from './MockProblemData'
-import { Problem } from '../pages/ProblemPage'
-
-import './SolvePage.css'
+import { useProblemsObject } from '../components/ProblemProvider'
+import { Problem } from '../objects/Problems'
 
 function SearchResults({ value }: { value: string }) {
-  const result: Problem[] = useMemo(() => searchProblems(value, 10), [value])
+  const problemsObject = useProblemsObject()
+
+  const result: Problem[] = useMemo(
+    () => problemsObject.searchProblems(value, 10),
+    [value],
+  )
 
   return (
     <Paper
@@ -41,7 +44,7 @@ function SearchResults({ value }: { value: string }) {
           to={'/problem/' + problem.problemID}
         >
           <motion.div
-            className="searchItem"
+            className="button"
             style={{ padding: '10px', borderRadius: '10px' }}
             whileHover={{
               scale: 1.005,
