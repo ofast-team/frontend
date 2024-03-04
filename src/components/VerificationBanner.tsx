@@ -70,7 +70,7 @@ export default function VerificationBanner() {
             You need to verify your email to use some features of O(fast). Click{' '}
             <Link
               onClick={verifyEmail}
-              color={isClicked ? '#800080' : 'inherit'}
+              color={isClicked ? '#4B0082' : 'inherit'}
               style={{ cursor: 'pointer' }}
             >
               this link
