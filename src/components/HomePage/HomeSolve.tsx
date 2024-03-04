@@ -1,9 +1,15 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { Box, Container, Typography } from '@mui/material'
+import { useInView } from 'react-intersection-observer'
+
 import './HomePage.css'
 
 export default function HomeSolve() {
+  const { ref } = useInView({
+    threshold: 0.75,
+  })
+
   const solveCards = [
     'assets/solve1.svg',
     'assets/solve2.svg',
@@ -12,64 +18,71 @@ export default function HomeSolve() {
     'assets/solve5.svg',
   ]
 
-  const ref = useRef(null)
-
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        my: 10,
+    <div
+      className="snap-child-start"
+      ref={ref}
+      style={{
+        height: '100vh',
       }}
     >
-      <Box
+      <Container
         sx={{
           display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '10px',
+          flexDirection: 'column',
+          mb: 8,
+          mt: 1,
         }}
       >
-        <Typography
-          variant="h2"
+        <Box
           sx={{
-            justifyContent: 'flex-end',
-            letterSpacing: '5px',
-            textTransform: 'upperCase',
+            display: 'flex',
+            flexDirection: 'row',
             alignItems: 'center',
-            color: 'primary',
-            textShadow: '2px 2px 4px gray',
+            gap: '10px',
           }}
         >
-          Solve
-        </Typography>
-      </Box>
-      <div
-        style={{
-          width: '100%',
-          overflowX: 'scroll',
-          overflowY: 'hidden',
-          whiteSpace: 'nowrap',
-        }}
-        ref={ref}
-        className="solve-scroll-container"
-      >
-        {solveCards.map((path, index) => (
-          <motion.img
-            key={index}
-            src={path}
-            alt="Solve card"
-            style={{
-              display: 'inline-block',
-              cursor: 'pointer',
-              width: '45%',
+          <Typography
+            variant="h2"
+            sx={{
+              justifyContent: 'flex-end',
+              letterSpacing: '5px',
+              textTransform: 'upperCase',
+              alignItems: 'center',
+              color: 'primary',
+              textShadow: '2px 2px 4px gray',
             }}
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          />
-        ))}
-      </div>
-    </Container>
+          >
+            Solve
+          </Typography>
+        </Box>
+        <div
+          style={{
+            width: '100%',
+            overflowX: 'scroll',
+            overflowY: 'hidden',
+            whiteSpace: 'nowrap',
+          }}
+          ref={ref}
+          className="solve-scroll-container"
+        >
+          {solveCards.map((path, index) => (
+            <motion.img
+              key={index}
+              src={path}
+              alt="Solve card"
+              style={{
+                display: 'inline-block',
+                cursor: 'pointer',
+                width: '45%',
+              }}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            />
+          ))}
+        </div>
+      </Container>
+    </div>
   )
 }

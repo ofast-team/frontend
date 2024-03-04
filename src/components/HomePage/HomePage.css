@@ -1,3 +1,24 @@
+.snap-parent-y-mandatory {
+  scroll-snap-type: y mandatory;
+  overflow: scroll;
+  height: 100vh;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.snap-parent-y-mandatory::-webkit-scrollbar {
+  display: none;
+}
+
+.snap-child-start {
+  opacity: 1;
+  z-index: 10;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .card-rotate {
   rotate: 3deg;
   position: relative;
@@ -11,12 +32,6 @@
 .card-right {
   top: -30%;
   left: 40%;
-}
-
-.scroll-svg {
-  scroll-snap-type: y mandatory;
-  scroll-snap-align: 'start';
-  scroll-snap-stop: 'always';
 }
 
 .solve-scroll-container::-webkit-scrollbar {
