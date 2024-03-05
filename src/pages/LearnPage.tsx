@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Box,
   Container,
@@ -10,9 +10,10 @@ import {
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { styled } from '@mui/material/styles'
 
-import lessonsData from '../lessons.json'
 import SearchBar from '../components/SearchBar'
 import InlineSpacing from '../components/InlineSpacing'
+import { LessonData, searchLessons } from './lesson-search-utils'
+
 import { Link } from 'react-router-dom'
 
 const LessonButton = styled(Button)({
@@ -60,28 +61,16 @@ function LessonGroup({ title, children }: LessonGroupProps) {
   )
 }
 
-interface lesson {
-  group: string
-  name: string
-  urlParam: string
-}
-
-const lessons: lesson[] = Object.entries(lessonsData).map((lessonData) => {
-  return {
-    group: lessonData[1].lessonGroup,
-    name: lessonData[1].lessonName,
-    urlParam: lessonData[0],
-  }
-})
-
 export default function LearnPage() {
-  const groupedLessons: Record<string, lesson[]> = {}
+  const [keywords, setKeywords] = useState<string>('')
+
+  const lessons: LessonData[] = searchLessons(keywords)
+  const groupedLessons: Record<string, LessonData[]> = {}
 
   lessons.forEach((lesson) => {
     if (!(lesson.group in groupedLessons)) {
       groupedLessons[lesson.group] = []
     }
-
     groupedLessons[lesson.group].push(lesson)
   })
 
@@ -91,7 +80,10 @@ export default function LearnPage() {
         Learn
       </Typography>
 
-      <SearchBar />
+      <SearchBar
+        value={keywords}
+        onChange={(e) => setKeywords(e.target.value)}
+      />
 
       {Object.entries(groupedLessons).map((lessonGroup, groupIndex) => {
         return (
