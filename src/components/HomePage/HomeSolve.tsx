@@ -73,7 +73,6 @@ export default function HomeSolve() {
               src={path}
               alt="Solve card"
               style={{
-                // display: 'block',
                 cursor: 'pointer',
                 width: '42%',
                 position: 'relative',

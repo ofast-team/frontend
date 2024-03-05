@@ -40,7 +40,7 @@ const ScrollContainer = ({ children }) => {
 
 export default function HomePage() {
   return (
-    <Container sx={{ p: 10 }}>
+    <Container sx={{ pt: 10 }}>
       <ScrollContainer>
         <HomeCard />
         <HomeLearn />
