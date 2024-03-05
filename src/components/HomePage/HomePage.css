@@ -37,6 +37,18 @@
   left: 40%;
 }
 
+.gear-top {
+  left: 5%;
+  bottom: 30%;
+  position: relative;
+}
+
+.gear-bottom {
+  left: 40%;
+  bottom: 75%;
+  position: relative;
+}
+
 .solve-scroll-container::-webkit-scrollbar {
   width: 8px;
 }
