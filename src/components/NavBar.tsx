@@ -20,7 +20,7 @@ import { logout } from '../userSlice'
 
 const activeLink = {
   display: 'inline-block',
-  fontSize: '1.1rem',
+  fontSize: '1.15rem',
   margin: 2,
   fontWeight: 700,
   letterSpacing: 0.8,
@@ -31,7 +31,7 @@ const activeLink = {
 }
 const linkStyle = {
   display: 'inline-block',
-  fontSize: '1.1rem',
+  fontSize: '1.15rem',
   margin: 2,
   fontWeight: 700,
   letterSpacing: 0.8,
@@ -250,6 +250,7 @@ function GetStarted() {
           borderRadius: 50,
           fontWeight: 700,
           letterSpacing: 0.2,
+          fontSize: '1.15rem',
           '&:hover': {
             backgroundColor: '#04364a',
             color: '#dafffb',

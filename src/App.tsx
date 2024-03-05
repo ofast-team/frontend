@@ -32,7 +32,7 @@ const theme = createTheme({
       fontWeight: 500,
     },
     h3: {
-      fontSize: '2.5rem',
+      fontSize: '3rem',
       fontWeight: 500,
     },
     h4: {
@@ -44,7 +44,7 @@ const theme = createTheme({
       fontWeight: 700,
     },
     body1: {
-      fontSize: '1.1rem',
+      fontSize: '1.25rem',
       lineHeight: 1.5,
     },
     button: {
