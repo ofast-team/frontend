@@ -50,7 +50,20 @@ function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponent) {
             >
               Learn
             </Typography>
-            <Settings sx={{ fontSize: '5em' }} />
+            <Box
+              sx={{
+                height: '20vh',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <img src={'/assets/gear.svg'} alt="Gear" className="gear-top" />
+              <img
+                src={'/assets/gear.svg'}
+                alt="Gear"
+                className="gear-bottom"
+              />
+            </Box>
           </Box>
           <img src={svgModule} alt="Learn SVG" width="100%" />
         </Box>
