@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Container, Typography } from '@mui/material'
-import { Settings } from '@mui/icons-material'
 import { useInView } from 'react-intersection-observer'
+import { motion } from 'framer-motion'
 
 import './HomePage.css'
 
@@ -57,11 +57,17 @@ function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponent) {
                 flexDirection: 'column',
               }}
             >
-              <img src={'/assets/gear.svg'} alt="Gear" className="gear-top" />
-              <img
+              <motion.img
+                src={'/assets/gear.svg'}
+                alt="Gear"
+                className="gear-top"
+                whileInView={{ rotate: 360 }}
+              />
+              <motion.img
                 src={'/assets/gear.svg'}
                 alt="Gear"
                 className="gear-bottom"
+                whileInView={{ rotate: -360 }}
               />
             </Box>
           </Box>
@@ -76,7 +82,7 @@ function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponent) {
 }
 
 export default function HomeLearn() {
-  const objects = [
+  const objects: [string, string][] = [
     ['assets/learn1_1.svg', 'assets/learn1.svg'],
     ['assets/learn2_1.svg', 'assets/learn2.svg'],
     ['assets/learn3_1.svg', 'assets/learn3.svg'],
@@ -84,8 +90,12 @@ export default function HomeLearn() {
 
   return (
     <>
-      {objects.map((index) => (
-        <HomeLearnComponent svgModule={index[0]} svgGraphics={index[1]} />
+      {objects.map(([svgModule, svgGraphics]) => (
+        <HomeLearnComponent
+          svgModule={svgModule}
+          svgGraphics={svgGraphics}
+          key={svgModule}
+        />
       ))}
     </>
   )
