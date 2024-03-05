@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import { store } from './store'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Persistor, persistStore } from 'redux-persist'
+import { ProblemProvider } from './components/ProblemProvider'
 
 const persistor: Persistor = persistStore(store)
 
@@ -16,7 +17,9 @@ root.render(
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <BrowserRouter>
-          <App />
+          <ProblemProvider>
+            <App />
+          </ProblemProvider>
         </BrowserRouter>
       </PersistGate>
     </Provider>

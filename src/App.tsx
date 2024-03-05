@@ -19,6 +19,7 @@ import VerdictPage from './pages/VerdictPage'
 import { useSelector } from 'react-redux'
 import { RootState } from './store'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import VerificationBanner from './components/VerificationBanner'
 import SubmissionsList from './pages/SubmissionsList'
 
 const theme = createTheme({
@@ -70,6 +71,7 @@ export function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
+      <VerificationBanner />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/learn" element={<LearnPage />} />

@@ -111,6 +111,7 @@ function LogoTitle() {
       variant="h5"
       noWrap
       sx={{
+        fontSize: '1.5rem',
         display: 'flex',
         justifyContent: { xs: 'center', md: 'flex-start' },
         textAlign: 'center',

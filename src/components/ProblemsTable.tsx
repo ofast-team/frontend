@@ -15,10 +15,8 @@ import {
 import { Link } from 'react-router-dom'
 
 import InlineSpacing from '../components/InlineSpacing'
-import {
-  getProblemMetaDataFromRange,
-  getNumProblems,
-} from '../pages/MockProblemData'
+import { useProblemsObject } from '../components/ProblemProvider'
+import { ProblemMetaData } from '../objects/Problems'
 
 interface Column {
   id: 'status' | 'title' | 'tags'
@@ -45,13 +43,6 @@ const columns: readonly Column[] = [
     align: 'right',
   },
 ]
-
-export type ProblemMetaData = {
-  problemID: string
-  status: string
-  title: string
-  tags: string[]
-}
 
 const getTableValue = (columnID: string, problemMetaData: ProblemMetaData) => {
   if (columnID === 'tags') {
@@ -107,10 +98,11 @@ const getTableValue = (columnID: string, problemMetaData: ProblemMetaData) => {
 }
 
 export default function StickyHeadTable() {
+  const problemsObject = useProblemsObject()
   const [pageNumber, setPageNumber] = React.useState(1)
   const rowsPerPage = 10
 
-  const handleChangePage = (event: unknown, newPageNumber: number) => {
+  const handleChangePage = (_event: unknown, newPageNumber: number) => {
     setPageNumber(newPageNumber)
   }
 
@@ -141,26 +133,28 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {getProblemMetaDataFromRange(
-              (pageNumber - 1) * rowsPerPage,
-              pageNumber * rowsPerPage,
-            ).map((row: ProblemMetaData) => {
-              return (
-                <TableRow hover key={row.title}>
-                  {columns.map((column) => {
-                    return (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ overflow: 'hidden ' }}
-                      >
-                        {getTableValue(column.id, row)}
-                      </TableCell>
-                    )
-                  })}
-                </TableRow>
+            {problemsObject
+              .getProblemMetaDataFromRange(
+                (pageNumber - 1) * rowsPerPage,
+                pageNumber * rowsPerPage,
               )
-            })}
+              .map((row: ProblemMetaData) => {
+                return (
+                  <TableRow hover key={row.title}>
+                    {columns.map((column) => {
+                      return (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={{ overflow: 'hidden ' }}
+                        >
+                          {getTableValue(column.id, row)}
+                        </TableCell>
+                      )
+                    })}
+                  </TableRow>
+                )
+              })}
           </TableBody>
         </Table>
       </TableContainer>
@@ -170,7 +164,7 @@ export default function StickyHeadTable() {
           color="primary"
           onChange={handleChangePage}
           page={pageNumber}
-          count={Math.ceil(getNumProblems() / rowsPerPage)}
+          count={Math.ceil(problemsObject.getNumProblems() / rowsPerPage)}
         />
       </Box>
     </Paper>
