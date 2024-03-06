@@ -26,6 +26,7 @@ export default function ProblemPageCard(props: ProblemPageCardProps) {
           bgcolor: '#6DB6C3',
           borderBottom: 'solid',
           borderWidth: '1px',
+          pt: 1,
         }}
       >
         <Typography gutterBottom color="primary" component="span" variant="h5">
