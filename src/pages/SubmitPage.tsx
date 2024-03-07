@@ -1,9 +1,9 @@
 import { Box, Container, Typography } from '@mui/material'
 import React from 'react'
-import SubmitFields from '../components/SubmitFields'
+import SubmitFields from '../components/SubmitPage/SubmitFields'
 
-import SubmitCodeCard from '../components/SubmitCodeCard'
-import SubmitFolderCard from '../components/SubmitFolderCard'
+import SubmitCodeCard from '../components/SubmitPage/SubmitCodeCard'
+import SubmitFolderCard from '../components/SubmitPage/SubmitFolderCard'
 import { RootState } from '../store'
 import { useSelector } from 'react-redux'
 import RestrictedPage from './RestrictedPage'

@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
-import MDX from './MDXRenderer'
+import MDX from '../MDXRenderer'
 import { UploadFile, WarningAmber } from '@mui/icons-material'
 
 const errorText = 'Uploaded wrong file type or multiple files!'
