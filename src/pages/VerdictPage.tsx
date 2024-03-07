@@ -106,44 +106,54 @@ export default function VerdictPage() {
   const submissionId : string = params.submissionId as string
 
   useEffect(() => {
-    setIsLoading(true)
-    fetch(buildPath('/getVerdict'), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: submissionId }),
-    })
-      .then((res: Response) => {
-        if (res.ok) {
-          return res.json()
-        }
 
-        throw Error(res.statusText)
+    const fetchVerdict = () => {
+      fetch(buildPath('/getVerdict'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: submissionId }),
       })
-      .then((data) => {
-        console.log(data)
-        const dateInSeconds = data.date.seconds
-        const date = new Date(dateInSeconds * 1000)
+        .then((res: Response) => {
+          if (res.ok) {
+            return res.json()
+          }
 
-        const month = date.getMonth() + 1
-        const day = date.getDate()
-        const year = date.getFullYear()
-
-        const casesPassedStr : string = data.passed_cases + " of " + data.total_cases
-        
-        const problemName : string = problemsObject.getProblem(data.problem_id)?.title || 'Custom Submission'
-
-        // Format the date string
-        const dateString = `${month}-${day}-${year}`
-        setCurrentVerdict((prevVerdict: Verdict) => {
-          return {...prevVerdict, date: dateString, problem: problemName, verdict: data.verdict, casesPassed: casesPassedStr}
+          throw Error(res.statusText)
         })
-        setTestCases(data.verdict_list)
-        setIsLoading(false)
-        
-      })
-      .catch((error: Error) => {
-        console.log('Verdict Fetch Failed: ' + error.message)
-      })
+        .then((data) => {
+          console.log(data)
+          const dateInSeconds = data.date.seconds
+          const date = new Date(dateInSeconds * 1000)
+
+          const month = date.getMonth() + 1
+          const day = date.getDate()
+          const year = date.getFullYear()
+
+          const casesPassedStr : string = data.passed_cases + " of " + data.total_cases
+          
+          const problemName : string = problemsObject.getProblem(data.problem_id)?.title || 'Custom Submission'
+
+          // Format the date string
+          const dateString = `${month}-${day}-${year}`
+          setCurrentVerdict((prevVerdict: Verdict) => {
+            return {...prevVerdict, date: dateString, problem: problemName, verdict: data.verdict, casesPassed: casesPassedStr}
+          })
+          setTestCases(data.verdict_list)
+          setIsLoading(false)
+          
+        })
+        .catch((error: Error) => {
+          console.log('Verdict Fetch Failed: ' + error.message)
+        })
+    }
+
+    setIsLoading(true)
+    fetchVerdict()
+
+    // Set up an interval to call the API every 5 seconds
+    const interval = setInterval(fetchVerdict, 5000); // 5000 ms
+    return () => clearInterval(interval);
+    
   }, [])
 
   if (isLoading) {
