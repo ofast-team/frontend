@@ -6,7 +6,7 @@ import {
   IconButton,
   Typography,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import DownloadIcon from '@mui/icons-material/Download'
 import MDXRenderer from '../components/MDXRenderer'
@@ -16,6 +16,13 @@ import CloseIcon from '@mui/icons-material/Close'
 
 import ShareSubmissionDialog from '../components/ShareSubmissionDialog'
 import ShareIcon from '@mui/icons-material/Share'
+
+import { useProblemsObject } from '../components/ProblemProvider'
+import { Problem } from '../objects/Problems'
+
+import { useParams } from 'react-router-dom'
+import buildPath from '../path'
+import Circle from '@mui/icons-material/Circle'
 
 const CorrectIcon = () => {
   return (
@@ -33,6 +40,10 @@ const WrongAnswerIcon = () => {
   )
 }
 
+const PendingIcon = () => {
+  return <Avatar/>
+}
+
 const code: string =
   " ```c++\n # include <bits/stdc++.h>\nusing namespace std;\n\nint n; cin >> n;\nfor (int i = 0; i < n; i++) {\n\t cout << 'Hello World' << '\\n';\n }"
 
@@ -46,24 +57,103 @@ const sub1 = {
   'Test Cases': '3/5',
 }
 
+const columnNames = [
+  'Date',
+  'Problem',
+  'Verdict',
+  'Language',
+  'Time',
+  'Memory',
+  'Test Cases',
+]
+const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
+
+// What we are going to show in the table. This doesn't necessarily reflect the API response.
+interface Verdict {
+  date: string
+  problem: string
+  verdict: string
+  language: string
+  time: string
+  memory: string
+  casesPassed: string
+}
+
 export default function VerdictPage() {
-  const columnNames = [
-    'Date',
-    'Problem',
-    'Verdict',
-    'Language',
-    'Time',
-    'Memory',
-    'Test Cases',
-  ]
-  const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
+  
 
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
+  const [isLoading, setIsLoading] = useState<boolean>()
+
+  const emptyVerdict : Verdict = {
+    date: "",
+    problem: "",
+    verdict: "",
+    language: "",
+    time: "",
+    memory: "",
+    casesPassed: ""
+    
+  }
+
+  const verdictProperties = Object.keys(emptyVerdict)
+  const [currentVerdict, setCurrentVerdict] = useState<Verdict>(emptyVerdict)
+  const [testCases, setTestCases] = useState<number[]>()
+
+  const problemsObject = useProblemsObject()
+
+  const params = useParams()
+  const submissionId : string = params.submissionId as string
+
+  useEffect(() => {
+    setIsLoading(true)
+    fetch(buildPath('/getVerdict'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: submissionId }),
+    })
+      .then((res: Response) => {
+        if (res.ok) {
+          return res.json()
+        }
+
+        throw Error(res.statusText)
+      })
+      .then((data) => {
+        console.log(data)
+        const dateInSeconds = data.date.seconds
+        const date = new Date(dateInSeconds * 1000)
+
+        const month = date.getMonth() + 1
+        const day = date.getDate()
+        const year = date.getFullYear()
+
+        const casesPassedStr : string = data.passed_cases + " of " + data.total_cases
+        
+        const problemName : string = problemsObject.getProblem(data.problem_id)?.title || 'Custom Submission'
+
+        // Format the date string
+        const dateString = `${month}-${day}-${year}`
+        setCurrentVerdict((prevVerdict: Verdict) => {
+          return {...prevVerdict, date: dateString, problem: problemName, verdict: data.verdict, casesPassed: casesPassedStr}
+        })
+        setTestCases(data.verdict_list)
+        setIsLoading(false)
+        
+      })
+      .catch((error: Error) => {
+        console.log('Verdict Fetch Failed: ' + error.message)
+      })
+  }, [])
+
+  if (isLoading) {
+    return <React.Fragment/>
+  }
 
   return (
     <Container sx={{ pt: 15 }}>
       <Box display="flex" gap={1} alignItems={'center'} mb={2}>
-        <Typography variant={'h4'}>Submission #######</Typography>
+        <Typography variant={'h4'}>Submission #{submissionId}</Typography>
         <IconButton>
           <ShareIcon
             sx={{ alignSelf: 'center', fontSize: '32px', color: 'black' }}
@@ -104,7 +194,7 @@ export default function VerdictPage() {
         <Box>
           {/* Render the current submission and and its metadata*/}
           <Grid container>
-            {columnNames.map((columnName, i) => (
+            {verdictProperties.map((property, i) => (
               <Grid
                 item
                 xs={columnWidths[i]}
@@ -113,16 +203,22 @@ export default function VerdictPage() {
                 borderTop={'solid black 1px'}
               >
                 <Typography variant={'body2'} fontSize={18}>
-                  {sub1[columnName]}
+                  {currentVerdict[property]}
                 </Typography>
               </Grid>
             ))}
           </Grid>
           <Box sx={{ p: 2, display: 'flex', gap: 3 }}>
-            <CorrectIcon />
-            <CorrectIcon />
-            <CorrectIcon />
-            <WrongAnswerIcon></WrongAnswerIcon>
+            {testCases?.map((status) => {
+              if (status == 3) {
+                return <CorrectIcon/>
+              }
+              if (status > 3) {
+                return <WrongAnswerIcon/>
+              }
+              return <PendingIcon/>
+
+            })}
           </Box>
         </Box>
       </Box>
