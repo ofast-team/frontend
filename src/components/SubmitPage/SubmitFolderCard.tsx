@@ -3,30 +3,39 @@ import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { DriveFolderUpload, FolderZip, WarningAmber } from '@mui/icons-material'
 
+declare module 'react' {
+  interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
+    // extends React's HTMLAttributes
+    directory?: string
+    webkitdirectory?: string
+  }
+}
+
 const errorText = 'Uploaded wrong folder type!'
 
 export default function SubmitCode() {
-  const [testFolder, setTestFolder] = useState<File>()
-  const [folderName, setFolderName] = useState<string>('')
+  const [testFolder, setTestFolder] = useState<FileList | null>(null)
+  // const [folderName, setFolderName] = useState<string>('')
   const [errorType, setErrorType] = useState<boolean>(false)
+
+  const [inputArray, setInputArray] = useState<string[]>([])
+  const [outputArray, setOutputArray] = useState<string[]>([])
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     setErrorType(false)
-    if (rejectedFiles || acceptedFiles.length > 1) {
+    if (rejectedFiles.length > 0) {
       setErrorType(true)
     }
-    if (acceptedFiles[0]) {
-      setTestFolder(acceptedFiles[0])
+    if (acceptedFiles) {
+      console.log(acceptedFiles)
+      setTestFolder(acceptedFiles)
     }
   }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: {
-      'application/zip': ['.zip'],
-      'application/x-7z-compressed': ['.7z'],
-    },
     onDrop,
-    maxFiles: 1,
+    // multiple: false,
+    // directory: true,
   })
 
   const baseStyle = {
@@ -65,18 +74,48 @@ export default function SubmitCode() {
 
   useEffect(() => {
     if (testFolder) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        if (e.target && e.target.result) {
-          const temp = testFolder.name
-          if (temp) {
-            setFolderName(temp)
+      const newInputArray: string[] = []
+      const newOutputArray: string[] = []
+      Array.from(testFolder).forEach((file: File) => {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          if (e.target && e.target.result) {
+            const fileContent = btoa(e.target.result.toString())
+            const fileExtension = file.name.split('.').pop()
+            // console.log(fileContent)
+            // console.log(atob(fileContent))
+            // console.log(fileExtension)
+            if (fileExtension === 'in') {
+              newInputArray.push(fileContent)
+            }
+            if (fileExtension === 'out') {
+              newOutputArray.push(fileContent)
+            }
           }
         }
-      }
-      reader.readAsText(testFolder)
+        reader.readAsText(file)
+      })
+      setInputArray(newInputArray)
+      setOutputArray(newOutputArray)
     }
   }, [testFolder])
+
+  useEffect(() => {
+    if (inputArray.length > 0) {
+      console.log('input')
+      console.log(inputArray)
+      Array.from(inputArray).forEach((item: string) => {
+        console.log(atob(item))
+      })
+    }
+    if (outputArray.length > 0) {
+      console.log('output')
+      console.log(outputArray)
+      Array.from(outputArray).forEach((item: string) => {
+        console.log(atob(item))
+      })
+    }
+  }, [inputArray, outputArray])
 
   return (
     <Box
@@ -120,9 +159,9 @@ export default function SubmitCode() {
             }}
           >
             <FolderZip sx={{ fontSize: '2rem', color: '#04364a', mr: 1 }} />
-            <Typography variant="h4" color="primary">
+            {/* <Typography variant="h4" color="primary">
               {folderName}
-            </Typography>
+            </Typography> */}
           </Box>
           <Typography variant="h6" color="#2196f3">
             Click run above to test cases!
@@ -153,7 +192,12 @@ export default function SubmitCode() {
             <strong>(.in)</strong> and output <strong>(.out)</strong> files.
           </Typography>
           <div {...getRootProps({ style })}>
-            <input {...getInputProps()} />
+            <input
+              {...getInputProps()}
+              type="file"
+              directory="true"
+              webkitdirectory="true"
+            />
             <DriveFolderUpload sx={{ fontSize: '50px', mb: 1.5 }} />
             <Typography variant="body1" mb={1.5}>
               Drag 'n' Drop Folder Here

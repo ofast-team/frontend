@@ -10,6 +10,7 @@ export default function SubmitCode() {
   const [codeFile, setCodeFile] = useState<File>()
   const [codePreview, setCodePreview] = useState<string>('')
   const [errorType, setErrorType] = useState<boolean>(false)
+  const [codeBase64, setCodeBase64] = useState<string>('')
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     setErrorType(false)
@@ -76,13 +77,23 @@ export default function SubmitCode() {
             const language = fileExtension.toLowerCase()
 
             const markdownCode = `\`\`\`${language}\n${e.target.result.toString()}\n\`\`\``
+            const code = btoa(e.target.result.toString())
             setCodePreview(markdownCode)
+            setCodeBase64(code)
           }
         }
       }
       reader.readAsText(codeFile)
     }
   }, [codeFile])
+
+  useEffect(() => {
+    if (codeBase64) {
+      console.log(codeBase64)
+      const text = atob(codeBase64)
+      console.log(text)
+    }
+  }, [codeBase64])
 
   return (
     <Box
