@@ -18,11 +18,9 @@ import ShareSubmissionDialog from '../components/ShareSubmissionDialog'
 import ShareIcon from '@mui/icons-material/Share'
 
 import { useProblemsObject } from '../components/ProblemProvider'
-import { Problem } from '../objects/Problems'
 
 import { useParams } from 'react-router-dom'
 import buildPath from '../path'
-import Circle from '@mui/icons-material/Circle'
 
 const CorrectIcon = () => {
   return (
@@ -46,16 +44,6 @@ const PendingIcon = () => {
 
 const code: string =
   " ```c++\n # include <bits/stdc++.h>\nusing namespace std;\n\nint n; cin >> n;\nfor (int i = 0; i < n; i++) {\n\t cout << 'Hello World' << '\\n';\n }"
-
-const sub1 = {
-  Date: '01-07-2024 10:58:32',
-  Problem: 'Two Sum',
-  Verdict: 'Time-Limit Exceeded',
-  Language: 'C++',
-  Time: '20ms',
-  Memory: '12MB',
-  'Test Cases': '3/5',
-}
 
 const columnNames = [
   'Date',
