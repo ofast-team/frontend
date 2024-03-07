@@ -41,7 +41,7 @@ const WrongAnswerIcon = () => {
 }
 
 const PendingIcon = () => {
-  return <Avatar/>
+  return <Avatar />
 }
 
 const code: string =
@@ -80,20 +80,17 @@ interface Verdict {
 }
 
 export default function VerdictPage() {
-  
-
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
   const [isLoading, setIsLoading] = useState<boolean>()
 
-  const emptyVerdict : Verdict = {
-    date: "",
-    problem: "",
-    verdict: "",
-    language: "",
-    time: "",
-    memory: "",
-    casesPassed: ""
-    
+  const emptyVerdict: Verdict = {
+    date: '',
+    problem: '',
+    verdict: '',
+    language: '',
+    time: '',
+    memory: '',
+    casesPassed: '',
   }
 
   const verdictProperties = Object.keys(emptyVerdict)
@@ -103,10 +100,9 @@ export default function VerdictPage() {
   const problemsObject = useProblemsObject()
 
   const params = useParams()
-  const submissionId : string = params.submissionId as string
+  const submissionId: string = params.submissionId as string
 
   useEffect(() => {
-
     const fetchVerdict = () => {
       fetch(buildPath('/getVerdict'), {
         method: 'POST',
@@ -129,18 +125,26 @@ export default function VerdictPage() {
           const day = date.getDate()
           const year = date.getFullYear()
 
-          const casesPassedStr : string = data.passed_cases + " of " + data.total_cases
-          
-          const problemName : string = problemsObject.getProblem(data.problem_id)?.title || 'Custom Submission'
+          const casesPassedStr: string =
+            data.passed_cases + ' of ' + data.total_cases
+
+          const problemName: string =
+            problemsObject.getProblem(data.problem_id)?.title ||
+            'Custom Submission'
 
           // Format the date string
           const dateString = `${month}-${day}-${year}`
           setCurrentVerdict((prevVerdict: Verdict) => {
-            return {...prevVerdict, date: dateString, problem: problemName, verdict: data.verdict, casesPassed: casesPassedStr}
+            return {
+              ...prevVerdict,
+              date: dateString,
+              problem: problemName,
+              verdict: data.verdict,
+              casesPassed: casesPassedStr,
+            }
           })
           setTestCases(data.verdict_list)
           setIsLoading(false)
-          
         })
         .catch((error: Error) => {
           console.log('Verdict Fetch Failed: ' + error.message)
@@ -151,13 +155,12 @@ export default function VerdictPage() {
     fetchVerdict()
 
     // Set up an interval to call the API every 5 seconds
-    const interval = setInterval(fetchVerdict, 5000); // 5000 ms
-    return () => clearInterval(interval);
-    
+    const interval = setInterval(fetchVerdict, 5000) // 5000 ms
+    return () => clearInterval(interval)
   }, [])
 
   if (isLoading) {
-    return <React.Fragment/>
+    return <React.Fragment />
   }
 
   return (
@@ -221,13 +224,12 @@ export default function VerdictPage() {
           <Box sx={{ p: 2, display: 'flex', gap: 3 }}>
             {testCases?.map((status) => {
               if (status == 3) {
-                return <CorrectIcon/>
+                return <CorrectIcon />
               }
               if (status > 3) {
-                return <WrongAnswerIcon/>
+                return <WrongAnswerIcon />
               }
-              return <PendingIcon/>
-
+              return <PendingIcon />
             })}
           </Box>
         </Box>
