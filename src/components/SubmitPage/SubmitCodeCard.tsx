@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, IconButton, Typography } from '@mui/material'
 import React, {
   useState,
   useCallback,
@@ -10,6 +10,7 @@ import React, {
 import { useDropzone } from 'react-dropzone'
 import MDX from '../MDXRenderer'
 import { UploadFile, WarningAmber } from '@mui/icons-material'
+import { Delete } from '@mui/icons-material'
 
 interface SubmitCodeCardProps {
   setCodeBase64: Dispatch<SetStateAction<string>>
@@ -20,11 +21,10 @@ export default function SubmitCodeCard({
   setCodeBase64,
   setCodeLang,
 }: SubmitCodeCardProps) {
-  const errorText = 'Uploaded wrong file type or multiple files!'
-  const [codeFile, setCodeFile] = useState<File>()
+  const errorText = 'Unsupported file type!'
+  const [codeFile, setCodeFile] = useState<File | null>(null)
   const [codePreview, setCodePreview] = useState<string>('')
   const [errorType, setErrorType] = useState<boolean>(false)
-  // const [codeBase64, setCodeBase64] = useState<string>('')
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     setErrorType(false)
@@ -81,6 +81,13 @@ export default function SubmitCodeCard({
     [isDragActive, errorType],
   )
 
+  const handleReset = () => {
+    setCodePreview('')
+    setCodeFile(null)
+    setCodeBase64('')
+    setErrorType(false)
+  }
+
   useEffect(() => {
     if (codeFile) {
       const reader = new FileReader()
@@ -127,9 +134,20 @@ export default function SubmitCodeCard({
             p: 2,
           }}
         >
-          <Typography variant="h6" gutterBottom>
-            Code Preview
-          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'spaceBetween',
+              alignItems: 'center',
+              m: 1,
+            }}
+          >
+            <Typography variant="h6">Code Preview</Typography>
+            <IconButton onClick={handleReset} sx={{ m: 1 }}>
+              <Delete sx={{ color: 'red', fontSize: '2rem' }} />
+            </IconButton>
+          </Box>
           <MDX value={codePreview} />
         </Box>
       ) : (
