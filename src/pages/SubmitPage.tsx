@@ -1,5 +1,5 @@
-import { Box, Container, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Box, Container, Dialog, IconButton, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import SubmitFields from '../components/SubmitPage/SubmitFields'
 
 import SubmitCodeCard from '../components/SubmitPage/SubmitCodeCard'
@@ -9,11 +9,13 @@ import { useSelector } from 'react-redux'
 import RestrictedPage from './RestrictedPage'
 import buildPath from '../path'
 import { useNavigate } from 'react-router-dom'
+import { Cancel } from '@mui/icons-material'
 
 export default function SubmitPage() {
   const navigate = useNavigate()
 
   const user = useSelector((state: RootState) => state.user)
+  const [errorText, setErrorText] = useState<string>('')
 
   if (!user.verified) {
     return <RestrictedPage />
@@ -24,34 +26,13 @@ export default function SubmitPage() {
   const [inputArray, setInputArray] = useState<string[]>([])
   const [outputArray, setOutputArray] = useState<string[]>([])
 
-  useEffect(() => {
-    if (inputArray.length > 0) {
-      console.log('input')
-      console.log(inputArray)
-      Array.from(inputArray).forEach((item: string) => {
-        console.log(atob(item))
-      })
-    }
-    if (outputArray.length > 0) {
-      console.log('output')
-      console.log(outputArray)
-      Array.from(outputArray).forEach((item: string) => {
-        console.log(atob(item))
-      })
-    }
-  }, [inputArray, outputArray])
-
-  useEffect(() => {
-    if (codeBase64) {
-      console.log(codeLang)
-      console.log(codeBase64)
-      const text = atob(codeBase64)
-      console.log(text)
-    }
-  }, [codeBase64])
-
   const fetchSubmit = () => {
-    console.log('call submit')
+    setErrorText('')
+    if (!codeBase64 || !codeLang || !inputArray.length || !outputArray.length) {
+      setErrorText('Upload code file and test folder!')
+      return
+    }
+
     fetch(buildPath('/submit'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -71,12 +52,11 @@ export default function SubmitPage() {
         throw Error(res.statusText)
       })
       .then((data) => {
-        console.log(data)
         const token = data.token
         navigate(`/submissions/${token}`)
       })
       .catch((error: Error) => {
-        console.log('Submit Failed: ' + error.message)
+        setErrorText(error.message)
       })
   }
 
@@ -110,6 +90,45 @@ export default function SubmitPage() {
           setOutputArray={setOutputArray}
         />
       </Box>
+
+      <Dialog
+        open={!!errorText}
+        onClose={() => {
+          setErrorText('')
+        }}
+        sx={{ borderRadius: '15px' }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            p: '40px',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'spaceEvenly',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="h4">Submission Error</Typography>
+            <IconButton
+              onClick={() => {
+                setErrorText('')
+              }}
+              sx={{ m: 1 }}
+            >
+              <Cancel sx={{ fontSize: '2rem' }} color="error" />
+            </IconButton>
+          </Box>
+          <Typography variant="body1" color="error">
+            {errorText}
+          </Typography>
+        </Box>
+      </Dialog>
     </Container>
   )
 }

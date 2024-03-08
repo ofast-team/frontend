@@ -92,7 +92,6 @@ export default function SubmitFolderCard({
 
   useEffect(() => {
     if (testFolder && !errorType) {
-      console.log(testFolder)
       const filesMap = new Map<string, { in: File | null; out: File | null }>()
       Array.from(testFolder).forEach((file: File) => {
         const fileName = file.name.split('.')[0]
@@ -109,14 +108,9 @@ export default function SubmitFolderCard({
         }
       })
 
-      for (const [fileName, files] of filesMap.entries()) {
-        console.log(fileName, files.in, files.out)
-      }
-
-      for (const [fileName, files] of filesMap.entries()) {
-        console.log(fileName)
-        if (files.in == null || files.out == null) {
-          console.log('ERROR')
+      for (const fileName of filesMap.keys()) {
+        const files = filesMap.get(fileName)
+        if (files != null && (files.in == null || files.out == null)) {
           setErrorType(true)
           return
         }
