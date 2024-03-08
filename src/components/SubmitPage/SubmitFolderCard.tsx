@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, IconButton, Typography } from '@mui/material'
 import React, {
   useState,
   useCallback,
@@ -8,7 +8,12 @@ import React, {
   SetStateAction,
 } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { DriveFolderUpload, FolderZip, WarningAmber } from '@mui/icons-material'
+import {
+  Delete,
+  DriveFolderUpload,
+  FolderZip,
+  WarningAmber,
+} from '@mui/icons-material'
 
 declare module 'react' {
   interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
@@ -27,7 +32,7 @@ export default function SubmitFolderCard({
   setInputArray,
   setOutputArray,
 }: SubmitFolderCardProps) {
-  const errorText = 'Uploaded wrong folder type!'
+  const errorText = 'Unsupported folder structure!'
   const [testFolder, setTestFolder] = useState<FileList | null>(null)
   const [errorType, setErrorType] = useState<boolean>(false)
 
@@ -78,6 +83,13 @@ export default function SubmitFolderCard({
     [isDragActive, errorType],
   )
 
+  const handleReset = () => {
+    setTestFolder(null)
+    setErrorType(false)
+    setInputArray([])
+    setOutputArray([])
+  }
+
   useEffect(() => {
     if (testFolder && !errorType) {
       console.log(testFolder)
@@ -97,7 +109,6 @@ export default function SubmitFolderCard({
         }
       })
 
-      // let error = false
       for (const [fileName, files] of filesMap.entries()) {
         console.log(fileName, files.in, files.out)
       }
@@ -106,12 +117,10 @@ export default function SubmitFolderCard({
         if (files.in == null || files.out == null) {
           console.log('ERROR')
           setErrorType(true)
-          // error = true
           return
         }
       }
 
-      // if (!error) {
       const newInputArray: string[] = []
       const newOutputArray: string[] = []
       filesMap.forEach(({ in: inFile, out: outFile }) => {
@@ -131,7 +140,6 @@ export default function SubmitFolderCard({
       setInputArray(newInputArray)
       setOutputArray(newOutputArray)
     }
-    // }
   }, [testFolder])
 
   return (
@@ -163,9 +171,6 @@ export default function SubmitFolderCard({
             alignItems: 'center',
           }}
         >
-          <Typography variant="h6" gutterBottom>
-            Uploaded Folder
-          </Typography>
           <Box
             sx={{
               display: 'flex',
@@ -176,10 +181,14 @@ export default function SubmitFolderCard({
             }}
           >
             <FolderZip sx={{ fontSize: '2rem', color: '#04364a', mr: 1 }} />
-            <Typography variant="h4" color="green">
-              Successfully Uploaded Test Cases!
-            </Typography>
+            <Typography variant="h6">Uploaded Folder</Typography>
+            <IconButton onClick={handleReset} sx={{ m: 1 }}>
+              <Delete sx={{ color: 'red', fontSize: '2rem' }} />
+            </IconButton>
           </Box>
+          <Typography variant="h4" color="green">
+            Successfully Uploaded Test Cases!
+          </Typography>
           <Typography variant="h6" color="#2196f3">
             Click run above to test cases!
           </Typography>
@@ -205,7 +214,7 @@ export default function SubmitFolderCard({
               mb: 2,
             }}
           >
-            Zip Folder structure: Each test case folder with input{' '}
+            Folder structure: Each test case with corresponding file name input{' '}
             <strong>(.in)</strong> and output <strong>(.out)</strong> files.
           </Typography>
           <div {...getRootProps({ style })}>
