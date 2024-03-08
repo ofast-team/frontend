@@ -1,5 +1,12 @@
 import { Box, Button, Typography } from '@mui/material'
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 import { useDropzone } from 'react-dropzone'
 import { DriveFolderUpload, FolderZip, WarningAmber } from '@mui/icons-material'
 
@@ -11,15 +18,22 @@ declare module 'react' {
   }
 }
 
-const errorText = 'Uploaded wrong folder type!'
+interface SubmitFolderCardProps {
+  setInputArray: Dispatch<SetStateAction<string[]>>
+  setOutputArray: Dispatch<SetStateAction<string[]>>
+}
 
-export default function SubmitCode() {
+export default function SubmitFolderCard({
+  setInputArray,
+  setOutputArray,
+}: SubmitFolderCardProps) {
+  const errorText = 'Uploaded wrong folder type!'
   const [testFolder, setTestFolder] = useState<FileList | null>(null)
   // const [folderName, setFolderName] = useState<string>('')
   const [errorType, setErrorType] = useState<boolean>(false)
 
-  const [inputArray, setInputArray] = useState<string[]>([])
-  const [outputArray, setOutputArray] = useState<string[]>([])
+  // const [inputArray, setInputArray] = useState<string[]>([])
+  // const [outputArray, setOutputArray] = useState<string[]>([])
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     setErrorType(false)
@@ -74,22 +88,40 @@ export default function SubmitCode() {
 
   useEffect(() => {
     if (testFolder) {
-      const newInputArray: string[] = []
-      const newOutputArray: string[] = []
+      const filesIndexMap = new Map<string, number>()
+      let ind = 0
+      Array.from(testFolder).forEach((file: File) => {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          if (e.target && e.target.result) {
+            const fileName = file.name.split('.')[0]
+
+            if (!filesIndexMap.has(fileName)) {
+              filesIndexMap.set(fileName, ind++)
+            }
+          }
+        }
+        reader.readAsText(file)
+      })
+      const newInputArray: string[] = new Array(ind + 1)
+      const newOutputArray: string[] = new Array(ind + 1)
       Array.from(testFolder).forEach((file: File) => {
         const reader = new FileReader()
         reader.onload = (e) => {
           if (e.target && e.target.result) {
             const fileContent = btoa(e.target.result.toString())
             const fileExtension = file.name.split('.').pop()
+            const fileName = file.name.split('.')[0]
+            const index = filesIndexMap.get(fileName)
+            // console.log(file.name.split('.'))
+
             // console.log(fileContent)
             // console.log(atob(fileContent))
             // console.log(fileExtension)
-            if (fileExtension === 'in') {
-              newInputArray.push(fileContent)
-            }
-            if (fileExtension === 'out') {
-              newOutputArray.push(fileContent)
+            if (index != null && fileExtension === 'in') {
+              newInputArray[index] = fileContent
+            } else if (index != null && fileExtension === 'out') {
+              newOutputArray[index] = fileContent
             }
           }
         }
@@ -99,23 +131,6 @@ export default function SubmitCode() {
       setOutputArray(newOutputArray)
     }
   }, [testFolder])
-
-  useEffect(() => {
-    if (inputArray.length > 0) {
-      console.log('input')
-      console.log(inputArray)
-      Array.from(inputArray).forEach((item: string) => {
-        console.log(atob(item))
-      })
-    }
-    if (outputArray.length > 0) {
-      console.log('output')
-      console.log(outputArray)
-      Array.from(outputArray).forEach((item: string) => {
-        console.log(atob(item))
-      })
-    }
-  }, [inputArray, outputArray])
 
   return (
     <Box
