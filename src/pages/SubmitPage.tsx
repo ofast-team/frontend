@@ -1,4 +1,4 @@
-import { Box, Container, Dialog, IconButton, Typography } from '@mui/material'
+import { Box, Container, Dialog, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import SubmitFields from '../components/SubmitPage/SubmitFields'
 
@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux'
 import RestrictedPage from './RestrictedPage'
 import buildPath from '../path'
 import { useNavigate } from 'react-router-dom'
-import { Cancel } from '@mui/icons-material'
 
 export default function SubmitPage() {
   const navigate = useNavigate()
@@ -103,27 +102,12 @@ export default function SubmitPage() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            p: '40px',
+            p: '30px',
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'spaceEvenly',
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant="h4">Submission Error</Typography>
-            <IconButton
-              onClick={() => {
-                setErrorText('')
-              }}
-              sx={{ m: 1 }}
-            >
-              <Cancel sx={{ fontSize: '2rem' }} color="error" />
-            </IconButton>
-          </Box>
+          <Typography variant="h4" gutterBottom>
+            Submission Error
+          </Typography>
           <Typography variant="body1" color="error">
             {errorText}
           </Typography>
