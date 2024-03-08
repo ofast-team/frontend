@@ -1,16 +1,30 @@
 import { Box, Button, Typography } from '@mui/material'
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 import { useDropzone } from 'react-dropzone'
 import MDX from '../MDXRenderer'
 import { UploadFile, WarningAmber } from '@mui/icons-material'
 
-const errorText = 'Uploaded wrong file type or multiple files!'
+interface SubmitCodeCardProps {
+  setCodeBase64: Dispatch<SetStateAction<string>>
+  setCodeLang: Dispatch<SetStateAction<string>>
+}
 
-export default function SubmitCode() {
+export default function SubmitCodeCard({
+  setCodeBase64,
+  setCodeLang,
+}: SubmitCodeCardProps) {
+  const errorText = 'Uploaded wrong file type or multiple files!'
   const [codeFile, setCodeFile] = useState<File>()
   const [codePreview, setCodePreview] = useState<string>('')
   const [errorType, setErrorType] = useState<boolean>(false)
-  const [codeBase64, setCodeBase64] = useState<string>('')
+  // const [codeBase64, setCodeBase64] = useState<string>('')
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     setErrorType(false)
@@ -79,6 +93,7 @@ export default function SubmitCode() {
             const markdownCode = `\`\`\`${language}\n${e.target.result.toString()}\n\`\`\``
             const code = btoa(e.target.result.toString())
             setCodePreview(markdownCode)
+            setCodeLang(language)
             setCodeBase64(code)
           }
         }
@@ -86,14 +101,6 @@ export default function SubmitCode() {
       reader.readAsText(codeFile)
     }
   }, [codeFile])
-
-  useEffect(() => {
-    if (codeBase64) {
-      console.log(codeBase64)
-      const text = atob(codeBase64)
-      console.log(text)
-    }
-  }, [codeBase64])
 
   return (
     <Box

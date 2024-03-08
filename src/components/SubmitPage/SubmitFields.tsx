@@ -10,7 +10,11 @@ import {
 } from '@mui/material'
 import PlayIcon from '@mui/icons-material/PlayArrow'
 
-export default function SubmitFields() {
+interface SubmitFieldsProps {
+  handleSubmit: () => void
+}
+
+export default function SubmitFields({ handleSubmit }: SubmitFieldsProps) {
   const [timeLimit, setTimeLimit] = useState('')
   const [selectedChecker, setSelectedChecker] = useState('')
   const [caseSensitive, setCaseSensitive] = useState(false)
@@ -21,9 +25,9 @@ export default function SubmitFields() {
 
   const checkerList = ['Diff', 'Token', 'Epsilon']
 
-  const handleSubmit = () => {
-    console.log(selectedChecker)
-  }
+  // const handleSubmit = () => {
+  //   console.log(selectedChecker)
+  // }
 
   return (
     <Container
