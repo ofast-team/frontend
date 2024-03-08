@@ -25,10 +25,6 @@ export default function SubmitFields({ handleSubmit }: SubmitFieldsProps) {
 
   const checkerList = ['Diff', 'Token', 'Epsilon']
 
-  // const handleSubmit = () => {
-  //   console.log(selectedChecker)
-  // }
-
   return (
     <Container
       sx={{
