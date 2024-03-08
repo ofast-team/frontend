@@ -21,11 +21,14 @@ const WrongAnswerIcon = () => {
 const PendingIcon = () => {
   return (
     <motion.div
-      animate={{ rotate: 180 }}
+      animate={{ rotate: -180 }}
       transition={{ repeat: Infinity, duration: 2 }}
     >
       <Cached
-        sx={{ border: '1px solid gray', color: 'gray', fontSize: '2.5rem' }}
+        sx={{
+          color: 'gray',
+          fontSize: '2.5rem',
+        }}
       />
     </motion.div>
   )
