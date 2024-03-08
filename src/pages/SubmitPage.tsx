@@ -8,10 +8,12 @@ import { RootState } from '../store'
 import { useSelector } from 'react-redux'
 import RestrictedPage from './RestrictedPage'
 import buildPath from '../path'
+import { useNavigate } from 'react-router-dom'
 
 export default function SubmitPage() {
+  const navigate = useNavigate()
+
   const user = useSelector((state: RootState) => state.user)
-  const [isLoading, setIsLoading] = useState<boolean>()
 
   if (!user.verified) {
     return <RestrictedPage />
@@ -49,7 +51,7 @@ export default function SubmitPage() {
   }, [codeBase64])
 
   const fetchSubmit = () => {
-    console.log("call submit")
+    console.log('call submit')
     fetch(buildPath('/submit'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -70,7 +72,8 @@ export default function SubmitPage() {
       })
       .then((data) => {
         console.log(data)
-        setIsLoading(false)
+        const token = data.token
+        navigate(`/submissions/${token}`)
       })
       .catch((error: Error) => {
         console.log('Submit Failed: ' + error.message)
@@ -78,12 +81,7 @@ export default function SubmitPage() {
   }
 
   const handleSubmit = () => {
-    setIsLoading(true)
     fetchSubmit()
-  }
-
-  if (isLoading) {
-    return <React.Fragment />
   }
 
   return (

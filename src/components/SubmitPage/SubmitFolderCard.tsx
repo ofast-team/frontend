@@ -29,27 +29,19 @@ export default function SubmitFolderCard({
 }: SubmitFolderCardProps) {
   const errorText = 'Uploaded wrong folder type!'
   const [testFolder, setTestFolder] = useState<FileList | null>(null)
-  // const [folderName, setFolderName] = useState<string>('')
   const [errorType, setErrorType] = useState<boolean>(false)
 
-  // const [inputArray, setInputArray] = useState<string[]>([])
-  // const [outputArray, setOutputArray] = useState<string[]>([])
-
-  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+  const onDrop = useCallback((acceptedFiles) => {
     setErrorType(false)
-    if (rejectedFiles.length > 0) {
-      setErrorType(true)
-    }
-    if (acceptedFiles) {
-      console.log(acceptedFiles)
+    if (acceptedFiles.length > 1) {
       setTestFolder(acceptedFiles)
+    } else {
+      setErrorType(true)
     }
   }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    // multiple: false,
-    // directory: true,
   })
 
   const baseStyle = {
@@ -87,49 +79,59 @@ export default function SubmitFolderCard({
   )
 
   useEffect(() => {
-    if (testFolder) {
-      const filesIndexMap = new Map<string, number>()
-      let ind = 0
+    if (testFolder && !errorType) {
+      console.log(testFolder)
+      const filesMap = new Map<string, { in: File | null; out: File | null }>()
       Array.from(testFolder).forEach((file: File) => {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          if (e.target && e.target.result) {
-            const fileName = file.name.split('.')[0]
+        const fileName = file.name.split('.')[0]
+        const fileExtension = file.name.split('.').pop()
 
-            if (!filesIndexMap.has(fileName)) {
-              filesIndexMap.set(fileName, ind++)
-            }
-          }
+        if (!filesMap.has(fileName)) {
+          filesMap.set(fileName, { in: null, out: null })
         }
-        reader.readAsText(file)
+
+        if (fileExtension === 'in') {
+          filesMap.get(fileName)!.in = file
+        } else if (fileExtension === 'out') {
+          filesMap.get(fileName)!.out = file
+        }
       })
-      const newInputArray: string[] = new Array(ind + 1)
-      const newOutputArray: string[] = new Array(ind + 1)
-      Array.from(testFolder).forEach((file: File) => {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          if (e.target && e.target.result) {
-            const fileContent = btoa(e.target.result.toString())
-            const fileExtension = file.name.split('.').pop()
-            const fileName = file.name.split('.')[0]
-            const index = filesIndexMap.get(fileName)
-            // console.log(file.name.split('.'))
 
-            // console.log(fileContent)
-            // console.log(atob(fileContent))
-            // console.log(fileExtension)
-            if (index != null && fileExtension === 'in') {
-              newInputArray[index] = fileContent
-            } else if (index != null && fileExtension === 'out') {
-              newOutputArray[index] = fileContent
-            }
-          }
+      // let error = false
+      for (const [fileName, files] of filesMap.entries()) {
+        console.log(fileName, files.in, files.out)
+      }
+
+      for (const [_, files] of filesMap.entries()) {
+        if (files.in == null || files.out == null) {
+          console.log('ERROR')
+          setErrorType(true)
+          // error = true
+          return
         }
-        reader.readAsText(file)
+      }
+
+      // if (!error) {
+      const newInputArray: string[] = []
+      const newOutputArray: string[] = []
+      filesMap.forEach(({ in: inFile, out: outFile }) => {
+        const readerIn = new FileReader()
+        readerIn.onload = () => {
+          if (readerIn.result)
+            newInputArray.push(btoa(readerIn.result.toString()))
+        }
+        readerIn.readAsText(inFile!)
+        const readerOut = new FileReader()
+        readerOut.onload = () => {
+          if (readerOut.result)
+            newOutputArray.push(btoa(readerOut.result.toString()))
+        }
+        readerOut.readAsText(outFile!)
       })
       setInputArray(newInputArray)
       setOutputArray(newOutputArray)
     }
+    // }
   }, [testFolder])
 
   return (
@@ -146,7 +148,7 @@ export default function SubmitFolderCard({
         borderRadius: '10px',
       }}
     >
-      {testFolder ? (
+      {testFolder && !errorType ? (
         <Box
           sx={{
             flexGrow: 1,
@@ -174,9 +176,9 @@ export default function SubmitFolderCard({
             }}
           >
             <FolderZip sx={{ fontSize: '2rem', color: '#04364a', mr: 1 }} />
-            {/* <Typography variant="h4" color="primary">
-              {folderName}
-            </Typography> */}
+            <Typography variant="h4" color="green">
+              Successfully Uploaded Test Cases!
+            </Typography>
           </Box>
           <Typography variant="h6" color="#2196f3">
             Click run above to test cases!

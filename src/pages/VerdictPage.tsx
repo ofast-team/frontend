@@ -1,45 +1,34 @@
-import {
-  Avatar,
-  Box,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material'
+import { Box, Container, Grid, IconButton, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-
 import DownloadIcon from '@mui/icons-material/Download'
 import MDXRenderer from '../components/MDXRenderer'
-
-import CheckIcon from '@mui/icons-material/Check'
-import CloseIcon from '@mui/icons-material/Close'
-
+import { CheckCircle, Share, Cancel, Cached } from '@mui/icons-material'
 import ShareSubmissionDialog from '../components/ShareSubmissionDialog'
-import ShareIcon from '@mui/icons-material/Share'
-
 import { useProblemsObject } from '../components/ProblemProvider'
-
 import { useParams } from 'react-router-dom'
 import buildPath from '../path'
 
+import { motion } from 'framer-motion'
+
 const CorrectIcon = () => {
-  return (
-    <Avatar sx={{ backgroundColor: '#1db924' }}>
-      <CheckIcon sx={{ color: 'white', fontSize: '32px' }}></CheckIcon>
-    </Avatar>
-  )
+  return <CheckCircle sx={{ color: '#1db924', fontSize: '2.5rem' }} />
 }
 
 const WrongAnswerIcon = () => {
-  return (
-    <Avatar sx={{ backgroundColor: '#FF5555' }}>
-      <CloseIcon sx={{ color: 'white', fontSize: '32px' }} />
-    </Avatar>
-  )
+  return <Cancel sx={{ color: '#FF5555', fontSize: '2.5rem' }} />
 }
 
 const PendingIcon = () => {
-  return <Avatar />
+  return (
+    <motion.div
+      animate={{ rotate: 180 }}
+      transition={{ repeat: Infinity, duration: 2 }}
+    >
+      <Cached
+        sx={{ border: '1px solid gray', color: 'gray', fontSize: '2.5rem' }}
+      />
+    </motion.div>
+  )
 }
 
 const code: string =
@@ -56,7 +45,6 @@ const columnNames = [
 ]
 const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
 
-// What we are going to show in the table. This doesn't necessarily reflect the API response.
 interface Verdict {
   date: string
   problem: string
@@ -142,8 +130,7 @@ export default function VerdictPage() {
     setIsLoading(true)
     fetchVerdict()
 
-    // Set up an interval to call the API every 5 seconds
-    const interval = setInterval(fetchVerdict, 5000) // 5000 ms
+    const interval = setInterval(fetchVerdict, 5000)
     return () => clearInterval(interval)
   }, [])
 
@@ -155,21 +142,22 @@ export default function VerdictPage() {
     <Container sx={{ pt: 15 }}>
       <Box display="flex" gap={1} alignItems={'center'} mb={2}>
         <Typography variant={'h4'}>Submission #{submissionId}</Typography>
-        <IconButton>
-          <ShareIcon
+        <IconButton
+          onClick={() => {
+            setDialogIsOpen(true)
+          }}
+        >
+          <Share
             sx={{ alignSelf: 'center', fontSize: '32px', color: 'black' }}
-            onClick={() => {
-              setDialogIsOpen(true)
-            }}
-          ></ShareIcon>
+          />
         </IconButton>
       </Box>
 
       <Box
         sx={{
-          borderRadius: '10px', // Apply border radius to the whole box
+          borderRadius: '10px',
           border: 'solid black 1px',
-          overflow: 'hidden', // Ensure rounded corners are visible
+          overflow: 'hidden',
           mb: 5,
         }}
       >
@@ -193,7 +181,6 @@ export default function VerdictPage() {
           </Grid>
         </Box>
         <Box>
-          {/* Render the current submission and and its metadata*/}
           <Grid container>
             {verdictProperties.map((property, i) => (
               <Grid
@@ -209,7 +196,7 @@ export default function VerdictPage() {
               </Grid>
             ))}
           </Grid>
-          <Box sx={{ p: 2, display: 'flex', gap: 3 }}>
+          <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
             {testCases?.map((status) => {
               if (status == 3) {
                 return <CorrectIcon />
