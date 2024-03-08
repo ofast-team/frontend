@@ -113,7 +113,8 @@ export default function SubmitFolderCard({
         console.log(fileName, files.in, files.out)
       }
 
-      for (const [_, files] of filesMap.entries()) {
+      for (const [fileName, files] of filesMap.entries()) {
+        console.log(fileName)
         if (files.in == null || files.out == null) {
           console.log('ERROR')
           setErrorType(true)
