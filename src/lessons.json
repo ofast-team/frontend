@@ -13,6 +13,11 @@
       "mcq-2.mdx"
     ]
   },
+  "graph-theory-intro": {
+    "lessonName": "Intro to Graph Theory",
+    "lessonGroup": "Graph Theory",
+    "files": ["intro.mdx"]
+  },
   "greedy": {
     "lessonName": "Intro to Greedy",
     "lessonGroup": "Intro Algo Design",
