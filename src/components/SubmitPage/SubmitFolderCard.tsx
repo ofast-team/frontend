@@ -1,32 +1,52 @@
-import { Box, Button, Typography } from '@mui/material'
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import { Box, Button, IconButton, Typography } from '@mui/material'
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 import { useDropzone } from 'react-dropzone'
-import { DriveFolderUpload, FolderZip, WarningAmber } from '@mui/icons-material'
+import {
+  Delete,
+  DriveFolderUpload,
+  FolderZip,
+  WarningAmber,
+} from '@mui/icons-material'
 
-const errorText = 'Uploaded wrong folder type!'
+declare module 'react' {
+  interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
+    // extends React's HTMLAttributes
+    directory?: string
+    webkitdirectory?: string
+  }
+}
 
-export default function SubmitCode() {
-  const [testFolder, setTestFolder] = useState<File>()
-  const [folderName, setFolderName] = useState<string>('')
+interface SubmitFolderCardProps {
+  setInputArray: Dispatch<SetStateAction<string[]>>
+  setOutputArray: Dispatch<SetStateAction<string[]>>
+}
+
+export default function SubmitFolderCard({
+  setInputArray,
+  setOutputArray,
+}: SubmitFolderCardProps) {
+  const errorText = 'Unsupported folder structure!'
+  const [testFolder, setTestFolder] = useState<FileList | null>(null)
   const [errorType, setErrorType] = useState<boolean>(false)
 
-  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+  const onDrop = useCallback((acceptedFiles) => {
     setErrorType(false)
-    if (rejectedFiles || acceptedFiles.length > 1) {
+    if (acceptedFiles.length > 1) {
+      setTestFolder(acceptedFiles)
+    } else {
       setErrorType(true)
-    }
-    if (acceptedFiles[0]) {
-      setTestFolder(acceptedFiles[0])
     }
   }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: {
-      'application/zip': ['.zip'],
-      'application/x-7z-compressed': ['.7z'],
-    },
     onDrop,
-    maxFiles: 1,
   })
 
   const baseStyle = {
@@ -63,18 +83,57 @@ export default function SubmitCode() {
     [isDragActive, errorType],
   )
 
+  const handleReset = () => {
+    setTestFolder(null)
+    setErrorType(false)
+    setInputArray([])
+    setOutputArray([])
+  }
+
   useEffect(() => {
-    if (testFolder) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        if (e.target && e.target.result) {
-          const temp = testFolder.name
-          if (temp) {
-            setFolderName(temp)
-          }
+    if (testFolder && !errorType) {
+      const filesMap = new Map<string, { in: File | null; out: File | null }>()
+      Array.from(testFolder).forEach((file: File) => {
+        const fileName = file.name.split('.')[0]
+        const fileExtension = file.name.split('.').pop()
+
+        if (!filesMap.has(fileName)) {
+          filesMap.set(fileName, { in: null, out: null })
+        }
+
+        if (fileExtension === 'in') {
+          filesMap.get(fileName)!.in = file
+        } else if (fileExtension === 'out') {
+          filesMap.get(fileName)!.out = file
+        }
+      })
+
+      for (const fileName of filesMap.keys()) {
+        const files = filesMap.get(fileName)
+        if (files != null && (files.in == null || files.out == null)) {
+          setErrorType(true)
+          return
         }
       }
-      reader.readAsText(testFolder)
+
+      const newInputArray: string[] = []
+      const newOutputArray: string[] = []
+      filesMap.forEach(({ in: inFile, out: outFile }) => {
+        const readerIn = new FileReader()
+        readerIn.onload = () => {
+          if (readerIn.result)
+            newInputArray.push(btoa(readerIn.result.toString()))
+        }
+        readerIn.readAsText(inFile!)
+        const readerOut = new FileReader()
+        readerOut.onload = () => {
+          if (readerOut.result)
+            newOutputArray.push(btoa(readerOut.result.toString()))
+        }
+        readerOut.readAsText(outFile!)
+      })
+      setInputArray(newInputArray)
+      setOutputArray(newOutputArray)
     }
   }, [testFolder])
 
@@ -92,7 +151,7 @@ export default function SubmitCode() {
         borderRadius: '10px',
       }}
     >
-      {testFolder ? (
+      {testFolder && !errorType ? (
         <Box
           sx={{
             flexGrow: 1,
@@ -107,9 +166,6 @@ export default function SubmitCode() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h6" gutterBottom>
-            Uploaded Folder
-          </Typography>
           <Box
             sx={{
               display: 'flex',
@@ -120,10 +176,14 @@ export default function SubmitCode() {
             }}
           >
             <FolderZip sx={{ fontSize: '2rem', color: '#04364a', mr: 1 }} />
-            <Typography variant="h4" color="primary">
-              {folderName}
-            </Typography>
+            <Typography variant="h6">Uploaded Folder</Typography>
+            <IconButton onClick={handleReset} sx={{ m: 1 }}>
+              <Delete sx={{ color: 'red', fontSize: '2rem' }} />
+            </IconButton>
           </Box>
+          <Typography variant="h4" color="green">
+            Successfully Uploaded Test Cases!
+          </Typography>
           <Typography variant="h6" color="#2196f3">
             Click run above to test cases!
           </Typography>
@@ -149,11 +209,16 @@ export default function SubmitCode() {
               mb: 2,
             }}
           >
-            Zip Folder structure: Each test case folder with input{' '}
+            Folder structure: Each test case with corresponding file name input{' '}
             <strong>(.in)</strong> and output <strong>(.out)</strong> files.
           </Typography>
           <div {...getRootProps({ style })}>
-            <input {...getInputProps()} />
+            <input
+              {...getInputProps()}
+              type="file"
+              directory="true"
+              webkitdirectory="true"
+            />
             <DriveFolderUpload sx={{ fontSize: '50px', mb: 1.5 }} />
             <Typography variant="body1" mb={1.5}>
               Drag 'n' Drop Folder Here

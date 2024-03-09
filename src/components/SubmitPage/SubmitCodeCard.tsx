@@ -1,13 +1,28 @@
-import { Box, Button, Typography } from '@mui/material'
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import { Box, Button, IconButton, Typography } from '@mui/material'
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 import { useDropzone } from 'react-dropzone'
-import MDX from './MDXRenderer'
+import MDX from '../MDXRenderer'
 import { UploadFile, WarningAmber } from '@mui/icons-material'
+import { Delete } from '@mui/icons-material'
 
-const errorText = 'Uploaded wrong file type or multiple files!'
+interface SubmitCodeCardProps {
+  setCodeBase64: Dispatch<SetStateAction<string>>
+  setCodeLang: Dispatch<SetStateAction<string>>
+}
 
-export default function SubmitCode() {
-  const [codeFile, setCodeFile] = useState<File>()
+export default function SubmitCodeCard({
+  setCodeBase64,
+  setCodeLang,
+}: SubmitCodeCardProps) {
+  const errorText = 'Unsupported file type!'
+  const [codeFile, setCodeFile] = useState<File | null>(null)
   const [codePreview, setCodePreview] = useState<string>('')
   const [errorType, setErrorType] = useState<boolean>(false)
 
@@ -66,6 +81,13 @@ export default function SubmitCode() {
     [isDragActive, errorType],
   )
 
+  const handleReset = () => {
+    setCodePreview('')
+    setCodeFile(null)
+    setCodeBase64('')
+    setErrorType(false)
+  }
+
   useEffect(() => {
     if (codeFile) {
       const reader = new FileReader()
@@ -76,7 +98,10 @@ export default function SubmitCode() {
             const language = fileExtension.toLowerCase()
 
             const markdownCode = `\`\`\`${language}\n${e.target.result.toString()}\n\`\`\``
+            const code = btoa(e.target.result.toString())
             setCodePreview(markdownCode)
+            setCodeLang(language)
+            setCodeBase64(code)
           }
         }
       }
@@ -109,9 +134,20 @@ export default function SubmitCode() {
             p: 2,
           }}
         >
-          <Typography variant="h6" gutterBottom>
-            Code Preview
-          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'spaceBetween',
+              alignItems: 'center',
+              m: 1,
+            }}
+          >
+            <Typography variant="h6">Code Preview</Typography>
+            <IconButton onClick={handleReset} sx={{ m: 1 }}>
+              <Delete sx={{ color: 'red', fontSize: '2rem' }} />
+            </IconButton>
+          </Box>
           <MDX value={codePreview} />
         </Box>
       ) : (
