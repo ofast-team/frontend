@@ -37,7 +37,7 @@ export default function SubmitPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         source_code: codeBase64,
-        user_id: user.id,
+        uid: user.id,
         inputs: inputArray,
         outputs: outputArray,
         language_id: codeLang,
