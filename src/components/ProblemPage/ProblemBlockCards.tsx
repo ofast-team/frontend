@@ -101,10 +101,10 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
         console.error('Error fetching submissions')
       }
     }
-    
+
     fetchSubmissions()
   }, [])
-  
+
   return (
     <>
       <Stack>
