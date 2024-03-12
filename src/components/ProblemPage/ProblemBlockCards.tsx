@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Typography, Stack, Button, Chip } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -34,17 +34,17 @@ interface Submission {
 }
 
 interface StatusProps {
-  verdict: Verdict
+  solved: boolean
 }
 
-function Status(props: StatusProps) {
+function Status({ solved }: StatusProps) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
       <Box
         sx={{
           height: '30px',
           width: '30px',
-          backgroundColor: verdictInfo[props.verdict].color,
+          backgroundColor: solved ? 'green' : 'grey',
           borderRadius: '50%',
           display: 'inline-block',
           m: '5px',
@@ -52,7 +52,7 @@ function Status(props: StatusProps) {
       />
       <Box m="10px">
         <Typography gutterBottom color="primary" component="span" variant="h5">
-          {verdictInfo[props.verdict].description}
+          {solved ? 'Solved' : 'Not Solved'}
         </Typography>
       </Box>
     </Box>
@@ -62,7 +62,8 @@ function Status(props: StatusProps) {
 // TODO: (Stretch Goal) Add copy button for samples
 export default function ProblemBlockCards({ problem }: { problem: Problem }) {
   const user = useSelector((state: RootState) => state.user)
-  const [submissions, setSubmissions] = React.useState<Submission[]>([])
+  const [submissions, setSubmissions] = useState<Submission[]>([])
+  const [solved, setSolved] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -77,7 +78,6 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
           }),
         })
         const result = await response.json()
-        console.log('Submissions: ', result)
 
         const resultSubmissions = result.submissionsPerProblem[0].submissions
         const newSubmissions: Submission[] = []
@@ -87,6 +87,10 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             verdict: resultSubmissions[i].verdict,
             time: new Date(resultSubmissions[i].date.seconds * 1000),
           })
+
+          if (resultSubmissions[i].verdict === 3) {
+            setSolved(true)
+          }
         }
 
         // Sort by submission time (recent first)
@@ -113,7 +117,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                 width: '100%',
               }}
             >
-              <Status verdict={1} />
+              <Status solved={solved} />
             </Box>
           </Card>
         )}
