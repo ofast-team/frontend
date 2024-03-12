@@ -82,6 +82,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
         const resultSubmissions = result.submissionsPerProblem[0].submissions
         const newSubmissions: Submission[] = []
         const numSubmissionsToDisplay = 5
+        let newSolved = false
 
         for (let i = 0; i < resultSubmissions.length; i++) {
           if (i < numSubmissionsToDisplay) {
@@ -92,10 +93,11 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
           }
 
           if (resultSubmissions[i].verdict === 3) {
-            setSolved(true)
+            newSolved = true
           }
         }
 
+        setSolved(newSolved)
         setSubmissions(newSubmissions)
       } catch (error) {
         console.error('Error fetching submissions')
