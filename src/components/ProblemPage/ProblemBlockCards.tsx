@@ -98,7 +98,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
 
         setSubmissions(newSubmissions)
       } catch (error) {
-        console.error('Error fetching submissions: ', error)
+        console.error('Error fetching submissions')
       }
     }
 
