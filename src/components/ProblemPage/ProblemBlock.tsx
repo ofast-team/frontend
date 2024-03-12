@@ -1,9 +1,9 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-import ProblemBody from '../components/ProblemBody'
+import ProblemBody from './ProblemBody'
 import ProblemBlockCards from './ProblemBlockCards'
-import { useProblemsObject } from '../components/ProblemProvider'
+import { useProblemsObject } from '../ProblemProvider'
 
 export type Problem = {
   problemID: string

@@ -16,7 +16,7 @@ import remarkGfm from 'remark-gfm'
 import MCQBlock from './MCQBlock'
 import FITBBlock from './FITBBlock'
 import FITBBlank from './FITBBlank'
-import ProblemBlock from './ProblemBlock'
+import ProblemBlock from './ProblemPage/ProblemBlock'
 import Graph from './Graph'
 
 import { h } from 'hastscript'
