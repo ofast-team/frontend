@@ -34,7 +34,7 @@ const PendingIcon = () => {
   )
 }
 
-const code: string =
+const codePlaceholder: string =
   " ```c++\n # include <bits/stdc++.h>\nusing namespace std;\n\nint n; cin >> n;\nfor (int i = 0; i < n; i++) {\n\t cout << 'Hello World' << '\\n';\n }"
 
 const columnNames = [
@@ -76,6 +76,8 @@ export default function VerdictPage() {
   const [currentVerdict, setCurrentVerdict] = useState<Verdict>(emptyVerdict)
   const [testCases, setTestCases] = useState<number[]>()
 
+  const [code, setCode] = useState<string>(codePlaceholder)
+
   const problemsObject = useProblemsObject()
 
   const params = useParams()
@@ -111,6 +113,16 @@ export default function VerdictPage() {
             problemsObject.getProblem(data.problem_id)?.title ||
             'Custom Submission'
 
+          const timeSeconds = data.time
+          const timeMilliseconds = Math.ceil(timeSeconds * 1000)
+          const timeStr = timeMilliseconds + " ms"
+
+          const memoryKilobytes = data.memory
+          const memoryMegaBytes = Math.ceil(memoryKilobytes / 1000)
+          const memoryStr = memoryMegaBytes + " MB"
+
+          const code = '```' + data.language + '\n' + atob(data.code)
+
           // Format the date string
           const dateString = `${month}-${day}-${year}`
           setCurrentVerdict((prevVerdict: Verdict) => {
@@ -118,11 +130,15 @@ export default function VerdictPage() {
               ...prevVerdict,
               date: dateString,
               problem: problemName,
+              language: data.language,
               verdict: data.verdict,
+              time: timeStr,
+              memory: memoryStr,
               casesPassed: casesPassedStr,
             }
           })
           setTestCases(data.verdict_list)
+          setCode(code)
           setIsLoading(false)
         })
         .catch((error: Error) => {
