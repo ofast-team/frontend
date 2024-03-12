@@ -141,9 +141,20 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                 <Button>Submit</Button>
               </>
             ) : (
-              <Typography color="primary" variant="h5" sx={{ fontSize: '1em' }}>
-                Log in to submit
-              </Typography>
+              <Button>
+                <Link
+                  to={'/login'}
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+                  <Typography
+                    color="primary"
+                    variant="h5"
+                    sx={{ fontSize: '1em' }}
+                  >
+                    Log in to submit
+                  </Typography>
+                </Link>
+              </Button>
             )}
           </Box>
         </Card>
