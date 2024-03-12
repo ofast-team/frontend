@@ -15,46 +15,46 @@ export const verdictInfo = {
   },
   4: {
     description: 'Wrong Answer',
-    color: 'orange',
+    color: 'red',
   },
   5: {
     description: 'Time Limit Exceeded',
-    color: 'orange',
+    color: 'red',
   },
   6: {
     description: 'Compilation Error',
-    color: 'orange',
+    color: 'red',
   },
   7: {
     description: 'Runtime Error',
-    color: 'orange',
+    color: 'red',
   },
   8: {
     description: 'Runtime Error',
-    color: 'orange',
+    color: 'red',
   },
   9: {
     description: 'Runtime Error',
-    color: 'orange',
+    color: 'red',
   },
   10: {
     description: 'Runtime Error',
-    color: 'orange',
+    color: 'red',
   },
   11: {
     description: 'Runtime Error',
-    color: 'orange',
+    color: 'red',
   },
   12: {
     description: 'Runtime Error',
-    color: 'orange',
+    color: 'red',
   },
   13: {
     description: 'Internal Error',
-    color: 'orange',
+    color: 'red',
   },
   14: {
     description: 'Exec Format Error',
-    color: 'orange',
+    color: 'red',
   },
 }
