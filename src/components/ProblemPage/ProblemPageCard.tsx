@@ -33,7 +33,9 @@ export default function ProblemPageCard(props: ProblemPageCardProps) {
           {props.title}
         </Typography>
       </Box>
-      {props.children}
+      <Box sx={{ padding: '10px', pt: '15px', pb: '15px' }}>
+        {props.children}
+      </Box>
     </Box>
   )
 }

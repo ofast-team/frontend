@@ -30,3 +30,12 @@ html {
   border-collapse: collapse;
   padding: 5px;
 }
+
+.tablebordergrey table,
+.tablebordergrey td,
+.tablebordergrey tr,
+.tablebordergrey th {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}

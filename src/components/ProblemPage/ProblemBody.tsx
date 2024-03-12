@@ -3,7 +3,7 @@ import React from 'react'
 import { Grid, Box, Typography } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import MDX from '../components/MDXRenderer'
+import MDX from '../MDXRenderer'
 import { Problem } from './ProblemBlock'
 
 function doubleNewlines(inputString: string): string {
