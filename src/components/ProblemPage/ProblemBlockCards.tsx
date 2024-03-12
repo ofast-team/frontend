@@ -81,30 +81,30 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
 
         const resultSubmissions = result.submissionsPerProblem[0].submissions
         const newSubmissions: Submission[] = []
+        const numSubmissionsToDisplay = 5
 
-        for (let i = 0; i < Math.min(5, resultSubmissions.length); i++) {
-          newSubmissions.push({
-            verdict: resultSubmissions[i].verdict,
-            time: new Date(resultSubmissions[i].date.seconds * 1000),
-          })
+        for (let i = 0; i < resultSubmissions.length; i++) {
+          if (i < numSubmissionsToDisplay) {
+            newSubmissions.push({
+              verdict: resultSubmissions[i].verdict,
+              time: new Date(resultSubmissions[i].date.seconds * 1000),
+            })
+          }
 
           if (resultSubmissions[i].verdict === 3) {
             setSolved(true)
           }
         }
 
-        // Sort by submission time (recent first)
-        newSubmissions.sort((a, b) => b.time.getTime() - a.time.getTime())
-
         setSubmissions(newSubmissions)
       } catch (error) {
         console.error('Error fetching submissions')
       }
     }
-
+    
     fetchSubmissions()
   }, [])
-
+  
   return (
     <>
       <Stack>
