@@ -40,9 +40,7 @@ export default function SubmitCodeCard({
     accept: {
       'text/python': ['.py'],
       'text/c': ['.c'],
-      'text/cpp': ['.cpp'],
-      'text/cxx': ['.cxx'],
-      'text/cc': ['.cc'],
+      'text/cpp': ['.cpp', '.cxx', '.cc'],
       'text/java': ['.java'],
     },
     onDrop,
