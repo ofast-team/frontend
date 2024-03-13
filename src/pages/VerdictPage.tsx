@@ -80,6 +80,8 @@ export default function VerdictPage() {
 
   const [code, setCode] = useState<string>(codePlaceholder)
   const [problemName, setProblemName] = useState<string>('')
+  const [verdictNum, setVerdictNum] = useState<number>(0)
+  const [fileType, setFileType] = useState<string>('txt')
 
   const problemsObject = useProblemsObject()
 
@@ -131,7 +133,8 @@ export default function VerdictPage() {
             langStr = 'Python'
           }
 
-          const verdictStr = verdictInfo[data.verdict].description
+          setVerdictNum(data.verdict)
+          const verdictStr = isFinishedJudging ? verdictInfo[data.verdict].description : "Pending"
 
           const timeSeconds = data.time
           const timeMilliseconds = Math.ceil(timeSeconds * 1000)
@@ -157,6 +160,7 @@ export default function VerdictPage() {
           })
 
           setTestCases(data.verdict_list)
+          setFileType(data.language)
           setCode(code)
           setIsLoading(false)
 
@@ -192,20 +196,35 @@ export default function VerdictPage() {
     return <React.Fragment />
   }
 
+  function downloadCodeFile() {
+    const codeStr = code.substring(code.indexOf('\n') + 1)
+    console.log(codeStr)
+
+    const blob = new Blob([codeStr], { type: 'text/plain' });
+    const link : HTMLAnchorElement = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `code.${fileType}`;
+    link.click();
+  
+    // Clean up
+    window.URL.revokeObjectURL(link.href);
+  }
+
   return (
     <Container sx={{ pt: 15 }}>
       <Box display="flex" gap={1} alignItems={'center'} mb={2}>
         <Typography variant={'h4'}>Submission #{submissionId}</Typography>
-        {}
-        <IconButton
-          onClick={() => {
-            setDialogIsOpen(true)
-          }}
-        >
-          <Share
-            sx={{ alignSelf: 'center', fontSize: '32px', color: 'black' }}
-          />
-        </IconButton>
+        {isFinishedJudging &&
+          <IconButton
+            onClick={() => {
+              setDialogIsOpen(true)
+            }}
+          >
+            <Share
+              sx={{ alignSelf: 'center', fontSize: '32px', color: 'black' }}
+            />
+          </IconButton>
+        }
       </Box>
 
       <Box
@@ -267,7 +286,7 @@ export default function VerdictPage() {
       <Box display="flex" gap={1} alignItems={'center'}>
         <Typography fontSize={24}>Code File</Typography>
 
-        <IconButton onClick={() => {}}>
+        <IconButton onClick={downloadCodeFile}>
           <DownloadIcon style={{ color: 'black' }}></DownloadIcon>
         </IconButton>
       </Box>
@@ -282,7 +301,7 @@ export default function VerdictPage() {
           isOpen={true}
           submissionId={submissionId}
           problemName= {problemName}
-          verdictNum= {currentVerdict.verdict}
+          verdictNum= {verdictNum}
         ></ShareSubmissionDialog>
       )}
     </Container>
