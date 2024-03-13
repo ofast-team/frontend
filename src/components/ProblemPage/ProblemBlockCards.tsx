@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 
-import Card from './ProblemPageCard'
+import Card from './ProblemBlockCard'
 
 import buildPath from '../../path'
 
@@ -29,6 +29,7 @@ export type Problem = {
 }
 
 interface Submission {
+  submissionID: string
   verdict: Verdict
   time: Date
 }
@@ -79,25 +80,21 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
         })
         const result = await response.json()
 
-        const resultSubmissions = result.submissionsPerProblem[0].submissions
-        const newSubmissions: Submission[] = []
-        const numSubmissionsToDisplay = 5
-        let newSolved = false
+        // Only show the recent 5 submissions
+        const resultSubmissions =
+          result.submissionsPerProblem[0].submissions.slice(0, 5)
 
-        for (let i = 0; i < resultSubmissions.length; i++) {
-          if (i < numSubmissionsToDisplay) {
-            newSubmissions.push({
-              verdict: resultSubmissions[i].verdict,
-              time: new Date(resultSubmissions[i].date.seconds * 1000),
-            })
-          }
+        const newSubmissions: Submission[] = resultSubmissions.map(
+          (resultSubmission) => {
+            return {
+              submissionID: resultSubmission.submission_id,
+              verdict: resultSubmission.verdict,
+              time: new Date(resultSubmission.date.seconds * 1000),
+            }
+          },
+        )
 
-          if (resultSubmissions[i].verdict === 3) {
-            newSolved = true
-          }
-        }
-
-        setSolved(newSolved)
+        setSolved(result.submissionsPerProblem[0].isAccepted)
         setSubmissions(newSubmissions)
       } catch (error) {
         console.error('Error fetching submissions')
@@ -207,15 +204,20 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                           textAlign: 'center',
                         }}
                       >
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            color: verdictInfo[submission.verdict].color,
-                            fontSize: '1em',
-                          }}
+                        <Link
+                          style={{ textDecoration: 'none' }}
+                          to={`/submissions/${submission.submissionID}`}
                         >
-                          {verdictInfo[submission.verdict].description}
-                        </Typography>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              color: verdictInfo[submission.verdict].color,
+                              fontSize: '1em',
+                            }}
+                          >
+                            {verdictInfo[submission.verdict].description}
+                          </Typography>
+                        </Link>
                       </td>
                       <td
                         style={{
