@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DoneIcon from '@mui/icons-material/Done'
+import CloseIcon from '@mui/icons-material/Close';
 
 import CircleLoadAnimation from '../components/CircleLoadAnimation'
 
@@ -43,6 +44,7 @@ interface ProfileCardProps {
 
   isEditing: boolean
   toggleEdit: () => void
+  cancelEdit: () => void
   isWaiting: boolean
 
   // We only need to pass in items that the API could reject.
@@ -58,6 +60,7 @@ export default function ProfileCard({
   oldProfileData,
   isEditing,
   toggleEdit,
+  cancelEdit,
   isWaiting,
   usernameStatus,
   emailStatus,
@@ -80,6 +83,27 @@ export default function ProfileCard({
         position: 'relative',
       }}
     >
+      {isEditing &&
+        <IconButton 
+          onClick={cancelEdit}
+          sx = {{
+            position: 'absolute',
+            top: 15,
+            left: 15,
+            borderBottom: '1px solid #04364A',
+            borderRadius: 0,
+            padding: 0.5,
+            paddingLeft: 1,
+          }}>
+          <React.Fragment>
+              <Typography color={'#04364A'}>Cancel</Typography>
+              <Box width={'5px'}></Box>
+                <CloseIcon
+                  style={{ fill: '#04364A', fontSize: '24px' }}
+                ></CloseIcon>
+            </React.Fragment>
+        </IconButton>
+      }
       <IconButton
         onClick={toggleEdit}
         sx={{

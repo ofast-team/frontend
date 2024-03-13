@@ -154,6 +154,11 @@ export default function ProfilePage() {
     }
   }
 
+  const cancelEdit = () => {
+    setProfileData(oldProfileData)
+    setIsEditing(false)
+  }
+
   if (isLoadingPage) {
     return <React.Fragment />
   }
@@ -174,6 +179,7 @@ export default function ProfilePage() {
           oldProfileData,
           isEditing,
           toggleEdit,
+          cancelEdit,
           isWaiting,
           usernameStatus,
           emailStatus,
