@@ -102,9 +102,11 @@ export default function VerdictPage() {
           const dateInSeconds = data.date.seconds
           const date = new Date(dateInSeconds * 1000)
 
-          const month = date.getMonth() + 1
-          const day = date.getDate()
-          const year = date.getFullYear()
+          const dateStr = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          }) + ' ' + date.toLocaleTimeString()
 
           const casesPassedStr: string =
             data.passed_cases + ' of ' + data.total_cases
@@ -123,12 +125,10 @@ export default function VerdictPage() {
 
           const code = '```' + data.language + '\n' + atob(data.code)
 
-          // Format the date string
-          const dateString = `${month}-${day}-${year}`
           setCurrentVerdict((prevVerdict: Verdict) => {
             return {
               ...prevVerdict,
-              date: dateString,
+              date: dateStr,
               problem: problemName,
               language: data.language,
               verdict: data.verdict,
