@@ -48,7 +48,7 @@ const columnNames = [
 ]
 const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
 
-interface Verdict {
+export interface Verdict {
   date: string
   problem: string
   verdict: string
@@ -61,6 +61,7 @@ interface Verdict {
 export default function VerdictPage() {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
   const [isLoading, setIsLoading] = useState<boolean>()
+  const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
 
   const emptyVerdict: Verdict = {
     date: '',
@@ -74,9 +75,10 @@ export default function VerdictPage() {
 
   const verdictProperties = Object.keys(emptyVerdict)
   const [currentVerdict, setCurrentVerdict] = useState<Verdict>(emptyVerdict)
-  const [testCases, setTestCases] = useState<number[]>()
+  const [testCases, setTestCases] = useState<number[]>([0])
 
   const [code, setCode] = useState<string>(codePlaceholder)
+  const [problemName, setProblemName] = useState<string>('')
 
   const problemsObject = useProblemsObject()
 
@@ -85,6 +87,7 @@ export default function VerdictPage() {
 
   useEffect(() => {
     const fetchVerdict = () => {
+
       fetch(buildPath('/getVerdict'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -98,7 +101,6 @@ export default function VerdictPage() {
           throw Error(res.statusText)
         })
         .then((data) => {
-          console.log(data)
           const dateInSeconds = data.date.seconds
           const date = new Date(dateInSeconds * 1000)
 
@@ -114,6 +116,8 @@ export default function VerdictPage() {
           const problemName: string =
             problemsObject.getProblem(data.problem_id)?.title ||
             'Custom Submission'
+
+          setProblemName(problemName)
 
           const timeSeconds = data.time
           const timeMilliseconds = Math.ceil(timeSeconds * 1000)
@@ -137,7 +141,25 @@ export default function VerdictPage() {
               casesPassed: casesPassedStr,
             }
           })
+
           setTestCases(data.verdict_list)
+
+          let finished : boolean = true
+          for (const v of data.verdict_list) {
+            if (v < 3) {
+              finished = false
+              break
+            }
+          }
+
+          setIsFinishedJudging(finished)
+
+          // Stop the interval loop
+          if (finished) {
+            clearInterval(interval); 
+            return;
+          }
+
           setCode(code)
           setIsLoading(false)
         })
@@ -149,11 +171,11 @@ export default function VerdictPage() {
     setIsLoading(true)
     fetchVerdict()
 
-    const interval = setInterval(fetchVerdict, 5000)
+    const interval = setInterval(fetchVerdict, 2000)
     return () => clearInterval(interval)
-  }, [])
+  }, [isFinishedJudging])
 
-  if (isLoading) {
+  if (isLoading && !isFinishedJudging) {
     return <React.Fragment />
   }
 
@@ -161,6 +183,7 @@ export default function VerdictPage() {
     <Container sx={{ pt: 15 }}>
       <Box display="flex" gap={1} alignItems={'center'} mb={2}>
         <Typography variant={'h4'}>Submission #{submissionId}</Typography>
+        {}
         <IconButton
           onClick={() => {
             setDialogIsOpen(true)
@@ -244,6 +267,9 @@ export default function VerdictPage() {
             setDialogIsOpen(false)
           }}
           isOpen={true}
+          submissionId={submissionId}
+          problemName= {problemName}
+          verdictNum= {currentVerdict.verdict}
         ></ShareSubmissionDialog>
       )}
     </Container>

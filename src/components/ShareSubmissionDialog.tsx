@@ -8,6 +8,9 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 export interface ShareSubmissionDialogProps {
   isOpen: boolean
   onClose: (value: string) => void
+  submissionId: string
+  problemName: string
+  verdictNum: number
 }
 
 export default function ShareSubmissionDialog({
