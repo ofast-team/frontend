@@ -38,10 +38,7 @@ export default function ShareSubmissionDialog({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          pt: '30px',
-          pl: '30px',
-          pr: '30px',
-          pb: '10px',
+          p: '30px 30px 10px 30px',
         }}
       >
         <Typography fontSize={'28px'} fontWeight={700} color={'#04364A'}>

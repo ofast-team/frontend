@@ -35,9 +35,6 @@ const PendingIcon = () => {
   )
 }
 
-const codePlaceholder: string =
-  " ```c++\n # include <bits/stdc++.h>\nusing namespace std;\n\nint n; cin >> n;\nfor (int i = 0; i < n; i++) {\n\t cout << 'Hello World' << '\\n';\n }"
-
 const columnNames = [
   'Date',
   'Problem',
@@ -49,7 +46,7 @@ const columnNames = [
 ]
 const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
 
-export interface Verdict {
+interface Verdict {
   date: string
   problem: string
   verdict: string
@@ -63,6 +60,7 @@ export default function VerdictPage() {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
   const [isLoading, setIsLoading] = useState<boolean>()
   const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>()
 
   const emptyVerdict: Verdict = {
     date: '',
@@ -78,7 +76,7 @@ export default function VerdictPage() {
   const [currentVerdict, setCurrentVerdict] = useState<Verdict>(emptyVerdict)
   const [testCases, setTestCases] = useState<number[]>([0])
 
-  const [code, setCode] = useState<string>(codePlaceholder)
+  const [code, setCode] = useState<string>('')
   const [problemName, setProblemName] = useState<string>('')
   const [verdictNum, setVerdictNum] = useState<number>(0)
   const [fileType, setFileType] = useState<string>('txt')
@@ -125,7 +123,13 @@ export default function VerdictPage() {
           setProblemName(problemName)
 
           let langStr = 'unknown'
-          if (data.language === 'cpp') {
+          if (data.language === 'c') {
+            langStr = 'C'
+          } else if (
+            data.language === 'cpp' ||
+            data.language === 'cxx' ||
+            data.language === 'cc'
+          ) {
             langStr = 'C++'
           } else if (data.language === 'java') {
             langStr = 'Java'
@@ -146,20 +150,23 @@ export default function VerdictPage() {
           const memoryMegaBytes = Math.ceil(memoryKilobytes / 1000)
           const memoryStr = memoryMegaBytes + ' MB'
 
-          const code = '```' + data.language + '\n' + atob(data.code)
-
-          setCurrentVerdict((prevVerdict: Verdict) => {
-            return {
-              ...prevVerdict,
-              date: dateStr,
-              problem: problemName,
-              language: langStr,
-              verdict: verdictStr,
-              time: timeStr,
-              memory: memoryStr,
-              casesPassed: casesPassedStr,
-            }
-          })
+          const code =
+            '```' +
+            data.language +
+            '\n' +
+            atob(data.code) +
+            setCurrentVerdict((prevVerdict: Verdict) => {
+              return {
+                ...prevVerdict,
+                date: dateStr,
+                problem: problemName,
+                language: langStr,
+                verdict: verdictStr,
+                time: timeStr,
+                memory: memoryStr,
+                casesPassed: casesPassedStr,
+              }
+            })
 
           setTestCases(data.verdict_list)
           setFileType(data.language)
@@ -178,7 +185,7 @@ export default function VerdictPage() {
 
           // Stop the interval loop
           if (finished) {
-            clearInterval(interval)
+            clearInterval(intervalId)
             return
           }
         })
@@ -190,8 +197,11 @@ export default function VerdictPage() {
     setIsLoading(true)
     fetchVerdict()
 
-    const interval = setInterval(fetchVerdict, 2000)
-    return () => clearInterval(interval)
+    // Set up a 2s timer that repeats until its told otherwise.
+    const timer = setInterval(fetchVerdict, 2000)
+    setIntervalId(timer)
+
+    return () => clearInterval(intervalId)
   }, [isFinishedJudging])
 
   if (isLoading && !isFinishedJudging) {
@@ -200,7 +210,6 @@ export default function VerdictPage() {
 
   function downloadCodeFile() {
     const codeStr = code.substring(code.indexOf('\n') + 1)
-    console.log(codeStr)
 
     const blob = new Blob([codeStr], { type: 'text/plain' })
     const link: HTMLAnchorElement = document.createElement('a')
