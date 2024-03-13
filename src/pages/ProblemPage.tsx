@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import ProblemBlock from '../components/ProblemBlock'
+import ProblemBlock from '../components/ProblemPage/ProblemBlock'
 import { Container, Box } from '@mui/material'
 
 import { useProblemsObject } from '../components/ProblemProvider'
