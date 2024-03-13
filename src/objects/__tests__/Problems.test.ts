@@ -4,6 +4,7 @@ import Problems, { Problem } from '../Problems'
 const mockProblems: Problem[] = [
   {
     problemID: '1',
+    status: 'solved',
     title: 'Problem One',
     text: 'Description for Problem One',
     problem: 'Problem statement for One',
@@ -21,11 +22,6 @@ describe('Problems Class Tests', () => {
 
   beforeEach(() => {
     problemsInstance = new Problems(mockProblems)
-  })
-
-  test('getFakeStatus returns correct status', () => {
-    const fakeStatus = problemsInstance.getFakeStatus(mockProblems[0])
-    expect(['solved', 'wrong', 'unsolved']).toContain(fakeStatus)
   })
 
   test('searchProblems returns correct results', () => {
