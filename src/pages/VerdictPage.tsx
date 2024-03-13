@@ -5,6 +5,7 @@ import MDXRenderer from '../components/MDXRenderer'
 import { CheckCircle, Share, Cancel, Cached } from '@mui/icons-material'
 import ShareSubmissionDialog from '../components/ShareSubmissionDialog'
 import { useProblemsObject } from '../components/ProblemProvider'
+import { verdictInfo } from '../utils/verdict'
 import { useParams } from 'react-router-dom'
 import buildPath from '../path'
 
@@ -119,6 +120,19 @@ export default function VerdictPage() {
 
           setProblemName(problemName)
 
+          let langStr = 'unknown'
+          if (data.language === 'cpp') {
+            langStr = 'C++'
+          }
+          else if (data.language === 'java') {
+            langStr = 'Java'
+          }
+          else if (data.language === 'py') {
+            langStr = 'Python'
+          }
+
+          const verdictStr = verdictInfo[data.verdict].description
+
           const timeSeconds = data.time
           const timeMilliseconds = Math.ceil(timeSeconds * 1000)
           const timeStr = timeMilliseconds + " ms"
@@ -134,8 +148,8 @@ export default function VerdictPage() {
               ...prevVerdict,
               date: dateStr,
               problem: problemName,
-              language: data.language,
-              verdict: data.verdict,
+              language: langStr,
+              verdict: verdictStr,
               time: timeStr,
               memory: memoryStr,
               casesPassed: casesPassedStr,
@@ -143,6 +157,8 @@ export default function VerdictPage() {
           })
 
           setTestCases(data.verdict_list)
+          setCode(code)
+          setIsLoading(false)
 
           let finished : boolean = true
           for (const v of data.verdict_list) {
@@ -159,9 +175,6 @@ export default function VerdictPage() {
             clearInterval(interval); 
             return;
           }
-
-          setCode(code)
-          setIsLoading(false)
         })
         .catch((error: Error) => {
           console.log('Verdict Fetch Failed: ' + error.message)
