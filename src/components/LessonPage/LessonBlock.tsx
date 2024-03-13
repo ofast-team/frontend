@@ -12,10 +12,16 @@ import MDX from '../../components/MDXRenderer'
 interface LessonBlockProps {
   path: string
   headers: TOCHeader[]
+  showTOC: boolean
+  toggleTOC: () => void
 }
 
-export default function LessonBlock({ path, headers }: LessonBlockProps) {
-  const [showTOC, setShowTOC] = useState<boolean>(true)
+export default function LessonBlock({
+  path,
+  headers,
+  showTOC,
+  toggleTOC,
+}: LessonBlockProps) {
   const mdx = <MDX path={path} />
 
   return (
@@ -70,7 +76,7 @@ export default function LessonBlock({ path, headers }: LessonBlockProps) {
               left: '220px',
               zIndex: 1,
             }}
-            onClick={() => setShowTOC((showTOC) => !showTOC)}
+            onClick={toggleTOC}
           >
             <TocIcon color="primary" />
           </IconButton>
@@ -94,7 +100,7 @@ export default function LessonBlock({ path, headers }: LessonBlockProps) {
               transform: 'translateY(-50%)',
               zIndex: 1,
             }}
-            onClick={() => setShowTOC((showTOC) => !showTOC)}
+            onClick={toggleTOC}
           >
             <TocIcon color="primary" />
           </IconButton>
