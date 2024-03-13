@@ -24,7 +24,7 @@ export default function ShareSubmissionDialog({
 }: ShareSubmissionDialogProps) {
   const [copied, setCopied] = useState<boolean>(false)
 
-  const url : string = 'https://ofast.io/submissions/' + submissionId
+  const url: string = 'https://ofast.io/submissions/' + submissionId
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url)
@@ -38,7 +38,10 @@ export default function ShareSubmissionDialog({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          pt: '30px', pl: '30px', pr: '30px', pb: '10px'
+          pt: '30px',
+          pl: '30px',
+          pr: '30px',
+          pb: '10px',
         }}
       >
         <Typography fontSize={'28px'} fontWeight={700} color={'#04364A'}>
@@ -50,7 +53,11 @@ export default function ShareSubmissionDialog({
         <Typography fontSize={'28px'} fontWeight={500} mt={'30px'}>
           Verdict
         </Typography>
-        <Typography fontSize={'28px'} fontWeight={500} color={verdictInfo[verdictNum].color}>
+        <Typography
+          fontSize={'28px'}
+          fontWeight={500}
+          color={verdictInfo[verdictNum].color}
+        >
           {verdictInfo[verdictNum].description}
         </Typography>
         <Button
@@ -66,7 +73,9 @@ export default function ShareSubmissionDialog({
           <ContentCopyIcon sx={{ color: 'black' }}></ContentCopyIcon>
           <Typography>{url}</Typography>
         </Button>
-        <Typography sx = {{visibility: copied ? 'visible' : 'hidden'}}>Link copied to clipboard</Typography>
+        <Typography sx={{ visibility: copied ? 'visible' : 'hidden' }}>
+          Link copied to clipboard
+        </Typography>
       </Box>
     </Dialog>
   )

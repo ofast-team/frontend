@@ -90,7 +90,6 @@ export default function VerdictPage() {
 
   useEffect(() => {
     const fetchVerdict = () => {
-
       fetch(buildPath('/getVerdict'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -107,11 +106,14 @@ export default function VerdictPage() {
           const dateInSeconds = data.date.seconds
           const date = new Date(dateInSeconds * 1000)
 
-          const dateStr = date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          }) + ' ' + date.toLocaleTimeString()
+          const dateStr =
+            date.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            }) +
+            ' ' +
+            date.toLocaleTimeString()
 
           const casesPassedStr: string =
             data.passed_cases + ' of ' + data.total_cases
@@ -125,24 +127,24 @@ export default function VerdictPage() {
           let langStr = 'unknown'
           if (data.language === 'cpp') {
             langStr = 'C++'
-          }
-          else if (data.language === 'java') {
+          } else if (data.language === 'java') {
             langStr = 'Java'
-          }
-          else if (data.language === 'py') {
+          } else if (data.language === 'py') {
             langStr = 'Python'
           }
 
           setVerdictNum(data.verdict)
-          const verdictStr = isFinishedJudging ? verdictInfo[data.verdict].description : "Pending"
+          const verdictStr = isFinishedJudging
+            ? verdictInfo[data.verdict].description
+            : 'Pending'
 
           const timeSeconds = data.time
           const timeMilliseconds = Math.ceil(timeSeconds * 1000)
-          const timeStr = timeMilliseconds + " ms"
+          const timeStr = timeMilliseconds + ' ms'
 
           const memoryKilobytes = data.memory
           const memoryMegaBytes = Math.ceil(memoryKilobytes / 1000)
-          const memoryStr = memoryMegaBytes + " MB"
+          const memoryStr = memoryMegaBytes + ' MB'
 
           const code = '```' + data.language + '\n' + atob(data.code)
 
@@ -164,7 +166,7 @@ export default function VerdictPage() {
           setCode(code)
           setIsLoading(false)
 
-          let finished : boolean = true
+          let finished: boolean = true
           for (const v of data.verdict_list) {
             if (v < 3) {
               finished = false
@@ -176,8 +178,8 @@ export default function VerdictPage() {
 
           // Stop the interval loop
           if (finished) {
-            clearInterval(interval); 
-            return;
+            clearInterval(interval)
+            return
           }
         })
         .catch((error: Error) => {
@@ -200,21 +202,21 @@ export default function VerdictPage() {
     const codeStr = code.substring(code.indexOf('\n') + 1)
     console.log(codeStr)
 
-    const blob = new Blob([codeStr], { type: 'text/plain' });
-    const link : HTMLAnchorElement = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = `code.${fileType}`;
-    link.click();
-  
+    const blob = new Blob([codeStr], { type: 'text/plain' })
+    const link: HTMLAnchorElement = document.createElement('a')
+    link.href = window.URL.createObjectURL(blob)
+    link.download = `code.${fileType}`
+    link.click()
+
     // Clean up
-    window.URL.revokeObjectURL(link.href);
+    window.URL.revokeObjectURL(link.href)
   }
 
   return (
     <Container sx={{ pt: 15 }}>
       <Box display="flex" gap={1} alignItems={'center'} mb={2}>
         <Typography variant={'h4'}>Submission #{submissionId}</Typography>
-        {isFinishedJudging &&
+        {isFinishedJudging && (
           <IconButton
             onClick={() => {
               setDialogIsOpen(true)
@@ -224,7 +226,7 @@ export default function VerdictPage() {
               sx={{ alignSelf: 'center', fontSize: '32px', color: 'black' }}
             />
           </IconButton>
-        }
+        )}
       </Box>
 
       <Box
@@ -300,8 +302,8 @@ export default function VerdictPage() {
           }}
           isOpen={true}
           submissionId={submissionId}
-          problemName= {problemName}
-          verdictNum= {verdictNum}
+          problemName={problemName}
+          verdictNum={verdictNum}
         ></ShareSubmissionDialog>
       )}
     </Container>
