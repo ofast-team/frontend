@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Dialog from '@mui/material/Dialog'
 import Typography from '@mui/material/Typography'
 import { Box, Button } from '@mui/material'
+
+import { verdictInfo } from '../utils/verdict'
 
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
@@ -16,7 +18,19 @@ export interface ShareSubmissionDialogProps {
 export default function ShareSubmissionDialog({
   isOpen,
   onClose,
+  submissionId,
+  problemName,
+  verdictNum,
 }: ShareSubmissionDialogProps) {
+  const [copied, setCopied] = useState<boolean>(false)
+
+  const url : string = 'https://ofast.io/submissions/' + submissionId
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(url)
+    setCopied(true)
+  }
+
   return (
     <Dialog onClose={onClose} open={isOpen} sx={{ borderRadius: '15px' }}>
       <Box
@@ -24,21 +38,20 @@ export default function ShareSubmissionDialog({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          p: '30px',
+          pt: '30px', pl: '30px', pr: '30px', pb: '10px'
         }}
       >
         <Typography fontSize={'28px'} fontWeight={700} color={'#04364A'}>
-          Submission Share
+          Share Submission
         </Typography>
-        <Typography fontSize={'20px'}>By User13478</Typography>
         <Typography fontSize={'24px'} fontWeight={500} mt={'30px'}>
-          Problem: Two Sum
+          Problem: {problemName}
         </Typography>
         <Typography fontSize={'28px'} fontWeight={500} mt={'30px'}>
           Verdict
         </Typography>
-        <Typography fontSize={'28px'} fontWeight={500} color={'green'}>
-          🎊 Correct 🎊
+        <Typography fontSize={'28px'} fontWeight={500} color={verdictInfo[verdictNum].color}>
+          {verdictInfo[verdictNum].description}
         </Typography>
         <Button
           sx={{
@@ -48,10 +61,12 @@ export default function ShareSubmissionDialog({
             display: 'flex',
             gap: 1,
           }}
+          onClick={handleCopy}
         >
           <ContentCopyIcon sx={{ color: 'black' }}></ContentCopyIcon>
-          https://ofast.io/submissions/###share
+          <Typography>{url}</Typography>
         </Button>
+        <Typography sx = {{visibility: copied ? 'visible' : 'hidden'}}>Link copied to clipboard</Typography>
       </Box>
     </Dialog>
   )
