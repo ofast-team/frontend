@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Box, IconButton, Tooltip } from '@mui/material'
 import TocIcon from '@mui/icons-material/Toc'
