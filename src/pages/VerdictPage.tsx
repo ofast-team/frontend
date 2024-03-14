@@ -177,17 +177,8 @@ export default function VerdictPage() {
           setCode(code)
           setIsLoading(false)
 
-          let finished: boolean = true
-          for (const v of data.verdict_list) {
-            if (v < 3) {
-              finished = false
-              break
-            }
-          }
-
-          setIsFinishedJudging(finished)
-
-          if (finished) {
+          if (!data.pending) {
+            setIsFinishedJudging(true)
             stopTimer()
             return
           }
