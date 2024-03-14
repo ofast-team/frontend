@@ -111,7 +111,7 @@ export default function VerdictPage() {
               month: 'short',
               day: 'numeric',
             }) +
-            ' ' +
+            '\n' +
             date.toLocaleTimeString()
 
           const casesPassedStr: string =
@@ -272,9 +272,25 @@ export default function VerdictPage() {
                 textAlign={'center'}
                 borderTop={'solid black 1px'}
               >
-                <Typography variant={'body2'} fontSize={18}>
-                  {currentVerdict[property]}
-                </Typography>
+                {property === 'date' ? (
+                  <Box>
+                    <Typography variant="body2" fontSize={18}>
+                      {currentVerdict[property].substring(
+                        0,
+                        currentVerdict[property].indexOf('\n'),
+                      )}
+                    </Typography>
+                    <Typography variant="body2" fontSize={18}>
+                      {currentVerdict[property].substring(
+                        currentVerdict[property].indexOf('\n'),
+                      )}
+                    </Typography>
+                  </Box>
+                ) : (
+                  <Typography variant={'body2'} fontSize={18}>
+                    {currentVerdict[property]}
+                  </Typography>
+                )}
               </Grid>
             ))}
           </Grid>
