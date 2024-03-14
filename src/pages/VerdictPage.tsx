@@ -5,6 +5,7 @@ import MDXRenderer from '../components/MDXRenderer'
 import { CheckCircle, Share, Cancel, Cached } from '@mui/icons-material'
 import ShareSubmissionDialog from '../components/ShareSubmissionDialog'
 import { useProblemsObject } from '../components/ProblemProvider'
+import { verdictInfo } from '../utils/verdict'
 import { useParams } from 'react-router-dom'
 import buildPath from '../path'
 
@@ -34,9 +35,6 @@ const PendingIcon = () => {
   )
 }
 
-const code: string =
-  " ```c++\n # include <bits/stdc++.h>\nusing namespace std;\n\nint n; cin >> n;\nfor (int i = 0; i < n; i++) {\n\t cout << 'Hello World' << '\\n';\n }"
-
 const columnNames = [
   'Date',
   'Problem',
@@ -61,6 +59,7 @@ interface Verdict {
 export default function VerdictPage() {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
   const [isLoading, setIsLoading] = useState<boolean>()
+  const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
 
   const emptyVerdict: Verdict = {
     date: '',
@@ -74,7 +73,12 @@ export default function VerdictPage() {
 
   const verdictProperties = Object.keys(emptyVerdict)
   const [currentVerdict, setCurrentVerdict] = useState<Verdict>(emptyVerdict)
-  const [testCases, setTestCases] = useState<number[]>()
+  const [testCases, setTestCases] = useState<number[]>([0])
+
+  const [code, setCode] = useState<string>('')
+  const [problemName, setProblemName] = useState<string>('')
+  const [verdictNum, setVerdictNum] = useState<number>(0)
+  const [fileType, setFileType] = useState<string>('txt')
 
   const problemsObject = useProblemsObject()
 
@@ -100,9 +104,14 @@ export default function VerdictPage() {
           const dateInSeconds = data.date.seconds
           const date = new Date(dateInSeconds * 1000)
 
-          const month = date.getMonth() + 1
-          const day = date.getDate()
-          const year = date.getFullYear()
+          const dateStr =
+            date.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            }) +
+            '\n' +
+            date.toLocaleTimeString()
 
           const casesPassedStr: string =
             data.passed_cases + ' of ' + data.total_cases
@@ -111,19 +120,67 @@ export default function VerdictPage() {
             problemsObject.getProblem(data.problem_id)?.title ||
             'Custom Submission'
 
-          // Format the date string
-          const dateString = `${month}-${day}-${year}`
+          setProblemName(problemName)
+
+          let langStr = 'unknown'
+          if (data.language === 'c') {
+            langStr = 'C'
+          } else if (
+            data.language === 'cpp' ||
+            data.language === 'cxx' ||
+            data.language === 'cc'
+          ) {
+            langStr = 'C++'
+          } else if (data.language === 'java') {
+            langStr = 'Java'
+          } else if (data.language === 'py') {
+            langStr = 'Python'
+          }
+
+          setVerdictNum(data.verdict)
+
+          const isPending = data.pending
+          const verdictStr = isPending
+            ? 'Pending'
+            : verdictInfo[data.verdict].description
+
+          const timeSeconds = data.time
+          const timeMilliseconds = Math.ceil(timeSeconds * 1000)
+          const timeStr = timeMilliseconds + ' ms'
+
+          const memoryKilobytes = data.memory
+          const memoryMegaBytes = Math.ceil(memoryKilobytes / 1024)
+
+          const memoryStr =
+            memoryKilobytes < 1024
+              ? memoryKilobytes + ' KB'
+              : memoryMegaBytes + ' MB'
+
+          const code = `\`\`\`${data.language}\n${atob(data.code)}\`\`\``
+
           setCurrentVerdict((prevVerdict: Verdict) => {
             return {
               ...prevVerdict,
-              date: dateString,
+              date: dateStr,
               problem: problemName,
-              verdict: data.verdict,
+              language: langStr,
+              verdict: verdictStr,
+              time: timeStr,
+              memory: memoryStr,
               casesPassed: casesPassedStr,
             }
           })
+
           setTestCases(data.verdict_list)
+          setFileType(data.language)
+          setCode(code)
           setIsLoading(false)
+
+          if (!data.pending) {
+            setIsFinishedJudging(true)
+            stopTimer()
+            return
+          }
         })
         .catch((error: Error) => {
           console.log('Verdict Fetch Failed: ' + error.message)
@@ -133,27 +190,50 @@ export default function VerdictPage() {
     setIsLoading(true)
     fetchVerdict()
 
-    const interval = setInterval(fetchVerdict, 5000)
-    return () => clearInterval(interval)
+    // Set up a 2s timer that repeats until its told otherwise.
+    const interval = setInterval(fetchVerdict, 2000)
+
+    const stopTimer = () => {
+      clearInterval(interval)
+    }
+
+    // useEffect allows you to return a cleanup function,
+    // which gets called when the component unmounts.
+    return stopTimer
   }, [])
 
-  if (isLoading) {
+  if (isLoading && !isFinishedJudging) {
     return <React.Fragment />
+  }
+
+  function downloadCodeFile() {
+    const codeStr = code.substring(code.indexOf('\n') + 1)
+
+    const blob = new Blob([codeStr], { type: 'text/plain' })
+    const link: HTMLAnchorElement = document.createElement('a')
+    link.href = window.URL.createObjectURL(blob)
+    link.download = `code.${fileType}`
+    link.click()
+
+    // Clean up
+    window.URL.revokeObjectURL(link.href)
   }
 
   return (
     <Container sx={{ pt: 15 }}>
       <Box display="flex" gap={1} alignItems={'center'} mb={2}>
         <Typography variant={'h4'}>Submission #{submissionId}</Typography>
-        <IconButton
-          onClick={() => {
-            setDialogIsOpen(true)
-          }}
-        >
-          <Share
-            sx={{ alignSelf: 'center', fontSize: '32px', color: 'black' }}
-          />
-        </IconButton>
+        {isFinishedJudging && (
+          <IconButton
+            onClick={() => {
+              setDialogIsOpen(true)
+            }}
+          >
+            <Share
+              sx={{ alignSelf: 'center', fontSize: '32px', color: 'black' }}
+            />
+          </IconButton>
+        )}
       </Box>
 
       <Box
@@ -193,9 +273,25 @@ export default function VerdictPage() {
                 textAlign={'center'}
                 borderTop={'solid black 1px'}
               >
-                <Typography variant={'body2'} fontSize={18}>
-                  {currentVerdict[property]}
-                </Typography>
+                {property === 'date' ? (
+                  <Box>
+                    <Typography variant="body2" fontSize={18}>
+                      {currentVerdict[property].substring(
+                        0,
+                        currentVerdict[property].indexOf('\n'),
+                      )}
+                    </Typography>
+                    <Typography variant="body2" fontSize={18}>
+                      {currentVerdict[property].substring(
+                        currentVerdict[property].indexOf('\n'),
+                      )}
+                    </Typography>
+                  </Box>
+                ) : (
+                  <Typography variant={'body2'} fontSize={18}>
+                    {currentVerdict[property]}
+                  </Typography>
+                )}
               </Grid>
             ))}
           </Grid>
@@ -215,7 +311,7 @@ export default function VerdictPage() {
       <Box display="flex" gap={1} alignItems={'center'}>
         <Typography fontSize={24}>Code File</Typography>
 
-        <IconButton onClick={() => {}}>
+        <IconButton onClick={downloadCodeFile}>
           <DownloadIcon style={{ color: 'black' }}></DownloadIcon>
         </IconButton>
       </Box>
@@ -228,6 +324,9 @@ export default function VerdictPage() {
             setDialogIsOpen(false)
           }}
           isOpen={true}
+          submissionId={submissionId}
+          problemName={problemName}
+          verdictNum={verdictNum}
         ></ShareSubmissionDialog>
       )}
     </Container>
