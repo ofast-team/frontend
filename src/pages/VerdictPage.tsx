@@ -197,7 +197,9 @@ export default function VerdictPage() {
       clearInterval(interval)
     }
 
-    return () => clearInterval(interval)
+    // useEffect allows you to return a cleanup function,
+    // which gets called when the component unmounts.
+    return stopTimer
   }, [])
 
   if (isLoading && !isFinishedJudging) {
