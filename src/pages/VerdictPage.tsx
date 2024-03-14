@@ -150,26 +150,27 @@ export default function VerdictPage() {
           const timeStr = timeMilliseconds + ' ms'
 
           const memoryKilobytes = data.memory
-          const memoryMegaBytes = Math.ceil(memoryKilobytes / 1000)
-          const memoryStr = memoryMegaBytes + ' MB'
+          const memoryMegaBytes = Math.ceil(memoryKilobytes / 1024)
 
-          const code =
-            '```' +
-            data.language +
-            '\n' +
-            atob(data.code) +
-            setCurrentVerdict((prevVerdict: Verdict) => {
-              return {
-                ...prevVerdict,
-                date: dateStr,
-                problem: problemName,
-                language: langStr,
-                verdict: verdictStr,
-                time: timeStr,
-                memory: memoryStr,
-                casesPassed: casesPassedStr,
-              }
-            })
+          const memoryStr =
+            memoryKilobytes < 1024
+              ? memoryKilobytes + ' KB'
+              : memoryMegaBytes + ' MB'
+
+          const code = `\`\`\`${data.language}\n${atob(data.code)}\n\`\`\``
+
+          setCurrentVerdict((prevVerdict: Verdict) => {
+            return {
+              ...prevVerdict,
+              date: dateStr,
+              problem: problemName,
+              language: langStr,
+              verdict: verdictStr,
+              time: timeStr,
+              memory: memoryStr,
+              casesPassed: casesPassedStr,
+            }
+          })
 
           setTestCases(data.verdict_list)
           setFileType(data.language)
