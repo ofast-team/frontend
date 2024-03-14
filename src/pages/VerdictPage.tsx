@@ -86,7 +86,6 @@ export default function VerdictPage() {
   const submissionId: string = params.submissionId as string
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout
     const fetchVerdict = () => {
       fetch(buildPath('/getVerdict'), {
         method: 'POST',
@@ -157,7 +156,7 @@ export default function VerdictPage() {
               ? memoryKilobytes + ' KB'
               : memoryMegaBytes + ' MB'
 
-          const code = `\`\`\`${data.language}\n${atob(data.code)}\n\`\`\``
+          const code = `\`\`\`${data.language}\n${atob(data.code)}\`\`\``
 
           setCurrentVerdict((prevVerdict: Verdict) => {
             return {
@@ -198,7 +197,7 @@ export default function VerdictPage() {
       clearInterval(interval)
     }
 
-    return () => clearInterval(intervalId)
+    return () => clearInterval(interval)
   }, [])
 
   if (isLoading && !isFinishedJudging) {
