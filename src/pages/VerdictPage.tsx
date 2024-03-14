@@ -60,7 +60,6 @@ export default function VerdictPage() {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
   const [isLoading, setIsLoading] = useState<boolean>()
   const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>()
 
   const emptyVerdict: Verdict = {
     date: '',
@@ -87,6 +86,7 @@ export default function VerdictPage() {
   const submissionId: string = params.submissionId as string
 
   useEffect(() => {
+    let intervalId: NodeJS.Timeout
     const fetchVerdict = () => {
       fetch(buildPath('/getVerdict'), {
         method: 'POST',
@@ -101,6 +101,7 @@ export default function VerdictPage() {
           throw Error(res.statusText)
         })
         .then((data) => {
+          console.log(data)
           const dateInSeconds = data.date.seconds
           const date = new Date(dateInSeconds * 1000)
 
@@ -138,9 +139,11 @@ export default function VerdictPage() {
           }
 
           setVerdictNum(data.verdict)
-          const verdictStr = isFinishedJudging
-            ? verdictInfo[data.verdict].description
-            : 'Pending'
+
+          const isPending = data.pending
+          const verdictStr = isPending
+            ? 'Pending'
+            : verdictInfo[data.verdict].description
 
           const timeSeconds = data.time
           const timeMilliseconds = Math.ceil(timeSeconds * 1000)
@@ -183,9 +186,8 @@ export default function VerdictPage() {
 
           setIsFinishedJudging(finished)
 
-          // Stop the interval loop
           if (finished) {
-            clearInterval(intervalId)
+            stopTimer()
             return
           }
         })
@@ -198,11 +200,14 @@ export default function VerdictPage() {
     fetchVerdict()
 
     // Set up a 2s timer that repeats until its told otherwise.
-    const timer = setInterval(fetchVerdict, 2000)
-    setIntervalId(timer)
+    const interval = setInterval(fetchVerdict, 2000)
+
+    const stopTimer = () => {
+      clearInterval(interval)
+    }
 
     return () => clearInterval(intervalId)
-  }, [isFinishedJudging])
+  }, [])
 
   if (isLoading && !isFinishedJudging) {
     return <React.Fragment />
