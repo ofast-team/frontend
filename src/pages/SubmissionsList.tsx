@@ -1,11 +1,18 @@
 import { Box, Button, Container, Grid, Typography, styled } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import CircleIcon from '@mui/icons-material/Circle'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
+import buildPath from '../path'
+
+import { useSelector } from 'react-redux'
+import { RootState } from '../store'
+
+import { SubmissionData, emptySubmissionData, formatSubmissionData } from './VerdictPage'
+import { useProblemsObject } from '../components/ProblemProvider'
 
 const PendingIcon = styled(CircleIcon)({
   fontSize: '36px',
@@ -22,40 +29,76 @@ const WrongAnswerIcon = styled(CancelIcon)({
   color: '#FF5555',
 })
 
-const sub1 = {
-  Date: '01-07-2024 10:58:32',
-  Problem: 'Two Sum',
-  Verdict: 'Time-Limit Exceeded',
-  Language: 'C++',
-  Time: '20ms',
-  Memory: '12MB',
-  'Test Cases': '3/5',
-}
+const columnNames = [
+  'Date',
+  'Problem',
+  'Verdict',
+  'Language',
+  'Time',
+  'Memory',
+  'Test Cases',
+]
+const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
 
-// Temporary until we have a uniform way to store submissions
-interface SubmissionData {
-  Date: string
-  Problem: string
-  Verdict: string
-  Language: string
-  Time: string
-  Memory: string
-  'Test Cases': string
-}
+export default function SubmissionsList() {
 
-const submissions: SubmissionData[] = [sub1, sub1, sub1]
+  const [submissionsTable, setSubmissionsTable] = useState<SubmissionData[]>()
+  const [testCases, setTestCases] = useState<number[][]>([])
+  const [submissionIds, setSubmissionIds] = useState<string[]>([])
+  const verdictProperties = Object.keys(emptySubmissionData)
 
-export default function VerdictPage() {
-  const columnNames = [
-    'Date',
-    'Problem',
-    'Verdict',
-    'Language',
-    'Time',
-    'Memory',
-    'Test Cases',
-  ]
-  const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
+  const [searchParams] = useSearchParams();
+  const problemID = searchParams.get('problem')
+
+  const problemsObj = useProblemsObject()
+
+  const user = useSelector((state: RootState) => state.user)
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchSubmissions = () => {
+      fetch(buildPath('/getSubmissions'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          problemIds: [problemID],
+          uid: user.id,
+          isBrief: false,
+        }),
+      })
+        .then((res: Response) => {
+          if (res.ok) {
+            return res.json()
+          }
+        })
+        .then((data) => {
+          const problemSubmissions = data.submissionsPerProblem[0].submissions
+          console.log(problemSubmissions)
+
+          const buildTable : SubmissionData[] = []
+          const buildTestCases: number[][] = []
+          const buildSubmissionIds: string[] = []
+          for (const submission of problemSubmissions) {
+            const submissionData : SubmissionData = formatSubmissionData(submission, problemsObj)
+            buildTable.push(submissionData)
+            buildTestCases.push(submission.verdict_list)
+            buildSubmissionIds.push(submission.submission_id)
+          }
+          setSubmissionsTable(buildTable)
+          setTestCases(buildTestCases)
+          setSubmissionIds(buildSubmissionIds)
+        })
+        .catch((error: Error) => {
+          throw error
+        })
+    }
+    fetchSubmissions()
+  }, [])
+
+  const onSubmissionClick = (submissionId) => {
+    navigate('/submissions/' + submissionId)
+  }
 
   return (
     <Container sx={{ pt: 15 }}>
@@ -89,35 +132,57 @@ export default function VerdictPage() {
             ))}
           </Grid>
         </Box>
-        <Box>
-          {/* First, render the rows that aren't involved with the current submission. */}
-          {submissions.map((submission: SubmissionData) => (
-            <Button sx={{ display: 'block', width: '100%', p: 0 }}>
-              <Link
-                style={{ color: 'inherit', textDecoration: 'none' }}
-                to={'/verdict'}
-              >
-                <Grid container borderTop={'solid black 1px'}>
-                  {columnNames.map((columnName, i) => (
-                    <Grid item xs={columnWidths[i]} p={1} textAlign={'center'}>
+        {
+          submissionsTable?.map((submission, i) => {
+            return (
+            <Button sx = {{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', borderTop : i > 0 ? 'solid black 1px' : '0px', borderRadius: 0}} 
+            onClick = {() => onSubmissionClick(submissionIds[i])}>
+              <Grid container >
+                {verdictProperties.map((property, j) => (
+                  <Grid
+                    item
+                    xs={columnWidths[j]}
+                    p={1}
+                    textAlign={'center'}
+                    pt = {1}
+                  >
+                    {property === 'date' ? (
+                      <Box>
+                        <Typography variant="body2" fontSize={18}>
+                          {submission[property].substring(
+                            0,
+                            submission[property].indexOf('\n'),
+                          )}
+                        </Typography>
+                        <Typography variant="body2" fontSize={18}>
+                          {submission[property].substring(
+                            submission[property].indexOf('\n'),
+                          )}
+                        </Typography>
+                      </Box>
+                    ) : (
                       <Typography variant={'body2'} fontSize={18}>
-                        {submission[columnName]}
+                        {submission[property]}
                       </Typography>
-                    </Grid>
-                  ))}
-                </Grid>
-                <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
-                  <CorrectIcon />
-                  <CorrectIcon />
-                  <CorrectIcon />
-                  <WrongAnswerIcon></WrongAnswerIcon>
-                  <PendingIcon></PendingIcon>
-                  <PendingIcon></PendingIcon>
-                </Box>
-              </Link>
+                    )}
+                  </Grid>
+                ))}
+              </Grid>
+              <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
+                {testCases[i]?.map((status) => {
+                  if (status == 3) {
+                    return <CorrectIcon />
+                  }
+                  if (status > 3) {
+                    return <WrongAnswerIcon />
+                  }
+                  return <PendingIcon />
+                })}
+              </Box>
             </Button>
-          ))}
-        </Box>
+            )
+        })
+        }
       </Box>
     </Container>
   )

@@ -46,7 +46,78 @@ const columnNames = [
 ]
 const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
 
-interface Verdict {
+export const emptySubmissionData: SubmissionData = {
+  date: '',
+  problem: '',
+  verdict: '',
+  language: '',
+  time: '',
+  memory: '',
+  casesPassed: '',
+}
+
+export function formatSubmissionData(data, problemsObj): SubmissionData {
+  const formattedData = emptySubmissionData
+
+  const dateInSeconds = data.date.seconds
+  const date = new Date(dateInSeconds * 1000)
+
+  const dateStr =
+    date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }) +
+    '\n' +
+    date.toLocaleTimeString()
+
+  const casesPassedStr: string = data.passed_cases + ' of ' + data.total_cases
+
+  const problemName: string = problemsObj.getProblem(data.problem_id)?.title || 'Custom Submission'
+
+  let langStr = 'unknown'
+  if (data.language === 'c') {
+    langStr = 'C'
+  } else if (
+    data.language === 'cpp' ||
+    data.language === 'cxx' ||
+    data.language === 'cc'
+  ) {
+    langStr = 'C++'
+  } else if (data.language === 'java') {
+    langStr = 'Java'
+  } else if (data.language === 'py') {
+    langStr = 'Python'
+  }
+
+  const isPending = data.pending
+  const verdictStr = isPending
+    ? 'Pending'
+    : verdictInfo[data.verdict].description
+
+  const timeSeconds = data.time
+  const timeMilliseconds = Math.ceil(timeSeconds * 1000)
+  const timeStr = timeMilliseconds + ' ms'
+
+  const memoryKilobytes = data.memory
+  const memoryMegaBytes = Math.ceil(memoryKilobytes / 1024)
+
+  const memoryStr =
+    memoryKilobytes < 1024 ? memoryKilobytes + ' KB' : memoryMegaBytes + ' MB'
+
+  return {
+    ...formattedData,
+    date: dateStr,
+    problem: problemName,
+    language: langStr,
+    verdict: verdictStr,
+    time: timeStr,
+    memory: memoryStr,
+    casesPassed: casesPassedStr
+  }
+}
+
+export interface SubmissionData {
   date: string
   problem: string
   verdict: string
@@ -61,18 +132,9 @@ export default function VerdictPage() {
   const [isLoading, setIsLoading] = useState<boolean>()
   const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
 
-  const emptyVerdict: Verdict = {
-    date: '',
-    problem: '',
-    verdict: '',
-    language: '',
-    time: '',
-    memory: '',
-    casesPassed: '',
-  }
-
-  const verdictProperties = Object.keys(emptyVerdict)
-  const [currentVerdict, setCurrentVerdict] = useState<Verdict>(emptyVerdict)
+  const verdictProperties = Object.keys(emptySubmissionData)
+  const [currentSubmissionData, setCurrentSubmissionData] =
+    useState<SubmissionData>(emptySubmissionData)
   const [testCases, setTestCases] = useState<number[]>([0])
 
   const [code, setCode] = useState<string>('')
@@ -80,10 +142,10 @@ export default function VerdictPage() {
   const [verdictNum, setVerdictNum] = useState<number>(0)
   const [fileType, setFileType] = useState<string>('txt')
 
-  const problemsObject = useProblemsObject()
-
   const params = useParams()
   const submissionId: string = params.submissionId as string
+
+  const problemsObject = useProblemsObject()
 
   useEffect(() => {
     const fetchVerdict = () => {
@@ -101,75 +163,15 @@ export default function VerdictPage() {
         })
         .then((data) => {
           console.log(data)
-          const dateInSeconds = data.date.seconds
-          const date = new Date(dateInSeconds * 1000)
-
-          const dateStr =
-            date.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            }) +
-            '\n' +
-            date.toLocaleTimeString()
-
-          const casesPassedStr: string =
-            data.passed_cases + ' of ' + data.total_cases
 
           const problemName: string =
             problemsObject.getProblem(data.problem_id)?.title ||
             'Custom Submission'
-
           setProblemName(problemName)
 
-          let langStr = 'unknown'
-          if (data.language === 'c') {
-            langStr = 'C'
-          } else if (
-            data.language === 'cpp' ||
-            data.language === 'cxx' ||
-            data.language === 'cc'
-          ) {
-            langStr = 'C++'
-          } else if (data.language === 'java') {
-            langStr = 'Java'
-          } else if (data.language === 'py') {
-            langStr = 'Python'
-          }
-
-          setVerdictNum(data.verdict)
-
-          const isPending = data.pending
-          const verdictStr = isPending
-            ? 'Pending'
-            : verdictInfo[data.verdict].description
-
-          const timeSeconds = data.time
-          const timeMilliseconds = Math.ceil(timeSeconds * 1000)
-          const timeStr = timeMilliseconds + ' ms'
-
-          const memoryKilobytes = data.memory
-          const memoryMegaBytes = Math.ceil(memoryKilobytes / 1024)
-
-          const memoryStr =
-            memoryKilobytes < 1024
-              ? memoryKilobytes + ' KB'
-              : memoryMegaBytes + ' MB'
-
           const code = `\`\`\`${data.language}\n${atob(data.code)}\`\`\``
-
-          setCurrentVerdict((prevVerdict: Verdict) => {
-            return {
-              ...prevVerdict,
-              date: dateStr,
-              problem: problemName,
-              language: langStr,
-              verdict: verdictStr,
-              time: timeStr,
-              memory: memoryStr,
-              casesPassed: casesPassedStr,
-            }
-          })
+          const newSubmissionData = formatSubmissionData(data, problemsObject)
+          setCurrentSubmissionData(newSubmissionData)
 
           setTestCases(data.verdict_list)
           setFileType(data.language)
@@ -276,20 +278,20 @@ export default function VerdictPage() {
                 {property === 'date' ? (
                   <Box>
                     <Typography variant="body2" fontSize={18}>
-                      {currentVerdict[property].substring(
+                      {currentSubmissionData[property].substring(
                         0,
-                        currentVerdict[property].indexOf('\n'),
+                        currentSubmissionData[property].indexOf('\n'),
                       )}
                     </Typography>
                     <Typography variant="body2" fontSize={18}>
-                      {currentVerdict[property].substring(
-                        currentVerdict[property].indexOf('\n'),
+                      {currentSubmissionData[property].substring(
+                        currentSubmissionData[property].indexOf('\n'),
                       )}
                     </Typography>
                   </Box>
                 ) : (
                   <Typography variant={'body2'} fontSize={18}>
-                    {currentVerdict[property]}
+                    {currentSubmissionData[property]}
                   </Typography>
                 )}
               </Grid>

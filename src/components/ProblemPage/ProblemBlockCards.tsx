@@ -253,9 +253,8 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             >
               <Button>
                 <Link
-                  to={'/submissions'}
+                  to={'/submissions?problem=' + problem.problemID}
                   style={{ textDecoration: 'none', color: 'black' }}
-                  state={{ problemID: problem.problemID }}
                 >
                   All Submissions
                 </Link>
