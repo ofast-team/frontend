@@ -74,7 +74,6 @@ export default function SubmissionsList() {
         })
         .then((data) => {
           const problemSubmissions = data.submissionsPerProblem[0].submissions
-          console.log(problemSubmissions)
 
           const buildTable : SubmissionData[] = []
           const buildTestCases: number[][] = []

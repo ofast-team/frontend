@@ -73,7 +73,8 @@ export function formatSubmissionData(data, problemsObj): SubmissionData {
 
   const casesPassedStr: string = data.passed_cases + ' of ' + data.total_cases
 
-  const problemName: string = problemsObj.getProblem(data.problem_id)?.title || 'Custom Submission'
+  const problemName: string =
+    problemsObj.getProblem(data.problem_id)?.title || 'Custom Submission'
 
   let langStr = 'unknown'
   if (data.language === 'c') {
@@ -113,7 +114,7 @@ export function formatSubmissionData(data, problemsObj): SubmissionData {
     verdict: verdictStr,
     time: timeStr,
     memory: memoryStr,
-    casesPassed: casesPassedStr
+    casesPassed: casesPassedStr,
   }
 }
 
@@ -162,8 +163,6 @@ export default function VerdictPage() {
           throw Error(res.statusText)
         })
         .then((data) => {
-          console.log(data)
-
           const problemName: string =
             problemsObject.getProblem(data.problem_id)?.title ||
             'Custom Submission'
