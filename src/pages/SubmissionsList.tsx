@@ -45,6 +45,7 @@ export default function SubmissionsList() {
   const [submissionsTable, setSubmissionsTable] = useState<SubmissionData[]>()
   const [testCases, setTestCases] = useState<number[][]>([])
   const [submissionIds, setSubmissionIds] = useState<string[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const verdictProperties = Object.keys(emptySubmissionData)
 
   const [searchParams] = useSearchParams();
@@ -58,6 +59,7 @@ export default function SubmissionsList() {
 
   useEffect(() => {
     const fetchSubmissions = () => {
+      setIsLoading(true)
       fetch(buildPath('/getSubmissions'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -87,6 +89,7 @@ export default function SubmissionsList() {
           setSubmissionsTable(buildTable)
           setTestCases(buildTestCases)
           setSubmissionIds(buildSubmissionIds)
+          setIsLoading(false)
         })
         .catch((error: Error) => {
           throw error
@@ -97,6 +100,10 @@ export default function SubmissionsList() {
 
   const onSubmissionClick = (submissionId) => {
     navigate('/submissions/' + submissionId)
+  }
+
+  if (isLoading) {
+    return <React.Fragment/>
   }
 
   return (

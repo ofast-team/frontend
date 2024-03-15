@@ -130,7 +130,7 @@ export interface SubmissionData {
 
 export default function VerdictPage() {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
-  const [isLoading, setIsLoading] = useState<boolean>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
 
   const verdictProperties = Object.keys(emptySubmissionData)
