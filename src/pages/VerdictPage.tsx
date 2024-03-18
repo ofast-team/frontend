@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material'
+import { Box, Container, Grid, IconButton, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import DownloadIcon from '@mui/icons-material/Download'
 import MDXRenderer from '../components/MDXRenderer'
@@ -141,7 +134,6 @@ export default function VerdictPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
 
-  const verdictProperties = Object.keys(emptySubmissionData)
   const [currentSubmissionData, setCurrentSubmissionData] =
     useState<SubmissionData>(emptySubmissionData)
   const [testCases, setTestCases] = useState<number[]>([0])

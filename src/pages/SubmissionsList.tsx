@@ -1,12 +1,7 @@
 import { Box, Button, Container, Grid, Typography, styled } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 
 import CircleIcon from '@mui/icons-material/Circle'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
@@ -16,11 +11,7 @@ import buildPath from '../path'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 
-import {
-  SubmissionData,
-  emptySubmissionData,
-  formatSubmissionData,
-} from './VerdictPage'
+import { SubmissionData, formatSubmissionData } from './VerdictPage'
 import { useProblemsObject } from '../components/ProblemProvider'
 import { verdictInfo } from '../utils/verdict'
 
@@ -65,7 +56,6 @@ export default function SubmissionsList() {
   const [submissionIds, setSubmissionIds] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [verdicts, setVerdicts] = useState<number[]>([])
-  const verdictProperties = Object.keys(emptySubmissionData)
 
   const [searchParams] = useSearchParams()
   const problemID = searchParams.get('problem')
