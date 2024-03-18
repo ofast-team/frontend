@@ -140,7 +140,7 @@ export default function VerdictPage() {
 
   const [code, setCode] = useState<string>('')
   const [problemName, setProblemName] = useState<string>('')
-  const [verdictNum, setVerdictNum] = useState<number>(0)
+  const [verdictNum, setVerdictNum] = useState<number>(1)
   const [fileType, setFileType] = useState<string>('txt')
 
   const params = useParams()
@@ -172,6 +172,7 @@ export default function VerdictPage() {
           const newSubmissionData = formatSubmissionData(data, problemsObject)
           setCurrentSubmissionData(newSubmissionData)
 
+          setVerdictNum(data.verdict)
           setTestCases(data.verdict_list)
           setFileType(data.language)
           setCode(code)
@@ -203,7 +204,7 @@ export default function VerdictPage() {
     return stopTimer
   }, [])
 
-  if (isLoading && !isFinishedJudging) {
+  if (isLoading) {
     return <React.Fragment />
   }
 
@@ -289,7 +290,7 @@ export default function VerdictPage() {
                     </Typography>
                   </Box>
                 ) : (
-                  <Typography variant={'body2'} fontSize={18}>
+                  <Typography variant={'body2'} fontSize={18} color= {property === 'verdict' ? verdictInfo[verdictNum].color : 'black'}>
                     {currentSubmissionData[property]}
                   </Typography>
                 )}

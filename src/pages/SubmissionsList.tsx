@@ -22,6 +22,7 @@ import {
   formatSubmissionData,
 } from './VerdictPage'
 import { useProblemsObject } from '../components/ProblemProvider'
+import { verdictInfo } from '../utils/verdict'
 
 const PendingIcon = styled(CircleIcon)({
   fontSize: '36px',
@@ -38,6 +39,14 @@ const WrongAnswerIcon = styled(CancelIcon)({
   color: '#FF5555',
 })
 
+function SubmissionTableElem({ xs, children }) {
+  return (
+    <Grid item xs={xs} p={1} textAlign={'center'} pt={1}>
+      {children}
+    </Grid>
+  )
+}
+
 const columnNames = [
   'Date',
   'Problem',
@@ -46,14 +55,16 @@ const columnNames = [
   'Time',
   'Memory',
   'Test Cases',
+  '',
 ]
-const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
+const columnWidths = [1.75, 1.75, 1.75, 1.25, 1.25, 1.25, 1.25, 1.75]
 
 export default function SubmissionsList() {
   const [submissionsTable, setSubmissionsTable] = useState<SubmissionData[]>()
   const [testCases, setTestCases] = useState<number[][]>([])
   const [submissionIds, setSubmissionIds] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [verdicts, setVerdicts] = useState<number[]>([])
   const verdictProperties = Object.keys(emptySubmissionData)
 
   const [searchParams] = useSearchParams()
@@ -83,23 +94,20 @@ export default function SubmissionsList() {
           }
         })
         .then((data) => {
-          const problemSubmissions = data.submissionsPerProblem[0].submissions
+          const unformattedSubmissions =
+            data.submissionsPerProblem[0].submissions
 
-          const buildTable: SubmissionData[] = []
-          const buildTestCases: number[][] = []
-          const buildSubmissionIds: string[] = []
-          for (const submission of problemSubmissions) {
-            const submissionData: SubmissionData = formatSubmissionData(
-              submission,
-              problemsObj,
-            )
-            buildTable.push(submissionData)
-            buildTestCases.push(submission.verdict_list)
-            buildSubmissionIds.push(submission.submission_id)
-          }
-          setSubmissionsTable(buildTable)
-          setTestCases(buildTestCases)
-          setSubmissionIds(buildSubmissionIds)
+          // Data we're going to display in the table
+          setSubmissionsTable(
+            unformattedSubmissions.map((s) =>
+              formatSubmissionData(s, problemsObj),
+            ),
+          )
+
+          // Other data that we'll need for later.
+          setTestCases(unformattedSubmissions.map((s) => s.verdict_list))
+          setSubmissionIds(unformattedSubmissions.map((s) => s.submission_id))
+          setVerdicts(unformattedSubmissions.map((s) => s.verdict))
           setIsLoading(false)
         })
         .catch((error: Error) => {
@@ -151,7 +159,7 @@ export default function SubmissionsList() {
         </Box>
         {submissionsTable?.map((submission, i) => {
           return (
-            <Button
+            <Box
               sx={{
                 width: '100%',
                 display: 'flex',
@@ -160,38 +168,97 @@ export default function SubmissionsList() {
                 borderTop: i > 0 ? 'solid black 1px' : '0px',
                 borderRadius: 0,
               }}
-              onClick={() => onSubmissionClick(submissionIds[i])}
             >
               <Grid container>
-                {verdictProperties.map((property, j) => (
-                  <Grid
-                    item
-                    xs={columnWidths[j]}
-                    p={1}
-                    textAlign={'center'}
-                    pt={1}
-                  >
-                    {property === 'date' ? (
-                      <Box>
-                        <Typography variant="body2" fontSize={18}>
-                          {submission[property].substring(
-                            0,
-                            submission[property].indexOf('\n'),
-                          )}
-                        </Typography>
-                        <Typography variant="body2" fontSize={18}>
-                          {submission[property].substring(
-                            submission[property].indexOf('\n'),
-                          )}
-                        </Typography>
-                      </Box>
-                    ) : (
-                      <Typography variant={'body2'} fontSize={18}>
-                        {submission[property]}
-                      </Typography>
+                {/* Time & Date */}
+                <SubmissionTableElem xs={columnWidths[0]}>
+                  <Typography variant="body2" fontSize={18}>
+                    {submission.date.substring(
+                      0,
+                      submission.date.indexOf('\n'),
                     )}
-                  </Grid>
-                ))}
+                  </Typography>
+                  <Typography variant="body2" fontSize={18}>
+                    {submission.date.substring(submission.date.indexOf('\n'))}
+                  </Typography>
+                </SubmissionTableElem>
+                {/* Problem */}
+                <SubmissionTableElem xs={columnWidths[1]}>
+                  <Link to={'/problem/' + problemID}>
+                    <Typography
+                      variant={'body2'}
+                      fontSize={18}
+                    >
+                      {problemID
+                        ? problemsObj?.getProblem(problemID)?.title
+                        : 'Custom Submission'}
+                    </Typography>
+                  </Link>
+                </SubmissionTableElem>
+                {/* Verdict */}
+                <SubmissionTableElem xs={columnWidths[2]}>
+                  <Box>
+                    <Typography
+                      variant={'body2'}
+                      fontSize={18}
+                      color={verdictInfo[verdicts[i]].color}
+                    >
+                      {submission.verdict}
+                    </Typography>
+                  </Box>
+                </SubmissionTableElem>
+                {/* Language */}
+                <SubmissionTableElem xs={columnWidths[3]}>
+                  <Box>
+                    <Typography
+                      variant={'body2'}
+                      fontSize={18}
+                    >
+                      {submission.language}
+                    </Typography>
+                  </Box>
+                </SubmissionTableElem>
+                {/* Time */}
+                <SubmissionTableElem xs={columnWidths[4]}>
+                  <Box>
+                    <Typography
+                      variant={'body2'}
+                      fontSize={18}
+                    >
+                      {submission.time}
+                    </Typography>
+                  </Box>
+                </SubmissionTableElem>
+                {/* Memory */}
+                <SubmissionTableElem xs={columnWidths[5]}>
+                  <Box>
+                    <Typography
+                      variant={'body2'}
+                      fontSize={18}
+                    >
+                      {submission.memory}
+                    </Typography>
+                  </Box>
+                </SubmissionTableElem>
+                {/* Test Cases Passed*/}
+                <SubmissionTableElem xs={columnWidths[6]}>
+                  <Box>
+                    <Typography
+                      variant={'body2'}
+                      fontSize={18}
+                    >
+                      {submission.casesPassed}
+                    </Typography>
+                  </Box>
+                </SubmissionTableElem>
+                {/* View Submission*/}
+                <SubmissionTableElem xs={columnWidths[7]}>
+                  <Box>
+                    <Button variant="contained" onClick = {() => onSubmissionClick(submissionIds[i])}>
+                      {'View Submission'}
+                    </Button>
+                  </Box>
+                </SubmissionTableElem>
               </Grid>
               <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
                 {testCases[i]?.map((status) => {
@@ -204,7 +271,7 @@ export default function SubmissionsList() {
                   return <PendingIcon />
                 })}
               </Box>
-            </Button>
+            </Box>
           )
         })}
       </Box>
