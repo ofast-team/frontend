@@ -1,4 +1,11 @@
-import { Box, Container, Grid, IconButton, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import DownloadIcon from '@mui/icons-material/Download'
 import MDXRenderer from '../components/MDXRenderer'
@@ -6,10 +13,11 @@ import { CheckCircle, Share, Cancel, Cached } from '@mui/icons-material'
 import ShareSubmissionDialog from '../components/ShareSubmissionDialog'
 import { useProblemsObject } from '../components/ProblemProvider'
 import { verdictInfo } from '../utils/verdict'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import buildPath from '../path'
 
 import { motion } from 'framer-motion'
+import { SubmissionTableElem } from './SubmissionsList'
 
 const CorrectIcon = () => {
   return <CheckCircle sx={{ color: '#1db924', fontSize: '2.5rem' }} />
@@ -140,6 +148,7 @@ export default function VerdictPage() {
 
   const [code, setCode] = useState<string>('')
   const [problemName, setProblemName] = useState<string>('')
+  const [problemID, setProblemID] = useState<string>('')
   const [verdictNum, setVerdictNum] = useState<number>(1)
   const [fileType, setFileType] = useState<string>('txt')
 
@@ -167,6 +176,7 @@ export default function VerdictPage() {
             problemsObject.getProblem(data.problem_id)?.title ||
             'Custom Submission'
           setProblemName(problemName)
+          setProblemID(data.problem_id)
 
           const code = `\`\`\`${data.language}\n${atob(data.code)}\`\`\``
           const newSubmissionData = formatSubmissionData(data, problemsObject)
@@ -267,35 +277,78 @@ export default function VerdictPage() {
         </Box>
         <Box>
           <Grid container>
-            {verdictProperties.map((property, i) => (
-              <Grid
-                item
-                xs={columnWidths[i]}
-                p={1}
-                textAlign={'center'}
-                borderTop={'solid black 1px'}
-              >
-                {property === 'date' ? (
-                  <Box>
-                    <Typography variant="body2" fontSize={18}>
-                      {currentSubmissionData[property].substring(
-                        0,
-                        currentSubmissionData[property].indexOf('\n'),
-                      )}
-                    </Typography>
-                    <Typography variant="body2" fontSize={18}>
-                      {currentSubmissionData[property].substring(
-                        currentSubmissionData[property].indexOf('\n'),
-                      )}
-                    </Typography>
-                  </Box>
-                ) : (
-                  <Typography variant={'body2'} fontSize={18} color= {property === 'verdict' ? verdictInfo[verdictNum].color : 'black'}>
-                    {currentSubmissionData[property]}
-                  </Typography>
+            {/* Time & Date */}
+            <SubmissionTableElem xs={columnWidths[0]}>
+              <Typography variant="body2" fontSize={18}>
+                {currentSubmissionData.date.substring(
+                  0,
+                  currentSubmissionData.date.indexOf('\n'),
                 )}
-              </Grid>
-            ))}
+              </Typography>
+              <Typography variant="body2" fontSize={18}>
+                {currentSubmissionData.date.substring(
+                  currentSubmissionData.date.indexOf('\n'),
+                )}
+              </Typography>
+            </SubmissionTableElem>
+            {/* Problem */}
+            <SubmissionTableElem xs={columnWidths[1]}>
+              {problemName === 'Custom Submission' ? (
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.problem}
+                </Typography>
+              ) : (
+                <Link to={'/problem/' + problemID}>
+                  <Typography variant={'body2'} fontSize={18}>
+                    {currentSubmissionData.problem}
+                  </Typography>
+                </Link>
+              )}
+            </SubmissionTableElem>
+            {/* Verdict */}
+            <SubmissionTableElem xs={columnWidths[2]}>
+              <Box>
+                <Typography
+                  variant={'body2'}
+                  fontSize={18}
+                  color={verdictInfo[verdictNum].color}
+                >
+                  {currentSubmissionData.verdict}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
+            {/* Language */}
+            <SubmissionTableElem xs={columnWidths[3]}>
+              <Box>
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.language}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
+            {/* Time */}
+            <SubmissionTableElem xs={columnWidths[4]}>
+              <Box>
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.time}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
+            {/* Memory */}
+            <SubmissionTableElem xs={columnWidths[5]}>
+              <Box>
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.memory}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
+            {/* Test Cases Passed*/}
+            <SubmissionTableElem xs={columnWidths[6]}>
+              <Box>
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.casesPassed}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
           </Grid>
           <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
             {testCases?.map((status) => {

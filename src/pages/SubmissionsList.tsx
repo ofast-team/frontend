@@ -39,7 +39,7 @@ const WrongAnswerIcon = styled(CancelIcon)({
   color: '#FF5555',
 })
 
-function SubmissionTableElem({ xs, children }) {
+export function SubmissionTableElem({ xs, children }) {
   return (
     <Grid item xs={xs} p={1} textAlign={'center'} pt={1}>
       {children}
@@ -185,10 +185,7 @@ export default function SubmissionsList() {
                 {/* Problem */}
                 <SubmissionTableElem xs={columnWidths[1]}>
                   <Link to={'/problem/' + problemID}>
-                    <Typography
-                      variant={'body2'}
-                      fontSize={18}
-                    >
+                    <Typography variant={'body2'} fontSize={18}>
                       {problemID
                         ? problemsObj?.getProblem(problemID)?.title
                         : 'Custom Submission'}
@@ -210,10 +207,7 @@ export default function SubmissionsList() {
                 {/* Language */}
                 <SubmissionTableElem xs={columnWidths[3]}>
                   <Box>
-                    <Typography
-                      variant={'body2'}
-                      fontSize={18}
-                    >
+                    <Typography variant={'body2'} fontSize={18}>
                       {submission.language}
                     </Typography>
                   </Box>
@@ -221,10 +215,7 @@ export default function SubmissionsList() {
                 {/* Time */}
                 <SubmissionTableElem xs={columnWidths[4]}>
                   <Box>
-                    <Typography
-                      variant={'body2'}
-                      fontSize={18}
-                    >
+                    <Typography variant={'body2'} fontSize={18}>
                       {submission.time}
                     </Typography>
                   </Box>
@@ -232,10 +223,7 @@ export default function SubmissionsList() {
                 {/* Memory */}
                 <SubmissionTableElem xs={columnWidths[5]}>
                   <Box>
-                    <Typography
-                      variant={'body2'}
-                      fontSize={18}
-                    >
+                    <Typography variant={'body2'} fontSize={18}>
                       {submission.memory}
                     </Typography>
                   </Box>
@@ -243,10 +231,7 @@ export default function SubmissionsList() {
                 {/* Test Cases Passed*/}
                 <SubmissionTableElem xs={columnWidths[6]}>
                   <Box>
-                    <Typography
-                      variant={'body2'}
-                      fontSize={18}
-                    >
+                    <Typography variant={'body2'} fontSize={18}>
                       {submission.casesPassed}
                     </Typography>
                   </Box>
@@ -254,7 +239,10 @@ export default function SubmissionsList() {
                 {/* View Submission*/}
                 <SubmissionTableElem xs={columnWidths[7]}>
                   <Box>
-                    <Button variant="contained" onClick = {() => onSubmissionClick(submissionIds[i])}>
+                    <Button
+                      variant="contained"
+                      onClick={() => onSubmissionClick(submissionIds[i])}
+                    >
                       {'View Submission'}
                     </Button>
                   </Box>
