@@ -6,10 +6,11 @@ import { CheckCircle, Share, Cancel, Cached } from '@mui/icons-material'
 import ShareSubmissionDialog from '../components/ShareSubmissionDialog'
 import { useProblemsObject } from '../components/ProblemProvider'
 import { verdictInfo } from '../utils/verdict'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import buildPath from '../path'
 
 import { motion } from 'framer-motion'
+import { SubmissionTableElem } from './SubmissionsList'
 
 const CorrectIcon = () => {
   return <CheckCircle sx={{ color: '#1db924', fontSize: '2.5rem' }} />
@@ -46,7 +47,79 @@ const columnNames = [
 ]
 const columnWidths = [2, 2, 2, 1.5, 1.5, 1.5, 1.5]
 
-interface Verdict {
+export const emptySubmissionData: SubmissionData = {
+  date: '',
+  problem: '',
+  verdict: '',
+  language: '',
+  time: '',
+  memory: '',
+  casesPassed: '',
+}
+
+export function formatSubmissionData(data, problemsObj): SubmissionData {
+  const formattedData = emptySubmissionData
+
+  const dateInSeconds = data.date.seconds
+  const date = new Date(dateInSeconds * 1000)
+
+  const dateStr =
+    date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }) +
+    '\n' +
+    date.toLocaleTimeString()
+
+  const casesPassedStr: string = data.passed_cases + ' of ' + data.total_cases
+
+  const problemName: string =
+    problemsObj.getProblem(data.problem_id)?.title || 'Custom Submission'
+
+  let langStr = 'unknown'
+  if (data.language === 'c') {
+    langStr = 'C'
+  } else if (
+    data.language === 'cpp' ||
+    data.language === 'cxx' ||
+    data.language === 'cc'
+  ) {
+    langStr = 'C++'
+  } else if (data.language === 'java') {
+    langStr = 'Java'
+  } else if (data.language === 'py') {
+    langStr = 'Python'
+  }
+
+  const isPending = data.pending
+  const verdictStr = isPending
+    ? 'Pending'
+    : verdictInfo[data.verdict].description
+
+  const timeSeconds = data.time
+  const timeMilliseconds = Math.ceil(timeSeconds * 1000)
+  const timeStr = timeMilliseconds + ' ms'
+
+  const memoryKilobytes = data.memory
+  const memoryMegaBytes = Math.ceil(memoryKilobytes / 1024)
+
+  const memoryStr =
+    memoryKilobytes < 1024 ? memoryKilobytes + ' KB' : memoryMegaBytes + ' MB'
+
+  return {
+    ...formattedData,
+    date: dateStr,
+    problem: problemName,
+    language: langStr,
+    verdict: verdictStr,
+    time: timeStr,
+    memory: memoryStr,
+    casesPassed: casesPassedStr,
+  }
+}
+
+export interface SubmissionData {
   date: string
   problem: string
   verdict: string
@@ -58,32 +131,23 @@ interface Verdict {
 
 export default function VerdictPage() {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
-  const [isLoading, setIsLoading] = useState<boolean>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
 
-  const emptyVerdict: Verdict = {
-    date: '',
-    problem: '',
-    verdict: '',
-    language: '',
-    time: '',
-    memory: '',
-    casesPassed: '',
-  }
-
-  const verdictProperties = Object.keys(emptyVerdict)
-  const [currentVerdict, setCurrentVerdict] = useState<Verdict>(emptyVerdict)
+  const [currentSubmissionData, setCurrentSubmissionData] =
+    useState<SubmissionData>(emptySubmissionData)
   const [testCases, setTestCases] = useState<number[]>([0])
 
   const [code, setCode] = useState<string>('')
   const [problemName, setProblemName] = useState<string>('')
-  const [verdictNum, setVerdictNum] = useState<number>(0)
+  const [problemID, setProblemID] = useState<string>('')
+  const [verdictNum, setVerdictNum] = useState<number>(1)
   const [fileType, setFileType] = useState<string>('txt')
-
-  const problemsObject = useProblemsObject()
 
   const params = useParams()
   const submissionId: string = params.submissionId as string
+
+  const problemsObject = useProblemsObject()
 
   useEffect(() => {
     const fetchVerdict = () => {
@@ -100,77 +164,17 @@ export default function VerdictPage() {
           throw Error(res.statusText)
         })
         .then((data) => {
-          console.log(data)
-          const dateInSeconds = data.date.seconds
-          const date = new Date(dateInSeconds * 1000)
-
-          const dateStr =
-            date.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            }) +
-            '\n' +
-            date.toLocaleTimeString()
-
-          const casesPassedStr: string =
-            data.passed_cases + ' of ' + data.total_cases
-
           const problemName: string =
             problemsObject.getProblem(data.problem_id)?.title ||
             'Custom Submission'
-
           setProblemName(problemName)
-
-          let langStr = 'unknown'
-          if (data.language === 'c') {
-            langStr = 'C'
-          } else if (
-            data.language === 'cpp' ||
-            data.language === 'cxx' ||
-            data.language === 'cc'
-          ) {
-            langStr = 'C++'
-          } else if (data.language === 'java') {
-            langStr = 'Java'
-          } else if (data.language === 'py') {
-            langStr = 'Python'
-          }
-
-          setVerdictNum(data.verdict)
-
-          const isPending = data.pending
-          const verdictStr = isPending
-            ? 'Pending'
-            : verdictInfo[data.verdict].description
-
-          const timeSeconds = data.time
-          const timeMilliseconds = Math.ceil(timeSeconds * 1000)
-          const timeStr = timeMilliseconds + ' ms'
-
-          const memoryKilobytes = data.memory
-          const memoryMegaBytes = Math.ceil(memoryKilobytes / 1024)
-
-          const memoryStr =
-            memoryKilobytes < 1024
-              ? memoryKilobytes + ' KB'
-              : memoryMegaBytes + ' MB'
+          setProblemID(data.problem_id)
 
           const code = `\`\`\`${data.language}\n${atob(data.code)}\`\`\``
+          const newSubmissionData = formatSubmissionData(data, problemsObject)
+          setCurrentSubmissionData(newSubmissionData)
 
-          setCurrentVerdict((prevVerdict: Verdict) => {
-            return {
-              ...prevVerdict,
-              date: dateStr,
-              problem: problemName,
-              language: langStr,
-              verdict: verdictStr,
-              time: timeStr,
-              memory: memoryStr,
-              casesPassed: casesPassedStr,
-            }
-          })
-
+          setVerdictNum(data.verdict)
           setTestCases(data.verdict_list)
           setFileType(data.language)
           setCode(code)
@@ -202,7 +206,7 @@ export default function VerdictPage() {
     return stopTimer
   }, [])
 
-  if (isLoading && !isFinishedJudging) {
+  if (isLoading) {
     return <React.Fragment />
   }
 
@@ -265,35 +269,78 @@ export default function VerdictPage() {
         </Box>
         <Box>
           <Grid container>
-            {verdictProperties.map((property, i) => (
-              <Grid
-                item
-                xs={columnWidths[i]}
-                p={1}
-                textAlign={'center'}
-                borderTop={'solid black 1px'}
-              >
-                {property === 'date' ? (
-                  <Box>
-                    <Typography variant="body2" fontSize={18}>
-                      {currentVerdict[property].substring(
-                        0,
-                        currentVerdict[property].indexOf('\n'),
-                      )}
-                    </Typography>
-                    <Typography variant="body2" fontSize={18}>
-                      {currentVerdict[property].substring(
-                        currentVerdict[property].indexOf('\n'),
-                      )}
-                    </Typography>
-                  </Box>
-                ) : (
-                  <Typography variant={'body2'} fontSize={18}>
-                    {currentVerdict[property]}
-                  </Typography>
+            {/* Time & Date */}
+            <SubmissionTableElem xs={columnWidths[0]}>
+              <Typography variant="body2" fontSize={18}>
+                {currentSubmissionData.date.substring(
+                  0,
+                  currentSubmissionData.date.indexOf('\n'),
                 )}
-              </Grid>
-            ))}
+              </Typography>
+              <Typography variant="body2" fontSize={18}>
+                {currentSubmissionData.date.substring(
+                  currentSubmissionData.date.indexOf('\n'),
+                )}
+              </Typography>
+            </SubmissionTableElem>
+            {/* Problem */}
+            <SubmissionTableElem xs={columnWidths[1]}>
+              {problemName === 'Custom Submission' ? (
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.problem}
+                </Typography>
+              ) : (
+                <Link to={'/problem/' + problemID}>
+                  <Typography variant={'body2'} fontSize={18}>
+                    {currentSubmissionData.problem}
+                  </Typography>
+                </Link>
+              )}
+            </SubmissionTableElem>
+            {/* Verdict */}
+            <SubmissionTableElem xs={columnWidths[2]}>
+              <Box>
+                <Typography
+                  variant={'body2'}
+                  fontSize={18}
+                  color={verdictInfo[verdictNum].color}
+                >
+                  {currentSubmissionData.verdict}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
+            {/* Language */}
+            <SubmissionTableElem xs={columnWidths[3]}>
+              <Box>
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.language}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
+            {/* Time */}
+            <SubmissionTableElem xs={columnWidths[4]}>
+              <Box>
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.time}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
+            {/* Memory */}
+            <SubmissionTableElem xs={columnWidths[5]}>
+              <Box>
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.memory}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
+            {/* Test Cases Passed*/}
+            <SubmissionTableElem xs={columnWidths[6]}>
+              <Box>
+                <Typography variant={'body2'} fontSize={18}>
+                  {currentSubmissionData.casesPassed}
+                </Typography>
+              </Box>
+            </SubmissionTableElem>
           </Grid>
           <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
             {testCases?.map((status) => {
