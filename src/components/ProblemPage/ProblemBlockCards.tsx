@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  Box,
-  Typography,
-  Stack,
-  Button,
-  Chip,
-  Dialog,
-  Fab,
-} from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
+import { Box, Typography, Stack, Button, Chip, Dialog } from '@mui/material'
 
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -209,6 +200,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                   flexDirection: 'column',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  gap: 1,
                 }}
               >
                 <label htmlFor="problemCodeFile">
@@ -216,21 +208,12 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                     id="problemCodeFile"
                     type="file"
                     accept=".c, .cpp, .cxx, .cc, .java, .py"
-                    style={{ display: 'none' }}
                     onChange={handleFileChange}
                   />
-                  <Fab
-                    color="primary"
-                    size="small"
-                    component="span"
-                    aria-label="add"
-                    variant="extended"
-                    sx={{ p: 2 }}
-                  >
-                    <AddIcon /> Upload File
-                  </Fab>
                 </label>
-                <Button onClick={submitCode}>Submit</Button>
+                <Button variant="contained" onClick={submitCode}>
+                  Submit
+                </Button>
               </Box>
             ) : (
               <Button>
