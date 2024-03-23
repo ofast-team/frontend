@@ -1,4 +1,19 @@
 {
+  "complexity-analysis": {
+    "lessonName": "Complexity Analysis",
+    "lessonGroup": "Intro Algo Design",
+    "files": [
+      "intro.mdx",
+      "analysing-code.mdx",
+      "mcq-1.mdx",
+      "mcq-2.mdx",
+      "problem-solving.mdx",
+      "mcq-3.mdx",
+      "mcq-4.mdx",
+      "takeaways-resources.mdx"
+    ]
+  },
+
   "dynamic-programming": {
     "lessonName": "Dynamic Programming",
     "lessonGroup": "Intro Algo Design",
