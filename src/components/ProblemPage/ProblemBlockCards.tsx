@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Typography, Stack, Button, Chip } from '@mui/material'
+import { Box, Typography, Stack, Button, Chip, Dialog } from '@mui/material'
+
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
@@ -7,6 +8,7 @@ import { RootState } from '../../store'
 import Card from './ProblemBlockCard'
 
 import buildPath from '../../path'
+import { useNavigate } from 'react-router-dom'
 
 import { Verdict, verdictInfo } from '../../utils/verdict'
 
@@ -62,9 +64,14 @@ function Status({ solved }: StatusProps) {
 
 // TODO: (Stretch Goal) Add copy button for samples
 export default function ProblemBlockCards({ problem }: { problem: Problem }) {
+  const navigate = useNavigate()
+
   const user = useSelector((state: RootState) => state.user)
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [solved, setSolved] = useState<boolean>(false)
+  const [problemCodeFile, setProblemCodeFile] = useState<string>('')
+  const [codeLang, setCodeLang] = useState<string>('')
+  const [errorText, setErrorText] = useState<string>('')
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -104,6 +111,58 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
     fetchSubmissions()
   }, [])
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        if (e.target && e.target.result) {
+          const fileExtension = file.name.split('.').pop()
+          if (fileExtension) {
+            let language = fileExtension.toLowerCase()
+            if (language === 'cxx' || language === 'cc') language = 'cpp'
+
+            const code = btoa(e.target.result.toString())
+            setCodeLang(language)
+            setProblemCodeFile(code)
+          }
+        }
+      }
+      reader.readAsText(file)
+    }
+  }
+
+  const submitCode = () => {
+    if (!problemCodeFile || !codeLang) {
+      setErrorText('Please select a file to upload!')
+      return
+    }
+    fetch(buildPath('/submit'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        source_code: problemCodeFile,
+        uid: user.id,
+        language_id: codeLang,
+        problem_id: problem.problemID,
+      }),
+    })
+      .then((res: Response) => {
+        if (res.ok) {
+          return res.json()
+        }
+
+        throw Error(res.statusText)
+      })
+      .then((data) => {
+        const token = data.token
+        navigate(`/submissions/${token}`)
+      })
+      .catch((error: Error) => {
+        setErrorText(error.message)
+      })
+  }
+
   return (
     <>
       <Stack>
@@ -135,10 +194,27 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             }}
           >
             {user.signedIn ? (
-              <>
-                <Button>Choose file</Button>
-                <Button>Submit</Button>
-              </>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
+                <label htmlFor="problemCodeFile">
+                  <input
+                    id="problemCodeFile"
+                    type="file"
+                    accept=".c, .cpp, .cxx, .cc, .java, .py"
+                    onChange={handleFileChange}
+                  />
+                </label>
+                <Button variant="contained" onClick={submitCode}>
+                  Submit
+                </Button>
+              </Box>
             ) : (
               <Button>
                 <Link
@@ -310,6 +386,29 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
           </Stack>
         </Card>
       </Stack>
+      <Dialog
+        open={!!errorText}
+        onClose={() => {
+          setErrorText('')
+        }}
+        sx={{ borderRadius: '15px' }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            p: '30px',
+          }}
+        >
+          <Typography variant="h4" gutterBottom>
+            Submission Error
+          </Typography>
+          <Typography variant="body1" color="error">
+            {errorText}
+          </Typography>
+        </Box>
+      </Dialog>
     </>
   )
 }
