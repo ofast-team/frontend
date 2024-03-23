@@ -1,0 +1,14 @@
+<MCQBlock question = "You are working on a problem that takes in an array of up to $10^5$ elements. Which of the following
+runtimes would be appropriate to solve this problem? Assume a 1 second time limit."
+answerOptions ={[
+'$O(n)$',
+'$O(nlogn)$',
+'$O(n^2)$',
+'$O(n^3)$']}
+optionVerdicts = {[true, true, false, false]}
+hint = "Plug in $10^5$ for $n$ and see how many operations each solution requires. Assume a limit of $10^8$."
+explanation= "$O(n)$ would be fine. $10^5$ operations is far less than $10^8$. It takes $O(n)$ just to read the input.\
+$O(nlogn)$ would also be fine. $\log_2{(10^5)} < 20$, so the number of operations would be $\approx2\times10^6$.\
+$O(n^2)$ or larger would be too slow. $(10^5)^2 = 10^{10}$ which would take $\approx100$ seconds to run."
+
+/>

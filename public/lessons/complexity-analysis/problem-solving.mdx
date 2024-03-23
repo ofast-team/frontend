@@ -1,0 +1,22 @@
+## Planning a Solution
+
+When looking at a new problem on $O(fast)$ or in a programming contest, take a careful look at the time limit and the input specification to determine what time complexity will be necessary to solve it.
+
+A helpful rule-of-thumb in competitive programming is that computers can perform around $10^8$ operations in a second.
+You'll gain a better intuition for how much you can push this limit as you solve more problems.
+
+
+Take a look at this screenshot from the Two-Sum problem on O(fast):
+<img src="/lessons/complexity-analysis/assets/input_spec.png" alt="Screenshot of Input Specification from Two-Sum problem on O(fast)" width="80%"/>
+In this problem, the array's length (n) can be up to $10^4$. If our time limit is 2 seconds, we would need to find an algorithm that performs $2*10^8$ operations or less.
+
+<table width = "550px">
+    <tr><th>Big-O</th><th>Number of Operations</th><th>Estimated Runtime</th></tr>
+    <tr><td>$O(n)$</td><td>$\approx10^4$</td><td>\< 1 millisecond</td></tr>
+    <tr><td>$O(nlogn)$</td><td>$\approx 10^5$</td><td>1 millisecond</td></tr>
+    <tr><td>$O(n^2)$</td><td>$\approx10^8$</td><td>1 second</td></tr>
+    <tr><td>$O(n^3)$</td><td>$\approx10^{12}$</td><td>3 hours</td></tr>
+</table>
+\
+For this constraint, an solution that is $O(n^2)$ or better will work. One solution could be to check every pair of indices.
+Can you think of a faster way?
