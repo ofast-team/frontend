@@ -1,0 +1,29 @@
+# Data types
+
+When programming, we have many different types of data we can use, for example, strings, integers, floats, arrays etc.
+Here we are going to introduce these few, but there are many more data structures that are not built in that we make use of in competitive programming.
+
+## Numbers
+
+There are two types of numbers that we use in programming, integers and floats.  Integers are the numbers you can count, or whole numbers.
+Here are the types of integers used in C++, how many bits they use, and their largest/smallest values.
+- `int` is the most common declaration for integers, it uses 32 bits, has a max value of 2147483647, and a min value of -2147483648.
+- `short` is not recommended to be used, it has 16 bits, a max value of 32767, and a min value of -32768
+- `long long` is good for if you are working with larger values, it uses 64 bits, has a max value of 9,223,372,036,854,775,807, and a min value of 9,223,372,036,854,775,807
+- `unsigned int` also uses 32 bits, but it does not have negative values, it has a max value of 4,294,967,295, and a min value of 0.
+- `unsigned long long` uses 64 bits and does not inlcude negative values, it has a max value of 18446744073709551615, and a min value of 0.
+
+If you are ever getting a runtime error, it might be worth trying to switch an `int` to a `long long` just in case overflow is causing your issue.
+
+We also have floating point numbers.  These are for values that may not be whole, but they can cover a much larger range of values.
+- `float` use 32 bits and have a max value of 3.402823466 * $10^{38}$ and a min value of 1.175494351 * $10^{-38}$
+- `double` use 64 bits and are the most common way of declaring floating point values, they have a max value of 1.79769313486231570 * $10^{308}$ and a min value of 2.2250738585072014 * $10^{-308}$
+- `long double` use 128 bits and can be used for mor accurate calculations,  they have a max value of 1.7976931348623157 * $10^{308}$ and their minimum value depends on the system.
+
+## Characters
+
+Characters are a data structure for representing characters that are usually typable or have some significant meaning.  They coorespond with ASCII values as shown below.
+
+<p align="center">
+<img src="/lessons/intro-to-cpp/source/image.png"/>
+</p>

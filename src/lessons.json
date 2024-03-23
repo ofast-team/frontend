@@ -37,5 +37,15 @@
     "lessonName": "Stacks & Queues",
     "lessonGroup": "Intro Data Structures",
     "files": []
+  },
+  "intro-to-cpp": {
+    "lessonName": "Intro to C++",
+    "lessonGroup": "Intro to Competitive Programming",
+    "files": [
+      "intro.mdx",
+      "input-output.mdx",
+      "conditionals.mdx",
+      "datastructures.mdx"
+    ]
   }
 }

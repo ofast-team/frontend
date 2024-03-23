@@ -1,0 +1,38 @@
+# Why C++?
+
+Many of the examples you will find on O(fast) are written in C++.  This is for a few reasons.
+C++ is a fast language since it has access to many low-level operations.
+It also has a wide variety of built-in data structures useful in competitive programming.
+You also get the choice to manage memory yourself, similar to C, but without a lot of the nuance that comes with programming in C.
+Overall, we believe that coding in C++ is beneficial in your journey of competitive programming.
+If you don’t know much about C++, this section will help you learn the basics.
+
+# Template
+
+The first thing you should do when writing code in C++ is make sure that you have a template to work with.
+This is the basic structure that your template should follow:
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    return 0;
+}
+```
+
+`bits/stdc++.h` is an all-encompassing library that contains almost all of the data structures that we use in
+competitive programming.(WARNING for Mac users, this is not included in your G++ compiler and you may have to create the header file yourself)
+
+`using namespace std;`  allows us to have access to many builtin functions that make competitive programming easier.
+It also allows us to write more concise code.
+
+`ios_base::sync_with_stdio(false);`
+`cin.tie(NULL);`
+These two lines are used for fast i/o.  How they work is not too important, but we include it in our programs in case
+we are outputting a lot of information, and this speeds it up drastically.
+
+We `return 0;` at the end of the program because it is the standard way of exiting the main function.  If you choose to
+return a non-zero value, you may run into runtime errors on many judges.
