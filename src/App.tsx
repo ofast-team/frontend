@@ -21,6 +21,7 @@ import { RootState } from './store'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import VerificationBanner from './components/VerificationBanner'
 import SubmissionsList from './pages/SubmissionsList'
+import ForgotPassword from './pages/ForgotPassword'
 
 const theme = createTheme({
   typography: {
@@ -84,6 +85,7 @@ export function App() {
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgotPassword" element = {<ForgotPassword/>}/>
         <Route path="/submit" element={<SubmitPage />} />
         <Route path="/submissions/:submissionId" element={<VerdictPage />} />
         <Route path="/submissions" element={<SubmissionsList />} />
