@@ -96,8 +96,13 @@ export default function ForgotPassword() {
             m: 5,
           }}
         >
-          <IconButton sx={{ position: 'relative', bottom: 60, right: 60}} onClick={() => navigate('/login')}>
-            <ArrowBackIcon style = {{fontSize: '32px', color: 'black'}} ></ArrowBackIcon>
+          <IconButton
+            sx={{ position: 'relative', bottom: 60, right: 60 }}
+            onClick={() => navigate('/login')}
+          >
+            <ArrowBackIcon
+              style={{ fontSize: '32px', color: 'black' }}
+            ></ArrowBackIcon>
           </IconButton>
           <Stack spacing={3} alignItems={'center'}>
             <Typography variant="h3">Forgot Password</Typography>

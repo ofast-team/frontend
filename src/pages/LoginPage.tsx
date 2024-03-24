@@ -60,7 +60,7 @@ interface PasswordFieldProps {
   onKeyPress: (event) => void
 }
 
-export function PasswordField({setter, onKeyPress}: PasswordFieldProps) {
+export function PasswordField({ setter, onKeyPress }: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
@@ -134,7 +134,7 @@ export default function LoginPage() {
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      console.log("enter pressed")
+      console.log('enter pressed')
       loginWithEmailAndPassword(email, password)
     }
   }
@@ -156,7 +156,10 @@ export default function LoginPage() {
               variant="standard"
               onChange={(e) => setEmail(e.target.value)}
             ></TextField>
-            <PasswordField setter={setPassword} onKeyPress={handleKeyPress}></PasswordField>
+            <PasswordField
+              setter={setPassword}
+              onKeyPress={handleKeyPress}
+            ></PasswordField>
             <Box>
               <Typography
                 fontSize={'18px'}
@@ -176,10 +179,8 @@ export default function LoginPage() {
               <Link to="/register">
                 <Typography>Create an Account</Typography>
               </Link>
-               <Typography>
-                 | 
-               </Typography>
-               <Link to="/forgotPassword">
+              <Typography>|</Typography>
+              <Link to="/forgotPassword">
                 <Typography>Forgot Password</Typography>
               </Link>
             </Typography>
