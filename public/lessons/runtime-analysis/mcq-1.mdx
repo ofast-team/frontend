@@ -1,0 +1,10 @@
+<MCQBlock question = "If the exact number of steps in an algorithm is equal to $2n + 3n^2 + 1$, what is the Big-O?"
+answerOptions ={[
+'$O(3n^2)$',
+'$O(2n + 3n^2 + 1)$',
+'$O(n^2)$',
+'$O(n)$']}
+optionVerdicts = {[false, false, true, false]}
+hint = "Focus on the highest order term, and drop any constants attached to it."
+explanation= "Terms smaller than $n^2$ will not affect the growth of the runtime as n grows large, so we must remove the $2n$ and the $1$. We also remove any constant multipliers for the same reason."
+/>

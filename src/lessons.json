@@ -1,4 +1,23 @@
 {
+  "runtime-analysis": {
+    "lessonName": "Runtime Analysis",
+    "lessonGroup": "Intro Algo Design",
+    "files": [
+      "intro.mdx",
+      "analysing-code.mdx",
+      "mcq-1.mdx",
+      "mcq-2.mdx",
+      "problem-solving.mdx",
+      "mcq-3.mdx",
+      "mcq-4.mdx",
+      "takeaways-resources.mdx"
+    ]
+  },
+  "greedy": {
+    "lessonName": "Intro to Greedy",
+    "lessonGroup": "Intro Algo Design",
+    "files": []
+  },
   "dynamic-programming": {
     "lessonName": "Dynamic Programming",
     "lessonGroup": "Intro Algo Design",
@@ -13,21 +32,6 @@
       "mcq-2.mdx"
     ]
   },
-  "greedy": {
-    "lessonName": "Intro to Greedy",
-    "lessonGroup": "Intro Algo Design",
-    "files": []
-  },
-  "analysis": {
-    "lessonName": "Time & Memory Analysis",
-    "lessonGroup": "Intro Algo Design",
-    "files": []
-  },
-  "prefsum": {
-    "lessonName": "Prefix Sums",
-    "lessonGroup": "Intro Data Structures",
-    "files": []
-  },
   "lists": {
     "lessonName": "Lists & Vectors",
     "lessonGroup": "Intro Data Structures",
@@ -35,6 +39,11 @@
   },
   "stacks": {
     "lessonName": "Stacks & Queues",
+    "lessonGroup": "Intro Data Structures",
+    "files": []
+  },
+  "prefsum": {
+    "lessonName": "Prefix Sums",
     "lessonGroup": "Intro Data Structures",
     "files": []
   }
