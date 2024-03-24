@@ -19,6 +19,8 @@ import CircleLoadAnimation from '../components/CircleLoadAnimation'
 
 import { LoginButton } from '../pages/LoginPage'
 import { ProfileData } from '../pages/ProfilePage'
+import buildPath from '../path'
+import { useNavigate } from 'react-router-dom'
 
 export const ProfileButton = styled(Button)({
   padding: '0px 16px',
@@ -62,6 +64,9 @@ export default function ProfileCard({
   usernameStatus,
   emailStatus,
 }: ProfileCardProps) {
+
+  const navigate = useNavigate()
+
   const onTextFieldChange = (key, newString) => {
     setProfileData((prevData: ProfileData) => {
       return { ...prevData, [key]: newString }
@@ -70,6 +75,29 @@ export default function ProfileCard({
 
   const hasIssue = (str: string) => {
     return str !== 'Success' && str !== 'Not Updated'
+  }
+
+  function sendPasswordResetEmail() {
+    fetch(buildPath('/sendPasswordResetEmail'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((res: Response) => {
+        if (res.ok) {
+          return res.json()
+        }
+
+        throw Error(res.statusText)
+      })
+      .then((data) => {
+        if (data.message === 'success') {
+          navigate('/login', { replace: true })
+          return
+        }
+      })
+      .catch((error: Error) => {
+        console.log('Email delivery failed: ' + error.message)
+      })
   }
 
   return (
@@ -268,7 +296,7 @@ export default function ProfileCard({
           </Grid>
         </div>
       </Stack>
-      <LoginButton sx={{ fontSize: '20px', marginTop: '20px', width: '100%' }}>
+      <LoginButton sx={{ fontSize: '20px', marginTop: '20px', width: '100%' }} onClick = {() => sendPasswordResetEmail()}>
         Change Password
       </LoginButton>
     </Card>
