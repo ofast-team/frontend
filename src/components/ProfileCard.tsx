@@ -64,7 +64,6 @@ export default function ProfileCard({
   usernameStatus,
   emailStatus,
 }: ProfileCardProps) {
-
   const navigate = useNavigate()
 
   const onTextFieldChange = (key, newString) => {
@@ -81,7 +80,7 @@ export default function ProfileCard({
     fetch(buildPath('/sendPasswordResetEmail'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({isLoggedIn: true})
+      body: JSON.stringify({ isLoggedIn: true }),
     })
       .then((res: Response) => {
         if (res.ok) {
@@ -297,7 +296,10 @@ export default function ProfileCard({
           </Grid>
         </div>
       </Stack>
-      <LoginButton sx={{ fontSize: '20px', marginTop: '20px', width: '100%' }} onClick = {sendPasswordResetEmail}>
+      <LoginButton
+        sx={{ fontSize: '20px', marginTop: '20px', width: '100%' }}
+        onClick={sendPasswordResetEmail}
+      >
         Change Password
       </LoginButton>
     </Card>
