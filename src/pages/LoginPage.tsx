@@ -20,9 +20,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
-import GoogleIcon from '@mui/icons-material/Google'
-import GitHubIcon from '@mui/icons-material/GitHub'
-
 import buildPath from '../path'
 import { useDispatch } from 'react-redux'
 
@@ -49,12 +46,6 @@ export const LoginButton = styled(Button)({
   },
 })
 
-export const LoginWith3rdPartyButton = styled(LoginButton)({
-  border: '1px solid black',
-  color: 'black',
-  backgroundColor: 'white',
-})
-
 export const LinkButton = styled(Button)({
   background: 'none',
   border: 'none',
@@ -66,8 +57,10 @@ export const LinkButton = styled(Button)({
 
 interface PasswordFieldProps {
   setter: (string) => void
+  onKeyPress: (event) => void
 }
-function PasswordField(props: PasswordFieldProps) {
+
+export function PasswordField({setter, onKeyPress}: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
@@ -89,7 +82,8 @@ function PasswordField(props: PasswordFieldProps) {
             </IconButton>
           </InputAdornment>
         }
-        onChange={(e) => props.setter(e.target.value)}
+        onChange={(e) => setter(e.target.value)}
+        onKeyDown={(e) => onKeyPress(e)}
       />
     </FormControl>
   )
@@ -138,6 +132,13 @@ export default function LoginPage() {
       })
   }
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      console.log("enter pressed")
+      loginWithEmailAndPassword(email, password)
+    }
+  }
+
   return (
     <Box sx={{ p: 10 }}>
       <Container maxWidth="md">
@@ -155,32 +156,33 @@ export default function LoginPage() {
               variant="standard"
               onChange={(e) => setEmail(e.target.value)}
             ></TextField>
-            <PasswordField setter={setPassword}></PasswordField>
-            <Typography
-              fontSize={'18px'}
-              color={'red'}
-              visibility={hasInvalidCredentials ? 'visible' : 'hidden'}
-            >
-              Invalid Credentials, please try again.
-            </Typography>
+            <PasswordField setter={setPassword} onKeyPress={handleKeyPress}></PasswordField>
+            <Box>
+              <Typography
+                fontSize={'18px'}
+                color={'red'}
+                visibility={hasInvalidCredentials ? 'visible' : 'hidden'}
+              >
+                Invalid Credentials, please try again.
+              </Typography>
+            </Box>
             <LoginButton
               variant="outlined"
               onClick={() => loginWithEmailAndPassword(email, password)}
             >
               Log In
             </LoginButton>
-            <Typography>Or sign in with:</Typography>
-            <Box display={'flex'} gap={5}>
-              <LoginWith3rdPartyButton startIcon={<GoogleIcon />}>
-                Google
-              </LoginWith3rdPartyButton>
-              <LoginWith3rdPartyButton startIcon={<GitHubIcon />}>
-                GitHub
-              </LoginWith3rdPartyButton>
-            </Box>
-            <Link to="/register">
-              <Typography>Create an Account</Typography>
-            </Link>
+            <Typography display={'flex'} gap={2}>
+              <Link to="/register">
+                <Typography>Create an Account</Typography>
+              </Link>
+               <Typography>
+                 | 
+               </Typography>
+               <Link to="/forgotPassword">
+                <Typography>Forgot Password</Typography>
+              </Link>
+            </Typography>
           </Stack>
         </Paper>
       </Container>
