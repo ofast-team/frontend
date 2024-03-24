@@ -8,7 +8,7 @@ Here are some tips for approximating an algorithm's time complexity:
 
 Take a look at the following examples. For each function, use the above steps to determine its Big-O:
 
-### Linear Example
+### Counting Example
 ```c++
 int solve(int n) {
    int total = 0;
@@ -25,7 +25,7 @@ int solve(int n) {
 
 We will drop the coefficient and call it $O(n).$ Its still a straight line, just a steeper one.
 
-### Logarithmic Example
+### Powers of 2 Example
 ```c++
 void watchMeLoop(int n) {
    int power = 1;
@@ -41,7 +41,7 @@ The number of iterations is logarithmic with respect to $n$. This function runs 
 Runtimes of $log(n)$ typically refer to base 2 because base 2 is the most common in computer science,
 but a logarithm of any base should be expressed as $O(log(n))$.
 
-### Quadratic Example
+### Checking Duplicates Example
 This function takes in an array of length $n$ as input. We'll look at its runtime with respect to the array's length.
 ```c++
 bool containsDuplicates(vector<int> array) {
@@ -79,4 +79,3 @@ Therefore, $S = \frac{n(n - 1)}{2} = \frac{n^2 - n}{2}$
 To convert this to Big-O notation, we need to remove any constant factors and non-dominant terms.
 
 We remove the $\frac{1}{2}$ and the $n$ and get $O(n^2)$.
-
