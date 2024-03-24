@@ -1,0 +1,13 @@
+<MCQBlock question = "A helpful assumption to make in competitive programming is that computers can perform around $10^8$ operations in a second.\
+You came up with an algorithm to solve a problem on ofast. Its time complexity is $O(n^3)$. Which is the largest input size ($n$) you could support if the program must run in under a second?"
+answerOptions ={[
+'$n = 30$',
+'$n = 300$',
+'$n = 3000$',
+'$n = 30,000$']}
+optionVerdicts = {[false, true, false, false]}
+hint = "If the input size is $n$, then the algorithm will perform $\approx{n^3}$ operations."
+explanation= "$300^3 = 27,000,000$, or $2.7*10^7$, which is safely under $10^8$.\
+However,\
+$3000^3 = 27,000,000,000$, or $2.7*10^{10}$ which far exceeds $10^8$ "
+/>

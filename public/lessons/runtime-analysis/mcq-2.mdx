@@ -1,0 +1,22 @@
+
+<MCQBlock question="What is the Big-O runtime of this function?
+```c++
+    bool isPalendrome(string str)
+‎   int n = str.length()
+‎   for (int i = 0; i < n / 2; i++)
+‎       if (str[i] != str[n - i - 1])
+‎           return false;
+‎       }
+‎   }
+‎   return true;
+}
+```"
+  answerOptions={[
+    '$O(1)$',
+    '$O(\\frac{n}{2})$',
+    '$O(n)$',
+  ]}
+  optionVerdicts={[false, false, true]}
+  hint="Consider the worst case scenario, where the string is a palendrome.\ Be sure to drop any constants terms in your result."
+  explanation="In the worst case, the for loop runs $\frac{n}{2}$ times. We drop the constant multipler of $\frac{1}{2}$ to arrive at $O(n)$"
+/>

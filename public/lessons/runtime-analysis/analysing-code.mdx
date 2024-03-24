@@ -1,0 +1,81 @@
+## Analysing Code
+In a moment, we'll take a look at a few code examples and estimate their runtime using Big-O.
+
+Here are some tips for approximating an algorithm's time complexity:
+1. Ask yourself: "What will happen in the worst case?"
+2. Find the statement executed the most, and count how many times it occurs. This is an approximation of the runtime.
+3. Drop any constants from your approximation and take only the highest-order term as the Big-O runtime. 
+
+Take a look at the following examples. For each function, use the above steps to determine its Big-O:
+
+### Counting Example
+```c++
+int solve(int n) {
+   int total = 0;
+   for (int i = 1; i < 4 * n; i++) {
+      total += i;
+   }
+
+   return total;
+} 
+```
+- The function contains a for-loop that iterates $4n$ times.
+- ```total += i``` is considered 2 steps of work (addition and assignment).
+- So we could say this function is doing $\approx{8n}$ steps of work.
+
+We will drop the coefficient and call it $O(n).$ Its still a straight line, just a steeper one.
+
+### Powers of 2 Example
+```c++
+void watchMeLoop(int n) {
+   int power = 1;
+   while (power < n) {
+      power *= 2;
+   }
+} 
+```
+
+- This time, ```power``` approaches n exponentially
+
+The number of iterations is logarithmic with respect to $n$. This function runs in $log(n)$ time.\
+Runtimes of $log(n)$ typically refer to base 2 because base 2 is the most common in computer science,
+but a logarithm of any base should be expressed as $O(log(n))$.
+
+### Checking Duplicates Example
+This function takes in an array of length $n$ as input. We'll look at its runtime with respect to the array's length.
+```c++
+bool containsDuplicates(vector<int> array) {
+   for (int i = 0; i < arr.size(); i++) {
+      for (int j = i + 1; j < arr.size(); j++) {
+         if (array[i] == array[j]) {
+            return true;
+         }
+      }
+   }
+
+   return false;
+}
+```
+- This algorithm stops as soon as the condition on line 4 is true. However, we should only consider the worst-case.
+- In the worst case, every pair of indices is checked.
+- The inner loop doesn't always run $n$ times like the outer loop does. It runs $n-1$ times, then $n-2$ times, and so on.
+
+The runtime of this algorithm is still $O(n^2)$, but how do we know this mathematically? 
+
+Let's examine the sum $ S = (n-1) + (n - 2) + (n - 3) +  \dots  + 2 + 1$, where $S$ is the number of times the inner loop runs.
+
+
+We can add $S$ to itself, rearranging the terms like so:
+
+$S = (n-1) + (n - 2) + (n - 3) +  \dots  + \hspace{0.5cm}2\hspace{0.5cm} +\hspace{0.5cm} 1$\
+$S = \hspace{0.6cm}1\hspace{0.6cm}+\hspace{0.6cm}2\hspace{0.6cm}+\hspace{0.6cm}3\hspace{0.6cm}+\dots+(n-2)+(n-1)$
+
+<hr style = {{marginLeft: 0, width: 640}}></hr>
+
+$2S = \hspace{0.3cm}n\hspace{0.6cm} +\hspace{0.6cm} n\hspace{0.6cm} +\hspace{0.6cm} n \hspace{0.6cm}+ \dots + \hspace{0.6cm}n\hspace{0.6cm} +\hspace{0.6cm} n \hspace{0.6cm}=\hspace{0.6cm} n(n - 1)$
+
+Therefore, $S = \frac{n(n - 1)}{2} = \frac{n^2 - n}{2}$
+
+To convert this to Big-O notation, we need to remove any constant factors and non-dominant terms.
+
+We remove the $\frac{1}{2}$ and the $n$ and get $O(n^2)$.
