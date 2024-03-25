@@ -25,5 +25,19 @@ We also have floating point numbers.  These are for values that may not be whole
 Characters are a data structure for representing characters that are usually typable or have some significant meaning.  They coorespond with ASCII values as shown below.
 
 <p align="center">
-<img src="/lessons/intro-to-cpp/source/image.png"/>
+<img src="/lessons/intro-to-cpp/source/ascii.png"/>
 </p>
+
+## Strings
+
+Strings are a data structure for a list of characters.  They work as a vector of characters (which we will get into next) and are very powerful for programming.
+
+## Arrays
+Every data type can have an array created for it, for example an integer array can be declared with `int[SIZE] numbers;` where `SIZE` is the size of your array.
+These are used to store many of one data type, and can be multi dimensional.
+The biggest issue when using arrays is that their size must be fixed, but they are much faster than vectors, which we will get into next.
+
+## Vectors
+Vectors are a powerful tool and are dynamic arrays.  Their size expands as they grow and you can make vectors of every type.
+To make a vector of integers, you would use `vector<int> numbers(n);`  Where `n` is optional and displays the size of the vector you will be using (which can still be expanded upon).
+To get the size of a vector named numbers you would use `numbers.size()`.
