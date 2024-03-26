@@ -2,10 +2,10 @@ export type Problem = {
   problemID: string
   status: string
   title: string
-  timeLimit: number
-  memoryLimit: number
-  author: string
-  source: string
+  timeLimit?: number
+  memoryLimit?: number
+  author?: string
+  source?: string
   text: string
   problem: string
   input: string
