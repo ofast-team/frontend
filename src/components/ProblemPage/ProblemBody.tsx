@@ -4,7 +4,7 @@ import { Grid, Box, Typography } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import MDX from '../MDXRenderer'
-import { Problem } from './ProblemBlock'
+import { Problem } from '../../objects/Problems'
 
 function doubleNewlines(inputString: string): string {
   // Use regular expression to match newline characters and replace them with two newline characters
