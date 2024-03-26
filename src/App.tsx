@@ -10,7 +10,7 @@ import LearnPage from './pages/LearnPage'
 import NavBar from './components/NavBar'
 import LessonPage from './pages/LessonPage'
 import SolvePage from './pages/SolvePage'
-import MDXPlaygroundPage from './pages/MDXPlaygroundPage'
+import PlaygroundPage from './pages/PlaygroundPage'
 import ProblemPage from './pages/ProblemPage'
 import ProfilePage from './pages/ProfilePage'
 import SubmitPage from './pages/SubmitPage'
@@ -89,7 +89,7 @@ export function App() {
         <Route path="/submit" element={<SubmitPage />} />
         <Route path="/submissions/:submissionId" element={<VerdictPage />} />
         <Route path="/submissions" element={<SubmissionsList />} />
-        <Route path="/playground" element={<MDXPlaygroundPage />} />
+        <Route path="/playground" element={<PlaygroundPage />} />
         <Route
           path="/profile"
           element={

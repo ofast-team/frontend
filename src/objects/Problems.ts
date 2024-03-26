@@ -1,6 +1,6 @@
 export type Problem = {
   problemID: string
-  status: string
+  status?: string
   title: string
   timeLimit?: number
   memoryLimit?: number
@@ -23,7 +23,7 @@ export type Problem = {
 
 export type ProblemMetaData = {
   problemID: string
-  status: string
+  status?: string
   title: string
   tags: string[]
 }
