@@ -86,3 +86,41 @@ edge between vertices $u$ and $v$. Here is the adjacency matrix for the same gra
   </tr>
 </table>
 
+<MCQBlock
+  question="
+  In an adjacency list representation of the following graph, which option corresponds to the list 
+  `adj[3]`?
+  <Graph
+    id='mcqgraph'
+    data={{
+      nodes: [
+        { id: 0 }, 
+        { id: 1 }, 
+        { id: 2 }, 
+        { id: 3 },
+        { id: 4 },
+      ],
+      edges: [
+        { source: 0, target: 1},
+        { source: 0, target: 2},
+        { source: 1, target: 2},
+        { source: 1, target: 3},
+        { source: 1, target: 4},
+        { source: 2, target: 3},
+        { source: 2, target: 4},
+        { source: 3, target: 4},
+      ]
+    }}
+  />
+  "
+  answerOptions={[
+    '$0, 1, 2, 4$',
+    '$1, 4$',
+    '$1, 2, 4$',
+    '$1, 2, 3$',
+  ]}
+  optionVerdicts={[false, false, true, false]}
+  hint="Which nodes are adjacent to node 3"
+  explanation="In an adjacency list representation, `adj[3]` will contain all the vertices that are 
+  adjacent to vertex 3. In this case, vertices 1, 2, and 4 are adjacent to vertex 3."
+/>
