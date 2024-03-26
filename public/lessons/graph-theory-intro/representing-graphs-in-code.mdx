@@ -6,12 +6,34 @@ code. There are two common ways to represent graphs in code: **adjacency list** 
 will depend on the problem at hand. However, in general, adjacency lists are preferred for sparse
 graphs (few edges), while adjacency matrices are preferred for dense graphs.
 
+
+Here is an example graph to help illustrate the two representations:
+
+<Graph
+  id="graph"
+  data={{
+    nodes: [
+      { id: 0 }, 
+      { id: 1 }, 
+      { id: 2 }, 
+      { id: 3 },
+    ],
+    edges: [
+      { source: 0, target: 1},
+      { source: 0, target: 2},
+      { source: 0, target: 3},
+      { source: 1, target: 2},
+      { source: 2, target: 3},
+    ]
+  }}
+/>
+
 ## Adjacency List
 
 An adjacency list is an array of lists. The size of the array is equal to the number of vertices in
 the graph. Let the array be `adj`. An entry `adj[u]` is a list that contains all the vertices that
 are adjacent to vertex `u`. For weighted graphs, the list can contain pairs of vertices and weights.
-Here is an example of an adjacency list for an undirected graph:
+Here is the adjacency list representation for the graph shown above:
 
 
 - $0: 1, 2, 3 $
@@ -63,3 +85,4 @@ edge between vertices $u$ and $v$. Here is the adjacency matrix for the same gra
     <td>0</td>
   </tr>
 </table>
+
