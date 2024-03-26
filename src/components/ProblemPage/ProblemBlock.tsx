@@ -4,28 +4,26 @@ import { Box } from '@mui/material'
 import ProblemBody from './ProblemBody'
 import ProblemBlockCards from './ProblemBlockCards'
 import { useProblemsObject } from '../ProblemProvider'
+import { Problem } from '../../objects/Problems'
 
-export type Problem = {
-  problemID: string
-  title: string
-  text: string
-  problem: string
-  input: string
-  output: string
-  sampleData: {
-    input: string
-    output: string
-  }[]
-  tags: string[]
-  resources: {
-    name: string
-    url: string
-  }[]
+interface ProblemBlockProps {
+  problemID?: string | null
+  problem?: Problem | null
 }
 
-export default function ProblemBlock({ problemID }: { problemID: string }) {
+export default function ProblemBlock({
+  problemID,
+  problem,
+}: ProblemBlockProps) {
+  if (problemID == null && problem == null) {
+    return <></>
+  }
+
   const problemsObject = useProblemsObject()
-  const problem: Problem | null = problemsObject.getProblem(problemID)
+
+  if (problemID != null) {
+    problem = problemsObject.getProblem(problemID)
+  }
 
   if (problem === null) {
     return <Box pt={15}>Problem not found</Box>
@@ -38,9 +36,7 @@ export default function ProblemBlock({ problemID }: { problemID: string }) {
         justifyContent: 'center',
       }}
     >
-      <Box>
-        <ProblemBody problem={problem} />
-      </Box>
+      <Box>{problem && <ProblemBody problem={problem} />}</Box>
 
       <Box
         sx={{
@@ -49,7 +45,7 @@ export default function ProblemBlock({ problemID }: { problemID: string }) {
           pt: '50px',
         }}
       >
-        <ProblemBlockCards problem={problem} />
+        {problem && <ProblemBlockCards problem={problem} />}
       </Box>
     </Box>
   )
