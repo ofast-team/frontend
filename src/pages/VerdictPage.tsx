@@ -342,7 +342,7 @@ export default function VerdictPage() {
               </Box>
             </SubmissionTableElem>
           </Grid>
-          <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
+          <Box sx={{ p: 2, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
             {testCases?.map((status) => {
               if (status == 3) {
                 return <CorrectIcon />
