@@ -16,7 +16,10 @@
   "graph-theory-intro": {
     "lessonName": "Intro to Graph Theory",
     "lessonGroup": "Graph Theory",
-    "files": ["intro.mdx"]
+    "files": [
+      "intro.mdx", 
+      "representing-graphs-in-code.mdx"
+    ]
   },
   "greedy": {
     "lessonName": "Intro to Greedy",
