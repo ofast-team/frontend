@@ -63,7 +63,6 @@ export default function ProfileCard({
   usernameStatus,
   emailStatus,
 }: ProfileCardProps) {
-
   const [resettingPassword, setResettingPassword] = useState<boolean>(false)
 
   const onTextFieldChange = (key, newString) => {
@@ -306,7 +305,9 @@ export default function ProfileCard({
         Reset Password
       </LoginButton>
       {resettingPassword && (
-        <Typography color = {'primary'} fontSize = {14} textAlign={'center'}>An email was sent to your inbox to reset your password.</Typography>
+        <Typography color={'primary'} fontSize={14} textAlign={'center'}>
+          An email was sent to your inbox to reset your password.
+        </Typography>
       )}
     </Card>
   )
