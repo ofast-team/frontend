@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Avatar,
   Box,
@@ -20,7 +20,6 @@ import CircleLoadAnimation from '../components/CircleLoadAnimation'
 import { LoginButton } from '../pages/LoginPage'
 import { ProfileData } from '../pages/ProfilePage'
 import buildPath from '../path'
-import { useNavigate } from 'react-router-dom'
 
 export const ProfileButton = styled(Button)({
   padding: '0px 16px',
@@ -64,7 +63,8 @@ export default function ProfileCard({
   usernameStatus,
   emailStatus,
 }: ProfileCardProps) {
-  const navigate = useNavigate()
+
+  const [resettingPassword, setResettingPassword] = useState<boolean>(false)
 
   const onTextFieldChange = (key, newString) => {
     setProfileData((prevData: ProfileData) => {
@@ -77,6 +77,10 @@ export default function ProfileCard({
   }
 
   const sendPasswordResetEmail = () => {
+    if (resettingPassword) {
+      return
+    }
+
     fetch(buildPath('/sendPasswordResetEmail'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -91,8 +95,7 @@ export default function ProfileCard({
       })
       .then((data) => {
         if (data.message === 'success') {
-          navigate('/login', { replace: true })
-          return
+          setResettingPassword(true)
         }
       })
       .catch((error: Error) => {
@@ -297,11 +300,14 @@ export default function ProfileCard({
         </div>
       </Stack>
       <LoginButton
-        sx={{ fontSize: '20px', marginTop: '20px', width: '100%' }}
+        sx={{ fontSize: '20px', marginTop: '20px', width: '100%', mb: 1 }}
         onClick={sendPasswordResetEmail}
       >
-        Change Password
+        Reset Password
       </LoginButton>
+      {resettingPassword && (
+        <Typography color = {'primary'} fontSize = {14} textAlign={'center'}>An email was sent to your inbox to reset your password.</Typography>
+      )}
     </Card>
   )
 }
