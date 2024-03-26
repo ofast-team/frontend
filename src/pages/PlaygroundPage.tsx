@@ -3,11 +3,11 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { Box, Typography } from '@mui/material'
 
-import MDXTab from '../components/MDXPlaygroundPage/MDXTab'
-import ProblemCreatorTab from '../components/MDXPlaygroundPage/ProblemCreatorTab'
+import MDXTab from '../components/PlaygroundPage/MDXTab'
+import ProblemCreatorTab from '../components/PlaygroundPage/ProblemCreatorTab'
 
 export default function PlaygroundPage() {
-  const [tabIndex, setTabIndex] = useState<number>(1)
+  const [tabIndex, setTabIndex] = useState<number>(0)
 
   const handleTabChange = (
     _event: React.SyntheticEvent,

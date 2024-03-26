@@ -24,7 +24,7 @@ export default function ProblemCreatorTab() {
     input: '',
     output: '',
     sampleData: [],
-    tags: [''],
+    tags: [],
     resources: [],
   })
 
