@@ -6,11 +6,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import MDX from '../MDXRenderer'
 import { Problem } from './ProblemBlock'
 
-function doubleNewlines(inputString: string): string {
-  // Use regular expression to match newline characters and replace them with two newline characters
-  return inputString.replace(/\n/g, '\n\n')
-}
-
 const dataTheme = createTheme({
   typography: {
     fontFamily: 'Source Code Pro, monospace',
@@ -21,7 +16,7 @@ interface ProblemBodyProps {
   problem: Problem
 }
 
-// TODO: (Stretch Goal) Add copy button for samples
+// TODO: Add copy button for samples
 export default function ProblemBody({ problem }: ProblemBodyProps) {
   return (
     <>
@@ -62,16 +57,17 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                   <Box
                     sx={{
                       padding: '10px',
-                      paddingTop: '15px',
                       height: '100%',
                     }}
                   >
                     <Typography
                       className="themeborder"
                       component="span"
-                      sx={{ lineHeight: 0.5 }}
+                      sx={{ lineHeight: 1.5 }}
                     >
-                      <MDX value={doubleNewlines(input)} />
+                      {input.split('\n').map((line, i) => (
+                        <div key={i}>{line}</div>
+                      ))}
                     </Typography>
                   </Box>
                 </Grid>
@@ -80,7 +76,6 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                   <Box
                     sx={{
                       padding: '10px',
-                      paddingTop: '15px',
                       borderLeft: 'solid 1px',
                       height: '100%',
                     }}
@@ -88,9 +83,11 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                     <Typography
                       className="themeborder"
                       component="span"
-                      sx={{ lineHeight: 0.5 }}
+                      sx={{ lineHeight: 1.5 }}
                     >
-                      <MDX value={doubleNewlines(output)} />
+                      {output.split('\n').map((line, i) => (
+                        <div key={i}>{line}</div>
+                      ))}
                     </Typography>
                   </Box>
                 </Grid>
