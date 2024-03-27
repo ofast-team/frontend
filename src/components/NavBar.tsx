@@ -90,9 +90,6 @@ function LoggedInUser() {
             <Typography textAlign="center">{'Profile'}</Typography>
           </MenuItem>
         </Link>
-        <MenuItem key={'Groups'} onClick={handleCloseUserMenu}>
-          <Typography textAlign="center">{'Groups'}</Typography>
-        </MenuItem>
         <MenuItem
           key={'Logout'}
           onClick={() => {
