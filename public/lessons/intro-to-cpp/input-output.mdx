@@ -114,8 +114,7 @@ The code below scans in strings until there is no more input, and outputs them w
 using namesapce std;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(0)->sync_with_stdio(0);
 
     string s;
     while (getline(cin, s)) {

@@ -44,7 +44,7 @@
     "files": [
       "intro.mdx",
       "input-output.mdx",
-      "io-fitbq.mdx",
+      "io-fitb.mdx",
       "conditionals.mdx",
       "datastructures.mdx"
     ]

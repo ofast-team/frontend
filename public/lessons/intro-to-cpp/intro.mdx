@@ -2,10 +2,10 @@
 
 Many of the examples you will find on O(fast) are written in C++.  This is for a few reasons.
 C++ is a fast language since it has access to many low-level operations.
-It also has a wide variety of built-in data structures useful in competitive programming.
+It also has a standard library with a variety of built-in data structures and algorithms useful in competitive programming.
 You also get the choice to manage memory yourself, similar to C, but without a lot of the nuance that comes with programming in C.
 Overall, we believe that coding in C++ is beneficial in your journey of competitive programming.
-If you don’t know much about C++, this section will help you learn the basics.
+If you are new to C++, this section will help you learn the basics.
 
 # Template
 
@@ -17,8 +17,7 @@ This is the basic structure that your template should follow:
 using namespace std;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(0)->sync_with_stdio(0);
     return 0;
 }
 ```
@@ -29,9 +28,8 @@ competitive programming.(WARNING for Mac users, this is not included in your G++
 `using namespace std;`  allows us to have access to many builtin functions that make competitive programming easier.
 It also allows us to write more concise code.
 
-`ios_base::sync_with_stdio(false);`
-`cin.tie(NULL);`
-These two lines are used for fast i/o.  How they work is not too important, but we include it in our programs in case
+`cin.tie(0)->sync_with_stdio(0);`
+This line is used for fast i/o.  How it works isn't very important, but we include it in our programs in case
 we are outputting a lot of information, and this speeds it up drastically.
 
 We `return 0;` at the end of the program because it is the standard way of exiting the main function.  If you choose to
@@ -40,6 +38,8 @@ return a non-zero value, you may run into runtime errors on many judges.
 
 # Compiling and Running
 
-C++ code needs to be compiled before running.  To do this you should use `g++ hello.cpp` at the command line where `hello.cpp` is the name of your file.
+C++ code needs to be compiled before running.  To do this you should use `g++ hello.cpp -O2 -std=c++17` at the command line where `hello.cpp` is the name of your file.
+`-O2` gives some compiler optimizations making your code run faster.
+`-std=c++17` ensures that we are running C++ version 17 which is the version we use on O(fast).
 To run the program on Linux or Mac use `./a.out`.  If you are using Windows, we recommend using [Windows Subsystem for Linux](https://ubuntu.com/desktop/wsl).
 You can also name your program something else using `-o` like so: `g++ hello.cpp -o hello`.  Then to run this program you run `./hello`.

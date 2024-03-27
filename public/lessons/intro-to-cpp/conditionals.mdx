@@ -12,8 +12,7 @@ This program takes in an integer and outputs if it is our favorite number (11), 
 using namesapce std;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(0)->sync_with_stdio(0);
 
     int value;
     cin >> value;
@@ -51,8 +50,7 @@ Here we have a countdown program as an example.
 using namesapce std;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(0)->sync_with_stdio(0);
 
     int i = 10;
     
@@ -78,9 +76,7 @@ This example prints out the numbers 1 through 10.
 using namesapce std;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
+    cin.tie(0)->sync_with_stdio(0);
     for (int i = 1; i <= 10; i++) {
         cout << i << endl;
     }
@@ -100,9 +96,8 @@ You can also nest loops (put them inside of each other) as shown below.
 using namespace std;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
+    cin.tie(0)->sync_with_stdio(0);
+    
     for (int i = 1; i <= 10; i++) {
         for (int j = 0; j < 3; j++) {
             cout << i << " " << j << endl;
