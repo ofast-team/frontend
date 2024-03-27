@@ -7,37 +7,74 @@ Here we are going to introduce these few, but there are many more data structure
 
 There are two types of numbers that we use in programming, integers and floats.  Integers are the numbers you can count, or whole numbers.
 Here are the types of integers used in C++, how many bits they use, and their largest/smallest values.
-- `int` is the most common declaration for integers, it uses 32 bits, has a max value of 2147483647, and a min value of -2147483648.
-- `short` is not recommended to be used, it has 16 bits, a max value of 32767, and a min value of -32768
-- `long long` is good for if you are working with larger values, it uses 64 bits, has a max value of 9,223,372,036,854,775,807, and a min value of 9,223,372,036,854,775,807
-- `unsigned int` also uses 32 bits, but it does not have negative values, it has a max value of 4,294,967,295, and a min value of 0.
-- `unsigned long long` uses 64 bits and does not inlcude negative values, it has a max value of 18446744073709551615, and a min value of 0.
 
-If you are ever getting a runtime error, it might be worth trying to switch an `int` to a `long long` just in case overflow is causing your issue.
+| Data Type            | # of Bits | Min Value                  | Max Value                  | Use Case                                                              |
+|----------------------|-----------|----------------------------|----------------------------|-----------------------------------------------------------------------|
+| `int`                | 32        | -2,147,483,648             | 2,147,483,647              | When working with "average" sized numbers                             |
+| `short`              | 16        | -32,768                    | 32,767                     | Don't                                                                 |
+| `long long`          | 64        | -9,223,372,036,854,775,808 | 9,223,372,036,854,775,807  | When numbers can overflow an integer, but won't overflow `long longs` |
+| `unsigned int`       | 32        | 0                          | 4,294,967,295              | Most of the time you won't need this                                  |
+| `unsigned long long` | 64        | 0                          | 18,446,744,073,709,551,615 | If you need just a few more bits than `long long`                     |
+
+If you are ever getting a runtime error, it might be worth trying to switch your `int` values to `long long` values just in case overflow is causing your issue.
 
 We also have floating point numbers.  These are for values that may not be whole, but they can cover a much larger range of values.
-- `float` use 32 bits and have a max value of 3.402823466 * $10^{38}$ and a min value of 1.175494351 * $10^{-38}$
-- `double` use 64 bits and are the most common way of declaring floating point values, they have a max value of 1.79769313486231570 * $10^{308}$ and a min value of 2.2250738585072014 * $10^{-308}$
-- `long double` use 128 bits and can be used for mor accurate calculations,  they have a max value of 1.7976931348623157 * $10^{308}$ and their minimum value depends on the system.
+The biggest difficulty when working with floating point values is that they are not very accurate on computers, but by increasing the number of bits used, we can get more accurate values.
+
+<p align="center">
+| Data Type     | # of Bits | Accuracy |
+|---------------|-----------|----------|
+| `float`       | 32        | Lowest   |
+| `double`      | 64        | Decent   |
+| `long double` | 128       | Best     |
+</p>
+
+In general, when working with floating point values, you will want to work with `double` and `long double` since they provide the most accuracy.
 
 ## Characters
 
-Characters are a data structure for representing characters that are usually typable or have some significant meaning.  They coorespond with ASCII values as shown below.
+Characters are a data structure for representing characters that are usually typable or have some significant meaning.
+They coorespond with ASCII values as shown below.  They typically use 8  bits.
 
-<p align="center">
-<img src="/lessons/intro-to-cpp/source/ascii.png"/>
-</p>
+```console
+    0 NUL    16 DLE    32      48 0    64 @    80 P    96 `   112 p 
+    1 SOH    17 DC1    33 !    49 1    65 A    81 Q    97 a   113 q 
+    2 STX    18 DC2    34 "    50 2    66 B    82 R    98 b   114 r 
+    3 ETX    19 DC3    35 #    51 3    67 C    83 S    99 c   115 s 
+    4 EOT    20 DC4    36 $    52 4    68 D    84 T   100 d   116 t 
+    5 ENQ    21 NAK    37 %    53 5    69 E    85 U   101 e   117 u 
+    6 ACK    22 SYN    38 &    54 6    70 F    86 V   102 f   118 v 
+    7 BEL    23 ETB    39 '    55 7    71 G    87 W   103 g   119 w 
+    8 BS     24 CAN    40 (    56 8    72 H    88 X   104 h   120 x 
+    9 HT     25 EM     41 )    57 9    73 I    89 Y   105 i   121 y 
+   10 LF     26 SUB    42 *    58 :    74 J    90 Z   106 j   122 z 
+   11 VT     27 ESC    43 +    59 ;    75 K    91 [   107 k   123 { 
+   12 FF     28 FS     44 ,    60 <    76 L    92 \   108 l   124 | 
+   13 CR     29 GS     45 -    61 =    77 M    93 ]   109 m   125 } 
+   14 SO     30 RS     46 .    62 >    78 N    94 ^   110 n   126 ~ 
+   15 SI     31 US     47 /    63 ?    79 O    95 _   111 o   127 DEL
+```
 
 ## Strings
 
-Strings are a data structure for a list of characters.  They work as a vector of characters (which we will get into next) and are very powerful for programming.
+Strings are a data structure for a list of characters.
+They work as a vector of characters (which we will get into soon) and are very powerful for programming.
 
 ## Arrays
 Every data type can have an array created for it, for example an integer array can be declared with `int[SIZE] numbers;` where `SIZE` is the size of your array.
-These are used to store many of one data type, and can be multi dimensional.
-The biggest issue when using arrays is that their size must be fixed, but they are much faster than vectors, which we will get into next.
+These are used to store many of one data type, and can be multi dimensional by adding another set of brackets like so `int[N][M] table`.
+The biggest issue when using arrays is that their size must be fixed, but they are faster than vectors.
 
 ## Vectors
-Vectors are a powerful tool and are dynamic arrays.  Their size expands as they grow and you can make vectors of every type.
+Vectors are dynamic arrays, similar to `ArrayList` in java.  Their size expands as they grow and you can make vectors of every type.
 To make a vector of integers, you would use `vector<int> numbers(n);`  Where `n` is optional and displays the size of the vector you will be using (which can still be expanded upon).
 To get the size of a vector named numbers you would use `numbers.size()`.
+To add to the end of a vector, you can use `numbers.push_back(x)` where `x` is the value you are appending.
+You can access vectors like arrays by using `numbers[i]` where `i` is the 0-based index of the array.
+To make a multidimensional vector, it is a little complicated but you get used to it.  `vector<vector<int>> table(n, vector<int>(m));`.
+This gives us an $n \times m$ array.
+
+There are many more things you can do with vectors, but these are just the basics to get you started.
+
+Hopefully now you know a bit more about C++, and can start practicing.  Following are a few basic problems to get you started.
+As with all programming languages, the best thing you can do to learn is to practice, so have fun!

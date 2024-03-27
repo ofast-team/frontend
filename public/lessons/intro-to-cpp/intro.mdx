@@ -36,3 +36,10 @@ we are outputting a lot of information, and this speeds it up drastically.
 
 We `return 0;` at the end of the program because it is the standard way of exiting the main function.  If you choose to
 return a non-zero value, you may run into runtime errors on many judges.
+
+
+# Compiling and Running
+
+C++ code needs to be compiled before running.  To do this you should use `g++ hello.cpp` at the command line where `hello.cpp` is the name of your file.
+To run the program on Linux or Mac use `./a.out`.  If you are using Windows, we recommend using [Windows Subsystem for Linux](https://ubuntu.com/desktop/wsl).
+You can also name your program something else using `-o` like so: `g++ hello.cpp -o hello`.  Then to run this program you run `./hello`.
