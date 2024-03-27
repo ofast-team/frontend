@@ -19,7 +19,7 @@ Given a set of activities each marked by a start time and finish time, the goal 
 
 ### Exchange Argument
 1. **Identify Greedy Choices**: The greedy choice is to always select the activity with the earliest finish time that doesn't conflict with previously selected activities.
-2. **Define Exchange Strategy**: Suppose there exists an optimal solution where the greedy algorithm fails. We can exchange the conflicting activity in this solution with the one selected by the greedy algorithm. This exchange will not decrease the number of selected activities, and it might even increase it, contradicting the optimality of the assumed solution.
+2. **Define Exchange Strategy**: Suppose there exists an optimal solution where the greedy algorithm fails. We can exchange the conflicting activity in this solution with the one selected by the greedy algorithm. This exchange will not decrease the number of selected activities, and it might even increase it, contradicting the optimality of the assumed solution. When performing this exchange, this could create more available time for an additional activity to be added in.
 3. **Prove Optimality**: Show that the exchange strategy preserves or improves the solution's optimality, thus proving the optimality of the greedy algorithm.
 
 ### A Common Deception
