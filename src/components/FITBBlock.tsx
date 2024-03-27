@@ -113,7 +113,7 @@ export default function FITBBlock({
               onClick={handleTryAgain}
               disabled={result === 1}
               sx={{
-                fontSize: '1rem',
+                fontSize: '1.25rem',
                 display: `${result === 1 ? 'none' : 'block'}`,
               }}
             >
@@ -130,7 +130,7 @@ export default function FITBBlock({
               }}
               disabled={result === 1}
               sx={{
-                fontSize: '1rem',
+                fontSize: '1.25rem',
                 display: `${result === 1 ? 'none' : 'block'}`,
               }}
             >
