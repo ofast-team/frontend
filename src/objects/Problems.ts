@@ -1,6 +1,11 @@
 export type Problem = {
   problemID: string
+  status: string
   title: string
+  timeLimit?: number
+  memoryLimit?: number
+  author?: string
+  source?: string
   text: string
   problem: string
   input: string
@@ -32,24 +37,13 @@ export default class Problems {
     this.problemMetaData = this.problems.map((problem) => {
       const metaData: ProblemMetaData = {
         problemID: problem.problemID,
-        status: this.getFakeStatus(problem),
+        status: problem.status,
         title: problem.title,
         tags: problem.tags,
       }
 
       return metaData
     })
-  }
-
-  public getFakeStatus(problem: Problem) {
-    let sum = 0
-    for (let i = 0; i < problem.title.length; i++) {
-      sum += problem.title.charCodeAt(i)
-    }
-
-    const status = ['solved', 'wrong', 'unsolved']
-
-    return status[sum % status.length]
   }
 
   public searchProblems(text: string, maxCount: number): Problem[] {

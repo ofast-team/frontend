@@ -37,6 +37,7 @@ export default function LessonPage() {
   const blockFilenames: string[] =
     'files' in lessons[lesson] ? lessons[lesson].files : []
   const [tocHeaders, setTocHeaders] = useState<TOCHeader[]>([])
+  const [showTOC, setShowTOC] = useState<boolean>(true)
 
   if (!(lesson in lessons)) {
     return <Navigate to="/learn" replace />
@@ -57,6 +58,8 @@ export default function LessonPage() {
       key={lessonFilename}
       path={'/lessons/' + lesson + '/' + lessonFilename}
       headers={tocHeaders}
+      showTOC={showTOC}
+      toggleTOC={() => setShowTOC((curState) => !curState)}
     />
   ))
 

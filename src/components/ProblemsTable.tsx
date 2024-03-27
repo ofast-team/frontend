@@ -100,7 +100,17 @@ const getTableValue = (columnID: string, problemMetaData: ProblemMetaData) => {
 export default function StickyHeadTable() {
   const problemsObject = useProblemsObject()
   const [pageNumber, setPageNumber] = React.useState(1)
+  const [problems, setProblems] = React.useState<ProblemMetaData[]>([])
   const rowsPerPage = 10
+
+  React.useEffect(() => {
+    setProblems(
+      problemsObject.getProblemMetaDataFromRange(
+        (pageNumber - 1) * rowsPerPage,
+        pageNumber * rowsPerPage,
+      ),
+    )
+  }, [pageNumber, problemsObject])
 
   const handleChangePage = (_event: unknown, newPageNumber: number) => {
     setPageNumber(newPageNumber)
@@ -133,28 +143,23 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {problemsObject
-              .getProblemMetaDataFromRange(
-                (pageNumber - 1) * rowsPerPage,
-                pageNumber * rowsPerPage,
+            {problems.map((row: ProblemMetaData) => {
+              return (
+                <TableRow hover key={row.title}>
+                  {columns.map((column) => {
+                    return (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ overflow: 'hidden ' }}
+                      >
+                        {getTableValue(column.id, row)}
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
               )
-              .map((row: ProblemMetaData) => {
-                return (
-                  <TableRow hover key={row.title}>
-                    {columns.map((column) => {
-                      return (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          style={{ overflow: 'hidden ' }}
-                        >
-                          {getTableValue(column.id, row)}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                )
-              })}
+            })}
           </TableBody>
         </Table>
       </TableContainer>

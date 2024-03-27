@@ -40,7 +40,7 @@ export default function SubmitCodeCard({
     accept: {
       'text/python': ['.py'],
       'text/c': ['.c'],
-      'text/cpp': ['.cpp'],
+      'text/cpp': ['.cpp', '.cxx', '.cc'],
       'text/java': ['.java'],
     },
     onDrop,
@@ -95,7 +95,8 @@ export default function SubmitCodeCard({
         if (e.target && e.target.result) {
           const fileExtension = codeFile.name.split('.').pop()
           if (fileExtension) {
-            const language = fileExtension.toLowerCase()
+            let language = fileExtension.toLowerCase()
+            if (language === 'cxx' || language === 'cc') language = 'cpp'
 
             const markdownCode = `\`\`\`${language}\n${e.target.result.toString()}\n\`\`\``
             const code = btoa(e.target.result.toString())
