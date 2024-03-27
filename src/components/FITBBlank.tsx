@@ -82,7 +82,10 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
   useEffect(() => {
     if (guid.current == '') {
       guid.current = uuidv4()
-      fitbState.setBlankStatus(guid.current, stringsAreEqual(curAnswer, correctAnswer))
+      fitbState.setBlankStatus(
+        guid.current,
+        stringsAreEqual(curAnswer, correctAnswer),
+      )
     }
   }, [])
 
@@ -97,7 +100,10 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
   }
 
   if (guid.current != '') {
-    fitbState.setBlankStatus(guid.current, stringsAreEqual(curAnswer, correctAnswer))
+    fitbState.setBlankStatus(
+      guid.current,
+      stringsAreEqual(curAnswer, correctAnswer),
+    )
   }
 
   if (fitbState.showAnswer) {

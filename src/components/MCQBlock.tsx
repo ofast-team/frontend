@@ -142,9 +142,8 @@ export default function MCQBlock({
               disabled={result === 1}
               sx={{
                 fontSize: '1.25rem',
-                display: `${result === 1 ? 'none' : 'block'}`
+                display: `${result === 1 ? 'none' : 'block'}`,
               }}
-              
             >
               Submit
             </Button>
