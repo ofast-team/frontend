@@ -2,11 +2,9 @@
 An exchange argument is a technique used to prove the optimality of greedy algorithms. It involves showing that any non-optimal solution can be transformed into an optimal one by exchanging elements in a strategic manner.
 
 ### Steps to Apply Exchange Arguments
-1. Identify Greedy Choices: Identify the key decisions made by the greedy algorithm at each step.
-
-2. Define Exchange Strategy: Define a strategy for exchanging elements to transform any suboptimal solution into an optimal one.
-
-3. Prove Optimality: Use mathematical induction or contradiction to prove that the exchange strategy always leads to an optimal solution.
+1. **Identify Greedy Choices**: Identify the key decisions made by the greedy algorithm at each step.
+2. **Define Exchange Strategy**: Define a strategy for exchanging elements to transform any suboptimal solution into an optimal one.
+3. **Prove Optimality**: Use mathematical induction or contradiction to prove that the exchange strategy always leads to an optimal solution.
 
 ## Example Problem
 Let's consider a classic example where exchange arguments can be applied: the Activity Selection Problem.
@@ -16,17 +14,13 @@ Given a set of activities each marked by a start time and finish time, the goal 
 
 ### Greedy Algorithm
 1. Sort activities by finish time.
-
 2. Select the first activity from the sorted list of activities by earliest finish time.
-
 3. For each remaining activity, if its start time is after the finish time of the last selected activity, select it.
 
 ### Exchange Argument
-1. Identify Greedy Choices: The greedy choice is to always select the activity with the earliest finish time that doesn't conflict with previously selected activities.
-
-2. Define Exchange Strategy: Suppose there exists an optimal solution where the greedy algorithm fails. We can exchange the conflicting activity in this solution with the one selected by the greedy algorithm. This exchange will not decrease the number of selected activities, and it might even increase it, contradicting the optimality of the assumed solution.
-
-3. Prove Optimality: Show that the exchange strategy preserves or improves the solution's optimality, thus proving the optimality of the greedy algorithm.
+1. **Identify Greedy Choices**: The greedy choice is to always select the activity with the earliest finish time that doesn't conflict with previously selected activities.
+2. **Define Exchange Strategy**: Suppose there exists an optimal solution where the greedy algorithm fails. We can exchange the conflicting activity in this solution with the one selected by the greedy algorithm. This exchange will not decrease the number of selected activities, and it might even increase it, contradicting the optimality of the assumed solution.
+3. **Prove Optimality**: Show that the exchange strategy preserves or improves the solution's optimality, thus proving the optimality of the greedy algorithm.
 
 ### A Common Deception
 - Activity A: (1, 5)
@@ -42,6 +36,45 @@ C:       -------
 
 ### Deception Unveiled
 At first glance, it may seem that selecting Activity A first (since it starts earliest) is a good greedy choice. However, by doing so, we eliminate the possibility of selecting Activity B or Activity C, which would result in a suboptimal solution.
+
+## Another Example Problem
+
+### Fractional Knapsack Problem
+Given a set of items, each with a weight \( w_i \) and a value \( v_i \), and a knapsack with a weight capacity \( W \), the goal is to maximize the total value of items in the knapsack without exceeding its weight capacity. Unlike 0/1 Knapsack, fractional knapsack allows fractions of items to be taken.
+
+### Greedy Algorithms
+Greedy algorithms make locally optimal choices at each step with the hope of finding a globally optimal solution. In the context of Fractional Knapsack, the greedy choice is to select items with the maximum value-to-weight ratio first.
+
+### Exchange Argument
+Exchange arguments are used to prove the optimality of greedy algorithms. They involve showing that any non-optimal solution can be transformed into an optimal one through a series of exchanges.
+
+## Steps to Apply Exchange Arguments
+1. **Identify Greedy Choices**: Identify the greedy choice made by the algorithm at each step. In Fractional Knapsack, it is selecting the item with the maximum value-to-weight ratio.
+2. **Define Exchange Strategy**: Define a strategy for exchanging items in a non-optimal solution to transform it into an optimal one while maintaining the total weight within the knapsack's capacity.
+3. **Prove Optimality**: Use mathematical induction or contradiction to prove that the exchange strategy always leads to an optimal solution.
+
+## Example Scenario
+Let's consider an example of the Fractional Knapsack problem:
+
+Suppose we have the following items:
+
+| Item | Weight (w) | Value (v) |
+|------|------------|-----------|
+| A    | 10         | 60        |
+| B    | 20         | 100       |
+| C    | 30         | 120       |
+
+And the knapsack has a weight capacity of 50 units.
+
+### Greedy Algorithm
+1. Calculate the value-to-weight ratio for each item.
+2. Sort the items in non-increasing order of value-to-weight ratio.
+3. Select items greedily until the knapsack is full.
+
+### Exchange Argument
+1. **Identify Greedy Choices**: The greedy choice is to select items with the maximum value-to-weight ratio first.
+2. **Define Exchange Strategy**: Suppose there exists a non-optimal solution where an item with a lower value-to-weight ratio is selected over an item with a higher ratio. We can exchange a fraction of the lower ratio item with the higher ratio item to improve the total value in the knapsack without violating its weight capacity.
+3. **Prove Optimality**: Show that the exchange strategy always leads to an optimal solution by maintaining or increasing the total value while staying within the weight capacity of the knapsack.
 
 # Summary
 Exchange arguments provide a rigorous way to prove the correctness of greedy algorithms by demonstrating that any suboptimal solution can be transformed into an optimal one through a series of strategic exchanges. Mastering exchange arguments can significantly enhance one's problem-solving skills in competitive programming.
