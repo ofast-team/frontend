@@ -1,7 +1,9 @@
 import React from 'react'
 
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, Tooltip, IconButton } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 import MDX from '../MDXRenderer'
 import { Problem } from './ProblemBlock'
@@ -14,6 +16,49 @@ const dataTheme = createTheme({
 
 interface ProblemBodyProps {
   problem: Problem
+}
+
+function SampleDataBlock({ data }: { data: string }) {
+  const copyMsg = 'Copy to clipboard'
+  const copiedMsg = 'Copied!'
+  const [tooltip, setTooltip] = React.useState<string>(copyMsg)
+
+  return (
+    <Box
+      sx={{
+        padding: '10px',
+        bgcolor: '#dae5ed',
+        borderRadius: '15px',
+        whiteSpace: 'nowrap',
+        position: 'relative',
+      }}
+    >
+      <Box sx={{ overflowX: 'auto', pb: '10px' }}>
+        <Typography sx={{ lineHeight: 1.5 }}>
+          {data.split('\n').map((line, i) => (
+            <div key={i}>{line}</div>
+          ))}
+        </Typography>
+
+        <Tooltip
+          title={tooltip}
+          onClose={async () => {
+            await new Promise((r) => setTimeout(r, 200))
+            setTooltip(copyMsg)
+          }}
+          sx={{ position: 'absolute', top: 5, right: 5 }}
+          onClick={() => {
+            navigator.clipboard.writeText(data)
+            setTooltip(copiedMsg)
+          }}
+        >
+          <IconButton>
+            <ContentCopyIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    </Box>
+  )
 }
 
 // TODO: Add copy button for samples
@@ -44,24 +89,7 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
             >
               <Box width="49%" sx={{ display: 'inline-block' }}>
                 <h3>{'Sample Input ' + (index + 1)}</h3>
-                <Box
-                  sx={{
-                    padding: '10px',
-                    whiteSpace: 'nowrap',
-                    overflowX: 'auto',
-                    bgcolor: '#dae5ed',
-                  }}
-                >
-                  <Typography
-                    className="themeborder"
-                    component="span"
-                    sx={{ lineHeight: 1.5 }}
-                  >
-                    {input.split('\n').map((line, i) => (
-                      <div key={i}>{line}</div>
-                    ))}
-                  </Typography>
-                </Box>
+                <SampleDataBlock data={input} />
               </Box>
 
               <Box
@@ -73,24 +101,7 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
                 }}
               >
                 <h3>{'Sample Output ' + (index + 1)}</h3>
-                <Box
-                  sx={{
-                    padding: '10px',
-                    whiteSpace: 'nowrap',
-                    overflowX: 'auto',
-                    bgcolor: '#dae5ed',
-                  }}
-                >
-                  <Typography
-                    className="themeborder"
-                    component="span"
-                    sx={{ lineHeight: 1.5 }}
-                  >
-                    {output.split('\n').map((line, i) => (
-                      <div key={i}>{line}</div>
-                    ))}
-                  </Typography>
-                </Box>
+                <SampleDataBlock data={output} />
               </Box>
             </Box>
           ))}
