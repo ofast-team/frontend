@@ -139,7 +139,7 @@ export default function MCQBlock({
             <Button
               variant="contained"
               onClick={handleSubmission}
-              disabled={result === 1}
+              disabled={result === 1 || selectedAnswers.length === 0}
               sx={{
                 fontSize: '1.25rem',
                 display: `${result === 1 ? 'none' : 'block'}`,
