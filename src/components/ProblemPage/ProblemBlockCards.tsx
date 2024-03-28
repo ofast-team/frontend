@@ -333,7 +333,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             </Box>
           </Card>
         )}
-        
+
         {problem.tags && problem.tags.length > 0 && (
           <Card
             title="Tags"
@@ -348,7 +348,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             </Box>
           </Card>
         )}
-        
+
         {problem.resources && problem.resources.length > 0 && (
           <Card title="Resources">
             <Box sx={{ justifyContent: 'center', textAlign: 'center' }}>
