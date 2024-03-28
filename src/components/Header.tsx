@@ -29,9 +29,10 @@ export default function Header({
   const getColor = `${result === 1 ? '#04364a7a' : '#04364a'}`
 
   const ShowAnswerBtn = styled(Button)({
+    pb: '0px',
+    pt: '0px',
     fontSize: '1.1rem',
     color: `${getColor}`,
-    borderBottom: `2px solid ${getColor}`,
     '&:hover': {
       borderBottom: `2px solid ${result === 1 ? '#04364a7a' : '#000000'}`,
       color: `${result === 1 ? '#04364a7a' : '#000000'}`,
@@ -50,12 +51,12 @@ export default function Header({
         justifyContent: 'space-between',
         backgroundColor: '#6DB6C3',
         color: '#000',
-        p: 2,
+        p: '5px 10px 5px 15px',
         alignItems: 'center',
       }}
     >
       <Typography
-        variant="h4"
+        variant="h6"
         sx={{
           textAlign: 'left',
         }}

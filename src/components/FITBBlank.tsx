@@ -1,5 +1,5 @@
 import { TextField, styled } from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { FITBContext, FITBState } from './FITBBlock'
 
@@ -77,15 +77,17 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
   const fitbState: FITBState = useContext<FITBState>(FITBContext)
   const [curAnswer, setCurAnswer] = useState('')
   const [numResets, setNumResets] = useState(0)
-  const [guid, setGuid] = useState<string>('')
+  const guid = useRef<string>('')
 
   useEffect(() => {
-    if (guid === '') {
-      setGuid(uuidv4())
-    } else {
-      fitbState.setBlankStatus(guid, stringsAreEqual(curAnswer, correctAnswer))
+    if (guid.current == '') {
+      guid.current = uuidv4()
+      fitbState.setBlankStatus(
+        guid.current,
+        stringsAreEqual(curAnswer, correctAnswer),
+      )
     }
-  }, [curAnswer, numResets, fitbState])
+  }, [])
 
   // Clear the blanks if the user just reset.
   if (fitbState.numResets > numResets) {
@@ -95,6 +97,13 @@ export default function FITBBlank({ correctAnswer }: BlankProps) {
 
   const handleChange = (curText: string) => {
     setCurAnswer(curText)
+  }
+
+  if (guid.current != '') {
+    fitbState.setBlankStatus(
+      guid.current,
+      stringsAreEqual(curAnswer, correctAnswer),
+    )
   }
 
   if (fitbState.showAnswer) {

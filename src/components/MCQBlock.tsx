@@ -95,7 +95,7 @@ export default function MCQBlock({
   return (
     <Paper sx={{ border: '1px solid #000', my: 2 }}>
       <Header
-        title={'Multiple Choice Question'}
+        title={'Multiple Choice'}
         setShowHint={setShowHint}
         showAnswers={showAnswers}
         handleReset={handleReset}
@@ -129,7 +129,7 @@ export default function MCQBlock({
               onClick={handleTryAgain}
               disabled={result === 1}
               sx={{
-                fontSize: '1rem',
+                fontSize: '1.25rem',
                 display: `${result === 1 ? 'none' : 'block'}`,
               }}
             >
@@ -139,9 +139,9 @@ export default function MCQBlock({
             <Button
               variant="contained"
               onClick={handleSubmission}
-              disabled={result === 1}
+              disabled={result === 1 || selectedAnswers.length === 0}
               sx={{
-                fontSize: '1rem',
+                fontSize: '1.25rem',
                 display: `${result === 1 ? 'none' : 'block'}`,
               }}
             >
