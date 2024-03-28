@@ -10,6 +10,7 @@ import {
 
 import { Problem } from '../../objects/Problems'
 import ProblemBlock from '../ProblemPage/ProblemBlock'
+import MDX from '../MDXRenderer'
 
 export default function ProblemCreatorTab() {
   const [problemData, setProblemData] = React.useState<Problem>({
@@ -378,6 +379,13 @@ export default function ProblemCreatorTab() {
       <Button onClick={() => removeItem('sampleData')} sx={{ mt: '10px' }}>
         Remove Sample Test Case
       </Button>
+
+      <Divider sx={{ my: '20px' }} />
+
+      <Typography variant="h4" sx={{ mt: '20px' }}>
+        Problem JSON
+      </Typography>
+      <MDX value={`\`\`\`json\n${JSON.stringify(problemData, undefined, 2)}`} />
 
       <Divider sx={{ my: '20px' }} />
 
