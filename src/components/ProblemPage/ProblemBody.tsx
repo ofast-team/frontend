@@ -61,7 +61,6 @@ function SampleDataBlock({ data }: { data: string }) {
   )
 }
 
-// TODO: Add copy button for samples
 export default function ProblemBody({ problem }: ProblemBodyProps) {
   return (
     <>
