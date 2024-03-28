@@ -25,7 +25,7 @@ import { useDispatch } from 'react-redux'
 
 import { login } from '../userSlice'
 
-export const LoginButton = styled(Button)({
+export const StylishButton = styled(Button)({
   border: '1px solid #04364A',
   borderRadius: 30,
   backgroundColor: '#04364A',
@@ -164,12 +164,12 @@ export default function LoginPage() {
                 Invalid Credentials, please try again.
               </Typography>
             </Box>
-            <LoginButton
+            <StylishButton
               variant="outlined"
               onClick={() => loginWithEmailAndPassword(email, password)}
             >
               Log In
-            </LoginButton>
+            </StylishButton>
             <Typography display={'flex'} gap={2}>
               <Link to="/register">
                 <Typography>Create an Account</Typography>
