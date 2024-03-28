@@ -70,11 +70,8 @@ export default function RegisterPage() {
               label="Email"
               variant="standard"
               onChange={(e) => setEmail(e.target.value)}
-            ></TextField>
-            <PasswordField
-              setter={setPassword}
-              onKeyPress={handleKeyPress}
-            ></PasswordField>
+            />
+            <PasswordField setter={setPassword} onKeyPress={handleKeyPress} />
             <Typography
               color={'red'}
               fontSize={'18px'}

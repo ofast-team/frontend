@@ -298,12 +298,12 @@ export default function ProfileCard({
           </Grid>
         </div>
       </Stack>
-      <LoginButton
+      <StylishButton
         sx={{ fontSize: '20px', marginTop: '20px', width: '100%', mb: 1 }}
         onClick={sendPasswordResetEmail}
       >
         Reset Password
-      </LoginButton>
+      </StylishButton>
       {resettingPassword && (
         <Typography color={'primary'} fontSize={14} textAlign={'center'}>
           An email was sent to your inbox to reset your password.

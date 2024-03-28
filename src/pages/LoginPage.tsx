@@ -115,7 +115,6 @@ export default function LoginPage() {
         }
 
         setHasInvalidCredentials(true)
-        console.log(res.status)
         throw Error(res.statusText)
       })
       .then((data) => {
@@ -134,7 +133,6 @@ export default function LoginPage() {
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      console.log('enter pressed')
       loginWithEmailAndPassword(email, password)
     }
   }
@@ -155,11 +153,8 @@ export default function LoginPage() {
               label="Email"
               variant="standard"
               onChange={(e) => setEmail(e.target.value)}
-            ></TextField>
-            <PasswordField
-              setter={setPassword}
-              onKeyPress={handleKeyPress}
-            ></PasswordField>
+            />
+            <PasswordField setter={setPassword} onKeyPress={handleKeyPress} />
             <Box>
               <Typography
                 fontSize={'18px'}
