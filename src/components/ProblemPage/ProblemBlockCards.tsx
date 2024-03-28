@@ -333,14 +333,14 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             </Box>
           </Card>
         )}
-        {problem.tags && (
+        {problem.tags && problem.tags.length > 0 && (
           <Card title="Tags" style={{ marginBottom: '50px' }}>
             {problem.tags.map((tag, i) => (
               <Chip key={i} label={tag} sx={{ mr: '10px', mb: '10px' }} />
             ))}
           </Card>
         )}
-        {problem.resources && (
+        {problem.resources && problem.resources.length > 0 && (
           <Card title="Resources">
             {problem.resources.map((resource, i) => (
               <div
