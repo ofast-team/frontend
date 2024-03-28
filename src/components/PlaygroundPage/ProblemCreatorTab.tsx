@@ -7,10 +7,17 @@ import {
   Typography,
   Divider,
 } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import { Problem } from '../../objects/Problems'
 import ProblemBlock from '../ProblemPage/ProblemBlock'
 import MDX from '../MDXRenderer'
+
+const dataTheme = createTheme({
+  typography: {
+    fontFamily: 'Source Code Pro, monospace',
+  },
+})
 
 export default function ProblemCreatorTab() {
   const [problemData, setProblemData] = React.useState<Problem>({
@@ -326,51 +333,53 @@ export default function ProblemCreatorTab() {
         Sample Data
       </Typography>
 
-      {problemData.sampleData.map((sample, index) => (
-        <Box
-          key={index}
-          sx={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          <TextField
-            placeholder="Sample Input"
-            multiline
-            value={sample.input}
-            onChange={(e) =>
-              setProblemData((curProblemData) => {
-                const newSampleData = [...curProblemData.sampleData]
-                newSampleData[index] = {
-                  input: e.target.value,
-                  output: sample.output,
-                }
-                return {
-                  ...curProblemData,
-                  sampleData: newSampleData,
-                }
-              })
-            }
-            sx={{ mt: '25px', width: '49%' }}
-          />
-          <TextField
-            placeholder="Sample Output"
-            multiline
-            value={sample.output}
-            onChange={(e) =>
-              setProblemData((curProblemData) => {
-                const newSampleData = [...curProblemData.sampleData]
-                newSampleData[index] = {
-                  input: sample.input,
-                  output: e.target.value,
-                }
-                return {
-                  ...curProblemData,
-                  sampleData: newSampleData,
-                }
-              })
-            }
-            sx={{ mt: '25px', width: '49%' }}
-          />
-        </Box>
-      ))}
+      <ThemeProvider theme={dataTheme}>
+        {problemData.sampleData.map((sample, index) => (
+          <Box
+            key={index}
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            <TextField
+              placeholder="Sample Input"
+              multiline
+              value={sample.input}
+              onChange={(e) =>
+                setProblemData((curProblemData) => {
+                  const newSampleData = [...curProblemData.sampleData]
+                  newSampleData[index] = {
+                    input: e.target.value,
+                    output: sample.output,
+                  }
+                  return {
+                    ...curProblemData,
+                    sampleData: newSampleData,
+                  }
+                })
+              }
+              sx={{ mt: '25px', width: '49%' }}
+            />
+            <TextField
+              placeholder="Sample Output"
+              multiline
+              value={sample.output}
+              onChange={(e) =>
+                setProblemData((curProblemData) => {
+                  const newSampleData = [...curProblemData.sampleData]
+                  newSampleData[index] = {
+                    input: sample.input,
+                    output: e.target.value,
+                  }
+                  return {
+                    ...curProblemData,
+                    sampleData: newSampleData,
+                  }
+                })
+              }
+              sx={{ mt: '25px', width: '49%' }}
+            />
+          </Box>
+        ))}
+      </ThemeProvider>
 
       <Button onClick={addSampleTestCase} sx={{ mt: '10px' }}>
         Add Sample Test Case
