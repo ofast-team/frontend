@@ -335,51 +335,30 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
         )}
         {problem.tags && (
           <Card title="Tags" style={{ marginBottom: '50px' }}>
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                width: '100%',
-              }}
-            >
-              {problem.tags.map((tag, i) => (
-                <Chip
-                  key={i}
-                  label={tag}
-                  sx={{ mr: i + 1 < problem.tags.length ? '10px' : '0px' }}
-                />
-              ))}
-            </Stack>
+            {problem.tags.map((tag, i) => (
+              <Chip key={i} label={tag} sx={{ mr: '10px', mb: '10px' }} />
+            ))}
           </Card>
         )}
         {problem.resources && (
           <Card title="Resources">
-            <Stack
-              direction="row"
-              spacing={2}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                width: '100%',
-              }}
-            >
-              {problem.resources.map((resource, i) => (
-                <span key={i}>
-                  <Link style={{ color: 'inherit' }} to={resource.url} replace>
-                    <Typography
-                      gutterBottom
-                      color="primary"
-                      component="span"
-                      variant="body1"
-                    >
-                      {resource.name}
-                    </Typography>
-                  </Link>
-                </span>
-              ))}
-            </Stack>
+            {problem.resources.map((resource, i) => (
+              <div
+                key={i}
+                style={{ marginRight: '10px', display: 'inline-block' }}
+              >
+                <Link style={{ color: 'inherit' }} to={resource.url} replace>
+                  <Typography
+                    gutterBottom
+                    color="primary"
+                    component="span"
+                    variant="body1"
+                  >
+                    {resource.name}
+                  </Typography>
+                </Link>
+              </div>
+            ))}
           </Card>
         )}
       </Stack>
