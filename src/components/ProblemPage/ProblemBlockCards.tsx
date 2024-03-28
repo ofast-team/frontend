@@ -333,32 +333,40 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             </Box>
           </Card>
         )}
+        
         {problem.tags && problem.tags.length > 0 && (
-          <Card title="Tags" style={{ marginBottom: '50px' }}>
-            {problem.tags.map((tag, i) => (
-              <Chip key={i} label={tag} sx={{ mr: '10px', mb: '10px' }} />
-            ))}
+          <Card
+            title="Tags"
+            style={{
+              marginBottom: '50px',
+            }}
+          >
+            <Box sx={{ justifyContent: 'center', textAlign: 'center' }}>
+              {problem.tags.map((tag, i) => (
+                <Chip key={i} label={tag} sx={{ m: '5px' }} />
+              ))}
+            </Box>
           </Card>
         )}
+        
         {problem.resources && problem.resources.length > 0 && (
           <Card title="Resources">
-            {problem.resources.map((resource, i) => (
-              <div
-                key={i}
-                style={{ marginRight: '10px', display: 'inline-block' }}
-              >
-                <Link style={{ color: 'inherit' }} to={resource.url} replace>
-                  <Typography
-                    gutterBottom
-                    color="primary"
-                    component="span"
-                    variant="body1"
-                  >
-                    {resource.name}
-                  </Typography>
-                </Link>
-              </div>
-            ))}
+            <Box sx={{ justifyContent: 'center', textAlign: 'center' }}>
+              {problem.resources.map((resource, i) => (
+                <Box key={i} sx={{ mx: '5px', display: 'inline-block' }}>
+                  <Link style={{ color: 'inherit' }} to={resource.url} replace>
+                    <Typography
+                      gutterBottom
+                      color="primary"
+                      component="span"
+                      variant="body1"
+                    >
+                      {resource.name}
+                    </Typography>
+                  </Link>
+                </Box>
+              ))}
+            </Box>
           </Card>
         )}
       </Stack>
