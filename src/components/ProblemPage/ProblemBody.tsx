@@ -26,7 +26,7 @@ function SampleDataBlock({ data }: { data: string }) {
   return (
     <Box
       sx={{
-        padding: '10px',
+        padding: '16px',
         bgcolor: '#dae5ed',
         borderRadius: '15px',
         whiteSpace: 'nowrap',
@@ -46,7 +46,7 @@ function SampleDataBlock({ data }: { data: string }) {
             await new Promise((r) => setTimeout(r, 200))
             setTooltip(copyMsg)
           }}
-          sx={{ position: 'absolute', top: 5, right: 5 }}
+          sx={{ position: 'absolute', top: 8, right: 8 }}
           onClick={() => {
             navigator.clipboard.writeText(data)
             setTooltip(copiedMsg)
