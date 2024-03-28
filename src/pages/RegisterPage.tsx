@@ -11,7 +11,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom'
 
 import buildPath from '../path'
-import { LoginButton, PasswordField } from './LoginPage'
+import { PasswordField, StylishButton } from './LoginPage'
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('')
@@ -79,12 +79,12 @@ export default function RegisterPage() {
             >
               {feedback}
             </Typography>
-            <LoginButton
+            <StylishButton
               variant="outlined"
               onClick={() => registerWithEmailAndPassword(email, password)}
             >
               Sign Up
-            </LoginButton>
+            </StylishButton>
             <Link to="/login">
               <Typography>Already have an account? Log In</Typography>
             </Link>

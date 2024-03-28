@@ -17,7 +17,7 @@ import DoneIcon from '@mui/icons-material/Done'
 
 import CircleLoadAnimation from '../components/CircleLoadAnimation'
 
-import { LoginButton } from '../pages/LoginPage'
+import { StylishButton } from '../pages/LoginPage'
 import { ProfileData } from '../pages/ProfilePage'
 import buildPath from '../path'
 
