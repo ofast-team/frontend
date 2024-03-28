@@ -34,11 +34,27 @@ export default function ProblemBlock({ problemID }: { problemID: string }) {
   return (
     <Box
       sx={{
-        display: 'flex',
+        display: {
+          xs: 'block',
+          sm: 'block',
+          md: 'flex',
+          lg: 'flex',
+          xl: 'flex',
+        },
         justifyContent: 'center',
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          width: {
+            xs: '100%',
+            sm: '100%',
+            md: '60vw',
+            lg: '60vw',
+            xl: '60vw',
+          },
+        }}
+      >
         <ProblemBody problem={problem} />
       </Box>
 
@@ -47,6 +63,8 @@ export default function ProblemBlock({ problemID }: { problemID: string }) {
           verticalAlign: 'top',
           pl: '30px',
           pt: '50px',
+          display: 'flex',
+          justifyContent: 'center',
         }}
       >
         <ProblemBlockCards problem={problem} />

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Grid, Box, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import MDX from '../MDXRenderer'
@@ -35,63 +35,63 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
 
         <ThemeProvider theme={dataTheme}>
           {problem.sampleData.map(({ input, output }, index) => (
-            <Box key={index}>
-              <Grid container sx={{ paddingTop: '20px' }}>
-                <Grid item xs={6}>
-                  <h3>{'Sample Input ' + (index + 1)}</h3>
-                </Grid>
-                <Grid item xs={6}>
-                  <h3>{'Sample Output ' + (index + 1)}</h3>
-                </Grid>
-              </Grid>
+            <Box
+              key={index}
+              sx={{
+                mt: '20px',
+                width: '100%',
+              }}
+            >
+              <Box width="49%" sx={{ display: 'inline-block' }}>
+                <h3>{'Sample Input ' + (index + 1)}</h3>
+                <Box
+                  sx={{
+                    padding: '10px',
+                    whiteSpace: 'nowrap',
+                    overflowX: 'auto',
+                    bgcolor: '#dae5ed',
+                  }}
+                >
+                  <Typography
+                    className="themeborder"
+                    component="span"
+                    sx={{ lineHeight: 1.5 }}
+                  >
+                    {input.split('\n').map((line, i) => (
+                      <div key={i}>{line}</div>
+                    ))}
+                  </Typography>
+                </Box>
+              </Box>
 
-              <Grid
-                container
+              <Box
+                width="49%"
                 sx={{
-                  border: 'solid 1px',
-                  marginBottom: '20px',
-                  overflow: 'clip',
+                  display: 'inline-block',
+                  verticalAlign: 'top',
+                  ml: '2%',
                 }}
               >
-                <Grid item xs={6}>
-                  <Box
-                    sx={{
-                      padding: '10px',
-                      height: '100%',
-                    }}
+                <h3>{'Sample Output ' + (index + 1)}</h3>
+                <Box
+                  sx={{
+                    padding: '10px',
+                    whiteSpace: 'nowrap',
+                    overflowX: 'auto',
+                    bgcolor: '#dae5ed',
+                  }}
+                >
+                  <Typography
+                    className="themeborder"
+                    component="span"
+                    sx={{ lineHeight: 1.5 }}
                   >
-                    <Typography
-                      className="themeborder"
-                      component="span"
-                      sx={{ lineHeight: 1.5 }}
-                    >
-                      {input.split('\n').map((line, i) => (
-                        <div key={i}>{line}</div>
-                      ))}
-                    </Typography>
-                  </Box>
-                </Grid>
-
-                <Grid item xs={6}>
-                  <Box
-                    sx={{
-                      padding: '10px',
-                      borderLeft: 'solid 1px',
-                      height: '100%',
-                    }}
-                  >
-                    <Typography
-                      className="themeborder"
-                      component="span"
-                      sx={{ lineHeight: 1.5 }}
-                    >
-                      {output.split('\n').map((line, i) => (
-                        <div key={i}>{line}</div>
-                      ))}
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
+                    {output.split('\n').map((line, i) => (
+                      <div key={i}>{line}</div>
+                    ))}
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
           ))}
         </ThemeProvider>
