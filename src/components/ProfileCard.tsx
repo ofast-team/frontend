@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Avatar,
   Box,
@@ -17,8 +17,9 @@ import DoneIcon from '@mui/icons-material/Done'
 
 import CircleLoadAnimation from '../components/CircleLoadAnimation'
 
-import { LoginButton } from '../pages/LoginPage'
+import { StylishButton } from '../pages/LoginPage'
 import { ProfileData } from '../pages/ProfilePage'
+import buildPath from '../path'
 
 export const ProfileButton = styled(Button)({
   padding: '0px 16px',
@@ -62,6 +63,8 @@ export default function ProfileCard({
   usernameStatus,
   emailStatus,
 }: ProfileCardProps) {
+  const [resettingPassword, setResettingPassword] = useState<boolean>(false)
+
   const onTextFieldChange = (key, newString) => {
     setProfileData((prevData: ProfileData) => {
       return { ...prevData, [key]: newString }
@@ -70,6 +73,33 @@ export default function ProfileCard({
 
   const hasIssue = (str: string) => {
     return str !== 'Success' && str !== 'Not Updated'
+  }
+
+  const sendPasswordResetEmail = () => {
+    if (resettingPassword) {
+      return
+    }
+
+    fetch(buildPath('/sendPasswordResetEmail'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ isLoggedIn: true }),
+    })
+      .then((res: Response) => {
+        if (res.ok) {
+          return res.json()
+        }
+
+        throw Error(res.statusText)
+      })
+      .then((data) => {
+        if (data.message === 'success') {
+          setResettingPassword(true)
+        }
+      })
+      .catch((error: Error) => {
+        console.log('Email delivery failed: ' + error.message)
+      })
   }
 
   return (
@@ -268,9 +298,17 @@ export default function ProfileCard({
           </Grid>
         </div>
       </Stack>
-      <LoginButton sx={{ fontSize: '20px', marginTop: '20px', width: '100%' }}>
-        Change Password
-      </LoginButton>
+      <StylishButton
+        sx={{ fontSize: '20px', marginTop: '20px', width: '100%', mb: 1 }}
+        onClick={sendPasswordResetEmail}
+      >
+        Reset Password
+      </StylishButton>
+      {resettingPassword && (
+        <Typography color={'primary'} fontSize={14} textAlign={'center'}>
+          An email was sent to your inbox to reset your password.
+        </Typography>
+      )}
     </Card>
   )
 }
