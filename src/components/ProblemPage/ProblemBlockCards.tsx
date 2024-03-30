@@ -11,24 +11,7 @@ import buildPath from '../../path'
 import { useNavigate } from 'react-router-dom'
 
 import { Verdict, verdictInfo } from '../../utils/verdict'
-
-export type Problem = {
-  problemID: string
-  title: string
-  text: string
-  problem: string
-  input: string
-  output: string
-  sampleData: {
-    input: string
-    output: string
-  }[]
-  tags: string[]
-  resources: {
-    name: string
-    url: string
-  }[]
-}
+import { Problem } from '../../objects/Problems'
 
 interface Submission {
   submissionID: string
@@ -382,6 +365,17 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                 </Box>
               ))}
             </Box>
+          </Card>
+        )}
+        {/*problem.author || problem.source &&*/ (
+          <Card
+            title="Source"
+            style={{
+              marginBottom: '50px',
+            }}
+          >
+            <Typography textAlign = 'center' variant = 'body2' color = 'primary'>{/*problem.sources*/ 'UCF High School Programming Tournament Online 2023-2024' }</Typography>
+            <Typography textAlign = 'center' variant = 'body2' color = 'primary'>{"Written by " + /* problem.source */ "Thomas Meeks"}</Typography>
           </Card>
         )}
       </Stack>
