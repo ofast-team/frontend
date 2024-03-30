@@ -1,4 +1,4 @@
-import { Box, Container, Grid, IconButton, Typography } from '@mui/material'
+import { Box, Button, Container, Grid, IconButton, Tooltip, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import DownloadIcon from '@mui/icons-material/Download'
 import MDXRenderer from '../components/MDXRenderer'
@@ -120,6 +120,16 @@ export function formatSubmissionData(data, problemsObj): SubmissionData {
   }
 }
 
+function VerdictIcon(props) {
+  if (props.verdict == 3) {
+    return <CorrectIcon/>
+  }
+  if (props.verdict > 3) {
+    return <WrongAnswerIcon/>
+  }
+  return <PendingIcon/>
+}
+
 export interface SubmissionData {
   date: string
   problem: string
@@ -148,7 +158,7 @@ export default function VerdictPage() {
   const params = useParams()
   const submissionId: string = params.submissionId as string
 
-  const problemsObject = useProblemsObject()
+  const problemsObject : Problems = useProblemsObject()
 
   useEffect(() => {
     const fetchVerdict = () => {
@@ -223,6 +233,7 @@ export default function VerdictPage() {
     window.URL.revokeObjectURL(link.href)
   }
 
+  console.log(testCases)
   return (
     <Container sx={{ pt: 15 }}>
       <Box display="flex" gap={1} alignItems={'center'} mb={2}>
@@ -343,15 +354,25 @@ export default function VerdictPage() {
             </SubmissionTableElem>
           </Grid>
           <Box sx={{ p: 2, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-            {testCases?.map((status) => {
-              if (status == 3) {
-                return <CorrectIcon />
-              }
-              if (status > 3) {
-                return <WrongAnswerIcon />
-              }
-              return <PendingIcon />
-            })}
+            {testCases?.map((status) =>
+              <Tooltip title = {verdictInfo[status].description}
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: 'offset',
+                      options: {
+                        offset: [0, -75],
+                      },
+                    },
+                  ],
+                },
+              }}>
+                <Box>
+                  <VerdictIcon verdict = {status}/>
+                </Box>
+              </Tooltip>
+            )}
           </Box>
         </Box>
       </Box>
