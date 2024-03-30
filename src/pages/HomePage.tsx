@@ -1,51 +1,50 @@
-import { Typography, Container, Box } from '@mui/material'
-import React from 'react'
-import HomeCard from '../components/HomeCard'
+import React, { useRef } from 'react'
+
+import HomeCard from '../components/HomePage/HomeCard'
+import HomeLearn from '../components/HomePage/HomeLearn'
+import HomeSolve from '../components/HomePage/HomeSolve'
+import '../components/HomePage/HomePage.css'
+import { Container } from '@mui/material'
+
+const SnapParent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLProps<HTMLDivElement>
+>((props, ref) => (
+  <div ref={ref} {...props} className="snap-parent-y-mandatory">
+    {props.children}
+  </div>
+))
+
+const ScrollContainer = ({ children }) => {
+  const ref = useRef(null)
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        padding: 15,
+      }}
+    >
+      <SnapParent
+        ref={ref}
+        style={{
+          position: 'absolute',
+        }}
+      >
+        {children}
+      </SnapParent>
+    </div>
+  )
+}
 
 export default function HomePage() {
   return (
-    <Container
-      sx={{
-        height: '100vh',
-        p: 15,
-      }}
-    >
-      <Typography
-        variant="h2"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        gutterBottom
-      >
-        Master Competitive Programming
-      </Typography>
-      <Typography
-        variant="h4"
-        sx={{
-          fontSize: '2.5rem',
-          fontWeight: '400',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        Learn & Solve with O(fast)
-      </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          pt: 3,
-        }}
-      >
+    <Container sx={{ pt: 10 }}>
+      <ScrollContainer>
         <HomeCard />
-      </Box>
+        <HomeLearn />
+        <HomeSolve />
+      </ScrollContainer>
     </Container>
   )
 }
