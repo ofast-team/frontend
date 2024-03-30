@@ -11,6 +11,7 @@ import buildPath from '../path'
 
 import { motion } from 'framer-motion'
 import { SubmissionTableElem } from './SubmissionsList'
+import Problems from '../objects/Problems'
 
 const CorrectIcon = () => {
   return <CheckCircle sx={{ color: '#1db924', fontSize: '2.5rem' }} />
@@ -131,7 +132,7 @@ export interface SubmissionData {
 
 export default function VerdictPage() {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
 
   const [currentSubmissionData, setCurrentSubmissionData] =
@@ -165,7 +166,7 @@ export default function VerdictPage() {
         })
         .then((data) => {
           const problemName: string =
-            problemsObject.getProblem(data.problem_id)?.title ||
+            problemsObject?.getProblem(data.problem_id)?.title ||
             'Custom Submission'
           setProblemName(problemName)
           setProblemID(data.problem_id)
@@ -190,8 +191,6 @@ export default function VerdictPage() {
           console.log('Verdict Fetch Failed: ' + error.message)
         })
     }
-
-    setIsLoading(true)
     fetchVerdict()
 
     // Set up a 2s timer that repeats until its told otherwise.
@@ -204,9 +203,10 @@ export default function VerdictPage() {
     // useEffect allows you to return a cleanup function,
     // which gets called when the component unmounts.
     return stopTimer
-  }, [])
+  }, [problemsObject])
 
-  if (isLoading) {
+  // I'm using the problem count as an indicator of if the problem provider has the data ready.
+  if (isLoading || problemsObject.getNumProblems() == 0) {
     return <React.Fragment />
   }
 
@@ -342,7 +342,7 @@ export default function VerdictPage() {
               </Box>
             </SubmissionTableElem>
           </Grid>
-          <Box sx={{ p: 2, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+          <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
             {testCases?.map((status) => {
               if (status == 3) {
                 return <CorrectIcon />
@@ -355,7 +355,7 @@ export default function VerdictPage() {
           </Box>
         </Box>
       </Box>
-      <Box display="flex" gap={1} alignItems={'center'}>
+      <Box display="flex" flexWrap = 'wrap' gap={1} alignItems={'center'}>
         <Typography fontSize={24}>Code File</Typography>
 
         <IconButton onClick={downloadCodeFile}>

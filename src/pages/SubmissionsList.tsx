@@ -238,7 +238,7 @@ export default function SubmissionsList() {
                   </Box>
                 </SubmissionTableElem>
               </Grid>
-              <Box sx={{ p: 2, display: 'flex', gap: 2 }}>
+              <Box sx={{ p: 2, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                 {testCases[i]?.map((status) => {
                   if (status == 3) {
                     return <CorrectIcon />
