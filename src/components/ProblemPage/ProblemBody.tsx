@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 import MDX from '../MDXRenderer'
-import { Problem } from './ProblemBlock'
+import { Problem } from '../../objects/Problems'
 
 const dataTheme = createTheme({
   typography: {

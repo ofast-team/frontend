@@ -11,24 +11,7 @@ import buildPath from '../../path'
 import { useNavigate } from 'react-router-dom'
 
 import { Verdict, verdictInfo } from '../../utils/verdict'
-
-export type Problem = {
-  problemID: string
-  title: string
-  text: string
-  problem: string
-  input: string
-  output: string
-  sampleData: {
-    input: string
-    output: string
-  }[]
-  tags: string[]
-  resources: {
-    name: string
-    url: string
-  }[]
-}
+import { Problem } from '../../objects/Problems'
 
 interface Submission {
   submissionID: string
@@ -350,7 +333,8 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             </Box>
           </Card>
         )}
-        {problem.tags && (
+
+        {problem.tags && problem.tags.length > 0 && (
           <Card
             title="Tags"
             style={{
@@ -364,7 +348,8 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             </Box>
           </Card>
         )}
-        {problem.resources && (
+
+        {problem.resources && problem.resources.length > 0 && (
           <Card title="Resources">
             <Box sx={{ justifyContent: 'center', textAlign: 'center' }}>
               {problem.resources.map((resource, i) => (
