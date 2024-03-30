@@ -6,7 +6,9 @@ import {
   TextField,
   Typography,
   Divider,
+  IconButton,
 } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import { Problem } from '../../objects/Problems'
@@ -75,9 +77,10 @@ export default function ProblemCreatorTab() {
     })
   }
 
-  const removeItem = (key: string) => {
+  const removeItem = (key: string, i: number) => {
     setProblemData((curProblemData) => {
-      const newEntries = curProblemData[key].slice(0, -1)
+      const newEntries = [...curProblemData[key]]
+      newEntries.splice(i, 1)
       return {
         ...curProblemData,
         [key]: newEntries,
@@ -208,6 +211,13 @@ export default function ProblemCreatorTab() {
           label={`Tag ${index + 1}`}
           variant="standard"
           value={tag}
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={() => removeItem('tags', index)}>
+                <DeleteIcon />
+              </IconButton>
+            ),
+          }}
           onChange={(e) =>
             setProblemData((curProblemData) => {
               const newTags = [...curProblemData.tags]
@@ -225,14 +235,13 @@ export default function ProblemCreatorTab() {
       <br />
       <br />
       <Button onClick={addTag}>Add Tag</Button>
-      <Button onClick={() => removeItem('tags')}>Remove Tag</Button>
 
       {problemData.resources.map((resource, index) => (
-        <Box key={index}>
+        <Box key={index} sx={{ position: 'relative' }}>
           <TextField
             key={index}
             placeholder="Google"
-            label={`Resource ${index + 1} Name`}
+            label={`Resource Name ${index + 1}`}
             variant="standard"
             value={resource.name}
             onChange={(e) =>
@@ -253,7 +262,7 @@ export default function ProblemCreatorTab() {
           <TextField
             key={index}
             placeholder="https://www.google.com"
-            label={`Resource ${index + 1} Link`}
+            label={`Resource Link ${index + 1}`}
             variant="standard"
             value={resource.url}
             onChange={(e) =>
@@ -271,19 +280,24 @@ export default function ProblemCreatorTab() {
             }
             sx={{ mt: '25px', ml: '10px' }}
           />
+          <IconButton
+            sx={{ position: 'absolute', bottom: 0 }}
+            onClick={() => removeItem('resources', index)}
+          >
+            <DeleteIcon />
+          </IconButton>
         </Box>
       ))}
 
       <br />
       <Button onClick={addResource}>Add Resource</Button>
-      <Button onClick={() => removeItem('resources')}>Remove Resource</Button>
 
       <Typography variant="h4" sx={{ mt: '20px' }}>
         Problem Body
       </Typography>
 
       <TextField
-        placeholder="Alice and Bob are working on a secret project where they need to find two numbers in an array that add up to a specific target. They are running out of time and need your help to implement a solution. Can you assist them?. "
+        placeholder="Alice and Bob are working on a secret project where they need to find two numbers in an array that add up to a specific target. They are running out of time and need your help to implement a solution. Can you assist them?"
         label="Text"
         required
         multiline
@@ -364,13 +378,10 @@ export default function ProblemCreatorTab() {
 
       <ThemeProvider theme={dataTheme}>
         {problemData.sampleData.map((sample, index) => (
-          <Box
-            key={index}
-            sx={{ display: 'flex', justifyContent: 'space-between' }}
-          >
+          <Box key={index} sx={{ position: 'relative' }}>
             <TextField
               placeholder="4 1 2 3 4"
-              label="Sample Input"
+              label={`Sample Input ${index + 1}`}
               multiline
               value={sample.input}
               onChange={(e) =>
@@ -386,11 +397,11 @@ export default function ProblemCreatorTab() {
                   }
                 })
               }
-              sx={{ mt: '25px', width: '49%' }}
+              sx={{ mt: '25px', width: '48%' }}
             />
             <TextField
               placeholder="1 3"
-              label="Sample Output"
+              label={`Sample Output ${index + 1}`}
               multiline
               value={sample.output}
               onChange={(e) =>
@@ -406,18 +417,20 @@ export default function ProblemCreatorTab() {
                   }
                 })
               }
-              sx={{ mt: '25px', width: '49%' }}
+              sx={{ ml: '10px', mt: '25px', width: '48%' }}
             />
+            <IconButton
+              sx={{ position: 'absolute', top: '33px' }}
+              onClick={() => removeItem('sampleData', index)}
+            >
+              <DeleteIcon />
+            </IconButton>
           </Box>
         ))}
       </ThemeProvider>
 
       <Button onClick={addSampleTestCase} sx={{ mt: '10px' }}>
         Add Sample Test Case
-      </Button>
-
-      <Button onClick={() => removeItem('sampleData')} sx={{ mt: '10px' }}>
-        Remove Sample Test Case
       </Button>
 
       <Divider sx={{ my: '20px' }} />
