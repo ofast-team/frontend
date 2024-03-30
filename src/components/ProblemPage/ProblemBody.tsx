@@ -65,12 +65,26 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
   return (
     <>
       <Typography className="themeborder" color="primary" component="span">
-        <h1 style={{ textAlign: 'center', marginBottom: 0}}>{problem.title}</h1>
-        <Box sx = {{padding: 1, margin: 0, gap: 2, display: 'flex', justifyContent: 'center' }}>
-          <Typography fontSize = '16px' borderBottom = 'solid black 1px'><b>Time Limit:</b> {problem.timeLimit.toFixed(2)|| 1.00} s</Typography>
-          <Typography fontSize = '16px' borderBottom = 'solid black 1px'><b>Memory Limit:</b> {problem.memoryLimit || 512} MB</Typography>
+        <h1 style={{ textAlign: 'center', marginBottom: 0 }}>
+          {problem.title}
+        </h1>
+        <Box
+          sx={{
+            padding: 1,
+            margin: 0,
+            gap: 2,
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography fontSize="16px" borderBottom="solid black 1px">
+            <b>Time Limit:</b> {problem.timeLimit.toFixed(2) || 1.0} s
+          </Typography>
+          <Typography fontSize="16px" borderBottom="solid black 1px">
+            <b>Memory Limit:</b> {problem.memoryLimit || 512} MB
+          </Typography>
         </Box>
-        
+
         <MDX value={problem.text} />
 
         <h2 style={{ marginBottom: '5px' }}>Problem</h2>
