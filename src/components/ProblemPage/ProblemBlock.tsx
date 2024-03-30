@@ -4,24 +4,7 @@ import { Box } from '@mui/material'
 import ProblemBody from './ProblemBody'
 import ProblemBlockCards from './ProblemBlockCards'
 import { useProblemsObject } from '../ProblemProvider'
-
-export type Problem = {
-  problemID: string
-  title: string
-  text: string
-  problem: string
-  input: string
-  output: string
-  sampleData: {
-    input: string
-    output: string
-  }[]
-  tags: string[]
-  resources: {
-    name: string
-    url: string
-  }[]
-}
+import { Problem } from '../../objects/Problems'
 
 export default function ProblemBlock({ problemID }: { problemID: string }) {
   const problemsObject = useProblemsObject()
