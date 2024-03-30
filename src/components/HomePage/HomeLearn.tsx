@@ -10,7 +10,10 @@ interface HomeLearnComponentProps {
   svgGraphics: string
 }
 
-function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponentProps) {
+function HomeLearnComponent({
+  svgModule,
+  svgGraphics,
+}: HomeLearnComponentProps) {
   const { ref } = useInView({
     threshold: 0.75,
   })
