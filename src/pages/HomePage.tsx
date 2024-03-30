@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-// import { useInView } from 'react-intersection-observer'
 
 import HomeCard from '../components/HomePage/HomeCard'
 import HomeLearn from '../components/HomePage/HomeLearn'

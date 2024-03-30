@@ -5,12 +5,12 @@ import { motion } from 'framer-motion'
 
 import './HomePage.css'
 
-interface HomeLearnComponent {
+interface HomeLearnComponentProps {
   svgModule: string
   svgGraphics: string
 }
 
-function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponent) {
+function HomeLearnComponent({ svgModule, svgGraphics }: HomeLearnComponentProps) {
   const { ref } = useInView({
     threshold: 0.75,
   })
