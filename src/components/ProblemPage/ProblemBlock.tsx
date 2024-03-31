@@ -6,9 +6,24 @@ import ProblemBlockCards from './ProblemBlockCards'
 import { useProblemsObject } from '../ProblemProvider'
 import { Problem } from '../../objects/Problems'
 
-export default function ProblemBlock({ problemID }: { problemID: string }) {
+interface ProblemBlockProps {
+  problemID?: string | null
+  problem?: Problem | null
+}
+
+export default function ProblemBlock({
+  problemID,
+  problem,
+}: ProblemBlockProps) {
+  if (problemID == null && problem == null) {
+    return <></>
+  }
+
   const problemsObject = useProblemsObject()
-  const problem: Problem | null = problemsObject.getProblem(problemID)
+
+  if (problemID != null) {
+    problem = problemsObject.getProblem(problemID)
+  }
 
   if (problem === null) {
     return <Box pt={15}>Problem not found</Box>
@@ -38,7 +53,7 @@ export default function ProblemBlock({ problemID }: { problemID: string }) {
           },
         }}
       >
-        <ProblemBody problem={problem} />
+        {problem && <ProblemBody problem={problem} />}
       </Box>
 
       <Box
@@ -50,7 +65,7 @@ export default function ProblemBlock({ problemID }: { problemID: string }) {
           justifyContent: 'center',
         }}
       >
-        <ProblemBlockCards problem={problem} />
+        {problem && <ProblemBlockCards problem={problem} />}
       </Box>
     </Box>
   )
