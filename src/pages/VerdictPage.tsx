@@ -240,7 +240,6 @@ export default function VerdictPage() {
     window.URL.revokeObjectURL(link.href)
   }
 
-  console.log(testCases)
   return (
     <Container sx={{ pt: 15 }}>
       <Box display="flex" gap={1} alignItems={'center'} mb={2}>
