@@ -78,7 +78,7 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
           }}
         >
           <Typography fontSize="16px" borderBottom="solid black 1px">
-            <b>Time Limit:</b> {problem.timeLimit.toFixed(2) || 1.0} s
+            <b>Time Limit:</b> {problem.timeLimit.toFixed(1) || 1.0} s
           </Typography>
           <Typography fontSize="16px" borderBottom="solid black 1px">
             <b>Memory Limit:</b> {problem.memoryLimit || 512} MB
