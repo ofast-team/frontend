@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Typography, Stack, Button, Chip, Dialog } from '@mui/material'
 
-import PersonIcon from '@mui/icons-material/Person';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import PersonIcon from '@mui/icons-material/Person'
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -370,39 +370,48 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             </Box>
           </Card>
         )}
-        {
-          (problem.author || problem.source) && <Card
+        {(problem.author || problem.source) && (
+          <Card
             title="Source"
             style={{
               marginBottom: '50px',
             }}
           >
-            <Box display = 'flex' flexDirection='column' gap = {1} padding = '0px 20px'>
-              { problem.source &&
-                <Box display={'flex'} alignItems={'center'} gap = {1}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              gap={1}
+              padding="0px 20px"
+            >
+              {problem.source && (
+                <Box display={'flex'} alignItems={'center'} gap={1}>
                   <Box>
-                    <EmojiEventsIcon style = {{textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}></EmojiEventsIcon>
+                    <EmojiEventsIcon
+                      style={{
+                        textAlign: 'center',
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                      }}
+                    ></EmojiEventsIcon>
                   </Box>
-                  <Typography  variant="body2" color="primary">
-                    {
-                      problem.source
-                    }
+                  <Typography variant="body2" color="primary">
+                    {problem.source}
                   </Typography>
                 </Box>
-              }
-              { problem.author &&
-                <Box display = {'flex'} alignItems={'center'} gap = {1}>
+              )}
+              {problem.author && (
+                <Box display={'flex'} alignItems={'center'} gap={1}>
                   <Box>
-                    <PersonIcon style = {{textAlign: 'center'}}></PersonIcon>
+                    <PersonIcon style={{ textAlign: 'center' }}></PersonIcon>
                   </Box>
                   <Typography variant="body2" color="primary">
                     {problem.author}
                   </Typography>
                 </Box>
-              }
+              )}
             </Box>
           </Card>
-        }
+        )}
       </Stack>
       <Dialog
         open={!!errorText}
