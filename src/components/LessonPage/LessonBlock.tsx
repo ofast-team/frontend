@@ -64,7 +64,7 @@ export default function LessonBlock({
             : 'none',
           pt: '7px',
           verticalAlign: 'top',
-          position: 'relative',
+          position: 'fixed',
         }}
       >
         <TableOfContents headers={headers} />
@@ -73,7 +73,7 @@ export default function LessonBlock({
             sx={{
               position: 'absolute',
               top: '2px',
-              left: '220px',
+              left: '180px',
               zIndex: 1,
             }}
             onClick={toggleTOC}
