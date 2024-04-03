@@ -3,7 +3,8 @@ import { Container, Typography } from '@mui/material'
 import MDX from '../../components/MDXRenderer'
 
 const lessonsInstructions = `
-- Lessons are stored and created in the [Frontend REPO](https://github.com/ofast-team/frontend) and will be published only with a review and approval from an administrator.
+## Create Lessons
+### Lessons are stored and created in the [Frontend Repository](https://github.com/ofast-team/frontend) and will be published only with a review and approval from an administrator.
 
 - Our lessons are created using [MDX](https://mdxjs.com/), which combines [JSX](https://react.dev/learn/writing-markup-with-jsx) and [markdown](https://www.markdownguide.org/).
 
@@ -12,8 +13,6 @@ const lessonsInstructions = `
   - [MCQBlock](https://github.com/ofast-team/frontend/tree/main/src/components/MCQBlock.tsx)
   - [FITBBlock](https://github.com/ofast-team/frontend/tree/main/src/components/FITBBlock.tsx)
 
-- For writing lessons and viewing rendered MDX code in the O(fast) environment, feel free to utilize O(fast)'s [MDX Playground](https://ofast.io/playground).
-
 - Open \`src/lessons.json\` and add an entry for the new lesson. The key should be a lesson ID that is not already used by other lessons. The value should be an object with the properties: \`lessonName\`, \`lessonGroup\`, and \`files\`. The \`lessonName\` property stores a string with the lesson's name. The \`lessonGroup\` property stores a string with the name of the lesson group the lesson belongs to. These two properties are used to create and categorize a link to the lesson on the Learn page. \`files\` is an array of strings that represent the paths to mdx lesson files, which store the lesson content.
 
 - Go to \`public/lessons\` and create a new subdirectory with the name of the lesson ID created in the previous step. Inside this folder, create mdx files to write lesson content in. If you haven't already, go back to \`src/lessons.json\` and populate the \`files\` array with the paths to these mdx files, relative to the new lesson subdirectory. In most cases this will simply be the names of the mdx files.
@@ -21,7 +20,8 @@ const lessonsInstructions = `
 - Refer to existing entries in \`src/lessons.json\` for examples.
 `
 const problemsInstructions = `
-- Problems are stored and created in the [Problems REPO](https://github.com/ofast-team/problems)
+## Create Problems
+### Problems are stored and created in the [Problems Repository](https://github.com/ofast-team/problems)
 
 1. Create a new folder in the \`problems\` directory with the name of the problem. (Note: the folder name is not used for anything associated with the problem)
 
@@ -106,10 +106,11 @@ export default function ContributePage() {
         however, content creation is easy as it only requires using MDX and
         JSON. Anyone can contribute to the content by following the provided
         instructions on how to contribute to lessons and problems on O(fast).
+        For writing lessons in MDX and problems in JSON and viewing the
+        respective rendered code in the O(fast) environment, feel free to
+        utilize O(fast)'s <a href="https://ofast.io/playground">Playground</a>.
       </Typography>
-      <Typography variant="h4" gutterBottom color="primary">
-        Create Lessons
-      </Typography>
+
       <Typography
         className="markdown themeborder"
         gutterBottom
@@ -118,9 +119,7 @@ export default function ContributePage() {
       >
         <MDX value={lessonsInstructions} />
       </Typography>
-      <Typography variant="h4" gutterBottom color="primary">
-        Create Problems
-      </Typography>
+
       <Typography
         className="markdown themeborder"
         gutterBottom
