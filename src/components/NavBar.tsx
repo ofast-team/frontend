@@ -90,6 +90,7 @@ function LoggedInUser() {
             <Typography textAlign="center">{'Profile'}</Typography>
           </MenuItem>
         </Link>
+
         <MenuItem
           key={'Logout'}
           onClick={() => {
@@ -129,24 +130,29 @@ function LogoTitle() {
   )
 }
 
-interface aboutProps {
+interface About {
   title: string
   path: string
 }
 
-function AboutDropDown() {
-  const about_pages: aboutProps[] = [
+interface aboutDropDownProps {
+  small: boolean
+  closeTopMenu?: () => void
+}
+
+function AboutDropDown({ small, closeTopMenu }: aboutDropDownProps) {
+  const about_pages: About[] = [
     {
       title: 'The Team',
       path: 'team',
     },
     {
-      title: 'How to Contribute',
-      path: 'how-to-contribute',
+      title: 'Specifications',
+      path: 'specifications',
     },
     {
-      title: 'Technical Specifications',
-      path: 'technical-specifications',
+      title: 'How to Contribute',
+      path: 'how-to-contribute',
     },
   ]
 
@@ -160,15 +166,38 @@ function AboutDropDown() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
+    if (closeTopMenu) closeTopMenu()
   }
 
   return (
-    <Box>
-      <Button onClick={handleOpenUserMenu} sx={{ ...linkStyle }}>
-        about
-      </Button>
+    <>
+      {small ? (
+        <MenuItem
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            textTransform: 'uppercase',
+            textDecoration: 'none',
+            color: '#04364a',
+          }}
+          onClick={handleOpenUserMenu}
+        >
+          <Typography textAlign="center" textTransform="uppercase">
+            about
+          </Typography>
+        </MenuItem>
+      ) : (
+        <Button
+          sx={{
+            ...linkStyle,
+          }}
+          onClick={handleOpenUserMenu}
+        >
+          about
+        </Button>
+      )}
       <Menu
-        sx={{ mt: '45px' }}
+        sx={{ mt: '40px' }}
         id="menu-appbar"
         anchorEl={anchorElUser}
         anchorOrigin={{
@@ -187,13 +216,16 @@ function AboutDropDown() {
           <Link
             key={page.title}
             style={{
-              textTransform: 'capitalize',
+              textTransform: 'uppercase',
               textDecoration: 'none',
               color: '#04364a',
             }}
             to={`/about/${page.path}`}
           >
-            <MenuItem onClick={handleCloseUserMenu}>
+            <MenuItem
+              onClick={handleCloseUserMenu}
+              style={{ display: 'flex', justifyContent: 'center' }}
+            >
               <Typography textAlign="center" textTransform="uppercase">
                 {page.title}
               </Typography>
@@ -201,7 +233,7 @@ function AboutDropDown() {
           </Link>
         ))}
       </Menu>
-    </Box>
+    </>
   )
 }
 
@@ -223,7 +255,7 @@ function NavItems({ pages }: pagesProps) {
     >
       {pages.map((page) =>
         page === 'about' ? (
-          <AboutDropDown />
+          <AboutDropDown small={false} />
         ) : (
           <Button
             component={Link}
@@ -288,18 +320,21 @@ function ResponsiveMenu({ pages }: pagesProps) {
       >
         {pages.map((page) =>
           page === 'about' ? (
-            <AboutDropDown />
+            <AboutDropDown small={true} closeTopMenu={handleCloseNavMenu} />
           ) : (
             <Link
               key={page}
               style={{
-                textTransform: 'capitalize',
+                textTransform: 'uppercase',
                 textDecoration: 'none',
                 color: '#04364a',
               }}
               to={`/${page}`}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
+              <MenuItem
+                onClick={handleCloseNavMenu}
+                style={{ display: 'flex', justifyContent: 'center' }}
+              >
                 <Typography textAlign="center" textTransform="uppercase">
                   {page === '' ? 'home' : page}
                 </Typography>

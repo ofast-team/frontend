@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Typography } from '@mui/material'
 
-export default function TechSpecPage() {
+export default function SpecPage() {
   return (
     <Container sx={{ p: 15 }}>
       <Typography variant="h3" gutterBottom color="primary">
