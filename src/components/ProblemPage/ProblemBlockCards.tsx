@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Typography, Stack, Button, Chip, Dialog } from '@mui/material'
 
+import PersonIcon from '@mui/icons-material/Person'
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
@@ -11,24 +14,7 @@ import buildPath from '../../path'
 import { useNavigate } from 'react-router-dom'
 
 import { Verdict, verdictInfo } from '../../utils/verdict'
-
-export type Problem = {
-  problemID: string
-  title: string
-  text: string
-  problem: string
-  input: string
-  output: string
-  sampleData: {
-    input: string
-    output: string
-  }[]
-  tags: string[]
-  resources: {
-    name: string
-    url: string
-  }[]
-}
+import { Problem } from '../../objects/Problems'
 
 interface Submission {
   submissionID: string
@@ -350,32 +336,82 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             </Box>
           </Card>
         )}
-        {problem.tags && (
-          <Card title="Tags" style={{ marginBottom: '50px' }}>
-            {problem.tags.map((tag, i) => (
-              <Chip key={i} label={tag} sx={{ mr: '10px', mb: '10px' }} />
-            ))}
+
+        {problem.tags && problem.tags.length > 0 && (
+          <Card
+            title="Tags"
+            style={{
+              marginBottom: '50px',
+            }}
+          >
+            <Box sx={{ justifyContent: 'center', textAlign: 'center' }}>
+              {problem.tags.map((tag, i) => (
+                <Chip key={i} label={tag} sx={{ m: '5px' }} />
+              ))}
+            </Box>
           </Card>
         )}
-        {problem.resources && (
+
+        {problem.resources && problem.resources.length > 0 && (
           <Card title="Resources">
-            {problem.resources.map((resource, i) => (
-              <div
-                key={i}
-                style={{ marginRight: '10px', display: 'inline-block' }}
-              >
-                <Link style={{ color: 'inherit' }} to={resource.url} replace>
-                  <Typography
-                    gutterBottom
-                    color="primary"
-                    component="span"
-                    variant="body1"
-                  >
-                    {resource.name}
+            <Box sx={{ justifyContent: 'center', textAlign: 'center' }}>
+              {problem.resources.map((resource, i) => (
+                <Box key={i} sx={{ mx: '5px', display: 'inline-block' }}>
+                  <Link style={{ color: 'inherit' }} to={resource.url} replace>
+                    <Typography
+                      gutterBottom
+                      color="primary"
+                      component="span"
+                      variant="body1"
+                    >
+                      {resource.name}
+                    </Typography>
+                  </Link>
+                </Box>
+              ))}
+            </Box>
+          </Card>
+        )}
+        {(problem.author || problem.source) && (
+          <Card
+            title="Source"
+            style={{
+              marginBottom: '50px',
+            }}
+          >
+            <Box
+              display="flex"
+              flexDirection="column"
+              gap={1}
+              padding="0px 20px"
+            >
+              {problem.source && (
+                <Box display={'flex'} alignItems={'center'} gap={1}>
+                  <Box>
+                    <EmojiEventsIcon
+                      style={{
+                        textAlign: 'center',
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                      }}
+                    ></EmojiEventsIcon>
+                  </Box>
+                  <Typography variant="body2" color="primary">
+                    {problem.source}
                   </Typography>
-                </Link>
-              </div>
-            ))}
+                </Box>
+              )}
+              {problem.author && (
+                <Box display={'flex'} alignItems={'center'} gap={1}>
+                  <Box>
+                    <PersonIcon style={{ textAlign: 'center' }}></PersonIcon>
+                  </Box>
+                  <Typography variant="body2" color="primary">
+                    {problem.author}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
           </Card>
         )}
       </Stack>

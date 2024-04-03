@@ -1,4 +1,11 @@
-import { Box, Container, Grid, IconButton, Typography } from '@mui/material'
+import {
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import DownloadIcon from '@mui/icons-material/Download'
 import MDXRenderer from '../components/MDXRenderer'
@@ -11,6 +18,7 @@ import buildPath from '../path'
 
 import { motion } from 'framer-motion'
 import { SubmissionTableElem } from './SubmissionsList'
+import Problems from '../objects/Problems'
 
 const CorrectIcon = () => {
   return <CheckCircle sx={{ color: '#1db924', fontSize: '2.5rem' }} />
@@ -119,6 +127,16 @@ export function formatSubmissionData(data, problemsObj): SubmissionData {
   }
 }
 
+function VerdictIcon(props) {
+  if (props.verdict == 3) {
+    return <CorrectIcon />
+  }
+  if (props.verdict > 3) {
+    return <WrongAnswerIcon />
+  }
+  return <PendingIcon />
+}
+
 export interface SubmissionData {
   date: string
   problem: string
@@ -131,7 +149,7 @@ export interface SubmissionData {
 
 export default function VerdictPage() {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isFinishedJudging, setIsFinishedJudging] = useState<boolean>(false)
 
   const [currentSubmissionData, setCurrentSubmissionData] =
@@ -147,7 +165,7 @@ export default function VerdictPage() {
   const params = useParams()
   const submissionId: string = params.submissionId as string
 
-  const problemsObject = useProblemsObject()
+  const problemsObject: Problems = useProblemsObject()
 
   useEffect(() => {
     const fetchVerdict = () => {
@@ -165,7 +183,7 @@ export default function VerdictPage() {
         })
         .then((data) => {
           const problemName: string =
-            problemsObject.getProblem(data.problem_id)?.title ||
+            problemsObject?.getProblem(data.problem_id)?.title ||
             'Custom Submission'
           setProblemName(problemName)
           setProblemID(data.problem_id)
@@ -190,8 +208,6 @@ export default function VerdictPage() {
           console.log('Verdict Fetch Failed: ' + error.message)
         })
     }
-
-    setIsLoading(true)
     fetchVerdict()
 
     // Set up a 2s timer that repeats until its told otherwise.
@@ -204,9 +220,10 @@ export default function VerdictPage() {
     // useEffect allows you to return a cleanup function,
     // which gets called when the component unmounts.
     return stopTimer
-  }, [])
+  }, [problemsObject])
 
-  if (isLoading) {
+  // I'm using the problem count as an indicator of if the problem provider has the data ready.
+  if (isLoading || problemsObject.getNumProblems() == 0) {
     return <React.Fragment />
   }
 
@@ -343,15 +360,27 @@ export default function VerdictPage() {
             </SubmissionTableElem>
           </Grid>
           <Box sx={{ p: 2, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-            {testCases?.map((status) => {
-              if (status == 3) {
-                return <CorrectIcon />
-              }
-              if (status > 3) {
-                return <WrongAnswerIcon />
-              }
-              return <PendingIcon />
-            })}
+            {testCases?.map((status) => (
+              <Tooltip
+                title={verdictInfo[status].description}
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, -75],
+                        },
+                      },
+                    ],
+                  },
+                }}
+              >
+                <Box>
+                  <VerdictIcon verdict={status} />
+                </Box>
+              </Tooltip>
+            ))}
           </Box>
         </Box>
       </Box>
