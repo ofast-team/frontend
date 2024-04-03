@@ -66,7 +66,8 @@ export default function ProfilePage() {
           numWA: data.submissionsWrong,
           numTLE: data.submissionsTLE,
           numRTE: data.submissionsRTE,
-          numCTE: data.submissionsCTE
+          numCTE: data.submissionsCTE,
+          numSubmissions: data.numSubmissions,
         }
 
         const newProfileData: ProfileData = {
@@ -74,7 +75,6 @@ export default function ProfilePage() {
           email: data.email,
           name: data.name,
           school: data.school,
-          numSubmissions: data.numSubmissions,
           pieChartData: newPieChartData,
         }
 

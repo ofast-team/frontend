@@ -16,7 +16,7 @@ export default function ProfileProgressCard({
   profileData,
 }: ProfileProgressCardProps) {
 
-  let acRatio : string = (profileData.pieChartData.numAC / profileData.numSubmissions * 100).toFixed(1) 
+  let acRatio : string = (profileData.pieChartData.numAC / profileData.pieChartData.numSubmissions * 100).toFixed(1) 
   if (Number.isNaN(Number(acRatio))) {
     acRatio = 'None'
   }
@@ -44,7 +44,7 @@ export default function ProfileProgressCard({
             <Typography variant = 'body2' fontSize={'20px'}>Total Submissions:
             </Typography>
             <Typography fontWeight = 'bold' variant = 'body2' fontSize={'20px'}>
-              {profileData.numSubmissions || '0'}
+              {profileData.pieChartData.numSubmissions || '0'}
             </Typography>
           </Box>
           <Box display="flex" gap={2} alignItems={'center'}>

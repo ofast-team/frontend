@@ -103,11 +103,14 @@ export default function ProfileCard({
   }
 
   function stringAvatar(name: string) {
+    const names = name.split(' ')
+    console.log(names)
     return {
       children: <span style={{ fontSize: '40px' }}>
-        {`${name.split(' ')[0][0]}${name.split(' ')[1][0]}`}
-      </span>
-    };
+          {names.length >= 1 && names[0][0] ? names[0][0].toUpperCase() : ''}
+          {names.length >= 2 && names[1][0] ? names[1][0].toUpperCase() : ''}
+        </span>
+    }
   }
 
   return (
