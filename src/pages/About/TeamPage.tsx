@@ -9,7 +9,7 @@ interface Profile {
 
 // TODO(cam): add a contact info page for people to reach out to us and give feedback
 // need a professional email for this
-export default function AboutPage() {
+export default function TeamPage() {
   const aboutText = `
     O(fast) is created by students for students. We want to help you learn!
     We believe in learning by doing which is why we created a set of
@@ -44,7 +44,7 @@ export default function AboutPage() {
       bio: 'Sathwika is an active guest participant of the UCF JV Programming Team. Sathwika also served as a Techning Assistant for 2 semesters, where she taught students about cryptography and data structures and algorithms. After graduation, Sathwika is interested in becoming a software engineer in the finance sector and pursuing graduate school.',
     },
     {
-      name: 'Alanna Fey',
+      name: 'Alanna Hill',
       role: 'Developer',
       bio: 'Alanna was a part of the UCF JV Programming Team during her freshman year and continued competing as a guest throughout her time at UCF.  She has been a teaching assistant for several classes and the UCF Computer Science Summer Institute, interned at Amazon, and served as a judge for the UCF High School Programming Contest.  Alanna is interested in several plans for the future including becoming a teacher, becoming a software engineer, or pursuing graduate school.',
     },
