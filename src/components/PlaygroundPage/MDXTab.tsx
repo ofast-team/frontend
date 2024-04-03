@@ -1,10 +1,15 @@
 import React from 'react'
-import { Typography, TextField } from '@mui/material'
-
+import { Typography, TextField, Alert } from '@mui/material'
+import { ErrorBoundary } from 'react-error-boundary'
 import MDX from '../MDXRenderer'
 
 export default function MDXTab() {
   const [text, setText] = React.useState<string>('')
+  const [isError, setIsError] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    setIsError(false)
+  }, [text])
 
   return (
     <>
@@ -23,7 +28,16 @@ export default function MDXTab() {
         color="primary"
         component="span"
       >
-        <MDX value={text} />
+        {!isError ? (
+          <ErrorBoundary
+            fallbackRender={() => <></>}
+            onError={() => setIsError(true)}
+          >
+            <MDX value={text} />
+          </ErrorBoundary>
+        ) : (
+          <Alert severity="error">Runtime Error</Alert>
+        )}
       </Typography>
     </>
   )
