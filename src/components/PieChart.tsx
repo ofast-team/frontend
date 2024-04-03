@@ -35,6 +35,7 @@ export interface PieChartProps {
   numTLE: number
   numRTE: number
   numCTE: number
+  numSubmissions: number
 }
 
 export default function PieChart({
@@ -42,24 +43,33 @@ export default function PieChart({
   numWA,
   numTLE,
   numRTE,
-  numCTE
+  numCTE,
+  numSubmissions,
 }: PieChartProps) {
   const data = {
-    labels: [
+    labels: (numSubmissions > 0) ? [
       'Accepted',
       'Wrong Answer',
       'Time-Limit Exceeded',
       'Runtime Error',
       'Compile-time Error',
+    ] : [
+      'No Submissions'
     ],
-    datasets: [
+    datasets: (numSubmissions > 0) ? [
       {
         label: 'Judge Verdicts',
         data: [numAC, numWA, numTLE, numRTE, numCTE],
         backgroundColor: ['#1db924', '#FF5555', '#f4e458', '#6DB6C3', '#176B87'],
         borderWidth: 2,
       },
-    ],
+    ] : [
+      {
+        data: [1],
+        backgroundColor: ['#BDBDBD'],
+        borderWidth: 0,
+      }
+    ]
   }
 
   return (

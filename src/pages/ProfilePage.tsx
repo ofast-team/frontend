@@ -13,7 +13,6 @@ export interface ProfileData {
   email: string
   name: string
   school: string
-  numSubmissions: number
   pieChartData: PieChartProps
 }
 
@@ -37,8 +36,9 @@ export default function ProfilePage() {
       numTLE: 0,
       numRTE: 0,
       numCTE: 0,
+      numSubmissions: 0,
     },
-    numSubmissions: 0,
+    
   }
   const [profileData, setProfileData] =
     useState<ProfileData>(profileDataDefault)
