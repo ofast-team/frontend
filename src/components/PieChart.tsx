@@ -34,6 +34,7 @@ export interface PieChartProps {
   numWA: number
   numTLE: number
   numRTE: number
+  numCTE: number
 }
 
 export default function PieChart({
@@ -41,6 +42,7 @@ export default function PieChart({
   numWA,
   numTLE,
   numRTE,
+  numCTE
 }: PieChartProps) {
   const data = {
     labels: [
@@ -48,19 +50,20 @@ export default function PieChart({
       'Wrong Answer',
       'Time-Limit Exceeded',
       'Runtime Error',
+      'Compile-time Error',
     ],
     datasets: [
       {
         label: 'Judge Verdicts',
-        data: [numAC, numWA, numTLE, numRTE],
-        backgroundColor: ['#02b2af', '#2e96ff', '#c004dc', '#68049c'],
-        borderWidth: 1,
+        data: [numAC, numWA, numTLE, numRTE, numCTE],
+        backgroundColor: ['#1db924', '#FF5555', '#f4e458', '#6DB6C3', '#176B87'],
+        borderWidth: 2,
       },
     ],
   }
 
   return (
-    <Container sx={{ height: 300 }}>
+    <Container sx={{ height: 280 }}>
       <Doughnut data={data} options={options} />
     </Container>
   )
