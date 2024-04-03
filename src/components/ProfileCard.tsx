@@ -103,13 +103,20 @@ export default function ProfileCard({
   }
 
   function stringAvatar(name: string) {
-    const names = name.split(' ')
-    console.log(names)
+    let names = name.split(' ')
+    names = names.filter((name) => name !== '')
+
+    if (names.length === 0) {
+      return {}
+    }
+
     return {
-      children: <span style={{ fontSize: '40px' }}>
+      children: (
+        <span style={{ fontSize: '40px' }}>
           {names.length >= 1 && names[0][0] ? names[0][0].toUpperCase() : ''}
           {names.length >= 2 && names[1][0] ? names[1][0].toUpperCase() : ''}
         </span>
+      ),
     }
   }
 
@@ -163,10 +170,20 @@ export default function ProfileCard({
           marginBottom: '20px',
         }}
       >
-        <Avatar {...stringAvatar(profileData.name)} sx={{ width: '130px', height: '130px' }} />
-        <Typography fontSize={32} fontWeight={600}>
-          {profileData?.name}
-        </Typography>
+        <Avatar
+          {...stringAvatar(profileData.name)}
+          sx={{ width: '130px', height: '130px' }}
+        />
+        {/* Check if the name has any content becides spaces */}
+        {profileData?.name.split('').filter(ch => ch !== ' ').join('') ? (
+          <Typography fontSize={32} fontWeight={600}>
+            {profileData?.name}
+          </Typography>
+        ) : (
+          <Typography visibility = 'hidden' fontSize={32} fontWeight={600}>
+            {'Hidden'}
+          </Typography>
+        )}
       </Container>
       <Stack>
         {/* Username */}
