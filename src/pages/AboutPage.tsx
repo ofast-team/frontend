@@ -38,6 +38,16 @@ export default function AboutPage() {
       role: 'Developer',
       bio: 'Tyler is a member of the UCF Varsity Programming Team. He has competed in ICPC contests for the last three years in the Southeast U.S. Region. As apart of UCF Beacon (along with Cameron), he placed 3rd in the region.  He also served as a judge for the UCF High School Programming Tournament. In addition, Tyler served as a Teaching Assistant where he taught students about data structures and algorithms. He also tutored grade school students in mathematics for two years.',
     },
+    {
+      name: 'Sathwika Deegutla',
+      role: 'Developer',
+      bio: 'Sathwika is an active guest participant of the UCF JV Programming Team. Sathwika also served as a Techning Assistant for 2 semesters, where she taught students about cryptography and data structures and algorithms. After graduation, Sathwika is interested in becoming a software engineer in the finance sector and pursuing graduate school.',
+    },
+    {
+      name: 'Alanna Fey',
+      role: 'Developer',
+      bio: 'Alanna was a part of the UCF JV Programming Team during her freshman year and continued competing as a guest throughout her time at UCF.  She has been a teaching assistant for several classes and the UCF Computer Science Summer Institute, interned at Amazon, and served as a judge for the UCF High School Programming Contest.  Alanna is interested in several plans for the future including becoming a teacher, becoming a software engineer, or pursuing graduate school.',
+    },
   ]
 
   return (
