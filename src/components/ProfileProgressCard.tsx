@@ -5,7 +5,7 @@ import { ProfileData } from '../pages/ProfilePage'
 import { FlexBox } from './ProfileCard'
 
 import TerminalIcon from '@mui/icons-material/Terminal'
-import PercentIcon from '@mui/icons-material/Percent';
+import PercentIcon from '@mui/icons-material/Percent'
 
 interface ProfileProgressCardProps {
   profileData: ProfileData
@@ -15,12 +15,13 @@ interface ProfileProgressCardProps {
 export default function ProfileProgressCard({
   profileData,
 }: ProfileProgressCardProps) {
-
-  let acRatio : string = (profileData.pieChartData.numAC / profileData.pieChartData.numSubmissions * 100).toFixed(1) 
+  let acRatio: string = (
+    (profileData.pieChartData.numAC / profileData.pieChartData.numSubmissions) *
+    100
+  ).toFixed(1)
   if (Number.isNaN(Number(acRatio))) {
     acRatio = 'None'
-  }
-  else {
+  } else {
     acRatio += ' %'
   }
 
@@ -41,9 +42,10 @@ export default function ProfileProgressCard({
                 fontSize: '28px',
               }}
             />
-            <Typography variant = 'body2' fontSize={'20px'}>Total Submissions:
+            <Typography variant="body2" fontSize={'20px'}>
+              Total Submissions:
             </Typography>
-            <Typography fontWeight = 'bold' variant = 'body2' fontSize={'20px'}>
+            <Typography fontWeight="bold" variant="body2" fontSize={'20px'}>
               {profileData.pieChartData.numSubmissions || '0'}
             </Typography>
           </Box>
@@ -54,9 +56,10 @@ export default function ProfileProgressCard({
                 fontSize: '28px',
               }}
             />
-            <Typography variant = 'body2' fontSize={'20px'}>AC Ratio:
+            <Typography variant="body2" fontSize={'20px'}>
+              AC Ratio:
             </Typography>
-            <Typography fontWeight = 'bold' variant = 'body2' fontSize={'20px'}>
+            <Typography fontWeight="bold" variant="body2" fontSize={'20px'}>
               {acRatio}
             </Typography>
           </Box>
