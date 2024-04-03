@@ -38,7 +38,6 @@ export default function ProfilePage() {
       numCTE: 0,
       numSubmissions: 0,
     },
-    
   }
   const [profileData, setProfileData] =
     useState<ProfileData>(profileDataDefault)

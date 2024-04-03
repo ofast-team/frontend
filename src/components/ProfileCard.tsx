@@ -175,12 +175,15 @@ export default function ProfileCard({
           sx={{ width: '130px', height: '130px' }}
         />
         {/* Check if the name has any content becides spaces */}
-        {profileData?.name.split('').filter(ch => ch !== ' ').join('') ? (
+        {profileData?.name
+          .split('')
+          .filter((ch) => ch !== ' ')
+          .join('') ? (
           <Typography fontSize={32} fontWeight={600}>
             {profileData?.name}
           </Typography>
         ) : (
-          <Typography visibility = 'hidden' fontSize={32} fontWeight={600}>
+          <Typography visibility="hidden" fontSize={32} fontWeight={600}>
             {'Hidden'}
           </Typography>
         )}
