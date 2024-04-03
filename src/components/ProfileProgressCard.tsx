@@ -4,6 +4,9 @@ import PieChart from './PieChart'
 import { ProfileData } from '../pages/ProfilePage'
 import { FlexBox } from './ProfileCard'
 
+import TerminalIcon from '@mui/icons-material/Terminal'
+import PercentIcon from '@mui/icons-material/Percent';
+
 interface ProfileProgressCardProps {
   profileData: ProfileData
 }
@@ -13,27 +16,41 @@ export default function ProfileProgressCard({
   profileData,
 }: ProfileProgressCardProps) {
   return (
-    <Card sx={{ p: 5, width: '54%' }}>
-      <Typography variant={'h4'} sx={{ marginBottom: 3 }}>
-        Progress
+    <Card sx={{ p: 5, pt: 5, width: '54%' }}>
+      <Typography variant={'h4'} sx={{ marginBottom: 3, p: 0 }}>
+        My Statistics
       </Typography>
       <FlexBox>
         <Box sx={{ marginBottom: '20px', width: '100%' }}>
           <PieChart {...profileData.pieChartData} />
         </Box>
         <Stack>
-          <FlexBox>
-            <Typography>{'Attempted Problems:'}</Typography>
-            <Typography>{profileData.numAttempts}</Typography>
-          </FlexBox>
-          <FlexBox>
-            <Typography>{'Solved Problems:'}</Typography>
-            <Typography>{profileData.pieChartData.numAC}</Typography>
-          </FlexBox>
-          <FlexBox>
-            <Typography>{'Lessons Completed:'}</Typography>
-            <Typography>{0}</Typography>
-          </FlexBox>
+          <Box display="flex" gap={2} alignItems={'center'}>
+            <TerminalIcon
+              style={{
+                textAlign: 'center',
+                fontSize: '28px',
+              }}
+            />
+            <Typography variant = 'body2' fontSize={'20px'}>Total Submissions:
+            </Typography>
+            <Typography fontWeight = 'bold' variant = 'body2' fontSize={'20px'}>
+              {profileData.numSubmissions}
+            </Typography>
+          </Box>
+          <Box display="flex" gap={2} alignItems={'center'}>
+            <PercentIcon
+              style={{
+                textAlign: 'center',
+                fontSize: '28px',
+              }}
+            />
+            <Typography variant = 'body2' fontSize={'20px'}>AC Ratio:
+            </Typography>
+            <Typography fontWeight = 'bold' variant = 'body2' fontSize={'20px'}>
+              {(profileData.pieChartData.numAC / profileData.numSubmissions * 100).toFixed(1) + '%'}
+            </Typography>
+          </Box>
         </Stack>
       </FlexBox>
     </Card>

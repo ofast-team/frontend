@@ -102,6 +102,14 @@ export default function ProfileCard({
       })
   }
 
+  function stringAvatar(name: string) {
+    return {
+      children: <span style={{ fontSize: '40px' }}>
+        {`${name.split(' ')[0][0]}${name.split(' ')[1][0]}`}
+      </span>
+    };
+  }
+
   return (
     <Card
       sx={{
@@ -152,11 +160,7 @@ export default function ProfileCard({
           marginBottom: '20px',
         }}
       >
-        <Avatar src="" sx={{ width: '150px', height: '150px' }} />
-        <FlexBox>
-          <ProfileButton>Change</ProfileButton>|
-          <ProfileButton>Remove</ProfileButton>
-        </FlexBox>
+        <Avatar {...stringAvatar(profileData.name)} sx={{ width: '130px', height: '130px' }} />
         <Typography fontSize={32} fontWeight={600}>
           {profileData?.name}
         </Typography>
@@ -165,10 +169,10 @@ export default function ProfileCard({
         {/* Username */}
         <div style={{ padding: '5px' }}>
           <hr style={{ borderTop: '1px' }} />
-          <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
+          <Grid container columnSpacing={2} alignItems="center" pl={0} pr={2}>
             <Grid item xs={4}>
               <div style={{ width: '100%', textAlign: 'right' }}>
-                <Typography fontSize={20}>Username:</Typography>
+                <Typography fontSize={18}>Username:</Typography>
               </div>
             </Grid>
             <Grid item xs={8}>
@@ -183,12 +187,12 @@ export default function ProfileCard({
                     onTextFieldChange('username', e.target.value)
                   }}
                   inputProps={{
-                    sx: { padding: '2px 5px', fontSize: '20px' },
+                    sx: { padding: '2px 5px', fontSize: '18px' },
                   }}
                   disabled={isWaiting}
                 ></TextField>
               ) : (
-                <Typography fontSize={20}>{profileData?.username}</Typography>
+                <Typography fontSize={18}>{profileData?.username}</Typography>
               )}
             </Grid>
             {hasIssue(usernameStatus) && (
@@ -203,9 +207,9 @@ export default function ProfileCard({
         {/* Email */}
         <div style={{ padding: '5px' }}>
           <hr style={{ borderTop: '1px' }} />
-          <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
+          <Grid container columnSpacing={2} alignItems="center" pl={0} pr={2}>
             <Grid item xs={4}>
-              <Typography fontSize={20} textAlign={'right'}>
+              <Typography fontSize={18} textAlign={'right'}>
                 Email:
               </Typography>
             </Grid>
@@ -221,12 +225,12 @@ export default function ProfileCard({
                     onTextFieldChange('email', e.target.value)
                   }}
                   inputProps={{
-                    sx: { padding: '2px 5px', fontSize: '20px' },
+                    sx: { padding: '2px 5px', fontSize: '18px' },
                   }}
                   disabled={isWaiting}
                 ></TextField>
               ) : (
-                <Typography fontSize={20}>{profileData?.email}</Typography>
+                <Typography fontSize={18}>{profileData?.email}</Typography>
               )}
             </Grid>
             {hasIssue(emailStatus) && (
@@ -246,9 +250,9 @@ export default function ProfileCard({
         {/*"Name"*/}
         <div style={{ padding: '5px' }}>
           <hr style={{ borderTop: '1px' }} />
-          <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
+          <Grid container columnSpacing={2} alignItems="center" pl={0} pr={2}>
             <Grid item xs={4}>
-              <Typography fontSize={20} textAlign={'right'}>
+              <Typography fontSize={18} textAlign={'right'}>
                 Name:
               </Typography>
             </Grid>
@@ -260,12 +264,12 @@ export default function ProfileCard({
                     onTextFieldChange('name', e.target.value)
                   }}
                   inputProps={{
-                    sx: { padding: '2px 5px', fontSize: '20px' },
+                    sx: { padding: '2px 5px', fontSize: '18px' },
                   }}
                   disabled={isWaiting}
                 ></TextField>
               ) : (
-                <Typography fontSize={20}>{profileData?.name}</Typography>
+                <Typography fontSize={18}>{profileData?.name}</Typography>
               )}
             </Grid>
           </Grid>
@@ -273,9 +277,9 @@ export default function ProfileCard({
         {/* School */}
         <div style={{ padding: '5px' }}>
           <hr style={{ borderTop: '1px' }} />
-          <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
+          <Grid container columnSpacing={2} alignItems="center" pl={0} pr={2}>
             <Grid item xs={4}>
-              <Typography fontSize={20} textAlign={'right'}>
+              <Typography fontSize={18} textAlign={'right'}>
                 School:
               </Typography>
             </Grid>
@@ -287,12 +291,12 @@ export default function ProfileCard({
                     onTextFieldChange('school', e.target.value)
                   }}
                   inputProps={{
-                    sx: { padding: '2px 5px', fontSize: '20px' },
+                    sx: { padding: '2px 5px', fontSize: '18px' },
                   }}
                   disabled={isWaiting}
                 ></TextField>
               ) : (
-                <Typography fontSize={20}>{profileData?.school}</Typography>
+                <Typography fontSize={18}>{profileData?.school}</Typography>
               )}
             </Grid>
           </Grid>
