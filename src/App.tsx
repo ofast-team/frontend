@@ -22,7 +22,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import VerificationBanner from './components/VerificationBanner'
 import SubmissionsList from './pages/SubmissionsList'
 import ContributePage from './pages/About/ContributePage'
-import TechSpecPage from './pages/About/TechSpecPage'
+import SpecPage from './pages/About/SpecPage'
 
 const theme = createTheme({
   typography: {
@@ -84,9 +84,10 @@ export function App() {
         <Route path="/problem/:problem" element={<ProblemPage />} />
         <Route path="/about/team" element={<TeamPage />} />
         <Route path="/about/how-to-contribute" element={<ContributePage />} />
+        <Route path="/about/specifications" element={<SpecPage />} />
         <Route
-          path="/about/technical-specifications"
-          element={<TechSpecPage />}
+          path="/about/*"
+          element={<Navigate to="/about/team" replace />}
         />
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
