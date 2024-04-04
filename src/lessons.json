@@ -40,7 +40,7 @@
   "graph-theory-intro": {
     "lessonName": "Intro to Graph Theory",
     "lessonGroup": "Graph Theory",
-    "files": ["intro.mdx", "graphs-in-code.mdx", "practice-problem-flow.mdx"]
+    "files": ["intro.mdx", "graphs-in-code.mdx", "practice-problem.mdx"]
   },
   "lists": {
     "lessonName": "Lists & Vectors",
