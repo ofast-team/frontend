@@ -1,0 +1,29 @@
+# Runtime Analysis
+
+Imagine that you just thought of a brilliant solution to a competitive programming problem.
+How do you know that your algorithm will run within the time limit?
+Computer Scientists have a shared language with which to talk about an algorithm's runtime called __Big-O__.
+In this lesson, you'll learn how to use Big-O to compare the performance of algorithms,
+and make predictions about how your algorithm will run before writing any code.
+
+## What is Big-O?
+The most common way to express time complexity is Big-O notation. Big-O describes how an algorithm's runtime will grow as the size of the input grows. 
+For example, $O(n)$, pronounced "order n", means that an algorithm's runtime grows linearly with respect to the size of its input.
+
+The notation isn't very precise, but that's exactly what's useful about it. We cover many algorithms on O(fast), and Big-O allows us
+to easily categorize and compare them. We love Big-O so much that we named this website after it!
+
+Here are some of the most common Big-O runtimes.
+
+<div style = {{display: 'flex', gap: 20, justifyContent: 'space-between'}}>
+    <table width = "550px">
+    <tr><th>Big O</th><th>Description</th><th>Common Use</th></tr>
+    <tr><td>$O(1)$</td><td>constant</td><td>Array lookup</td></tr>
+    <tr><td>$O(log n)$</td><td>logarithmic</td><td>Binary Search</td></tr>
+    <tr><td>$O(n)$</td><td>linear</td><td>Flood Fill</td></tr>
+    <tr><td>$O(nlogn)$</td><td>loglinear</td><td>Built-in sort function</td></tr>
+    <tr><td>$O(n^2)$</td><td>quadratic (polynomial)</td><td>Searching all substrings</td></tr>
+    <tr><td>$O(2^n)$</td><td>exponential</td><td>Searching all combinations</td></tr>
+    </table>
+    <img src="/lessons/runtime-analysis/assets/big_o_graph2.png" alt="Big O Graph" width="55%"/>
+</div>

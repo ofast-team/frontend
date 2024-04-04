@@ -1,0 +1,64 @@
+.snap-parent-y-mandatory {
+  scroll-snap-type: y mandatory;
+  overflow: scroll;
+  height: 100vh;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.snap-parent-y-mandatory::-webkit-scrollbar {
+  display: none;
+}
+
+.snap-child-start {
+  opacity: 1;
+  z-index: 10;
+  scroll-snap-align: start;
+}
+
+.snap-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-rotate {
+  rotate: 3deg;
+  position: relative;
+}
+
+.card-left {
+  top: 5%;
+  left: 5%;
+}
+
+.card-right {
+  top: -35%;
+  left: 40%;
+}
+
+.gear-top {
+  left: 5%;
+  bottom: 35%;
+  position: relative;
+}
+
+.gear-bottom {
+  left: 40%;
+  bottom: 80%;
+  position: relative;
+}
+
+.solve-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.solve-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #87c4ce;
+  border-radius: 10px;
+}
+
+.solve-scroll-container::-webkit-scrollbar-track {
+  background-color: #e2dcdc;
+  border-radius: 10px;
+}

@@ -1,15 +1,12 @@
 import React from 'react'
 
-import { Grid, Box, Typography } from '@mui/material'
+import { Box, Typography, Tooltip, IconButton } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import MDX from '../MDXRenderer'
-import { Problem } from './ProblemBlock'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
-function doubleNewlines(inputString: string): string {
-  // Use regular expression to match newline characters and replace them with two newline characters
-  return inputString.replace(/\n/g, '\n\n')
-}
+import MDX from '../MDXRenderer'
+import { Problem } from '../../objects/Problems'
 
 const dataTheme = createTheme({
   typography: {
@@ -21,12 +18,73 @@ interface ProblemBodyProps {
   problem: Problem
 }
 
-// TODO: (Stretch Goal) Add copy button for samples
+function SampleDataBlock({ data }: { data: string }) {
+  const copyMsg = 'Copy to clipboard'
+  const copiedMsg = 'Copied!'
+  const [tooltip, setTooltip] = React.useState<string>(copyMsg)
+
+  return (
+    <Box
+      sx={{
+        padding: '16px',
+        bgcolor: '#dae5ed',
+        borderRadius: '15px',
+        whiteSpace: 'nowrap',
+        position: 'relative',
+      }}
+    >
+      <Box sx={{ overflowX: 'auto', pb: '10px' }}>
+        <Typography sx={{ lineHeight: 1.5 }}>
+          {data.split('\n').map((line, i) => (
+            <div key={i}>{line}</div>
+          ))}
+        </Typography>
+
+        <Tooltip
+          title={tooltip}
+          onClose={async () => {
+            await new Promise((r) => setTimeout(r, 200))
+            setTooltip(copyMsg)
+          }}
+          sx={{ position: 'absolute', top: 8, right: 8 }}
+          onClick={() => {
+            navigator.clipboard.writeText(data)
+            setTooltip(copiedMsg)
+          }}
+        >
+          <IconButton>
+            <ContentCopyIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    </Box>
+  )
+}
+
 export default function ProblemBody({ problem }: ProblemBodyProps) {
   return (
     <>
       <Typography className="themeborder" color="primary" component="span">
-        <h1 style={{ textAlign: 'center' }}>{problem.title}</h1>
+        <h1 style={{ textAlign: 'center', marginBottom: 0 }}>
+          {problem.title}
+        </h1>
+        <Box
+          sx={{
+            padding: 1,
+            margin: 0,
+            gap: 2,
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography fontSize="16px" borderBottom="solid black 1px">
+            <b>Time Limit:</b> {problem.timeLimit.toFixed(1) || 1.0} s
+          </Typography>
+          <Typography fontSize="16px" borderBottom="solid black 1px">
+            <b>Memory Limit:</b> {problem.memoryLimit || 512} MB
+          </Typography>
+        </Box>
+
         <MDX value={problem.text} />
 
         <h2 style={{ marginBottom: '5px' }}>Problem</h2>
@@ -40,61 +98,29 @@ export default function ProblemBody({ problem }: ProblemBodyProps) {
 
         <ThemeProvider theme={dataTheme}>
           {problem.sampleData.map(({ input, output }, index) => (
-            <Box key={index}>
-              <Grid container sx={{ paddingTop: '20px' }}>
-                <Grid item xs={6}>
-                  <h3>{'Sample Input ' + (index + 1)}</h3>
-                </Grid>
-                <Grid item xs={6}>
-                  <h3>{'Sample Output ' + (index + 1)}</h3>
-                </Grid>
-              </Grid>
+            <Box
+              key={index}
+              sx={{
+                mt: '20px',
+                width: '100%',
+              }}
+            >
+              <Box width="49%" sx={{ display: 'inline-block' }}>
+                <h3>{'Sample Input ' + (index + 1)}</h3>
+                <SampleDataBlock data={input} />
+              </Box>
 
-              <Grid
-                container
+              <Box
+                width="49%"
                 sx={{
-                  border: 'solid 1px',
-                  marginBottom: '20px',
-                  overflow: 'clip',
+                  display: 'inline-block',
+                  verticalAlign: 'top',
+                  ml: '2%',
                 }}
               >
-                <Grid item xs={6}>
-                  <Box
-                    sx={{
-                      padding: '10px',
-                      paddingTop: '15px',
-                      height: '100%',
-                    }}
-                  >
-                    <Typography
-                      className="themeborder"
-                      component="span"
-                      sx={{ lineHeight: 0.5 }}
-                    >
-                      <MDX value={doubleNewlines(input)} />
-                    </Typography>
-                  </Box>
-                </Grid>
-
-                <Grid item xs={6}>
-                  <Box
-                    sx={{
-                      padding: '10px',
-                      paddingTop: '15px',
-                      borderLeft: 'solid 1px',
-                      height: '100%',
-                    }}
-                  >
-                    <Typography
-                      className="themeborder"
-                      component="span"
-                      sx={{ lineHeight: 0.5 }}
-                    >
-                      <MDX value={doubleNewlines(output)} />
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
+                <h3>{'Sample Output ' + (index + 1)}</h3>
+                <SampleDataBlock data={output} />
+              </Box>
             </Box>
           ))}
         </ThemeProvider>

@@ -5,12 +5,12 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
-import AboutPage from './pages/AboutPage'
+import TeamPage from './pages/About/TeamPage'
 import LearnPage from './pages/LearnPage'
 import NavBar from './components/NavBar'
 import LessonPage from './pages/LessonPage'
 import SolvePage from './pages/SolvePage'
-import MDXPlaygroundPage from './pages/MDXPlaygroundPage'
+import PlaygroundPage from './pages/PlaygroundPage'
 import ProblemPage from './pages/ProblemPage'
 import ProfilePage from './pages/ProfilePage'
 import SubmitPage from './pages/SubmitPage'
@@ -21,6 +21,9 @@ import { RootState } from './store'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import VerificationBanner from './components/VerificationBanner'
 import SubmissionsList from './pages/SubmissionsList'
+import ForgotPassword from './pages/ForgotPassword'
+import ContributePage from './pages/About/ContributePage'
+import SpecPage from './pages/About/SpecPage'
 
 const theme = createTheme({
   typography: {
@@ -80,14 +83,21 @@ export function App() {
           element={<LessonPage />}
         />
         <Route path="/problem/:problem" element={<ProblemPage />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/about/team" element={<TeamPage />} />
+        <Route path="/about/how-to-contribute" element={<ContributePage />} />
+        <Route path="/about/specifications" element={<SpecPage />} />
+        <Route
+          path="/about/*"
+          element={<Navigate to="/about/team" replace />}
+        />
         <Route path="/solve" element={<SolvePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/submit" element={<SubmitPage />} />
         <Route path="/submissions/:submissionId" element={<VerdictPage />} />
         <Route path="/submissions" element={<SubmissionsList />} />
-        <Route path="/playground" element={<MDXPlaygroundPage />} />
+        <Route path="/playground" element={<PlaygroundPage />} />
         <Route
           path="/profile"
           element={

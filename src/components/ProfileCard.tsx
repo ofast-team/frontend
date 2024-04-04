@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Avatar,
   Box,
@@ -17,8 +17,9 @@ import DoneIcon from '@mui/icons-material/Done'
 
 import CircleLoadAnimation from '../components/CircleLoadAnimation'
 
-import { LoginButton } from '../pages/LoginPage'
+import { StylishButton } from '../pages/LoginPage'
 import { ProfileData } from '../pages/ProfilePage'
+import buildPath from '../path'
 
 export const ProfileButton = styled(Button)({
   padding: '0px 16px',
@@ -62,6 +63,8 @@ export default function ProfileCard({
   usernameStatus,
   emailStatus,
 }: ProfileCardProps) {
+  const [resettingPassword, setResettingPassword] = useState<boolean>(false)
+
   const onTextFieldChange = (key, newString) => {
     setProfileData((prevData: ProfileData) => {
       return { ...prevData, [key]: newString }
@@ -70,6 +73,51 @@ export default function ProfileCard({
 
   const hasIssue = (str: string) => {
     return str !== 'Success' && str !== 'Not Updated'
+  }
+
+  const sendPasswordResetEmail = () => {
+    if (resettingPassword) {
+      return
+    }
+
+    fetch(buildPath('/sendPasswordResetEmail'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ isLoggedIn: true }),
+    })
+      .then((res: Response) => {
+        if (res.ok) {
+          return res.json()
+        }
+
+        throw Error(res.statusText)
+      })
+      .then((data) => {
+        if (data.message === 'success') {
+          setResettingPassword(true)
+        }
+      })
+      .catch((error: Error) => {
+        console.log('Email delivery failed: ' + error.message)
+      })
+  }
+
+  function stringAvatar(name: string) {
+    let names = name.split(' ')
+    names = names.filter((name) => name !== '')
+
+    if (names.length === 0) {
+      return {}
+    }
+
+    return {
+      children: (
+        <span style={{ fontSize: '40px' }}>
+          {names.length >= 1 && names[0][0] ? names[0][0].toUpperCase() : ''}
+          {names.length >= 2 && names[1][0] ? names[1][0].toUpperCase() : ''}
+        </span>
+      ),
+    }
   }
 
   return (
@@ -122,23 +170,32 @@ export default function ProfileCard({
           marginBottom: '20px',
         }}
       >
-        <Avatar src="" sx={{ width: '150px', height: '150px' }} />
-        <FlexBox>
-          <ProfileButton>Change</ProfileButton>|
-          <ProfileButton>Remove</ProfileButton>
-        </FlexBox>
-        <Typography fontSize={32} fontWeight={600}>
-          {profileData?.name}
-        </Typography>
+        <Avatar
+          {...stringAvatar(profileData.name)}
+          sx={{ width: '130px', height: '130px' }}
+        />
+        {/* Check if the name has any content becides spaces */}
+        {profileData?.name
+          .split('')
+          .filter((ch) => ch !== ' ')
+          .join('') ? (
+          <Typography fontSize={32} fontWeight={600}>
+            {profileData?.name}
+          </Typography>
+        ) : (
+          <Typography visibility="hidden" fontSize={32} fontWeight={600}>
+            {'Hidden'}
+          </Typography>
+        )}
       </Container>
       <Stack>
         {/* Username */}
         <div style={{ padding: '5px' }}>
           <hr style={{ borderTop: '1px' }} />
-          <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
+          <Grid container columnSpacing={2} alignItems="center" pl={0} pr={2}>
             <Grid item xs={4}>
               <div style={{ width: '100%', textAlign: 'right' }}>
-                <Typography fontSize={20}>Username:</Typography>
+                <Typography fontSize={18}>Username:</Typography>
               </div>
             </Grid>
             <Grid item xs={8}>
@@ -153,12 +210,12 @@ export default function ProfileCard({
                     onTextFieldChange('username', e.target.value)
                   }}
                   inputProps={{
-                    sx: { padding: '2px 5px', fontSize: '20px' },
+                    sx: { padding: '2px 5px', fontSize: '18px' },
                   }}
                   disabled={isWaiting}
                 ></TextField>
               ) : (
-                <Typography fontSize={20}>{profileData?.username}</Typography>
+                <Typography fontSize={18}>{profileData?.username}</Typography>
               )}
             </Grid>
             {hasIssue(usernameStatus) && (
@@ -173,9 +230,9 @@ export default function ProfileCard({
         {/* Email */}
         <div style={{ padding: '5px' }}>
           <hr style={{ borderTop: '1px' }} />
-          <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
+          <Grid container columnSpacing={2} alignItems="center" pl={0} pr={2}>
             <Grid item xs={4}>
-              <Typography fontSize={20} textAlign={'right'}>
+              <Typography fontSize={18} textAlign={'right'}>
                 Email:
               </Typography>
             </Grid>
@@ -191,12 +248,12 @@ export default function ProfileCard({
                     onTextFieldChange('email', e.target.value)
                   }}
                   inputProps={{
-                    sx: { padding: '2px 5px', fontSize: '20px' },
+                    sx: { padding: '2px 5px', fontSize: '18px' },
                   }}
                   disabled={isWaiting}
                 ></TextField>
               ) : (
-                <Typography fontSize={20}>{profileData?.email}</Typography>
+                <Typography fontSize={18}>{profileData?.email}</Typography>
               )}
             </Grid>
             {hasIssue(emailStatus) && (
@@ -216,9 +273,9 @@ export default function ProfileCard({
         {/*"Name"*/}
         <div style={{ padding: '5px' }}>
           <hr style={{ borderTop: '1px' }} />
-          <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
+          <Grid container columnSpacing={2} alignItems="center" pl={0} pr={2}>
             <Grid item xs={4}>
-              <Typography fontSize={20} textAlign={'right'}>
+              <Typography fontSize={18} textAlign={'right'}>
                 Name:
               </Typography>
             </Grid>
@@ -230,12 +287,12 @@ export default function ProfileCard({
                     onTextFieldChange('name', e.target.value)
                   }}
                   inputProps={{
-                    sx: { padding: '2px 5px', fontSize: '20px' },
+                    sx: { padding: '2px 5px', fontSize: '18px' },
                   }}
                   disabled={isWaiting}
                 ></TextField>
               ) : (
-                <Typography fontSize={20}>{profileData?.name}</Typography>
+                <Typography fontSize={18}>{profileData?.name}</Typography>
               )}
             </Grid>
           </Grid>
@@ -243,9 +300,9 @@ export default function ProfileCard({
         {/* School */}
         <div style={{ padding: '5px' }}>
           <hr style={{ borderTop: '1px' }} />
-          <Grid container columnSpacing={2} alignItems="center" pl={2} pr={2}>
+          <Grid container columnSpacing={2} alignItems="center" pl={0} pr={2}>
             <Grid item xs={4}>
-              <Typography fontSize={20} textAlign={'right'}>
+              <Typography fontSize={18} textAlign={'right'}>
                 School:
               </Typography>
             </Grid>
@@ -257,20 +314,28 @@ export default function ProfileCard({
                     onTextFieldChange('school', e.target.value)
                   }}
                   inputProps={{
-                    sx: { padding: '2px 5px', fontSize: '20px' },
+                    sx: { padding: '2px 5px', fontSize: '18px' },
                   }}
                   disabled={isWaiting}
                 ></TextField>
               ) : (
-                <Typography fontSize={20}>{profileData?.school}</Typography>
+                <Typography fontSize={18}>{profileData?.school}</Typography>
               )}
             </Grid>
           </Grid>
         </div>
       </Stack>
-      <LoginButton sx={{ fontSize: '20px', marginTop: '20px', width: '100%' }}>
-        Change Password
-      </LoginButton>
+      <StylishButton
+        sx={{ fontSize: '20px', marginTop: '20px', width: '100%', mb: 1 }}
+        onClick={sendPasswordResetEmail}
+      >
+        Reset Password
+      </StylishButton>
+      {resettingPassword && (
+        <Typography color={'primary'} fontSize={14} textAlign={'center'}>
+          An email was sent to your inbox to reset your password.
+        </Typography>
+      )}
     </Card>
   )
 }

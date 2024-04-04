@@ -20,15 +20,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
-import GoogleIcon from '@mui/icons-material/Google'
-import GitHubIcon from '@mui/icons-material/GitHub'
-
 import buildPath from '../path'
 import { useDispatch } from 'react-redux'
 
 import { login } from '../userSlice'
 
-export const LoginButton = styled(Button)({
+export const StylishButton = styled(Button)({
   border: '1px solid #04364A',
   borderRadius: 30,
   backgroundColor: '#04364A',
@@ -49,12 +46,6 @@ export const LoginButton = styled(Button)({
   },
 })
 
-export const LoginWith3rdPartyButton = styled(LoginButton)({
-  border: '1px solid black',
-  color: 'black',
-  backgroundColor: 'white',
-})
-
 export const LinkButton = styled(Button)({
   background: 'none',
   border: 'none',
@@ -66,8 +57,10 @@ export const LinkButton = styled(Button)({
 
 interface PasswordFieldProps {
   setter: (string) => void
+  onKeyPress: (event) => void
 }
-function PasswordField(props: PasswordFieldProps) {
+
+export function PasswordField({ setter, onKeyPress }: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
@@ -89,7 +82,8 @@ function PasswordField(props: PasswordFieldProps) {
             </IconButton>
           </InputAdornment>
         }
-        onChange={(e) => props.setter(e.target.value)}
+        onChange={(e) => setter(e.target.value)}
+        onKeyDown={(e) => onKeyPress(e)}
       />
     </FormControl>
   )
@@ -121,7 +115,6 @@ export default function LoginPage() {
         }
 
         setHasInvalidCredentials(true)
-        console.log(res.status)
         throw Error(res.statusText)
       })
       .then((data) => {
@@ -136,6 +129,12 @@ export default function LoginPage() {
       .catch((error: Error) => {
         console.log('Login failed: ' + error.message)
       })
+  }
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      loginWithEmailAndPassword(email, password)
+    }
   }
 
   return (
@@ -154,33 +153,32 @@ export default function LoginPage() {
               label="Email"
               variant="standard"
               onChange={(e) => setEmail(e.target.value)}
-            ></TextField>
-            <PasswordField setter={setPassword}></PasswordField>
-            <Typography
-              fontSize={'18px'}
-              color={'red'}
-              visibility={hasInvalidCredentials ? 'visible' : 'hidden'}
-            >
-              Invalid Credentials, please try again.
-            </Typography>
-            <LoginButton
+            />
+            <PasswordField setter={setPassword} onKeyPress={handleKeyPress} />
+            <Box>
+              <Typography
+                fontSize={'18px'}
+                color={'red'}
+                visibility={hasInvalidCredentials ? 'visible' : 'hidden'}
+              >
+                Invalid Credentials, please try again.
+              </Typography>
+            </Box>
+            <StylishButton
               variant="outlined"
               onClick={() => loginWithEmailAndPassword(email, password)}
             >
               Log In
-            </LoginButton>
-            <Typography>Or sign in with:</Typography>
-            <Box display={'flex'} gap={5}>
-              <LoginWith3rdPartyButton startIcon={<GoogleIcon />}>
-                Google
-              </LoginWith3rdPartyButton>
-              <LoginWith3rdPartyButton startIcon={<GitHubIcon />}>
-                GitHub
-              </LoginWith3rdPartyButton>
-            </Box>
-            <Link to="/register">
-              <Typography>Create an Account</Typography>
-            </Link>
+            </StylishButton>
+            <Typography display={'flex'} gap={2}>
+              <Link to="/register">
+                <Typography>Create an Account</Typography>
+              </Link>
+              <Typography>|</Typography>
+              <Link to="/forgotPassword">
+                <Typography>Forgot Password</Typography>
+              </Link>
+            </Typography>
           </Stack>
         </Paper>
       </Container>
