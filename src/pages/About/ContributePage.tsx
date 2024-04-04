@@ -118,14 +118,6 @@ export default function ContributePage() {
         component="span"
       >
         <MDX value={lessonsInstructions} />
-      </Typography>
-
-      <Typography
-        className="markdown themeborder"
-        gutterBottom
-        color="primary"
-        component="span"
-      >
         <MDX value={problemsInstructions} />
       </Typography>
     </Container>
