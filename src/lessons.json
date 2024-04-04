@@ -47,6 +47,18 @@
     "lessonGroup": "Intro Data Structures",
     "files": []
   },
+  "intro-to-cpp": {
+    "lessonName": "Intro to C++",
+    "lessonGroup": "Intro to Competitive Programming",
+    "files": [
+      "intro.mdx",
+      "input-output.mdx",
+      "io-fitb.mdx",
+      "conditionals.mdx",
+      "datastructures.mdx",
+      "resources.mdx"
+    ]
+  },
   "prefsum": {
     "lessonName": "Prefix Sums",
     "lessonGroup": "Intro Data Structures",
