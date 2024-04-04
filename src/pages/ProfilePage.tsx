@@ -13,7 +13,6 @@ export interface ProfileData {
   email: string
   name: string
   school: string
-  numAttempts: number
   pieChartData: PieChartProps
 }
 
@@ -36,8 +35,9 @@ export default function ProfilePage() {
       numWA: 0,
       numTLE: 0,
       numRTE: 0,
+      numCTE: 0,
+      numSubmissions: 0,
     },
-    numAttempts: 0,
   }
   const [profileData, setProfileData] =
     useState<ProfileData>(profileDataDefault)
@@ -61,10 +61,12 @@ export default function ProfilePage() {
       })
       .then((data) => {
         const newPieChartData: PieChartProps = {
-          numAC: data.problemsAccepted,
-          numWA: data.problemsWrong,
-          numTLE: data.problemsTLE,
-          numRTE: data.problemsRTE,
+          numAC: data.submissionsAccepted,
+          numWA: data.submissionsWrong,
+          numTLE: data.submissionsTLE,
+          numRTE: data.submissionsRTE,
+          numCTE: data.submissionsCTE,
+          numSubmissions: data.numSubmissions,
         }
 
         const newProfileData: ProfileData = {
@@ -72,7 +74,6 @@ export default function ProfilePage() {
           email: data.email,
           name: data.name,
           school: data.school,
-          numAttempts: data.problemsAttempted,
           pieChartData: newPieChartData,
         }
 
