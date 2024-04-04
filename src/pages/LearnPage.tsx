@@ -132,22 +132,20 @@ function LessonGroup({ title, lessons }: LessonGroupProps) {
   return (
     <Box mt={4} mb={8}>
       <Typography variant="h4">{title}</Typography>
-      <Box mt={4}>
-        <Box onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
-          <ScrollMenu
-            LeftArrow={LeftArrow}
-            RightArrow={RightArrow}
-            onWheel={onWheel}
-          >
-            {lessons.map((lesson, lessonIndex) => (
-              <Lesson
-                key={lessonIndex}
-                lesson={lesson}
-                itemId={lessonIndex.toString()} // NOTE: itemId is required for track items
-              />
-            ))}
-          </ScrollMenu>
-        </Box>
+      <Box mt={4} onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
+        <ScrollMenu
+          LeftArrow={LeftArrow}
+          RightArrow={RightArrow}
+          onWheel={onWheel}
+        >
+          {lessons.map((lesson, lessonIndex) => (
+            <Lesson
+              key={lessonIndex}
+              lesson={lesson}
+              itemId={lessonIndex.toString()} // NOTE: itemId is required for track items
+            />
+          ))}
+        </ScrollMenu>
       </Box>
     </Box>
   )
