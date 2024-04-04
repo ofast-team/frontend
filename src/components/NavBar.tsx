@@ -197,7 +197,7 @@ function AboutDropDown({ small, closeTopMenu }: aboutDropDownProps) {
         </Button>
       )}
       <Menu
-        sx={{ mt: '40px' }}
+        sx={{ mt: '45px' }}
         id="menu-appbar"
         anchorEl={anchorElUser}
         anchorOrigin={{
