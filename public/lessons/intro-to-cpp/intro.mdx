@@ -26,11 +26,12 @@ int main() {
 competitive programming.(WARNING for Mac users, this is not included in your G++ compiler and you may have to create the header file yourself)
 
 `using namespace std;`  allows us to have access to many builtin functions that make competitive programming easier.
-It also allows us to write more concise code.
+It also allows us to write more concise code.  Without it, we would have to use `std::` to access many features of the standard library.
 
 `cin.tie(0)->sync_with_stdio(0);`
-This line is used for fast i/o.  How it works isn't very important, but we include it in our programs in case
-we are outputting a lot of information, and this speeds it up drastically.
+This line is used for fast input and output.  How it works isn't very important, but we include it in our programs in case
+we are outputting a lot of information, and this speeds it up drastically.  This will also throw an error if you attempt to scan in the wrong type.
+This can be very useful in debugging.
 
 We `return 0;` at the end of the program because it is the standard way of exiting the main function.  If you choose to
 return a non-zero value, you may run into runtime errors on many judges.

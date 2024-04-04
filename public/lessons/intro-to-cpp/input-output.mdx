@@ -1,6 +1,6 @@
 # Input and Output
 The first thing you need to know when learning any programming language is how to take input from the user, and output some information.
-This section goes over i/o (input and output)
+This section goes over input and output.
 
 ## Output
 To output in C++, you have to use the `std::cout` command.
@@ -43,6 +43,7 @@ int main() {
 
 `endl` allows us to flush our output (empties the buffer) and places a new line character at the end of your output.
 This is very important when debugging since it guarentees that the output prints when expected.
+Make sure that when you submit your code, you use `\n` instead, as flushing output is slow.
 
 If you want to output multiple variables, `x,y,z`, you would format it like this: `cout << x << " " << y << " " << z << endl;`.
 Notice that you have to put spaces in between the variables, since C++ does not do this for us.
@@ -50,6 +51,7 @@ Notice that you have to put spaces in between the variables, since C++ does not 
 ### Floating point output
 Sometimes, problems will want you to output a floating point value to a certain degree of accuracy.  The default output that C++ has is typically not enough.
 To help with this, we have to add `fixed` and `setprecision(VALUE)` (where `VALUE` is the number of digits after the decimal point) to our output.
+`fixed` allows us to set the precision after the decimal point, and `setprecision()` gives us the ability to specify how precise we want out output to be.
 
 Here, we take in 3 doubles, and output them with 9 digits after the decimal point.
 

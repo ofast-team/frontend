@@ -67,7 +67,9 @@ Like if statements, you can omit the curly braces if there is only one line, but
 
 ## For loops
 
-For loops are a type of loop that iterate a certain number of times.  The for loops in C++ are written in a standard way as shown below.
+For loops are a type of loop that iterate a certain number of times.
+They follow the structure of: `for(initialize; condition; update)`
+The for loops in C++ are written in a standard way as shown below.
 
 This example prints out the numbers 1 through 10.
 
@@ -87,6 +89,27 @@ int main() {
 
 Notice that we start `i` at 1 and stop the loop when we reach `10`.  You can create and assign any variable here, and choose any condition you would like it to stop on.
 You can also increment `i` by more using `i += x` where `x` is your value.
+
+## For each loops
+
+With many data structures, you can also use what is called a for each loop, which automatically assigns a variable and allows for a bit cleaner code.
+
+Here, we loop through a vector of ints.
+```c++
+#include <bits/stdc++.h>
+using namesapce std;
+
+int main() {
+    cin.tie(0)->sync_with_stdio(0);
+
+    vector<int> numbers(10)
+    for (auto &number : numbers) {
+        cout << number << endl;
+    }
+
+    return 0;
+}
+```
 
 ### Nested loops
 You can also nest loops (put them inside of each other) as shown below.
