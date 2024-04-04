@@ -255,7 +255,7 @@ function NavItems({ pages }: pagesProps) {
     >
       {pages.map((page) =>
         page === 'about' ? (
-          <AboutDropDown small={false} />
+          <AboutDropDown key={page} small={false} />
         ) : (
           <Button
             component={Link}
@@ -320,7 +320,11 @@ function ResponsiveMenu({ pages }: pagesProps) {
       >
         {pages.map((page) =>
           page === 'about' ? (
-            <AboutDropDown small={true} closeTopMenu={handleCloseNavMenu} />
+            <AboutDropDown
+              key={page}
+              small={true}
+              closeTopMenu={handleCloseNavMenu}
+            />
           ) : (
             <Link
               key={page}
