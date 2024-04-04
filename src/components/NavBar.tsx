@@ -90,6 +90,7 @@ function LoggedInUser() {
             <Typography textAlign="center">{'Profile'}</Typography>
           </MenuItem>
         </Link>
+
         <MenuItem
           key={'Logout'}
           onClick={() => {
@@ -129,6 +130,113 @@ function LogoTitle() {
   )
 }
 
+interface About {
+  title: string
+  path: string
+}
+
+interface aboutDropDownProps {
+  small: boolean
+  closeTopMenu?: () => void
+}
+
+function AboutDropDown({ small, closeTopMenu }: aboutDropDownProps) {
+  const about_pages: About[] = [
+    {
+      title: 'The Team',
+      path: 'team',
+    },
+    {
+      title: 'Specifications',
+      path: 'specifications',
+    },
+    {
+      title: 'How to Contribute',
+      path: 'how-to-contribute',
+    },
+  ]
+
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null,
+  )
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget)
+  }
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null)
+    if (closeTopMenu) closeTopMenu()
+  }
+
+  return (
+    <>
+      {small ? (
+        <MenuItem
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            textTransform: 'uppercase',
+            textDecoration: 'none',
+            color: '#04364a',
+          }}
+          onClick={handleOpenUserMenu}
+        >
+          <Typography textAlign="center" textTransform="uppercase">
+            about
+          </Typography>
+        </MenuItem>
+      ) : (
+        <Button
+          sx={{
+            ...linkStyle,
+          }}
+          onClick={handleOpenUserMenu}
+        >
+          about
+        </Button>
+      )}
+      <Menu
+        sx={{ mt: '45px' }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'center',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'center',
+          horizontal: 'center',
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      >
+        {about_pages.map((page) => (
+          <Link
+            key={page.title}
+            style={{
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              color: '#04364a',
+            }}
+            to={`/about/${page.path}`}
+          >
+            <MenuItem
+              onClick={handleCloseUserMenu}
+              style={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <Typography textAlign="center" textTransform="uppercase">
+                {page.title}
+              </Typography>
+            </MenuItem>
+          </Link>
+        ))}
+      </Menu>
+    </>
+  )
+}
+
 interface pagesProps {
   pages: string[]
 }
@@ -145,18 +253,22 @@ function NavItems({ pages }: pagesProps) {
         mx: 2,
       }}
     >
-      {pages.map((page) => (
-        <Button
-          component={Link}
-          to={`/${page}`}
-          key={page}
-          sx={{
-            ...(location.pathname === `/${page}` ? activeLink : linkStyle),
-          }}
-        >
-          {page === '' ? 'home' : page}
-        </Button>
-      ))}
+      {pages.map((page) =>
+        page === 'about' ? (
+          <AboutDropDown small={false} />
+        ) : (
+          <Button
+            component={Link}
+            to={`/${page}`}
+            key={page}
+            sx={{
+              ...(location.pathname === `/${page}` ? activeLink : linkStyle),
+            }}
+          >
+            {page === '' ? 'home' : page}
+          </Button>
+        ),
+      )}
     </Box>
   )
 }
@@ -206,23 +318,30 @@ function ResponsiveMenu({ pages }: pagesProps) {
           display: { xs: 'block', md: 'none' },
         }}
       >
-        {pages.map((page) => (
-          <Link
-            key={page}
-            style={{
-              textTransform: 'capitalize',
-              textDecoration: 'none',
-              color: '#04364a',
-            }}
-            to={`/${page}`}
-          >
-            <MenuItem onClick={handleCloseNavMenu}>
-              <Typography textAlign="center" textTransform="uppercase">
-                {page === '' ? 'home' : page}
-              </Typography>
-            </MenuItem>
-          </Link>
-        ))}
+        {pages.map((page) =>
+          page === 'about' ? (
+            <AboutDropDown small={true} closeTopMenu={handleCloseNavMenu} />
+          ) : (
+            <Link
+              key={page}
+              style={{
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                color: '#04364a',
+              }}
+              to={`/${page}`}
+            >
+              <MenuItem
+                onClick={handleCloseNavMenu}
+                style={{ display: 'flex', justifyContent: 'center' }}
+              >
+                <Typography textAlign="center" textTransform="uppercase">
+                  {page === '' ? 'home' : page}
+                </Typography>
+              </MenuItem>
+            </Link>
+          ),
+        )}
       </Menu>
     </Box>
   )
