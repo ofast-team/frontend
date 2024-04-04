@@ -1,12 +1,13 @@
 # Representing Graphs in Code
 
 Once we have a conceptual understanding of a problem as a graph, we need to represent the graph in
-code. There are two common ways to represent graphs in code: **adjacency list** and 
-**adjacency matrix**. Each representation has its ups and downs, and the choice of representation
-will depend on the problem at hand. However, in general, adjacency lists are preferred for sparse
-graphs (few edges), while adjacency matrices are preferred for dense graphs.
+code. There are three common ways to represent graphs in code: **adjacency list**, **adjacency
+matrix** and **edge list**. Each representation has its ups and downs, and the choice of
+representation will depend on the problem at hand. However, in general, adjacency lists are
+preferred for sparse graphs (few edges), while adjacency matrices are preferred for dense graphs.
+Edge lists may be more suitable for certain algorithms.
 
-Here is an example graph to help illustrate the two representations:
+Here is an example graph to help illustrate the three representations:
 
 <Graph
   id="graph"
@@ -16,13 +17,16 @@ Here is an example graph to help illustrate the two representations:
       { id: 1 }, 
       { id: 2 }, 
       { id: 3 },
+      { id: 4 },
     ],
     edges: [
       { source: 0, target: 1},
       { source: 0, target: 2},
       { source: 0, target: 3},
+      { source: 0, target: 4},
       { source: 1, target: 2},
       { source: 2, target: 3},
+      { source: 3, target: 4},
     ]
   }}
 />
@@ -36,10 +40,13 @@ are adjacent to vertex `u`. For weighted graphs, the list can contain pairs of v
 Here is the adjacency list representation for the graph shown above:
 
 
-- $0: 1, 2, 3 $
-- $1: 0, 2$
-- $2: 0, 1, 3$
-- $3: 0, 2$
+<div style={{ display: 'flex', justifyContent: 'center'}}>
+  - $0: 1, 2, 3 $
+  - $1: 0, 2$
+  - $2: 0, 1, 3$
+  - $3: 0, 2$
+</div>
+
 
 ## Adjacency Matrix
 
@@ -48,50 +55,74 @@ graph. Let the 2D array be `adj`. If there is an edge between vertices $u$ and $
 will be `1`. Otherwise, it will be `0`. For weighted graphs, `adj[u][v]` can be the weight of the
 edge between vertices $u$ and $v$. Here is the adjacency matrix for the same graph as above:
 
-<table>
-  <tr>
-    <td></td>
-    <td>0</td>
-    <td>1</td>
-    <td>2</td>
-    <td>3</td>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>0</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>1</td>
-    <td>0</td>
-    <td>1</td>
-    <td>0</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>1</td>
-    <td>1</td>
-    <td>0</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>1</td>
-    <td>0</td>
-    <td>1</td>
-    <td>0</td>
-  </tr>
-</table>
+
+<div style={{ display: 'flex', justifyContent: 'center'}}>
+  <table>
+    <tr>
+      <td></td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </table>
+</div>
+
+<br />
+
+## Edge List
+
+An edge list is an array of pairs, where each pair represents an edge in the graph. Here is the edge
+list representation for the same graph as above:
+
+<div style={{ display: 'flex', justifyContent: 'center'}}>
+- $(0, 1)$
+- $(0, 2)$
+- $(0, 3)$
+- $(0, 4)$
+- $(1, 2)$
+- $(2, 3)$
+- $(3, 4)$
+</div>
+
+<br />
+
+## Code Representation Practice 1
 
 <MCQBlock
   question="
   In an adjacency list representation of the following graph, which option corresponds to the list 
   `adj[3]`?
   <Graph
-    id='mcqgraph'
+    id='mcqgraph1'
     data={{
       nodes: [
         { id: 0 }, 
@@ -123,4 +154,52 @@ edge between vertices $u$ and $v$. Here is the adjacency matrix for the same gra
   hint="Which nodes are adjacent to node 3"
   explanation="In an adjacency list representation, `adj[3]` will contain all the vertices that are 
   adjacent to vertex 3. In this case, vertices 1, 2, and 4 are adjacent to vertex 3."
+/>
+
+<br />
+
+## Code Representation Practice 2
+
+<MCQBlock
+  question="
+  Which of the following pairs would be included in an edge list representation of the following 
+  graph?
+  <Graph
+    id='mcqgraph2'
+    data={{
+      nodes: [
+        { id: 0 }, 
+        { id: 1 }, 
+        { id: 2 }, 
+        { id: 3 },
+        { id: 4 },
+        { id: 5 },
+        { id: 6 },
+      ],
+      edges: [
+        { source: 0, target: 1},
+        { source: 0, target: 3},
+        { source: 1, target: 2},
+        { source: 2, target: 3},
+        { source: 2, target: 4},
+        { source: 4, target: 5},
+        { source: 4, target: 6},
+      ]
+    }}
+  />
+  "
+  answerOptions={[
+    '$(0, 2)$',
+    '$(2, 3)$',
+    '$(1, 6)$',
+    '$(2, 4)$',
+    '$(4, 6)$',
+  ]}
+  optionVerdicts={[false, true, false, true, true]}
+  hint="Which of the pairs of nodes are connected by an edge?"
+  explanation="In an edge list representation, we would include all pairs of nodes connected by 
+  edges. Nodes $0$ and $2$ do not have an edge between them, so $(0, 2)$ would not be included in
+  the edge list. Nodes $1$ and $6$ also do not have an edge between them, so $(1, 6)$ would not be 
+  included either. The other pairs are connected by edges and therefore, would be included in the 
+  edge list."
 />
