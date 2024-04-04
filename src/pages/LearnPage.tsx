@@ -106,11 +106,7 @@ function LeftArrow() {
       onClick={() => visibility.scrollPrev()}
       sx={{ mr: '5px' }}
     >
-      <ArrowBackIcon
-        sx={{
-          fontSize: '3rem',
-        }}
-      />
+      <ArrowBackIcon sx={{ fontSize: '3rem' }} />
     </ArrowButton>
   )
 }
