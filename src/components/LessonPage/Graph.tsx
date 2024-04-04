@@ -15,5 +15,5 @@ export default function Graph(props: GraphProps) {
     }).update()
   }, [])
 
-  return <div id={props.id} style={props.style}></div>
+  return <div id={props.id} style={props.style} />
 }
