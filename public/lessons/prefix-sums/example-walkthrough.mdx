@@ -1,0 +1,30 @@
+## Example Walkthrough
+
+Let's do an example using prefix sums for subarray sum query. 
+
+Given is an array `arr` with length $n = 5$, what is subarray sum between indices $a = 1$ to $b = 3$, inclusive:
+<center>
+<table width = "550px">
+<tr><th>Index $i$</th><td>$0$</td><td style={{backgroundColor: "yellow"}}>$1$</td><td style={{backgroundColor: "yellow"}}>$2$</td><td style={{backgroundColor: "yellow"}}>$3$</td><td>$4$</td></tr>
+    <tr><th>$arr[i]$</th><td>$5$</td><td style={{backgroundColor: "lightgreen"}}>$10$</td><td style={{backgroundColor: "lightgreen"}}>$3$</td><td style={{backgroundColor: "lightgreen"}}>$8$</td><td>$14$</td></tr>
+</table>
+</center><br />
+
+So, the sum from $a = 1$ to $b = 3$ is $arr[1] + arr[2] + arr[3] = 10 + 3 + 8 = 21$
+
+Let's solve the same query using the prefix sum array. The prefix sum array `prefix` for the array `arr` is as follows:
+
+__`Note: prefix[0] = arr[0] and prefix[i] = prefix[i-1] + arr[i]`__
+<center>
+<table width = "550px">
+    <tr><th>Index $i$</th><td>$0$</td><td style={{backgroundColor: "yellow"}}>$1$</td><td style={{backgroundColor: "yellow"}}>$2$</td><td style={{backgroundColor: "yellow"}}>$3$</td><td>$4$</td></tr>
+    <tr><th>$arr[i]$</th><td>$5$</td><td>$10$</td><td>$3$</td><td>$8$</td><td>$14$</td></tr>
+    <tr><th>$prefix[i]$</th><td style={{backgroundColor: "pink"}}>$5$</td><td>$15$</td><td>$18$</td><td style={{backgroundColor: "lightgreen"}}>$26$</td><td>$40$</td></tr>
+</table>
+</center><br />
+
+The subarray sum query between $a = 1$ to $b = 3$ using prefix sum array is $sum = prefix[3] + prefix[1-1]$
+
+__`Note: query from (a, b) = prefix[b] + prefix[a-1]`__
+
+Thus, the calculated sum is $prefix[3] - prefix[0] = 26 - 5 = 21$, which is the same answer from above.
