@@ -1,0 +1,80 @@
+# Introduction to Graph Theory
+
+If you have ever seen a problem that involves a set of entities and establishes relationships
+between them, you have seen a problem that can potentially be solved using Graph Theory. Graphs are 
+a fundamental data structure in Computer Science and can be used to model a wide variety of problem 
+scenarios. Given a graphical interpretation of a problem, we can take advantage of many graph-based 
+algorithms available to come up with a solution. Some noteworthy examples of classical graph theory
+problems include graph traversal, finding shortest-paths, topological sorting, and many more. This 
+makes Graph Theory a fascinating and essential topic to master when it comes to Competitive 
+Programming.
+
+## Terminology
+
+Formally, a **graph** can be defined as $G=(V,E)$ where $V$ is a set of **vertices** and $E$ is a 
+set of **edges**. Vertices can represent any meaningful entities in a problem context. Edges 
+represent direct relationships between pairs of vertices. A pair of vertices connected by an edge
+are said to be **adjacent** to each other. If there is no edge connecting a pair of vertices, they 
+may still be indirectly connected using a path. A **path** is a sequence of vertices, where 
+subsequent vertices are connected by edges. Edges can be **directed** or **undirected**. Directed 
+edges represent one-way relationships. Edges can be **weighted** or **unweighted**. A weighted edge 
+has a value associated with it that can represent a cost of using that edge, the distance between 
+the two vertices, or any other meaning.
+
+## Examples of Graphical Interpretations of Scenarios
+
+To begin solving problems using Graph Theory, we need to know how to identify a graphical 
+interpretation for a problem. Below are some classical examples of scenarios that can be modeled as
+graphs:
+
+1. **Road Networks**: In a road network, intersections can be represented as vertices and roads as
+edges. If the road network includes one-way roads, we can represent them using directed edges. We 
+can assign weights to edges to represent the lengths of the roads. A path on this a graph would 
+represent the total distance to travel from one intersection to another.
+
+2. **Flight Routes**: In a flight route network, airports can be represented as vertices and flights
+as edges. If the flights are one-way, we can use directed edges. We can assign weights to edges to
+represent the cost of the flight or the distance between the airports. A path on this graph would
+represent a sequence of flights to travel from one airport to another. 
+
+3. **Social Networks**: In a social network, users can be represented as vertices. Edges can be used
+to represent relationships between users. For example, if two users are friends, we can draw an 
+edge. If the relationship is one-way (e.g. following on Instagram), we can use directed edges. One 
+might assign weights to edges to represent the strength of the relationship, although it may seem
+nonsensical to quantify the strength of a friendship. 
+
+Graphs can be used model a whole variety of scenarios. So keep an open mind and be
+creative when trying to identify a graphical interpretation for a problem!
+
+To begin solving problems using Graph Theory, we need to know how to identify a graphical 
+interpretation for a problem. Below are some classical examples of scenarios that can be modeled as
+graphs:
+
+1. **Road Networks**: In a road network, intersections can be represented as vertices and roads as
+edges. If the road network includes one-way roads, we can represent them using directed edges. We 
+can assign weights to edges to represent the lengths of the roads. A path on this a graph would 
+represent the total distance to travel from one intersection to another.
+
+2. **Flight Routes**: In a flight route network, airports can be represented as vertices and flights
+as edges. If the flights are one-way, we can use directed edges. We can assign weights to edges to
+represent the cost of the flight or the distance between the airports. A path on this graph would
+represent a sequence of flights to travel from one airport to another. 
+
+3. **Social Networks**: In a social network, users can be represented as vertices. Edges can be used
+to represent relationships between users. For example, if two users are friends, we can draw an 
+edge. If the relationship is one-way (e.g. following on Instagram), we can use directed edges. One 
+might assign weights to edges to represent the strength of the relationship, although it may seem
+nonsensical to quantify the strength of a friendship. 
+
+Graphs can be used model a whole variety of scenarios. So keep an open mind and be
+creative when trying to identify a graphical interpretation for a problem!
+
+<br />
+
+<FITBBlock
+  hint="What are the entities being connected? What is being used to connect these entities?"
+>
+  A network technician is connecting computers in a local network using cables. In a graphical
+  interpretation of this problem, each node would represent a <FITBBlank correctAnswer="computer"/>. 
+  Each edge would represent a <FITBBlank correctAnswer="cable"/>.
+</FITBBlock>

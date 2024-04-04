@@ -17,6 +17,7 @@ import MCQBlock from './MCQBlock'
 import FITBBlock from './FITBBlock'
 import FITBBlank from './FITBBlank'
 import ProblemBlock from './ProblemPage/ProblemBlock'
+import Graph from './LessonPage/Graph'
 
 import { h } from 'hastscript'
 
@@ -133,6 +134,7 @@ export default function MDX({ path, value }: MarkdownRendererProps) {
     FITBBlock,
     FITBBlank,
     ProblemBlock,
+    Graph
   }
 
   const [mdxContent, setMdxContent] = useState<JSX.Element | null>(null)
