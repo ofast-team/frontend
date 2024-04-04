@@ -1,0 +1,135 @@
+# Conditional statements
+
+## If statements
+
+If statements are very important to use in any application of programming.
+In C++, if statements are formatted pretty standard, as shown below.
+
+This program takes in an integer and outputs if it is our favorite number (11), least favorite number (6), or neither.
+
+```c++
+#include <bits/stdc++.h>
+using namesapce std;
+
+int main() {
+    cin.tie(0)->sync_with_stdio(0);
+
+    int value;
+    cin >> value;
+
+    if (value == 11) {
+        cout << "That's my favorite number!!!!! :)))))" << endl;
+    } else if (value == 6) {
+        cout << "That is my least favorite number >:(" << endl;
+    } else {
+        cout << "That number is okay I guess :/" << endl;
+    }
+
+    return 0;
+}
+```
+
+Notice that we use ``==`` to check equality.  It is very important that you do **not** use a single `=` since this will assign a variable instead of checking its value.
+If you are checking a certain number, it is good practice to have the number value on the left side like so `if (1 == value)`, since this will throw an error when compiling.
+
+You can also combine several logic statements using `||` which is a logical **or** statement, and `&&` **and** which is the logical and statement.
+If you wanted your if statement to trigger on only values `1` and `3`, you could write `if (value == 1 || value == 3)`.
+
+If the code after your if statement is only one line, you can choose to omit the curly braces, however this is not good practice, especially when debugging.
+
+## While loops
+
+While loops are a type of loop that continually get called until some condition is met.
+They are similar to if statements, except they execute until the condition is met, whereas if statements are only called once.
+
+Here we have a countdown program as an example.
+
+
+```c++
+#include <bits/stdc++.h>
+using namesapce std;
+
+int main() {
+    cin.tie(0)->sync_with_stdio(0);
+
+    int i = 10;
+    
+    while (i > 0) {
+        cout << i << endl;
+    }
+
+    return 0;
+}
+```
+
+Like if statements, you can omit the curly braces if there is only one line, but again this is bad practice.
+
+
+## For loops
+
+For loops are a type of loop that iterate a certain number of times.
+They follow the structure of: `for(initialize; condition; update)`
+The for loops in C++ are written in a standard way as shown below.
+
+This example prints out the numbers 1 through 10.
+
+```c++
+#include <bits/stdc++.h>
+using namesapce std;
+
+int main() {
+    cin.tie(0)->sync_with_stdio(0);
+    for (int i = 1; i <= 10; i++) {
+        cout << i << endl;
+    }
+
+    return 0;
+}
+```
+
+Notice that we start `i` at 1 and stop the loop when we reach `10`.  You can create and assign any variable here, and choose any condition you would like it to stop on.
+You can also increment `i` by more using `i += x` where `x` is your value.
+
+## For each loops
+
+With many data structures, you can also use what is called a for each loop, which automatically assigns a variable and allows for a bit cleaner code.
+
+Here, we loop through a vector of ints.
+```c++
+#include <bits/stdc++.h>
+using namesapce std;
+
+int main() {
+    cin.tie(0)->sync_with_stdio(0);
+
+    vector<int> numbers(10)
+    for (auto &number : numbers) {
+        cout << number << endl;
+    }
+
+    return 0;
+}
+```
+
+### Nested loops
+You can also nest loops (put them inside of each other) as shown below.
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    cin.tie(0)->sync_with_stdio(0);
+    
+    for (int i = 1; i <= 10; i++) {
+        for (int j = 0; j < 3; j++) {
+            cout << i << " " << j << endl;
+        }
+    }
+
+    return 0;
+}
+```
+
+Loops are a powerful tool in programming, so you should get used to using them.
+
