@@ -60,9 +60,9 @@ const ArrowButton = styled(IconButton)({
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>
 
 function onWheel(apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void {
-  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15
+  const isTouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15
 
-  if (isThouchpad) {
+  if (isTouchpad) {
     ev.stopPropagation()
     return
   }
