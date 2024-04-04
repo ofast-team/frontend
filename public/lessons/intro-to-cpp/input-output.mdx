@@ -1,0 +1,130 @@
+# Input and Output
+The first thing you need to know when learning any programming language is how to take input from the user, and output some information.
+This section goes over input and output.
+
+## Output
+To output in C++, you have to use the `std::cout` command.
+Because we have `using namespace std;` in our template, this can be shortened to `cout`.
+The output in C++ automatically knows what variable types you are using and will take care of that for us.
+To output any variable, say `x`, you can type `cout << x`.
+
+Here is an example on how you can make a program to print out "Hello, World!".
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cout << “Hello, World!\n”
+
+    return 0;
+}
+```
+
+Notice that when outputting in C++, you have to specify a new line at the end of your output with `\n`.
+Another way we can do an end-line character is with `endl`.
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cout << “Hello, World!” << endl;
+
+    return 0;
+}
+```
+
+`endl` allows us to flush our output (empties the buffer) and places a new line character at the end of your output.
+This is very important when debugging since it guarentees that the output prints when expected.
+Make sure that when you submit your code, you use `\n` instead, as flushing output is slow.
+
+If you want to output multiple variables, `x,y,z`, you would format it like this: `cout << x << " " << y << " " << z << endl;`.
+Notice that you have to put spaces in between the variables, since C++ does not do this for us.
+
+### Floating point output
+Sometimes, problems will want you to output a floating point value to a certain degree of accuracy.  The default output that C++ has is typically not enough.
+To help with this, we have to add `fixed` and `setprecision(VALUE)` (where `VALUE` is the number of digits after the decimal point) to our output.
+`fixed` allows us to set the precision after the decimal point, and `setprecision()` gives us the ability to specify how precise we want out output to be.
+
+Here, we take in 3 doubles, and output them with 9 digits after the decimal point.
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    double x, y, z;
+    cin >> x >> y >> z;
+
+    cout << fixed << setprecision(9) << x << " " << y << " " << z << endl;
+
+    return 0;
+}
+```
+
+You only need to put `fixed` and `setprecision(VALUE)` once, and it will apply to the rest of the output.
+
+## Input
+
+When taking input in C++, we use a similar command to output, `cin` to take in variables from the command line.
+`cin` also knows how to handle different variable types (so long as there is whitepace between the values).
+In the following example, we take in an integer, a string, and a double, and simply output them.
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int i;
+    string s;
+    double x;
+    cin >> i >> s >> x;
+    cout << i << " " << s << " " << x << endl;
+
+    return 0;
+}
+```
+
+Notice that when using `cin`, the arrows go in the opposite direction of `cout`.
+One way you can remember which one to use is that `cin` is putting the value into the variable, so it is pointing at it.
+`cout` is recieving the variables for output, so the arrows point at `cout`.
+
+### Taking input by lines
+
+One area you may have difficulty in when starting to work with C++ is when there are important whitespace characters in the input.
+To deal with this, we have to take the input in a slightly different way, using the `getline()` function.
+This function takes in two variables, the source of the input, and a string to place the input into.
+In our case, we will always use `cin` for the input, and whatever our string's name is.
+
+The code below scans in strings until there is no more input, and outputs them while preserving their whitespace characters.
+
+```c++
+#include <bits/stdc++.h>
+using namesapce std;
+
+int main() {
+    cin.tie(0)->sync_with_stdio(0);
+
+    string s;
+    while (getline(cin, s)) {
+        cout << s << endl;
+    }
+    
+    return 0;
+}
+```
+
+Note that the `getline()` function does **not** place the `\n` at the end of your string.
