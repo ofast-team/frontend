@@ -73,9 +73,11 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
         })
         const result = await response.json()
 
-        // Only show the recent 5 submissions
+        const allSubmissions = result.submissionsPerProblem[0].submissions
+
+        // Only show the recent 5 submissions (submissions are in order by increasing time)
         const resultSubmissions =
-          result.submissionsPerProblem[0].submissions.slice(0, 5)
+          allSubmissions.slice(allSubmissions.length - 5, allSubmissions.length).reverse()
 
         const newSubmissions: Submission[] = resultSubmissions.map(
           (resultSubmission) => {

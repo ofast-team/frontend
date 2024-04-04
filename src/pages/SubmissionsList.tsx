@@ -85,7 +85,7 @@ export default function SubmissionsList() {
         })
         .then((data) => {
           const unformattedSubmissions =
-            data.submissionsPerProblem[0].submissions
+            data.submissionsPerProblem[0].submissions.reverse()
 
           // Data we're going to display in the table
           setSubmissionsTable(
