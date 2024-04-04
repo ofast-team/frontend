@@ -59,9 +59,16 @@
       "resources.mdx"
     ]
   },
-  "prefsum": {
+  "prefix-sums": {
     "lessonName": "Prefix Sums",
     "lessonGroup": "Intro Data Structures",
-    "files": []
+    "files": [
+      "intro.mdx",
+      "mcq-1.mdx",
+      "example-walkthrough.mdx",
+      "fitb-1.mdx",
+      "mcq-2.mdx",
+      "application.mdx"
+    ]
   }
 }

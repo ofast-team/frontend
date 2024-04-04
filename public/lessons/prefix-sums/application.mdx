@@ -1,0 +1,42 @@
+## Application of Prefix Sums
+### Range Sum Queries
+The program code is given in `c++` computes the prefix sum array `prefix` of an example array `arr` and prints the sum value for a query from $[1, 4]$.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+// Computes prefix sum array for a given array arr
+vector<int> computePrefixSum(const vector<int>& arr) {
+    vector<int> prefix(arr.size());
+    prefix[0] = arr[0];
+    for (int i = 1; i < arr.size(); i++) {
+        prefix[i] = prefix[i - 1] + arr[i];
+    }
+    return prefix;
+}
+
+// Returns range sum query for given prefix sum array and [a, b] indices
+int rangeSumQueries(const vector<int>& prefix, int a, int b) {
+    // check bounds
+    if (a == 0) {
+        return prefix[b];
+    }
+    return prefix[b] - prefix[a-1];
+}
+
+int main() {
+    vector<int> arr = {1, 6, 4, 2, 5, 3};
+
+    // Prefix array for the above arr = {1, 7, 11, 13, 18, 21}
+    vector<int> prefix = computePrefixSum(arr);
+    
+    // Example query
+    int a = 1;
+    int b = 4;
+    // Output for rangeSumQueries(prefix, 1, 4) is 17
+    cout << "Sum of elements in subarray [" << a << ", " << b << "]: " << rangeSumQueries(prefix, a, b) << endl;
+
+    return 0;
+}
+```

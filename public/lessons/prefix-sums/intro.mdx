@@ -1,0 +1,31 @@
+# Prefix Sums
+
+Prefix sums are a fundamental concept in competitive programming. They provide a way to efficiently compute cumulative sum queries in a constant time $O(1)$ for an array of length $n$. Prefix sums efficiently solve various problems, especially those involving range queries and cumulative sums.
+
+## What are Prefix Sums?
+
+In simple terms, a prefix sum of an array is another array where each element at index `i` contains the __sum of all elements from index `0` to `i` in the original array__.
+
+For instance, we have a one-dimensional array $arr$ of length $n$, and we want to compute the value of 
+
+<center>$arr[a] + arr[a+1] + ... + arr[b-1] + arr[b]$</center><br />
+
+where $0 \leq a \leq b \leq n$, the naive approach includes looping through the array $arr$ from indices $a$ to $b$ and keeping track of the cumulative sum. However, this approach takes $O(n)$ runtime in the worst-case scenario (looping through the entire array). And, if we have more than one query, let's say $k$ queries for such indices $[a, b]$, the total runtime of the program will be $O(nk)$. This runtime will definitely exceed the time limit for the bounds $n, k \leq 10^5$, which makes $nk$ an order of $10^{10}$. 
+
+An alternative efficient approach for array sum queries is __prefix sums__. Let's call the prefix sum array `prefix`. For an array `arr` of zero-indexed, the prefix array is defined as follows in pseudocode:
+
+
+```
+prefix[0] = arr[0]
+for i = 1 to n-1:
+  prefix[i] = prefix[i-1] + arr[i]
+```
+
+The `prefix` array at index `i` stores the sum of all the elements from the original array `arr` from index `0` up to `i`. This is computed in linear runtime, $O(n)$. 
+
+Then, a range query of $[a, b]$ indices using a `prefix` array is as follows:
+```
+range_query = prefix[b] - prefix[a-1]
+```
+
+Subtract the left cumulative sum at `a-1` index from the overall cumulative sum at index `b` in order to get the sum between only $[a, b]$. This approach makes a query using only two indexed elements from the prefix sum array and calculates the subarray sum in a constant time $O(1)$. Before, the naive approach takes each query $O(n)$ time, and the prefix sum approach is much better with constant time. Thus, the overall time complexity for $k$ queries is $O(n + k)$, which passes the time limit with bounds of $n, k \leq 10^5$.
