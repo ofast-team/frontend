@@ -16,7 +16,12 @@
   "greedy": {
     "lessonName": "Intro to Greedy",
     "lessonGroup": "Intro Algo Design",
-    "files": []
+    "files": [
+      "intro.mdx",
+      "exchange-arguments.mdx",
+      "coin-change-mcq.mdx",
+      "problem-picasso.mdx"
+    ]
   },
   "dynamic-programming": {
     "lessonName": "Dynamic Programming",
@@ -25,11 +30,11 @@
       "recursive-functions.mdx",
       "fitb-1.mdx",
       "mcq-1.mdx",
-      "problem-twosum.mdx",
       "overlapping-subproblems.mdx",
       "fitb-2.mdx",
       "building-a-recursive-function.mdx",
-      "mcq-2.mdx"
+      "mcq-2.mdx",
+      "problem-building.mdx"
     ]
   },
   "lists": {
