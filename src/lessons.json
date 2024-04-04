@@ -47,8 +47,8 @@
     "lessonGroup": "Intro Data Structures",
     "files": [
       "intro.mdx",
-      "example-walkthrough.mdx",
       "mcq-1.mdx",
+      "example-walkthrough.mdx",
       "fitb-1.mdx",
       "mcq-2.mdx",
       "application.mdx"
