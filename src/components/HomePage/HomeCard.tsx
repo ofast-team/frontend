@@ -12,7 +12,7 @@ export default function HomeCard() {
             flexDirection: 'column',
             justifyContent: 'spaceBetween',
             alignItems: 'center',
-            pt: 2,
+            pt: 7,
           }}
           gutterBottom
         >
@@ -31,7 +31,7 @@ export default function HomeCard() {
         >
           Learn & Solve with O(fast)
         </Typography>
-        <Box sx={{ height: '700px' }}>
+        <Box sx={{ height: '685px' }}>
           <img
             className="card-rotate card-left"
             src="assets/learn.svg"
