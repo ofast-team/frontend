@@ -1,0 +1,42 @@
+## Quiz: DFS Traversal
+
+<FITBBlock hint="DFS traverses as deep as possible before backtracking">
+
+If we run the DFS algorithm on the graph below (starting from node 0), in what order would we traverse the nodes?
+
+<Graph
+  id="graph"
+  data={{
+    nodes: [
+      { id: 0 }, 
+      { id: 1 }, 
+      { id: 2 }, 
+      { id: 3 },
+      { id: 4 },
+    ],
+    edges: [
+      { source: 0, target: 1},
+      { source: 0, target: 2},
+      { source: 0, target: 3},
+      { source: 3, target: 4},
+      { source: 1, target: 4},
+    ]
+  }}
+/>
+
+The adjacency list for this graph is:
+```
+0: 1, 2, 3
+1: 0, 5
+2: 0
+3: 0, 4
+4: 1, 3
+```
+
+- First: <FITBBlank correctAnswer="0"/>
+- Second: <FITBBlank correctAnswer="1"/>
+- Third: <FITBBlank correctAnswer="4"/>
+- Fourth: <FITBBlank correctAnswer="3"/>
+- Fifth: <FITBBlank correctAnswer="2"/>
+
+</FITBBlock>

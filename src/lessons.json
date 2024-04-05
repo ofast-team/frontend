@@ -65,5 +65,10 @@
     "lessonName": "Intro to Graph Theory",
     "lessonGroup": "Graph Theory",
     "files": ["intro.mdx", "graphs-in-code.mdx", "practice-problem.mdx"]
+  },
+  "graph-traversals": {
+    "lessonName": "Graph Traversals",
+    "lessonGroup": "Graph Theory",
+    "files": ["traversal-algs.mdx", "traversal-questions-dfs.mdx", "traversal-questions-bfs.mdx", "problem-diamond.mdx", "problem-fox.mdx"]
   }
 }
