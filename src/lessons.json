@@ -1,7 +1,19 @@
 {
+  "intro-to-cpp": {
+    "lessonName": "Programming in C++",
+    "lessonGroup": "Intro to Competitive Programming",
+    "files": [
+      "intro.mdx",
+      "input-output.mdx",
+      "io-fitb.mdx",
+      "conditionals.mdx",
+      "datastructures.mdx",
+      "resources.mdx"
+    ]
+  },
   "runtime-analysis": {
     "lessonName": "Runtime Analysis",
-    "lessonGroup": "Intro Algo Design",
+    "lessonGroup": "Intro to Competitive Programming",
     "files": [
       "intro.mdx",
       "analysing-code.mdx",
@@ -14,8 +26,8 @@
     ]
   },
   "greedy": {
-    "lessonName": "Intro to Greedy",
-    "lessonGroup": "Intro Algo Design",
+    "lessonName": "Greedy Algorithms",
+    "lessonGroup": "Algorithm Design",
     "files": [
       "intro.mdx",
       "exchange-arguments.mdx",
@@ -25,7 +37,7 @@
   },
   "dynamic-programming": {
     "lessonName": "Dynamic Programming",
-    "lessonGroup": "Intro Algo Design",
+    "lessonGroup": "Algorithm Design",
     "files": [
       "recursive-functions.mdx",
       "fitb-1.mdx",
@@ -37,36 +49,9 @@
       "problem-building.mdx"
     ]
   },
-  "graph-theory-intro": {
-    "lessonName": "Intro to Graph Theory",
-    "lessonGroup": "Graph Theory",
-    "files": ["intro.mdx", "graphs-in-code.mdx", "practice-problem.mdx"]
-  },
-  "lists": {
-    "lessonName": "Lists & Vectors",
-    "lessonGroup": "Intro Data Structures",
-    "files": []
-  },
-  "stacks": {
-    "lessonName": "Stacks & Queues",
-    "lessonGroup": "Intro Data Structures",
-    "files": []
-  },
-  "intro-to-cpp": {
-    "lessonName": "Intro to C++",
-    "lessonGroup": "Intro to Competitive Programming",
-    "files": [
-      "intro.mdx",
-      "input-output.mdx",
-      "io-fitb.mdx",
-      "conditionals.mdx",
-      "datastructures.mdx",
-      "resources.mdx"
-    ]
-  },
   "prefix-sums": {
     "lessonName": "Prefix Sums",
-    "lessonGroup": "Intro Data Structures",
+    "lessonGroup": "Data Structures",
     "files": [
       "intro.mdx",
       "mcq-1.mdx",
@@ -75,5 +60,10 @@
       "mcq-2.mdx",
       "application.mdx"
     ]
+  },
+  "graph-theory-intro": {
+    "lessonName": "Intro to Graph Theory",
+    "lessonGroup": "Graph Theory",
+    "files": ["intro.mdx", "graphs-in-code.mdx", "practice-problem.mdx"]
   }
 }
