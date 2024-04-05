@@ -11,16 +11,11 @@ interface HomeLearnProps {
 
 export default function HomeLearn({ svgModule, svgGraphics }: HomeLearnProps) {
   return (
-    <div
-      style={{
-        height: '100%',
-      }}
-    >
+    <div>
       <Container
         sx={{
           display: 'flex',
-          mt: 8,
-          mb: 3,
+          my: 2,
         }}
       >
         <Box sx={{ width: '50%' }}>

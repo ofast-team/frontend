@@ -1,8 +1,6 @@
 .scroll-area {
-  font-size: 60px;
   height: 100%;
   scroll-snap-align: center;
-  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,42 +12,18 @@
   width: 100%;
 }
 
-.snap-parent-y-mandatory {
-  scroll-snap-type: y mandatory;
-  overflow: scroll;
-  height: 100vh;
-  width: 100%;
-  -webkit-overflow-scrolling: touch;
-}
-
-.snap-parent-y-mandatory::-webkit-scrollbar {
-  display: none;
-}
-
-.snap-child-start {
-  opacity: 1;
-  z-index: 10;
-  scroll-snap-align: start;
-}
-
-.snap-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .card-rotate {
   rotate: 3deg;
   position: relative;
 }
 
 .card-left {
-  /* top: 5%; */
+  top: 5%;
   left: 5%;
 }
 
 .card-right {
-  top: -60%;
+  top: -50%;
   left: 40%;
 }
 

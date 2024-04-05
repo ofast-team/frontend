@@ -16,17 +16,12 @@ export default function HomeSolve() {
   ]
 
   return (
-    <div
-      style={{
-        height: '100%',
-      }}
-    >
+    <div>
       <Container
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          mt: 8,
-          mb: 2,
+          my: 2,
         }}
       >
         <Box

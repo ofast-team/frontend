@@ -12,7 +12,6 @@ export default function HomePage() {
     ['assets/learn2_1.svg', 'assets/learn2.svg'],
     ['assets/learn3_1.svg', 'assets/learn3.svg'],
   ]
-  // const data = [<HomeCard />, <HomeLearn />, <HomeSolve />]
   const refs = useRef(new Array(learn_objects.length + 2))
 
   return (

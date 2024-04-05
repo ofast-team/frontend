@@ -3,20 +3,14 @@ import React from 'react'
 
 export default function HomeCard() {
   return (
-    <div
-      style={{
-        height: '100%',
-      }}
-    >
-      <Container
-        sx={{ display: 'flex', flexDirection: 'column', mt: 2, mb: 4 }}
-      >
+    <div>
+      <Container sx={{ display: 'flex', flexDirection: 'column', my: 2 }}>
         <Typography
           variant="h2"
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'spaceBetween',
             alignItems: 'center',
             pt: 2,
           }}
