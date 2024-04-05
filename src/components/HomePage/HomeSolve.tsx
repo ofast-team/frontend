@@ -33,7 +33,7 @@ export default function HomeSolve() {
           display: 'flex',
           flexDirection: 'column',
           mt: 2,
-          mb: 4,
+          mb: 1,
         }}
       >
         <Box

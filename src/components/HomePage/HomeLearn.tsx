@@ -54,7 +54,7 @@ export default function HomeLearn({ svgModule, svgGraphics }: HomeLearnProps) {
             </Typography>
             <Box
               sx={{
-                // height: '20vh',
+                height: '150px',
                 display: 'flex',
                 flexDirection: 'column',
               }}
@@ -82,23 +82,3 @@ export default function HomeLearn({ svgModule, svgGraphics }: HomeLearnProps) {
     </div>
   )
 }
-
-// export default function HomeLearn() {
-//   const objects: [string, string][] = [
-//     ['assets/learn1_1.svg', 'assets/learn1.svg'],
-//     ['assets/learn2_1.svg', 'assets/learn2.svg'],
-//     ['assets/learn3_1.svg', 'assets/learn3.svg'],
-//   ]
-
-//   return (
-//     <>
-//       {objects.map(([svgModule, svgGraphics]) => (
-//         <HomeLearnComponent
-//           svgModule={svgModule}
-//           svgGraphics={svgGraphics}
-//           key={svgModule}
-//         />
-//       ))}
-//     </>
-//   )
-// }
