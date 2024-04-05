@@ -26,6 +26,7 @@
     "firebase-tools": "^12.8.0",
     "framer-motion": "^10.18.0",
     "github-slugger": "^2.0.0",
+    "greuler": "^1.0.0",
     "hastscript": "^9.0.0",
     "jest-worker": "^29.7.0",
     "nanoid": "^5.0.3",

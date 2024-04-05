@@ -188,7 +188,7 @@ export default function VerdictPage() {
           setProblemName(problemName)
           setProblemID(data.problem_id)
 
-          const code = `\`\`\`${data.language}\n${atob(data.code)}\`\`\``
+          const code = `\`\`\`${data.language}\n${atob(data.code)}`
           const newSubmissionData = formatSubmissionData(data, problemsObject)
           setCurrentSubmissionData(newSubmissionData)
 

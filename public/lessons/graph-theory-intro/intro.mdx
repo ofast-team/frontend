@@ -1,0 +1,118 @@
+# Introduction to Graph Theory
+
+If you have ever seen a problem that involves a set of entities and establishes relationships
+between them, you have seen a problem that can potentially be solved using Graph Theory. Graphs are
+a fundamental data structure in Computer Science and can be used to model a wide variety of problem
+scenarios. Given a graphical interpretation of a problem, we can take advantage of many graph-based
+algorithms available to come up with a solution. Some noteworthy examples of classical graph theory
+problems include graph traversal, finding shortest-paths, topological sorting, and many more. This
+makes Graph Theory a fascinating and essential topic to master when it comes to Competitive
+Programming.
+
+<Graph
+  id="graph"
+  data={{
+    nodes: [
+      { id: 0 }, 
+      { id: 1 }, 
+      { id: 2 }, 
+      { id: 3 },
+      { id: 4 },
+    ],
+    edges: [
+      { source: 0, target: 1},
+      { source: 0, target: 3},
+      { source: 0, target: 4},
+      { source: 1, target: 2},
+      { source: 1, target: 3},
+      { source: 2, target: 3},
+      { source: 3, target: 4},
+    ]
+  }}
+/>
+
+## Terminology
+
+Formally, a **graph** can be defined as $G=(V,E)$ where $V$ is a set of **vertices** (or nodes) and
+$E$ is a set of **edges**. Vertices can represent any meaningful entities (e.g. locations,
+individuals, etc.) or states in a problem context. Edges represent direct relationships between
+pairs of vertices. A pair of vertices connected by an edge are said to be **adjacent** to each
+other. If there is no edge connecting a pair of vertices, they may still be indirectly connected
+using a path. A **path** is a sequence of vertices that we can traverse in order using edges in the
+graph. A **cycle** is a path that begins and ends at the same vertex. Edges can be **directed** or
+**undirected**. Directed edges represent one-way relationships or traversals, whereas, undirected
+edges are bidirectional. A node's **indegree** is its number of incoming edges and its **outdegree**
+is its number of outgoing edges. Edges can be **weighted** or **unweighted**. A weighted edge has a
+value associated with it that can represent a cost of using that edge, the distance between the two
+vertices, or any other meaning.
+
+### Types of Graphs
+
+As a result of the terminology defined above, graphs can be classified into different types based on
+some properties they exhibit.  Below are some common types of graphs:
+
+1. **Directed Graphs**: In an directed graph, all edges are directed. In an
+undirected graph, all edges are undirected. Typically, graphs fall into one of these two categories.
+If a graph contains both directed and undirected edges, we can treat it as a directed graph by
+splitting any undirected edges into two directed edges going in opposite directions.
+
+2. **Weighted Graphs**: In a weighted graph, all edges are weighted. In an unweighted
+graph, all edges are unweighted. Depending on the problem context, in an undirected graph, edge
+weights may simply not have any meaning or all edges may be considered to share the same weight, in
+which case the graph can be treated as unweighted.
+
+3. **Cyclic Graphs**: A graph is cyclic if it contains a cycle. Otherwise, it is acyclic.
+
+4. **Connected Graphs**: A graph is connected if there is a path between every pair of vertices.
+A subset of vertices in a graph that is connected is called a connected component. If there
+exists a pair of vertices such that there is no path between them, the graph is disconnected. In
+this case the graph will have at least two connected components.
+
+9. **Complete Graph**: A graph is complete if there is an edge between every pair of vertices.
+Otherwise, it is incomplete.
+
+10. **Bipartite Graph**: A graph is bipartite if the vertices can be divided into two sets such that
+there are no edges between vertices in the same set.
+
+11. **Tree**: A tree is an acyclic connected graph. Trees can be rooted or unrooted. Rooted trees
+have a node designated as the root of the tree. The tree can then be viewed as a hierarchical
+structure, where nodes can be ancestors or descendants of other nodes. The root is an ancestor of
+all nodes in the tree and conversely, all nodes are descendants of the root.  Trees are a special
+case of graphs that are make up a large portion of all graph problems. 
+
+12. **Forest**: A forest is a collection of trees.
+
+## Examples of Graphical Interpretations of Scenarios
+
+To begin solving problems using Graph Theory, we need to know how to identify graphical
+interpretations of a problem. Below are some classical examples of scenarios that can be modeled as
+graphs:
+
+1. **Road Networks**: In a road network, intersections can be represented as vertices and roads as
+edges. If the road network includes one-way roads, we can represent them using directed edges. We
+can assign weights to edges to represent the lengths of the roads. A path on this a graph would
+represent the total distance to travel from one intersection to another.
+
+2. **Flight Routes**: In a flight route network, airports can be represented as vertices and flights
+as edges. If the flights are one-way, we can use directed edges. We can assign weights to edges to
+represent the cost of the flight or the distance between the airports. A path on this graph would
+represent a sequence of flights to travel from one airport to another. 
+
+3. **Social Networks**: In a social network, users can be represented as vertices. Edges can be used
+to represent relationships between users. For example, if two users are friends, we can draw an
+edge. If the relationship is one-way (e.g. following on Instagram), we can use directed edges. One
+might assign weights to edges to represent the strength of the relationship, although it may seem
+nonsensical to quantify the strength of a friendship. 
+
+Graphs can be used model a whole variety of scenarios. So keep an open mind and be creative when
+trying to identify graphical interpretations of a problem!
+
+### Graphical Interpretation Practice
+
+<FITBBlock hint="What are the entities being connected? What is being used to connect these
+  entities?"
+>
+  A network technician is connecting computers in a local network using cables. In a graphical
+  interpretation of this problem, each node would represent a <FITBBlank correctAnswer="computer"/>.
+  Each edge would represent a <FITBBlank correctAnswer="cable"/>. 
+</FITBBlock>
