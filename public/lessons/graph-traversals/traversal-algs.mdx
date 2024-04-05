@@ -1,0 +1,53 @@
+# Graph Traversal Algorithms
+
+Often times when working with graphs, we need to traverse the graph in a way that allows us to visit every node. There are two primary ways of doing this: Depth First Search (DFS) and Breadth First Search (BFS). The idea with DFS is that we will traverse as deep as possible in the current branch before backtracking, whereas BFS will traverse all nodes at an equal depth level before moving to the next depth.
+
+## Depth First Search
+
+When using DFS to traverse a graph, whenever we visit a node, we will immediately traverse to its children, if they exist. To implement this, we want to add all the current node's children to a "Last In, First-Out" data structure (i.e. a stack). Instead of using a stack however, we can implement this with recursion as shown below.
+
+```cpp
+vector<bool> seen;
+vector<vector<int>> adj;
+void dfs(int cur) {
+    seen[cur] = true;
+    for(int nxt: adj[nxt]) {
+        if(seen[nxt]) continue;
+        dfs(nxt);
+    }
+}
+```
+
+It is very important to avoid repeating nodes we have already traversed to, so this algorithm is often implemented with some form of `seen` table which will store a boolean value for each node that represents whether or not we have seen this node already in our traversal.
+
+Each node gets visited at most once and each edge gets used at most once, so the time complexity of DFS is often denoted as $O(|V| + |E|)$ where $|V|$ is the number of vertices and $|E|$ is the number of edges.
+
+## Breadth First Search
+
+When using a BFS to traverse a graph, whenever we visit a node, we want to store a list of nodes on the next depth level. These nodes are nodes that are adjacent to our current node that we have not yet seen. 
+
+To implement this, we can use a "First In, First Out" data structure (i.e. a queue). For each iteration of the BFS, we will take the front of the queue as our current node and for each adjacent node that hasn't been seen yet, we will add it to the back of the queue. This forces all nodes at the same depth level to be adjacent in the queue, resulting in a Breadth-First traversal.
+
+```cpp
+void bfs(vector<vector<int>> adj, int s, int n) {
+    vector<bool> seen(n);
+    seen[s] = true;
+    queue<int> q;
+    q.push(s);
+    
+    while(!q.empty()) {
+        int cur = q.front();
+        q.pop();
+
+        for(int nxt: adj[cur]) {
+            if(seen[nxt]) continue;
+            seen[nxt] = true;
+            q.push(nxt);
+        }
+    }
+}
+```
+
+As with DFS, we want to avoid visiting repeating nodes, so we will use a seen table to avoid repeating nodes. To avoid adding duplicate nodes into the queue, we will mark a node as seen when adding it into the queue.
+
+Each node gets visited at most once and each edge gets used at most once, so the time complexity of DFS is often denoted as $O(|V| + |E|)$ where $|V|$ is the number of vertices and $|E|$ is the number of edges.
