@@ -1,3 +1,19 @@
+.scroll-area {
+  font-size: 60px;
+  height: 100%;
+  scroll-snap-align: center;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-container {
+  height: 100vh;
+  scroll-snap-type: y mandatory;
+  width: 100%;
+}
+
 .snap-parent-y-mandatory {
   scroll-snap-type: y mandatory;
   overflow: scroll;

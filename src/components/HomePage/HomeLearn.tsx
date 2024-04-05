@@ -5,30 +5,29 @@ import { motion } from 'framer-motion'
 
 import './HomePage.css'
 
-interface HomeLearnComponentProps {
+interface HomeLearnProps {
   svgModule: string
   svgGraphics: string
 }
 
-function HomeLearnComponent({
-  svgModule,
-  svgGraphics,
-}: HomeLearnComponentProps) {
-  const { ref } = useInView({
-    threshold: 0.75,
-  })
+export default function HomeLearn({ svgModule, svgGraphics }: HomeLearnProps) {
+  // const { ref } = useInView({
+  //   threshold: 0.75,
+  // })
 
   return (
     <div
-      className="snap-child-start snap-center"
-      ref={ref}
+      // className="snap-child-start snap-center"
+      // ref={ref}
       style={{
-        height: '100vh',
+        height: '100%',
       }}
     >
       <Container
         sx={{
           display: 'flex',
+          mt: 2,
+          mb: 4,
         }}
       >
         <Box sx={{ width: '50%' }}>
@@ -55,7 +54,7 @@ function HomeLearnComponent({
             </Typography>
             <Box
               sx={{
-                height: '20vh',
+                // height: '20vh',
                 display: 'flex',
                 flexDirection: 'column',
               }}
@@ -84,22 +83,22 @@ function HomeLearnComponent({
   )
 }
 
-export default function HomeLearn() {
-  const objects: [string, string][] = [
-    ['assets/learn1_1.svg', 'assets/learn1.svg'],
-    ['assets/learn2_1.svg', 'assets/learn2.svg'],
-    ['assets/learn3_1.svg', 'assets/learn3.svg'],
-  ]
+// export default function HomeLearn() {
+//   const objects: [string, string][] = [
+//     ['assets/learn1_1.svg', 'assets/learn1.svg'],
+//     ['assets/learn2_1.svg', 'assets/learn2.svg'],
+//     ['assets/learn3_1.svg', 'assets/learn3.svg'],
+//   ]
 
-  return (
-    <>
-      {objects.map(([svgModule, svgGraphics]) => (
-        <HomeLearnComponent
-          svgModule={svgModule}
-          svgGraphics={svgGraphics}
-          key={svgModule}
-        />
-      ))}
-    </>
-  )
-}
+//   return (
+//     <>
+//       {objects.map(([svgModule, svgGraphics]) => (
+//         <HomeLearnComponent
+//           svgModule={svgModule}
+//           svgGraphics={svgGraphics}
+//           key={svgModule}
+//         />
+//       ))}
+//     </>
+//   )
+// }

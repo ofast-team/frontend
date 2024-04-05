@@ -3,15 +3,15 @@ import React from 'react'
 import { useInView } from 'react-intersection-observer'
 
 export default function HomeCard() {
-  const { ref } = useInView({
-    threshold: 0.75,
-  })
+  // const { ref } = useInView({
+  //   threshold: 0.75,
+  // })
   return (
     <div
-      className="snap-child-start"
-      ref={ref}
+      // className="snap-child-start"
+      // ref={ref}
       style={{
-        height: '120vh',
+        height: '100%',
       }}
     >
       <Container
@@ -43,7 +43,7 @@ export default function HomeCard() {
         >
           Learn & Solve with O(fast)
         </Typography>
-        <Box sx={{ height: 'fit-content' }}>
+        <Box sx={{ height: '100%' }}>
           <img
             className="card-rotate card-left"
             src="assets/learn.svg"
