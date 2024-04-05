@@ -1,34 +1,21 @@
 import React from 'react'
 import { Box, Container, Typography } from '@mui/material'
-import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
 
 import './HomePage.css'
 
-interface HomeLearnComponentProps {
+interface HomeLearnProps {
   svgModule: string
   svgGraphics: string
 }
 
-function HomeLearnComponent({
-  svgModule,
-  svgGraphics,
-}: HomeLearnComponentProps) {
-  const { ref } = useInView({
-    threshold: 0.75,
-  })
-
+export default function HomeLearn({ svgModule, svgGraphics }: HomeLearnProps) {
   return (
-    <div
-      className="snap-child-start snap-center"
-      ref={ref}
-      style={{
-        height: '100vh',
-      }}
-    >
+    <div>
       <Container
         sx={{
           display: 'flex',
+          my: 2,
         }}
       >
         <Box sx={{ width: '50%' }}>
@@ -55,7 +42,7 @@ function HomeLearnComponent({
             </Typography>
             <Box
               sx={{
-                height: '20vh',
+                height: '150px',
                 display: 'flex',
                 flexDirection: 'column',
               }}
@@ -81,25 +68,5 @@ function HomeLearnComponent({
         </Box>
       </Container>
     </div>
-  )
-}
-
-export default function HomeLearn() {
-  const objects: [string, string][] = [
-    ['assets/learn1_1.svg', 'assets/learn1.svg'],
-    ['assets/learn2_1.svg', 'assets/learn2.svg'],
-    ['assets/learn3_1.svg', 'assets/learn3.svg'],
-  ]
-
-  return (
-    <>
-      {objects.map(([svgModule, svgGraphics]) => (
-        <HomeLearnComponent
-          svgModule={svgModule}
-          svgGraphics={svgGraphics}
-          key={svgModule}
-        />
-      ))}
-    </>
   )
 }

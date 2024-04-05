@@ -1,30 +1,18 @@
 import { Typography, Box, Container } from '@mui/material'
 import React from 'react'
-import { useInView } from 'react-intersection-observer'
 
 export default function HomeCard() {
-  const { ref } = useInView({
-    threshold: 0.75,
-  })
   return (
-    <div
-      className="snap-child-start"
-      ref={ref}
-      style={{
-        height: '120vh',
-      }}
-    >
-      <Container
-        sx={{ display: 'flex', flexDirection: 'column', mt: 2, mb: 4 }}
-      >
+    <div>
+      <Container sx={{ display: 'flex', flexDirection: 'column', my: 2 }}>
         <Typography
           variant="h2"
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'spaceBetween',
             alignItems: 'center',
-            pt: 2,
+            pt: 7,
           }}
           gutterBottom
         >
@@ -43,7 +31,7 @@ export default function HomeCard() {
         >
           Learn & Solve with O(fast)
         </Typography>
-        <Box sx={{ height: 'fit-content' }}>
+        <Box sx={{ height: '685px' }}>
           <img
             className="card-rotate card-left"
             src="assets/learn.svg"
