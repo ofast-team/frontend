@@ -1,15 +1,10 @@
 import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Box, Container, Typography } from '@mui/material'
-import { useInView } from 'react-intersection-observer'
 
 import './HomePage.css'
 
 export default function HomeSolve() {
-  // const { ref } = useInView({
-  //   threshold: 0.75,
-  // })
-
   const ref = useRef(null)
 
   const solveCards = [
@@ -22,8 +17,6 @@ export default function HomeSolve() {
 
   return (
     <div
-      // className="snap-child-start"
-      // ref={ref}
       style={{
         height: '100%',
       }}
@@ -32,8 +25,8 @@ export default function HomeSolve() {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          mt: 2,
-          mb: 1,
+          mt: 8,
+          mb: 2,
         }}
       >
         <Box

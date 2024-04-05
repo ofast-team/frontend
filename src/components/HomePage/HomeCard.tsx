@@ -1,15 +1,9 @@
 import { Typography, Box, Container } from '@mui/material'
 import React from 'react'
-import { useInView } from 'react-intersection-observer'
 
 export default function HomeCard() {
-  // const { ref } = useInView({
-  //   threshold: 0.75,
-  // })
   return (
     <div
-      // className="snap-child-start"
-      // ref={ref}
       style={{
         height: '100%',
       }}
@@ -43,7 +37,7 @@ export default function HomeCard() {
         >
           Learn & Solve with O(fast)
         </Typography>
-        <Box sx={{ height: '100%' }}>
+        <Box sx={{ height: '700px' }}>
           <img
             className="card-rotate card-left"
             src="assets/learn.svg"

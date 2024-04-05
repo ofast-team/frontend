@@ -44,24 +44,24 @@
 }
 
 .card-left {
-  top: 5%;
+  /* top: 5%; */
   left: 5%;
 }
 
 .card-right {
-  top: -35%;
+  top: -60%;
   left: 40%;
 }
 
 .gear-top {
   left: 5%;
-  bottom: 35%;
+  bottom: 20%;
   position: relative;
 }
 
 .gear-bottom {
   left: 40%;
-  bottom: 80%;
+  bottom: 65%;
   position: relative;
 }
 

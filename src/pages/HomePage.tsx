@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 
 import HomeCard from '../components/HomePage/HomeCard'
 import HomeLearn from '../components/HomePage/HomeLearn'

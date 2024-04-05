@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Container, Typography } from '@mui/material'
-import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
 
 import './HomePage.css'
@@ -11,14 +10,8 @@ interface HomeLearnProps {
 }
 
 export default function HomeLearn({ svgModule, svgGraphics }: HomeLearnProps) {
-  // const { ref } = useInView({
-  //   threshold: 0.75,
-  // })
-
   return (
     <div
-      // className="snap-child-start snap-center"
-      // ref={ref}
       style={{
         height: '100%',
       }}
@@ -26,8 +19,8 @@ export default function HomeLearn({ svgModule, svgGraphics }: HomeLearnProps) {
       <Container
         sx={{
           display: 'flex',
-          mt: 2,
-          mb: 4,
+          mt: 8,
+          mb: 3,
         }}
       >
         <Box sx={{ width: '50%' }}>
