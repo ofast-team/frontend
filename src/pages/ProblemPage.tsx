@@ -6,7 +6,6 @@ import { Container, Box } from '@mui/material'
 import { useProblemsObject } from '../components/ProblemProvider'
 import { Problem } from '../objects/Problems'
 
-// TODO: (Stretch Goal) Add copy button for samples
 export default function ProblemPage() {
   const params = useParams()
   const problemID: string = params.problem as string
