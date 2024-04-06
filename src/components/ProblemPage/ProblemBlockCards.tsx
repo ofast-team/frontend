@@ -182,6 +182,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             {user.signedIn && user.verified ? (
               <Box
                 sx={{
+                  width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
@@ -189,15 +190,41 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                   gap: 1,
                 }}
               >
-                <label htmlFor="problemCodeFile">
-                  <input
-                    id="problemCodeFile"
-                    type="file"
-                    accept=".c, .cpp, .cxx, .cc, .java, .py"
-                    onChange={handleFileChange}
-                  />
+                <label
+                  htmlFor="problemCodeFile"
+                  style={{
+                    display: 'flex',
+                    fontFamily: 'Roboto, sans-serif',
+                    fontWeight: 'bold',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '6px 0px',
+                    cursor: 'pointer',
+                    backgroundColor: 'grey',
+                    color: 'white',
+                    borderRadius: '4px',
+                    width: '100%',
+                    textAlign: 'center',
+                  }}
+                >
+                  Choose File
                 </label>
-                <Button variant="contained" onClick={submitCode}>
+                <input
+                  id="problemCodeFile"
+                  type="file"
+                  accept=".c, .cpp, .cxx, .cc, .java, .py"
+                  onChange={handleFileChange}
+                  style={{
+                    display: 'none',
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  onClick={submitCode}
+                  style={{
+                    width: '100%',
+                  }}
+                >
                   Submit
                 </Button>
               </Box>
