@@ -1,7 +1,8 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import ProblemBlock from '../components/ProblemPage/ProblemBlock'
-import { Container, Box } from '@mui/material'
+import { Container } from '@mui/material'
+import ProblemNotFound from '../components/ProblemPage/ProblemNotFound'
 
 import { useProblemsObject } from '../components/ProblemProvider'
 import { Problem } from '../objects/Problems'
@@ -14,7 +15,7 @@ export default function ProblemPage() {
   const problem: Problem | null = problemsObject.getProblem(problemID)
 
   if (problem === null) {
-    return <Box pt={15}>Problem not found</Box>
+    return <ProblemNotFound />
   }
 
   return (
