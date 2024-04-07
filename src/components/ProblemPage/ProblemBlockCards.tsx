@@ -48,7 +48,6 @@ function Status({ solved }: StatusProps) {
   )
 }
 
-// TODO: (Stretch Goal) Add copy button for samples
 export default function ProblemBlockCards({ problem }: { problem: Problem }) {
   const navigate = useNavigate()
 

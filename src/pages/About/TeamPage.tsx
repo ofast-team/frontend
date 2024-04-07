@@ -7,8 +7,6 @@ interface Profile {
   bio: string
 }
 
-// TODO(cam): add a contact info page for people to reach out to us and give feedback
-// need a professional email for this
 export default function TeamPage() {
   const aboutText = `
     O(fast) is created by students for students. We want to help you learn!
