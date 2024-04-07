@@ -5,6 +5,7 @@ import ProblemBody from './ProblemBody'
 import ProblemBlockCards from './ProblemBlockCards'
 import { useProblemsObject } from '../ProblemProvider'
 import { Problem } from '../../objects/Problems'
+import ProblemNotFound from './ProblemNotFound'
 
 interface ProblemBlockProps {
   problemID?: string | null
@@ -16,7 +17,7 @@ export default function ProblemBlock({
   problem,
 }: ProblemBlockProps) {
   if (problemID == null && problem == null) {
-    return <></>
+    return <ProblemNotFound />
   }
 
   const problemsObject = useProblemsObject()
@@ -26,7 +27,7 @@ export default function ProblemBlock({
   }
 
   if (problem === null) {
-    return <Box pt={15}>Problem not found</Box>
+    return <ProblemNotFound />
   }
 
   return (
