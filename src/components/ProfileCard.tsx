@@ -103,6 +103,10 @@ export default function ProfileCard({
   }
 
   function stringAvatar(name: string) {
+    if (!name) {
+      return {}
+    }
+
     let names = name.split(' ')
     names = names.filter((name) => name !== '')
 
@@ -171,11 +175,12 @@ export default function ProfileCard({
         }}
       >
         <Avatar
-          {...stringAvatar(profileData.name)}
+          {...stringAvatar(profileData?.name)}
           sx={{ width: '130px', height: '130px' }}
         />
         {/* Check if the name has any content becides spaces */}
-        {profileData?.name
+        {profileData?.name &&
+        profileData?.name
           .split('')
           .filter((ch) => ch !== ' ')
           .join('') ? (
