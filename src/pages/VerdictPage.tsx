@@ -30,17 +30,15 @@ const WrongAnswerIcon = () => {
 
 const PendingIcon = () => {
   return (
-    <motion.div
+    <Cached
+      sx={{
+        color: 'gray',
+        fontSize: '2.5rem',
+      }}
+      component={motion.svg}
       animate={{ rotate: -180 }}
       transition={{ repeat: Infinity, duration: 2 }}
-    >
-      <Cached
-        sx={{
-          color: 'gray',
-          fontSize: '2.5rem',
-        }}
-      />
-    </motion.div>
+    />
   )
 }
 
