@@ -1,7 +1,7 @@
 import { CheckCircle, ErrorOutline, TipsAndUpdates } from '@mui/icons-material'
 import { Box, Typography } from '@mui/material'
 import React from 'react'
-import MDX from '../MDXRenderer'
+import MDX from '../../components/MDXRenderer'
 
 interface ResultProps {
   result: number
