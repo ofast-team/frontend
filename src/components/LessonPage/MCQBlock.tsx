@@ -2,7 +2,7 @@ import { Box, Button, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import OptionDisplay from './OptionDisplay'
 import { TipsAndUpdates } from '@mui/icons-material'
-import MDX from './MDXRenderer'
+import MDX from '../MDXRenderer'
 import Header from './Header'
 import Result from './Result'
 

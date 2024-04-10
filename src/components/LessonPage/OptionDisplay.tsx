@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { CheckCircle, Cancel } from '@mui/icons-material'
 import React from 'react'
-import MDX from './MDXRenderer'
+import MDX from '../MDXRenderer'
 
 interface OptionDisplayProps {
   answerOptions: string[]

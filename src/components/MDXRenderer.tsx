@@ -13,9 +13,9 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeMathJax from 'rehype-mathjax/svg'
 import remarkGfm from 'remark-gfm'
 
-import MCQBlock from './MCQBlock'
-import FITBBlock from './FITBBlock'
-import FITBBlank from './FITBBlank'
+import MCQBlock from './LessonPage/MCQBlock'
+import FITBBlock from './LessonPage/FITBBlock'
+import FITBBlank from './LessonPage/FITBBlank'
 import ProblemBlock from './ProblemPage/ProblemBlock'
 import Graph from './LessonPage/Graph'
 
