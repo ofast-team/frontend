@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Container,
   Typography,
@@ -8,8 +8,6 @@ import {
   Stack,
   styled,
 } from '@mui/material'
-
-import { useNavigate } from 'react-router-dom'
 
 import buildPath from '../path'
 
@@ -44,11 +42,11 @@ export const LinkButton = styled(Button)({
 })
 
 export default function VerifyEmailPage() {
-  const [password, setPassword] = useState('')
+  // const [password, setPassword] = useState('')
 
-  const [hasInvalidCredentials, setHasInvalidCredentials] = useState(false)
+  // const [hasInvalidCredentials, setHasInvalidCredentials] = useState(false)
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   function resetPassword(password) {
     fetch(buildPath('/doResetPassword'), {
@@ -61,16 +59,13 @@ export default function VerifyEmailPage() {
           return res.json()
         }
 
-        setHasInvalidCredentials(true)
         throw Error(res.statusText)
       })
       .then((data) => {
         if (data.message === 'success') {
-          setHasInvalidCredentials(false)
           window.location.href = 'https://ofast.io/'
           return
         }
-        setHasInvalidCredentials(true)
       })
       .catch((error: Error) => {
         console.log('Password Reset Failed: ' + error.message)
@@ -91,6 +86,7 @@ export default function VerifyEmailPage() {
             <Box></Box>
             <Button
               onClick={() => {
+                resetPassword('1')
                 window.location.href = 'https://ofast.io/'
               }}
             >
