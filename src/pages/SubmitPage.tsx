@@ -24,6 +24,8 @@ export default function SubmitPage() {
   const [codeLang, setCodeLang] = useState<string>('')
   const [inputArray, setInputArray] = useState<string[]>([])
   const [outputArray, setOutputArray] = useState<string[]>([])
+  const [timeLimit, setTimeLimit] = useState<number>(1)
+  const [memoryLimit, setMemoryLimit] = useState<number>(1024)
 
   const fetchSubmit = () => {
     setErrorText('')
@@ -41,6 +43,8 @@ export default function SubmitPage() {
         inputs: inputArray,
         outputs: outputArray,
         language_id: codeLang,
+        time_limit: timeLimit,
+        memory_limit: memoryLimit
       }),
     })
       .then((res: Response) => {
@@ -69,7 +73,13 @@ export default function SubmitPage() {
         Submit
       </Typography>
 
-      <SubmitFields handleSubmit={handleSubmit} />
+      <SubmitFields
+        timeLimit={timeLimit}
+        memoryLimit={memoryLimit}
+        setTimeLimit={setTimeLimit}
+        setMemoryLimit={setMemoryLimit}
+        handleSubmit={handleSubmit}
+      />
 
       <Box
         sx={{

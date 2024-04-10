@@ -1,30 +1,22 @@
-import React, { useState } from 'react'
-import {
-  Box,
-  Button,
-  Container,
-  FormControlLabel,
-  MenuItem,
-  TextField,
-  Checkbox,
-} from '@mui/material'
+import React, { Dispatch, SetStateAction } from 'react'
+import { Box, Button, Container, TextField } from '@mui/material'
 import PlayIcon from '@mui/icons-material/PlayArrow'
 
 interface SubmitFieldsProps {
+  timeLimit: number
+  memoryLimit: number
+  setTimeLimit: Dispatch<SetStateAction<number>>
+  setMemoryLimit: Dispatch<SetStateAction<number>>
   handleSubmit: () => void
 }
 
-export default function SubmitFields({ handleSubmit }: SubmitFieldsProps) {
-  const [timeLimit, setTimeLimit] = useState('')
-  const [selectedChecker, setSelectedChecker] = useState('')
-  const [caseSensitive, setCaseSensitive] = useState(false)
-  const [ignoreWhiteSpace, setIgnoreWhiteSpace] = useState(false)
-  const [ignoreLines, setIgnoreLines] = useState(false)
-  const [absEpsilon, setAbsEpsilon] = useState('')
-  const [relEpsilon, setRelEpsilon] = useState('')
-
-  const checkerList = ['Diff', 'Token', 'Epsilon']
-
+export default function SubmitFields({
+  timeLimit,
+  memoryLimit,
+  setTimeLimit,
+  setMemoryLimit,
+  handleSubmit,
+}: SubmitFieldsProps) {
   return (
     <Container
       sx={{
@@ -35,86 +27,28 @@ export default function SubmitFields({ handleSubmit }: SubmitFieldsProps) {
         borderRadius: '10px',
       }}
     >
-      <Box sx={{ flexBasis: '15%' }}>
+      <Box sx={{ flexBasis: '35%' }}>
         <TextField
           label="Time Limit"
           helperText="In Seconds"
           type="number"
+          placeholder="1"
           value={timeLimit}
-          onChange={(e) => setTimeLimit(e.target.value)}
+          onChange={(e) => setTimeLimit(parseFloat(e.target.value))}
           fullWidth
         />
       </Box>
 
-      <Box sx={{ flexBasis: '65%' }}>
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            label="Select Checker"
-            select
-            value={selectedChecker}
-            onChange={(e) => setSelectedChecker(e.target.value)}
-            fullWidth
-          >
-            {checkerList.map((checker, index) => (
-              <MenuItem key={index} value={checker}>
-                {checker}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
-
-        {selectedChecker === checkerList[0] && (
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={caseSensitive}
-                onChange={(e) => setCaseSensitive(e.target.checked)}
-              />
-            }
-            label="Case Sensitive"
-          />
-        )}
-
-        {selectedChecker === checkerList[1] && (
-          <Box>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={ignoreWhiteSpace}
-                  onChange={(e) => setIgnoreWhiteSpace(e.target.checked)}
-                />
-              }
-              label="Ignore Trailing Whitespace"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={ignoreLines}
-                  onChange={(e) => setIgnoreLines(e.target.checked)}
-                />
-              }
-              label="Ignore Trailing Lines"
-            />
-          </Box>
-        )}
-
-        {selectedChecker === checkerList[2] && (
-          <Box>
-            <TextField
-              label="Absolute Epsilon"
-              type="number"
-              value={absEpsilon}
-              onChange={(e) => setAbsEpsilon(e.target.value)}
-              sx={{ mr: 1 }}
-            />
-            <TextField
-              label="Relative Epsilon"
-              type="number"
-              value={relEpsilon}
-              onChange={(e) => setRelEpsilon(e.target.value)}
-            />
-          </Box>
-        )}
+      <Box sx={{ flexBasis: '35%' }}>
+        <TextField
+          label="Memory Limit"
+          helperText="In MB"
+          type="number"
+          placeholder="1024"
+          value={memoryLimit}
+          onChange={(e) => setMemoryLimit(parseFloat(e.target.value))}
+          fullWidth
+        />
       </Box>
 
       <Box
@@ -129,8 +63,9 @@ export default function SubmitFields({ handleSubmit }: SubmitFieldsProps) {
           color="primary"
           onClick={handleSubmit}
           endIcon={<PlayIcon fontSize="large" />}
+          size="large"
         >
-          Run
+          RUN
         </Button>
       </Box>
     </Container>
