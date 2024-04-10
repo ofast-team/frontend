@@ -8,7 +8,6 @@ import {
   Paper,
   Stack,
   styled,
-  IconButton,
 } from '@mui/material'
 
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -70,7 +69,7 @@ export default function ResetPasswordPage() {
 
         throw Error(res.statusText)
       })
-      .catch((error: Error) => {
+      .catch(() => {
         setIsLoading(false)
         setHasValidOob(false)
       })
@@ -117,7 +116,12 @@ export default function ResetPasswordPage() {
           }}
         >
           {!hasValidOob ? (
-            <Typography textAlign={'center'} fontSize = '20px' variant='body1' color= 'primary'>
+            <Typography
+              textAlign={'center'}
+              fontSize="20px"
+              variant="body1"
+              color="primary"
+            >
               Try resetting your password again. Your request to reset your
               password has expired or the link has already been used.
             </Typography>
