@@ -44,7 +44,7 @@ export default function SubmitPage() {
         outputs: outputArray,
         language_id: codeLang,
         time_limit: timeLimit,
-        memory_limit: memoryLimit
+        memory_limit: memoryLimit,
       }),
     })
       .then((res: Response) => {
