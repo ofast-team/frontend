@@ -19,11 +19,13 @@ const Cpp_notes = `
 \`-g -O2 -std=c++17\`
 
 #### File Extensions
-Allowed: \`.cpp, .cxx, .cc\`
+Accepted: \`.cpp, .cxx, .cc\`
 `
 
 const Java_notes = `
 ## Java
+
+<div style={{color: "red", fontSize: "18px"}}><strong>Class must be named \`Main\`</strong></div><br/>
 
 #### Args
 \`-Xss64m -Xmx2048m\`
@@ -39,7 +41,7 @@ const Py_notes = `
 \`python3\`
 
 #### File Extensions
-Allowed: \`.py\`
+Accepted: \`.py\`
 `
 
 export default function SpecPage() {

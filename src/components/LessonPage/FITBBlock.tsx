@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useState } from 'react'
 import { Box, Button, Paper, Typography } from '@mui/material'
-import MDX from './MDXRenderer'
+import MDX from '../../components/MDXRenderer'
 import Header from './Header'
 import Result from './Result'
 import { TipsAndUpdates } from '@mui/icons-material'
