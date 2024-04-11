@@ -31,7 +31,6 @@ export default function SubmitFields({
         <TextField
           label="Time Limit"
           helperText="In Seconds"
-          type="number"
           placeholder="1"
           value={timeLimit}
           onChange={(e) => setTimeLimit(parseFloat(e.target.value))}
@@ -43,7 +42,6 @@ export default function SubmitFields({
         <TextField
           label="Memory Limit"
           helperText="In MB"
-          type="number"
           placeholder="1024"
           value={memoryLimit}
           onChange={(e) => setMemoryLimit(parseFloat(e.target.value))}
