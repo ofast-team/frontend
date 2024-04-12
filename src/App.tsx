@@ -24,8 +24,7 @@ import SubmissionsList from './pages/SubmissionsList'
 import ForgotPassword from './pages/ForgotPassword'
 import ContributePage from './pages/About/ContributePage'
 import SpecPage from './pages/About/SpecPage'
-import VerifyEmailPage from './pages/VerifyEmailPage'
-import ResetPasswordPage from './pages/ResetPasswordPage'
+import AccountManagementPage from './pages/AccountManagementPage'
 
 const theme = createTheme({
   typography: {
@@ -96,8 +95,7 @@ export function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/resetPassword/*" element={<ResetPasswordPage />} />
-        <Route path="/verifyEmail" element={<VerifyEmailPage />} />
+        <Route path="/manageAccount/*" element={<AccountManagementPage />} />
         <Route path="/submit" element={<SubmitPage />} />
         <Route path="/submissions/:submissionId" element={<VerdictPage />} />
         <Route path="/submissions" element={<SubmissionsList />} />
