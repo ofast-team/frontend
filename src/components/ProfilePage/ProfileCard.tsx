@@ -15,11 +15,11 @@ import {
 import EditIcon from '@mui/icons-material/Edit'
 import DoneIcon from '@mui/icons-material/Done'
 
-import CircleLoadAnimation from '../components/CircleLoadAnimation'
+import CircleLoadAnimation from '../CircleLoadAnimation'
 
-import { StylishButton } from '../pages/LoginPage'
-import { ProfileData } from '../pages/ProfilePage'
-import buildPath from '../path'
+import { StylishButton } from '../../pages/LoginPage'
+import { ProfileData } from '../../pages/ProfilePage'
+import buildPath from '../../path'
 
 export const ProfileButton = styled(Button)({
   padding: '0px 16px',

@@ -14,9 +14,9 @@ import {
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 
-import InlineSpacing from '../components/InlineSpacing'
-import { useProblemsObject } from '../components/ProblemProvider'
-import { ProblemMetaData } from '../objects/Problems'
+import InlineSpacing from '../InlineSpacing'
+import { useProblemsObject } from '../ProblemProvider'
+import { ProblemMetaData } from '../../objects/Problems'
 
 interface Column {
   id: 'status' | 'title' | 'tags'
