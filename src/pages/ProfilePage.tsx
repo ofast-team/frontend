@@ -4,9 +4,9 @@ import { Container } from '@mui/material'
 
 import { RootState } from '../store'
 import buildPath from '../path'
-import ProfileCard from '../components/ProfileCard'
-import ProfileProgressCard from '../components/ProfileProgressCard'
-import { PieChartProps } from '../components/PieChart'
+import ProfileCard from '../components/ProfilePage/ProfileCard'
+import ProfileProgressCard from '../components/ProfilePage/ProfileProgressCard'
+import { PieChartProps } from '../components/ProfilePage/PieChart'
 
 export interface ProfileData {
   username: string

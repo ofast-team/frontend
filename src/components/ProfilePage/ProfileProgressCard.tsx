@@ -1,7 +1,7 @@
 import { Box, Card, Stack, Typography } from '@mui/material'
 import React from 'react'
 import PieChart from './PieChart'
-import { ProfileData } from '../pages/ProfilePage'
+import { ProfileData } from '../../pages/ProfilePage'
 import { FlexBox } from './ProfileCard'
 
 import TerminalIcon from '@mui/icons-material/Terminal'

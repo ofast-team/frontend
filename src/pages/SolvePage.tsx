@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import SearchBar from '../components/SearchBar'
-import ProblemsTable from '../components/ProblemsTable'
-import ClickOutside from '../components/ClickOutside'
+import ProblemsTable from '../components/SolvePage/ProblemsTable'
+import ClickOutside from '../components/SolvePage/ClickOutside'
 
 import { useProblemsObject } from '../components/ProblemProvider'
 import { Problem } from '../objects/Problems'
