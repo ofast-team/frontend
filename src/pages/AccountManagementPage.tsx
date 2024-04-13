@@ -150,6 +150,7 @@ export default function AccountManagementPage() {
           throw Error(res.statusText)
         })
         .catch(() => {
+          setIsLoading(false)
           setHasValidOob(false)
         })
     } else {
