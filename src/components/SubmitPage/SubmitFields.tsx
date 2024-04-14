@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { Box, Button, Container, TextField } from '@mui/material'
 import PlayIcon from '@mui/icons-material/PlayArrow'
+import CircleLoadAnimation from '../CircleLoadAnimation'
 
 interface SubmitFieldsProps {
   timeLimit: number
@@ -8,6 +9,7 @@ interface SubmitFieldsProps {
   setTimeLimit: Dispatch<SetStateAction<number>>
   setMemoryLimit: Dispatch<SetStateAction<number>>
   handleSubmit: () => void
+  isSubmitting: boolean
 }
 
 export default function SubmitFields({
@@ -16,6 +18,7 @@ export default function SubmitFields({
   setTimeLimit,
   setMemoryLimit,
   handleSubmit,
+  isSubmitting,
 }: SubmitFieldsProps) {
   return (
     <Container
@@ -56,15 +59,32 @@ export default function SubmitFields({
           alignItems: 'center',
         }}
       >
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-          endIcon={<PlayIcon fontSize="large" />}
-          size="large"
+        <Box
+          sx={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          RUN
-        </Button>
+          {isSubmitting && (
+            <Box sx={{ position: 'absolute', right: '100px' }}>
+              <CircleLoadAnimation />
+            </Box>
+          )}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              handleSubmit()
+            }}
+            endIcon={<PlayIcon fontSize="large" />}
+            size="medium"
+            disabled={isSubmitting}
+          >
+            RUN
+          </Button>
+        </Box>
       </Box>
     </Container>
   )
