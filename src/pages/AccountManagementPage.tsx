@@ -129,6 +129,7 @@ export default function AccountManagementPage() {
   const [searchParams] = useSearchParams()
   const user = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const urlMode = searchParams.get('mode')
@@ -153,7 +154,7 @@ export default function AccountManagementPage() {
           setIsLoading(false)
           setHasValidOob(false)
         })
-    } else {
+    } else if (urlMode === 'verifyEmail') {
       fetch(buildPath('/doEmailVerification'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -173,6 +174,9 @@ export default function AccountManagementPage() {
           setIsLoading(false)
           setHasValidOob(false)
         })
+    } else {
+      // If we don't know what the link is supposed to do, take them home
+      navigate('/')
     }
 
     setMode(urlMode || '')
