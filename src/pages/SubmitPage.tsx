@@ -26,11 +26,14 @@ export default function SubmitPage() {
   const [outputArray, setOutputArray] = useState<string[]>([])
   const [timeLimit, setTimeLimit] = useState<number>(1)
   const [memoryLimit, setMemoryLimit] = useState<number>(1024)
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
   const fetchSubmit = () => {
+    setIsSubmitting(true)
     setErrorText('')
     if (!codeBase64 || !codeLang || !inputArray.length || !outputArray.length) {
       setErrorText('Upload code file and test folder!')
+      setIsSubmitting(false)
       return
     }
 
@@ -55,16 +58,14 @@ export default function SubmitPage() {
         throw Error(res.statusText)
       })
       .then((data) => {
+        setIsSubmitting(false)
         const token = data.token
         navigate(`/submissions/${token}`)
       })
       .catch((error: Error) => {
+        setIsSubmitting(false)
         setErrorText(error.message)
       })
-  }
-
-  const handleSubmit = () => {
-    fetchSubmit()
   }
 
   return (
@@ -78,7 +79,8 @@ export default function SubmitPage() {
         memoryLimit={memoryLimit}
         setTimeLimit={setTimeLimit}
         setMemoryLimit={setMemoryLimit}
-        handleSubmit={handleSubmit}
+        handleSubmit={fetchSubmit}
+        isSubmitting={isSubmitting}
       />
 
       <Box
