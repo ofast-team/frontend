@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Verdict, verdictInfo } from '../../utils/verdict'
 import { Problem } from '../../objects/Problems'
+import CircleLoadAnimation from '../CircleLoadAnimation'
 
 interface Submission {
   submissionID: string
@@ -57,6 +58,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
   const [problemCodeFile, setProblemCodeFile] = useState<string>('')
   const [codeLang, setCodeLang] = useState<string>('')
   const [errorText, setErrorText] = useState<string>('')
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -118,6 +120,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
   }
 
   const submitCode = () => {
+    setIsSubmitting(true)
     if (!problemCodeFile || !codeLang) {
       setErrorText('Please select a file to upload!')
       return
@@ -141,6 +144,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
       })
       .then((data) => {
         const token = data.token
+        setIsSubmitting(false)
         navigate(`/submissions/${token}`)
       })
       .catch((error: Error) => {
@@ -196,9 +200,32 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                     onChange={handleFileChange}
                   />
                 </label>
-                <Button variant="contained" onClick={submitCode}>
-                  Submit
-                </Button>
+                <Box
+                  display="flex"
+                >
+                  <Box
+                    display="flex"
+                    position="relative"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={submitCode}
+                      disabled={isSubmitting}
+                    >
+                      Submit
+                    </Button>
+                    {isSubmitting && (
+                      <Box
+                        position="absolute"
+                        left="90px"
+                      >
+                        <CircleLoadAnimation/>
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
               </Box>
             ) : (
               <Box>
