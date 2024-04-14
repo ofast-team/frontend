@@ -123,6 +123,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
     setIsSubmitting(true)
     if (!problemCodeFile || !codeLang) {
       setErrorText('Please select a file to upload!')
+      setIsSubmitting(false)
       return
     }
     fetch(buildPath('/submit'), {
@@ -148,6 +149,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
         navigate(`/submissions/${token}`)
       })
       .catch((error: Error) => {
+        setIsSubmitting(false)
         setErrorText(error.message)
       })
   }
@@ -200,9 +202,7 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                     onChange={handleFileChange}
                   />
                 </label>
-                <Box
-                  display="flex"
-                >
+                <Box display="flex">
                   <Box
                     display="flex"
                     position="relative"
@@ -217,11 +217,8 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
                       Submit
                     </Button>
                     {isSubmitting && (
-                      <Box
-                        position="absolute"
-                        left="90px"
-                      >
-                        <CircleLoadAnimation/>
+                      <Box position="absolute" left="90px">
+                        <CircleLoadAnimation />
                       </Box>
                     )}
                   </Box>
