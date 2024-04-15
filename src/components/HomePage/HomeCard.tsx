@@ -29,7 +29,7 @@ export default function HomeCard() {
             alignItems: 'center',
           }}
         >
-          Learn & Solve with O(fast)
+          Learn and Solve with O(fast)
         </Typography>
         <Box sx={{ height: '656px' }}>
           <img

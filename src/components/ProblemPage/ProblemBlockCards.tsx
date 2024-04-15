@@ -227,10 +227,13 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
             ) : (
               <Box>
                 {!user.signedIn ? (
-                  <Button>
+                  <Button sx={{ borderBottom: '2px solid #04364a' }}>
                     <Link
                       to={'/login'}
-                      style={{ textDecoration: 'none', color: 'black' }}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'black',
+                      }}
                     >
                       <Typography
                         color="primary"

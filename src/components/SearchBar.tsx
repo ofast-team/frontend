@@ -38,7 +38,7 @@ export default function SearchBar({
           left: 70,
           width: 'calc(100% - 100px)',
         }}
-        placeholder="search"
+        placeholder="Search"
         value={value}
         onChange={onChange}
         onClick={onClick}

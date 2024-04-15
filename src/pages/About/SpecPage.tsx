@@ -5,15 +5,27 @@ import MDX from '../../components/MDXRenderer'
 const C_notes = `
 ## C
 
+#### Compiler
+\`GCC 9.2.0\`
+
+#### Version
+\`C 11\`
+
 #### Compiler Flags
 \`-g -O2 -std=c11\`
 
 #### File Extensions
-Allowed: \`.c\`
+Accepted: \`.c\`
 `
 
 const Cpp_notes = `
 ## C++
+
+#### Compiler
+\`GCC 9.2.0\`
+
+#### Version
+\`C++ 17\`
 
 #### Compiler Flags
 \`-g -O2 -std=c++17\`
@@ -27,17 +39,26 @@ const Java_notes = `
 
 <div style={{color: "red", fontSize: "18px"}}><strong>Class must be named \`Main\`</strong></div><br/>
 
+#### Compiler
+\`OpenJDK 13.0.1\`
+
+#### Version
+\`Java 13\`
+
 #### Args
 \`-Xss64m -Xmx2048m\`
 
 #### File Extensions
-Allowed: \`.java\`
+Accepted: \`.java\`
 `
 
 const Py_notes = `
 ## Python
 
-#### Compiler
+#### Version
+\`Python 3.8.1\`
+
+#### Interpreter
 \`python3\`
 
 #### File Extensions
