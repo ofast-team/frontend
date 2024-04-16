@@ -25,7 +25,7 @@ export default function SubmitPage() {
   const [inputArray, setInputArray] = useState<string[]>([])
   const [outputArray, setOutputArray] = useState<string[]>([])
   const [timeLimit, setTimeLimit] = useState<number>(1)
-  const [memoryLimit, setMemoryLimit] = useState<number>(1024)
+  const [memoryLimit, setMemoryLimit] = useState<number>(256)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
   const fetchSubmit = () => {

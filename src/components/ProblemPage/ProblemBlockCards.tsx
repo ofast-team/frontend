@@ -379,7 +379,12 @@ export default function ProblemBlockCards({ problem }: { problem: Problem }) {
         )}
 
         {problem.resources && problem.resources.length > 0 && (
-          <Card title="Resources">
+          <Card
+            title="Resources"
+            style={{
+              marginBottom: '50px',
+            }}
+          >
             <Box sx={{ justifyContent: 'center', textAlign: 'center' }}>
               {problem.resources.map((resource, i) => (
                 <Box key={i} sx={{ mx: '5px', display: 'inline-block' }}>
