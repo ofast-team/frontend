@@ -26,7 +26,7 @@ export default function ProblemCreatorTab() {
     problemID: '',
     title: '',
     timeLimit: 1,
-    memoryLimit: 1024,
+    memoryLimit: 256,
     author: '',
     source: '',
     text: '',
@@ -152,7 +152,7 @@ export default function ProblemCreatorTab() {
       />
 
       <TextField
-        placeholder="1024"
+        placeholder="256"
         label="Memory Limit (Megabytes)"
         required
         variant="standard"
