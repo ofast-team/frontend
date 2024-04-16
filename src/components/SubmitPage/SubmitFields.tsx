@@ -45,7 +45,7 @@ export default function SubmitFields({
         <TextField
           label="Memory Limit"
           helperText="In MB"
-          placeholder="1024"
+          placeholder="256"
           value={memoryLimit}
           onChange={(e) => setMemoryLimit(parseFloat(e.target.value))}
           fullWidth
