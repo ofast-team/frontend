@@ -92,14 +92,12 @@ export default function SubmitFolderCard({
 
   useEffect(() => {
     if (testFolder && !errorType) {
-      console.log(testFolder)
       let idx = 0
       const filesMap = new Map<
         string,
         { index: number; in: File | null; out: File | null }
       >()
       Array.from(testFolder).forEach((file: File) => {
-        console.log(file)
         const fileName = file.name.split('.')[0]
         const fileExtension = file.name.split('.').pop()
 
@@ -132,14 +130,13 @@ export default function SubmitFolderCard({
             newInputArray[index] = btoa(readerIn.result.toString())
         }
         readerIn.readAsText(inFile!)
-        console.log(newInputArray)
+
         const readerOut = new FileReader()
         readerOut.onload = () => {
           if (readerOut.result)
             newOutputArray[index] = btoa(readerOut.result.toString())
         }
         readerOut.readAsText(outFile!)
-        console.log(newOutputArray)
       })
       setInputArray(newInputArray)
       setOutputArray(newOutputArray)
