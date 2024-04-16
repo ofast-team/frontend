@@ -92,13 +92,20 @@ export default function SubmitFolderCard({
 
   useEffect(() => {
     if (testFolder && !errorType) {
-      const filesMap = new Map<string, { in: File | null; out: File | null }>()
+      console.log(testFolder)
+      let idx = 0
+      const filesMap = new Map<
+        string,
+        { index: number; in: File | null; out: File | null }
+      >()
       Array.from(testFolder).forEach((file: File) => {
+        console.log(file)
         const fileName = file.name.split('.')[0]
         const fileExtension = file.name.split('.').pop()
 
         if (!filesMap.has(fileName)) {
-          filesMap.set(fileName, { in: null, out: null })
+          filesMap.set(fileName, { index: idx, in: null, out: null })
+          idx++
         }
 
         if (fileExtension === 'in') {
@@ -116,21 +123,23 @@ export default function SubmitFolderCard({
         }
       }
 
-      const newInputArray: string[] = []
-      const newOutputArray: string[] = []
-      filesMap.forEach(({ in: inFile, out: outFile }) => {
+      const newInputArray: string[] = new Array(filesMap.size)
+      const newOutputArray: string[] = new Array(filesMap.size)
+      filesMap.forEach(({ index: index, in: inFile, out: outFile }) => {
         const readerIn = new FileReader()
         readerIn.onload = () => {
           if (readerIn.result)
-            newInputArray.push(btoa(readerIn.result.toString()))
+            newInputArray[index] = btoa(readerIn.result.toString())
         }
         readerIn.readAsText(inFile!)
+        console.log(newInputArray)
         const readerOut = new FileReader()
         readerOut.onload = () => {
           if (readerOut.result)
-            newOutputArray.push(btoa(readerOut.result.toString()))
+            newOutputArray[index] = btoa(readerOut.result.toString())
         }
         readerOut.readAsText(outFile!)
+        console.log(newOutputArray)
       })
       setInputArray(newInputArray)
       setOutputArray(newOutputArray)
